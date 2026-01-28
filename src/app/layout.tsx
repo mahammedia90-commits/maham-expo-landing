@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
+import { QueryProvider } from "@/providers/QueryProvider";
+import { Layout } from "@/shared/components/Layout";
 
 const cairo = Cairo({
   variable: "--font-cairo",
@@ -25,9 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body className={`${cairo.variable} font-cairo antialiased`}>
-        {children}
+        <QueryProvider>
+          <Layout>{children}</Layout>
+        </QueryProvider>
       </body>
     </html>
   );
