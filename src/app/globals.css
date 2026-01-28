@@ -194,6 +194,48 @@ body {
   padding-right: 1.5rem;
 }
 
+/* LTR mode adjustments */
+.ltr .privacy-section ul {
+  padding-right: 0;
+  padding-left: 1.5rem;
+}
+
 .privacy-section li {
   margin-bottom: 0.5rem;
+}
+
+/* Navigation link hover effects */
+nav a {
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+nav a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Language toggle button */
+.lang-toggle {
+  transition: all 0.3s ease;
+}
+
+.lang-toggle:hover {
+  transform: scale(1.05);
+}
+
+/* LTR direction class */
+.ltr {
+  direction: ltr;
+  text-align: left;
 }
