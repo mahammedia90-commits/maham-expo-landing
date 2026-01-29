@@ -50,6 +50,27 @@ export const translations = {
       areYouInvestor: "هل أنت مستثمر؟",
       investorCTA: "سجّل الآن واعرض مساحاتك لآلاف التجار الباحثين عن الموقع المثالي",
       registerAsInvestor: "سجّل كمستثمر",
+
+      // Investor Registration Modal
+      investorRegistration: {
+        title: "تسجيل مستثمر جديد",
+        subtitle: "أدخل بياناتك للبدء في عرض مساحاتك",
+        fullName: "الاسم الكامل",
+        email: "البريد الإلكتروني",
+        phone: "رقم الهاتف",
+        companyName: "اسم الشركة / المنشأة",
+        commercialRegister: "رقم السجل التجاري",
+        city: "المدينة",
+        spacesCount: "عدد المساحات المتوقعة",
+        message: "رسالة إضافية (اختياري)",
+        submit: "إرسال الطلب",
+        submitting: "جاري الإرسال...",
+        success: "تم إرسال طلبك بنجاح! سنتواصل معك قريباً.",
+        error: "حدث خطأ، يرجى المحاولة مرة أخرى",
+        close: "إغلاق",
+        required: "مطلوب",
+        cities: ["الرياض", "جدة", "مكة المكرمة", "المدينة المنورة", "الدمام", "الخبر", "أخرى"],
+      },
     },
 
     // About Page
@@ -314,6 +335,27 @@ export const translations = {
       areYouInvestor: "Are You an Investor?",
       investorCTA: "Register now and display your spaces to thousands of dealers looking for the perfect location",
       registerAsInvestor: "Register as Investor",
+
+      // Investor Registration Modal
+      investorRegistration: {
+        title: "New Investor Registration",
+        subtitle: "Enter your details to start displaying your spaces",
+        fullName: "Full Name",
+        email: "Email",
+        phone: "Phone Number",
+        companyName: "Company Name",
+        commercialRegister: "Commercial Registration Number",
+        city: "City",
+        spacesCount: "Expected Number of Spaces",
+        message: "Additional Message (Optional)",
+        submit: "Submit Request",
+        submitting: "Submitting...",
+        success: "Your request has been submitted successfully! We will contact you soon.",
+        error: "An error occurred, please try again",
+        close: "Close",
+        required: "Required",
+        cities: ["Riyadh", "Jeddah", "Makkah", "Madinah", "Dammam", "Khobar", "Other"],
+      },
     },
 
     // About Page
