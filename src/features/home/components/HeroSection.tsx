@@ -50,7 +50,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="absolute bottom-20 left-10 md:left-20 w-64 md:w-96 h-64 md:h-96 bg-orange-500 rounded-full blur-3xl"
+          className="absolute bottom-20 left-10 md:left-20 w-64 md:w-96 h-64 md:h-96 bg-[#B8973A] rounded-full blur-3xl"
         />
       </div>
 
@@ -89,7 +89,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                   isRtl
                     ? '-right-1.5 xs:-right-2 sm:-right-2.5 md:-right-3 lg:-right-4'
                     : '-left-1.5 xs:-left-2 sm:-left-2.5 md:-left-3 lg:-left-4'
-                } w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-orange-500 rounded-md xs:rounded-lg sm:rounded-xl md:rounded-2xl opacity-80`}
+                } w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-[#B8973A] rounded-md xs:rounded-lg sm:rounded-xl md:rounded-2xl opacity-80`}
               />
               <motion.div
                 variants={float}
@@ -119,7 +119,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-orange-400"
+                className="text-[#C9A94A]"
               >
                 {t.home.heroTitleHighlight}
               </motion.span>
@@ -169,7 +169,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }}
-                  className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-400"
+                  className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#C9A94A]"
                 >
                   +{displayStats.activeEvents}
                 </motion.div>
@@ -183,7 +183,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.4 }}
-                  className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-400"
+                  className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#C9A94A]"
                 >
                   +{displayStats.availableSpaces}
                 </motion.div>
@@ -197,7 +197,7 @@ export function HeroSection({ stats }: HeroSectionProps) {
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.6 }}
-                  className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-400"
+                  className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#C9A94A]"
                 >
                   +{displayStats.totalUsers}
                 </motion.div>

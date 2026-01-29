@@ -11,7 +11,7 @@ import {
 } from '@/shared/utils/animations';
 
 const userTypeIcons = [UserIcon, BuildingIcon, CogIcon];
-const userTypeColors = ['bg-orange-500', 'bg-[#1e5f74]', 'bg-green-600'];
+const userTypeColors = ['bg-[#B8973A]', 'bg-[#1e5f74]', 'bg-green-600'];
 
 export function UserTypesSection() {
   const { t } = useLanguageStore();

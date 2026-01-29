@@ -45,7 +45,7 @@ export function HowItWorks() {
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ type: 'spring', stiffness: 200 }}
-              className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-orange-500 rounded-full flex items-center justify-center text-white"
+              className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-[#B8973A] rounded-full flex items-center justify-center text-white"
             >
               <UserIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             </motion.span>
@@ -70,7 +70,7 @@ export function HowItWorks() {
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ type: 'spring', stiffness: 200, delay: index * 0.15 }}
-                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 gradient-orange rounded-full flex items-center justify-center text-white text-sm sm:text-base md:text-xl font-bold mx-auto mb-2 sm:mb-3 md:mb-4"
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 gradient-sand rounded-full flex items-center justify-center text-white text-sm sm:text-base md:text-xl font-bold mx-auto mb-2 sm:mb-3 md:mb-4"
                   >
                     {item.step}
                   </motion.div>
@@ -96,7 +96,7 @@ export function HowItWorks() {
                       transition={{ repeat: Infinity, duration: 1.5 }}
                     >
                       <ArrowRightIcon
-                        className={`w-6 h-6 text-orange-300 ${isRtl ? 'rotate-180' : ''}`}
+                        className={`w-6 h-6 text-[#D4B85A] ${isRtl ? 'rotate-180' : ''}`}
                       />
                     </motion.div>
                   </motion.div>

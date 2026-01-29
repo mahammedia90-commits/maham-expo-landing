@@ -12,11 +12,25 @@
   --foreground: #1a1a2e;
   --primary: #1e5f74;
   --primary-dark: #133b5c;
-  --secondary: #f97316;
-  --accent: #fbbf24;
+  --secondary: #B8973A;
+  --secondary-light: #C9A94A;
+  --secondary-dark: #9A7E30;
+  --accent: #D4B85A;
   --success: #10b981;
   --muted: #6b7280;
   --card-bg: #f8fafc;
+
+  /* Sand color palette */
+  --sand-50: #FAF7F0;
+  --sand-100: #F5EED9;
+  --sand-200: #E8DDB3;
+  --sand-300: #D4B85A;
+  --sand-400: #C9A94A;
+  --sand-500: #B8973A;
+  --sand-600: #9A7E30;
+  --sand-700: #7C6626;
+  --sand-800: #5E4D1D;
+  --sand-900: #403414;
 }
 
 @theme inline {
@@ -25,11 +39,25 @@
   --color-primary: var(--primary);
   --color-primary-dark: var(--primary-dark);
   --color-secondary: var(--secondary);
+  --color-secondary-light: var(--secondary-light);
+  --color-secondary-dark: var(--secondary-dark);
   --color-accent: var(--accent);
   --color-success: var(--success);
   --color-muted: var(--muted);
   --color-card-bg: var(--card-bg);
   --font-cairo: var(--font-cairo);
+
+  /* Sand colors for Tailwind */
+  --color-sand-50: var(--sand-50);
+  --color-sand-100: var(--sand-100);
+  --color-sand-200: var(--sand-200);
+  --color-sand-300: var(--sand-300);
+  --color-sand-400: var(--sand-400);
+  --color-sand-500: var(--sand-500);
+  --color-sand-600: var(--sand-600);
+  --color-sand-700: var(--sand-700);
+  --color-sand-800: var(--sand-800);
+  --color-sand-900: var(--sand-900);
 }
 
 * {
@@ -102,8 +130,13 @@ body {
   background: linear-gradient(135deg, #1e5f74 0%, #133b5c 50%, #0f2942 100%);
 }
 
+.gradient-sand {
+  background: linear-gradient(135deg, var(--sand-500) 0%, var(--sand-600) 100%);
+}
+
+/* Legacy alias */
 .gradient-orange {
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  background: linear-gradient(135deg, var(--sand-500) 0%, var(--sand-600) 100%);
 }
 
 /* Glass effect */
@@ -133,13 +166,13 @@ body {
 
 /* Button hover effects */
 .btn-primary {
-  background: linear-gradient(135deg, var(--secondary) 0%, #ea580c 100%);
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
   transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 10px 30px rgba(184, 151, 58, 0.4);
 }
 
 .btn-secondary {
