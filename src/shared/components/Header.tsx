@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { GlobeIcon, MenuIcon, CloseIcon } from './Icons';
 
@@ -23,91 +24,182 @@ export function Header() {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="fixed top-0 right-0 left-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm"
+    >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/logo.png"
-              alt="Maham Expo"
-              width={200}
-              height={80}
-              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
-              priority
-              unoptimized
-            />
-          </Link>
+          <motion.div
+            initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logo.png"
+                alt="Maham Expo"
+                width={200}
+                height={80}
+                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+                priority
+                unoptimized
+              />
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            {navLinks.map((link) => (
-              <Link
+            {navLinks.map((link, index) => (
+              <motion.div
                 key={link.href}
-                href={link.href}
-                className={`font-medium transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#1e5f74] after:transform after:transition-transform after:duration-300 ${
-                  isActive(link.href)
-                    ? 'text-[#1e5f74] after:scale-x-100'
-                    : 'text-gray-600 hover:text-[#1e5f74] after:scale-x-0 hover:after:scale-x-100'
-                }`}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index + 0.3, duration: 0.4 }}
               >
-                {link.label}
-              </Link>
+                <Link
+                  href={link.href}
+                  className={`font-medium transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#1e5f74] after:transform after:transition-transform after:duration-300 ${
+                    isActive(link.href)
+                      ? 'text-[#1e5f74] after:scale-x-100'
+                      : 'text-gray-600 hover:text-[#1e5f74] after:scale-x-0 hover:after:scale-x-100'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
           </nav>
 
           {/* Language Toggle & Mobile Menu */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Language Toggle Button */}
-            <button
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#1e5f74]/10 hover:bg-[#1e5f74]/20 text-[#1e5f74] transition-all font-semibold text-sm hover:scale-105"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#1e5f74]/10 hover:bg-[#1e5f74]/20 text-[#1e5f74] transition-all font-semibold text-sm"
               title={isRtl ? 'Switch to English' : 'التبديل إلى العربية'}
             >
-              <GlobeIcon className="w-5 h-5" />
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 0.5 }}
+                key={isRtl ? 'ar' : 'en'}
+              >
+                <GlobeIcon className="w-5 h-5" />
+              </motion.div>
               <span>{t.nav.langToggle}</span>
-            </button>
+            </motion.button>
 
             {/* Mobile Menu Button */}
-            <button
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              whileTap={{ scale: 0.9 }}
               className="md:hidden p-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
+              <AnimatePresence mode="wait">
+                {mobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <CloseIcon />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <MenuIcon />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
       </div>
 
       {/* Mobile Navigation */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t animate-fadeIn">
-          <nav className="flex flex-col p-4 gap-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`py-2 transition-colors ${
-                  isActive(link.href)
-                    ? 'text-[#1e5f74] font-medium'
-                    : 'text-gray-600 hover:text-[#1e5f74]'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/#download"
-              className="btn-primary text-white px-6 py-2.5 rounded-full font-medium text-center mt-2"
-              onClick={() => setMobileMenuOpen(false)}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="md:hidden bg-white border-t overflow-hidden"
+          >
+            <motion.nav
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: {
+                  transition: { staggerChildren: 0.07, delayChildren: 0.1 }
+                },
+                closed: {
+                  transition: { staggerChildren: 0.05, staggerDirection: -1 }
+                }
+              }}
+              className="flex flex-col p-4 gap-3"
             >
-              {t.nav.downloadApp}
-            </Link>
-          </nav>
-        </div>
-      )}
-    </header>
+              {navLinks.map((link) => (
+                <motion.div
+                  key={link.href}
+                  variants={{
+                    open: { y: 0, opacity: 1 },
+                    closed: { y: 20, opacity: 0 }
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link
+                    href={link.href}
+                    className={`py-2 transition-colors block ${
+                      isActive(link.href)
+                        ? 'text-[#1e5f74] font-medium'
+                        : 'text-gray-600 hover:text-[#1e5f74]'
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+              <motion.div
+                variants={{
+                  open: { y: 0, opacity: 1 },
+                  closed: { y: 20, opacity: 0 }
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link
+                  href="/#download"
+                  className="btn-primary text-white px-6 py-2.5 rounded-full font-medium text-center mt-2 block"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t.nav.downloadApp}
+                </Link>
+              </motion.div>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

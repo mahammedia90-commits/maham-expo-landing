@@ -1,45 +1,72 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import { ChevronDownIcon } from '@/shared/components/Icons';
+import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+  viewportSettings,
+} from '@/shared/utils/animations';
 
 interface FAQItemProps {
   question: string;
   answer: string;
   isRtl: boolean;
+  index: number;
 }
 
-function FAQItem({ question, answer, isRtl }: FAQItemProps) {
+function FAQItem({ question, answer, isRtl, index }: FAQItemProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="faq-item py-3 md:py-4">
-      <button
+    <motion.div
+      variants={staggerItem}
+      className="faq-item py-3 md:py-4"
+    >
+      <motion.button
         className={`flex justify-between items-center w-full gap-3 ${
           isRtl ? 'text-right' : 'text-left'
         }`}
         onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ x: isRtl ? -5 : 5 }}
+        transition={{ duration: 0.2 }}
       >
         <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-800">
           {question}
         </span>
-        <span
-          className={`transform transition-transform duration-300 flex-shrink-0 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex-shrink-0"
         >
           <ChevronDownIcon />
-        </span>
-      </button>
-      <div
-        className={`overflow-hidden transition-all duration-300 ${
-          isOpen ? 'max-h-96 mt-2 md:mt-3' : 'max-h-0'
-        }`}
-      >
-        <p className="text-gray-600 leading-relaxed text-xs sm:text-sm md:text-base">{answer}</p>
-      </div>
-    </div>
+        </motion.span>
+      </motion.button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <motion.p
+              initial={{ y: -10 }}
+              animate={{ y: 0 }}
+              exit={{ y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="text-gray-600 leading-relaxed text-xs sm:text-sm md:text-base mt-2 md:mt-3"
+            >
+              {answer}
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
@@ -49,18 +76,36 @@ export function FAQSection() {
   return (
     <section className="py-12 md:py-20 bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-6 md:mb-12">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          variants={fadeInUp}
+          className="text-center mb-6 md:mb-12"
+        >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 md:mb-4">
             {t.about.faqTitle}
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-600">{t.about.faqDesc}</p>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSettings}
+          variants={staggerContainer}
+          className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8"
+        >
           {t.about.faqs.map((faq, index) => (
-            <FAQItem key={index} question={faq.question} answer={faq.answer} isRtl={isRtl} />
+            <FAQItem
+              key={index}
+              question={faq.question}
+              answer={faq.answer}
+              isRtl={isRtl}
+              index={index}
+            />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

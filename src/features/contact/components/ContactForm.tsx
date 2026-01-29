@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import { useContactForm } from '../hooks/useContact';
 import {
@@ -11,6 +12,13 @@ import {
   InstagramIcon,
   LinkedInIcon,
 } from '@/shared/components/Icons';
+import {
+  fadeInUp,
+  scaleIn,
+  staggerContainer,
+  staggerItem,
+  viewportSettings,
+} from '@/shared/utils/animations';
 
 export function ContactForm() {
   const { t, isRtl } = useLanguageStore();
@@ -75,188 +83,303 @@ export function ContactForm() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Form */}
-          <div className="bg-white rounded-xl md:rounded-2xl shadow-lg p-6 md:p-8">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            variants={isRtl ? { hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6 } } } : { hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6 } } }}
+            className="bg-white rounded-xl md:rounded-2xl shadow-lg p-6 md:p-8"
+          >
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-xl md:text-2xl font-bold text-gray-800 mb-6"
+            >
               {t.contact.formTitle}
-            </h2>
+            </motion.h2>
 
-            {submitted ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg
-                    className="w-8 h-8 text-green-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <p className="text-green-600 font-medium text-lg">{t.contact.successMessage}</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {t.contact.name} *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
-                      isRtl ? 'text-right' : 'text-left'
-                    }`}
-                  />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      {t.contact.email} *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
-                        isRtl ? 'text-right' : 'text-left'
-                      }`}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      {t.contact.phone}
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
-                        isRtl ? 'text-right' : 'text-left'
-                      }`}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {t.contact.subject} *
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    required
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
-                      isRtl ? 'text-right' : 'text-left'
-                    }`}
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {t.contact.message} *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
-                      isRtl ? 'text-right' : 'text-left'
-                    }`}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={contactMutation.isPending}
-                  className="w-full btn-primary text-white py-3 md:py-4 rounded-lg font-semibold text-base md:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ type: 'spring', stiffness: 200 }}
+                  className="text-center py-8"
                 >
-                  {contactMutation.isPending ? t.contact.sending : t.contact.send}
-                </button>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                    className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                  >
+                    <motion.svg
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.5, delay: 0.4 }}
+                      className="w-8 h-8 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <motion.path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </motion.svg>
+                  </motion.div>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="text-green-600 font-medium text-lg"
+                  >
+                    {t.contact.successMessage}
+                  </motion.p>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  initial="hidden"
+                  animate="visible"
+                  variants={staggerContainer}
+                  onSubmit={handleSubmit}
+                  className="space-y-4 md:space-y-6"
+                >
+                  <motion.div variants={staggerItem}>
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      {t.contact.name} *
+                    </label>
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
+                      transition={{ duration: 0.2 }}
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        isRtl ? 'text-right' : 'text-left'
+                      }`}
+                    />
+                  </motion.div>
 
-                {contactMutation.isError && (
-                  <p className="text-red-500 text-sm text-center">{t.contact.errorMessage}</p>
-                )}
-              </form>
-            )}
-          </div>
+                  <motion.div variants={staggerItem} className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        {t.contact.email} *
+                      </label>
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
+                        transition={{ duration: 0.2 }}
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          isRtl ? 'text-right' : 'text-left'
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        {t.contact.phone}
+                      </label>
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
+                        transition={{ duration: 0.2 }}
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          isRtl ? 'text-right' : 'text-left'
+                        }`}
+                      />
+                    </div>
+                  </motion.div>
+
+                  <motion.div variants={staggerItem}>
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      {t.contact.subject} *
+                    </label>
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
+                      transition={{ duration: 0.2 }}
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      required
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        isRtl ? 'text-right' : 'text-left'
+                      }`}
+                    />
+                  </motion.div>
+
+                  <motion.div variants={staggerItem}>
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      {t.contact.message} *
+                    </label>
+                    <motion.textarea
+                      whileFocus={{ scale: 1.01 }}
+                      transition={{ duration: 0.2 }}
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
+                        isRtl ? 'text-right' : 'text-left'
+                      }`}
+                    />
+                  </motion.div>
+
+                  <motion.button
+                    variants={staggerItem}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    disabled={contactMutation.isPending}
+                    className="w-full btn-primary text-white py-3 md:py-4 rounded-lg font-semibold text-base md:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {contactMutation.isPending ? (
+                      <motion.span
+                        animate={{ opacity: [1, 0.5, 1] }}
+                        transition={{ repeat: Infinity, duration: 1 }}
+                      >
+                        {t.contact.sending}
+                      </motion.span>
+                    ) : (
+                      t.contact.send
+                    )}
+                  </motion.button>
+
+                  <AnimatePresence>
+                    {contactMutation.isError && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="text-red-500 text-sm text-center"
+                      >
+                        {t.contact.errorMessage}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
           {/* Contact Info */}
-          <div>
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            variants={isRtl ? { hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.2 } } } : { hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.2 } } }}
+          >
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="text-xl md:text-2xl font-bold text-gray-800 mb-6"
+            >
               {t.contact.contactInfo}
-            </h2>
+            </motion.h2>
 
-            <div className="space-y-6 mb-8">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="space-y-6 mb-8"
+            >
               {contactInfo.map((item, index) => (
-                <a
+                <motion.a
                   key={index}
                   href={item.href}
+                  variants={staggerItem}
+                  whileHover={{ scale: 1.02, x: isRtl ? -5 : 5 }}
+                  transition={{ duration: 0.2 }}
                   className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition"
                 >
-                  <div className="w-12 h-12 bg-[#1e5f74]/10 rounded-lg flex items-center justify-center text-[#1e5f74] flex-shrink-0">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ type: 'spring', delay: index * 0.1 }}
+                    whileHover={{ rotate: [0, -10, 10, 0] }}
+                    className="w-12 h-12 bg-[#1e5f74]/10 rounded-lg flex items-center justify-center text-[#1e5f74] flex-shrink-0"
+                  >
                     <item.icon className="w-6 h-6" />
-                  </div>
+                  </motion.div>
                   <div>
                     <p className="text-sm text-gray-500">{item.label}</p>
                     <p className="text-gray-800 font-medium">{item.value}</p>
                   </div>
-                </a>
+                </motion.a>
               ))}
-            </div>
+            </motion.div>
 
             {/* Social Links */}
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+            >
               <h3 className="text-lg font-bold text-gray-800 mb-4">{t.contact.followUs}</h3>
-              <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="flex gap-3"
+              >
+                {socialLinks.map((social, index) => (
+                  <motion.a
                     key={social.label}
                     href={social.href}
+                    variants={staggerItem}
+                    whileHover={{ scale: 1.1, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
                     className="w-12 h-12 bg-[#1e5f74] rounded-lg flex items-center justify-center text-white hover:bg-[#133b5c] transition"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />
-                  </a>
+                  </motion.a>
                 ))}
-              </div>
-            </div>
-          </div>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
