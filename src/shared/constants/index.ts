@@ -41,7 +41,7 @@ export const APP_CONFIG = {
   DEFAULT_LANGUAGE: 'ar' as const,
   SUPPORTED_LANGUAGES: ['ar', 'en'] as const,
   CONTACT_EMAIL: 'info@maham.com.sa',
-  CONTACT_PHONE: '+966 XX XXX XXXX',
+  CONTACT_PHONE: '+966 53 555 5900',
   WEBSITE_URL: 'https://maham.com.sa',
 } as const;
 

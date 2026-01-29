@@ -117,10 +117,10 @@ export function PrivacyContent() {
             <p className="text-gray-600 text-sm md:text-base mb-4">{t.privacy.contactUsDesc}</p>
             <div className="bg-gray-50 p-4 rounded-xl space-y-2">
               <p className="text-gray-700 text-sm md:text-base">
-                <strong>{t.contact.emailLabel}</strong> privacy@maham.com.sa
+                <strong>{t.contact.emailLabel}</strong> info@maham.com.sa
               </p>
               <p className="text-gray-700 text-sm md:text-base">
-                <strong>{t.contact.phoneLabel}</strong> +966 XX XXX XXXX
+                <strong>{t.contact.phoneLabel}</strong> <span dir="ltr">+966 53 555 5900</span>
               </p>
               <p className="text-gray-700 text-sm md:text-base">
                 <strong>{t.contact.addressLabel}</strong> {t.footer.saudiArabia}

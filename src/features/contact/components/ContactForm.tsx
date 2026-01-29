@@ -53,8 +53,8 @@ export function ContactForm() {
     {
       icon: PhoneIcon,
       label: t.contact.phoneLabel,
-      value: '+966 XX XXX XXXX',
-      href: 'tel:+966XXXXXXXX',
+      value: '+966 53 555 5900',
+      href: 'tel:+966535555900',
     },
     {
       icon: LocationIcon,

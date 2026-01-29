@@ -69,7 +69,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-1 md:space-y-2 text-gray-400 text-xs sm:text-sm md:text-base">
               <li>info@maham.com.sa</li>
-              <li>+966 XX XXX XXXX</li>
+              <li dir="ltr" className="text-right">+966 53 555 5900</li>
               <li>{t.footer.saudiArabia}</li>
             </ul>
 
