@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '../store/useLanguageStore';
+import { ThemeToggle } from './ThemeToggle';
 import { GlobeIcon, MenuIcon, CloseIcon } from './Icons';
 
 export function Header() {
@@ -28,7 +29,7 @@ export function Header() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="fixed top-0 right-0 left-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm"
+      className="fixed top-0 right-0 left-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-sm dark:shadow-gray-800/20"
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
@@ -44,7 +45,7 @@ export function Header() {
                 alt="Maham Expo"
                 width={200}
                 height={80}
-                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
+                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain dark:brightness-110"
                 priority
                 unoptimized
               />
@@ -62,10 +63,10 @@ export function Header() {
               >
                 <Link
                   href={link.href}
-                  className={`font-medium transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#1e5f74] after:transform after:transition-transform after:duration-300 ${
+                  className={`font-medium transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#1e5f74] dark:after:bg-[#C9A94A] after:transform after:transition-transform after:duration-300 ${
                     isActive(link.href)
-                      ? 'text-[#1e5f74] after:scale-x-100'
-                      : 'text-gray-600 hover:text-[#1e5f74] after:scale-x-0 hover:after:scale-x-100'
+                      ? 'text-[#1e5f74] dark:text-[#C9A94A] after:scale-x-100'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-[#1e5f74] dark:hover:text-[#C9A94A] after:scale-x-0 hover:after:scale-x-100'
                   }`}
                 >
                   {link.label}
@@ -74,8 +75,17 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Language Toggle & Mobile Menu */}
+          {/* Theme Toggle, Language Toggle & Mobile Menu */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Theme Toggle Button */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.45, duration: 0.3 }}
+            >
+              <ThemeToggle />
+            </motion.div>
+
             {/* Language Toggle Button */}
             <motion.button
               initial={{ opacity: 0, scale: 0.8 }}
@@ -84,7 +94,7 @@ export function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#1e5f74]/10 hover:bg-[#1e5f74]/20 text-[#1e5f74] transition-all font-semibold text-sm"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#1e5f74]/10 dark:bg-[#C9A94A]/20 hover:bg-[#1e5f74]/20 dark:hover:bg-[#C9A94A]/30 text-[#1e5f74] dark:text-[#C9A94A] transition-all font-semibold text-sm"
               title={isRtl ? 'Switch to English' : 'التبديل إلى العربية'}
             >
               <motion.div
@@ -103,7 +113,7 @@ export function Header() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               whileTap={{ scale: 0.9 }}
-              className="md:hidden p-2"
+              className="md:hidden p-2 text-gray-700 dark:text-gray-300"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -143,7 +153,7 @@ export function Header() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="md:hidden bg-white border-t overflow-hidden"
+            className="md:hidden bg-white dark:bg-gray-900 border-t dark:border-gray-800 overflow-hidden"
           >
             <motion.nav
               initial="closed"
@@ -172,8 +182,8 @@ export function Header() {
                     href={link.href}
                     className={`py-2 transition-colors block ${
                       isActive(link.href)
-                        ? 'text-[#1e5f74] font-medium'
-                        : 'text-gray-600 hover:text-[#1e5f74]'
+                        ? 'text-[#1e5f74] dark:text-[#C9A94A] font-medium'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-[#1e5f74] dark:hover:text-[#C9A94A]'
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >

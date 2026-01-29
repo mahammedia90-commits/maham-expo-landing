@@ -23,13 +23,13 @@ export function TermsContent() {
         >
           <motion.h1
             variants={fadeInUp}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 md:mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3 md:mb-4"
           >
             {t.terms.title}
           </motion.h1>
           <motion.p
             variants={fadeInUp}
-            className="text-sm sm:text-base md:text-lg text-gray-600"
+            className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300"
           >
             {t.terms.subtitle}
           </motion.p>
@@ -40,7 +40,7 @@ export function TermsContent() {
           whileInView="visible"
           viewport={viewportSettings}
           variants={staggerContainer}
-          className="bg-white rounded-xl md:rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 space-y-6 md:space-y-8"
+          className="bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg dark:shadow-gray-900/30 p-6 sm:p-8 md:p-10 space-y-6 md:space-y-8"
         >
           {t.terms.sections.map((section, index) => (
             <motion.div
@@ -63,7 +63,7 @@ export function TermsContent() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 + 0.1 }}
-                className="text-gray-600 text-sm md:text-base leading-relaxed"
+                className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed"
               >
                 {section.content}
               </motion.p>
@@ -77,7 +77,7 @@ export function TermsContent() {
             transition={{ delay: 0.4 }}
             className="text-center pt-6 border-t"
           >
-            <p className="text-gray-500 text-sm">{t.terms.lastUpdated}</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">{t.terms.lastUpdated}</p>
           </motion.div>
         </motion.div>
       </div>

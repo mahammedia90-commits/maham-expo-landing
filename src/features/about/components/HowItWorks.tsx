@@ -14,7 +14,7 @@ export function HowItWorks() {
   const { t, isRtl } = useLanguageStore();
 
   return (
-    <section className="py-12 md:py-20 bg-gray-50">
+    <section className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -23,10 +23,10 @@ export function HowItWorks() {
           variants={fadeInUp}
           className="text-center mb-8 md:mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 md:mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3 md:mb-4">
             {t.about.howItWorksTitle}
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
             {t.about.howItWorksDesc}
           </p>
         </motion.div>
@@ -63,7 +63,7 @@ export function HowItWorks() {
                 <motion.div
                   whileHover={{ y: -5, scale: 1.02 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white p-3 sm:p-4 md:p-6 rounded-xl md:rounded-2xl shadow-md text-center h-full"
+                  className="bg-white dark:bg-gray-800 p-3 sm:p-4 md:p-6 rounded-xl md:rounded-2xl shadow-md text-center h-full"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -74,10 +74,10 @@ export function HowItWorks() {
                   >
                     {item.step}
                   </motion.div>
-                  <h4 className="font-bold text-gray-800 mb-1 md:mb-2 text-xs sm:text-sm md:text-base">
+                  <h4 className="font-bold text-gray-800 dark:text-white mb-1 md:mb-2 text-xs sm:text-sm md:text-base">
                     {item.title}
                   </h4>
-                  <p className="text-gray-600 text-[10px] sm:text-xs md:text-sm">
+                  <p className="text-gray-600 dark:text-gray-300 text-[10px] sm:text-xs md:text-sm">
                     {item.description}
                   </p>
                 </motion.div>
@@ -138,7 +138,7 @@ export function HowItWorks() {
                 <motion.div
                   whileHover={{ y: -5, scale: 1.02 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white p-3 sm:p-4 md:p-6 rounded-xl md:rounded-2xl shadow-md text-center h-full"
+                  className="bg-white dark:bg-gray-800 p-3 sm:p-4 md:p-6 rounded-xl md:rounded-2xl shadow-md text-center h-full"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -149,10 +149,10 @@ export function HowItWorks() {
                   >
                     {item.step}
                   </motion.div>
-                  <h4 className="font-bold text-gray-800 mb-1 md:mb-2 text-xs sm:text-sm md:text-base">
+                  <h4 className="font-bold text-gray-800 dark:text-white mb-1 md:mb-2 text-xs sm:text-sm md:text-base">
                     {item.title}
                   </h4>
-                  <p className="text-gray-600 text-[10px] sm:text-xs md:text-sm">
+                  <p className="text-gray-600 dark:text-gray-300 text-[10px] sm:text-xs md:text-sm">
                     {item.description}
                   </p>
                 </motion.div>

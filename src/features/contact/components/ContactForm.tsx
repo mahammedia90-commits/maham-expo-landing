@@ -88,14 +88,14 @@ export function ContactForm() {
             whileInView="visible"
             viewport={viewportSettings}
             variants={isRtl ? { hidden: { opacity: 0, x: 50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6 } } } : { hidden: { opacity: 0, x: -50 }, visible: { opacity: 1, x: 0, transition: { duration: 0.6 } } }}
-            className="bg-white rounded-xl md:rounded-2xl shadow-lg p-6 md:p-8"
+            className="bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg dark:shadow-gray-900/30 p-6 md:p-8"
           >
             <motion.h2
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-xl md:text-2xl font-bold text-gray-800 mb-6"
+              className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-6"
             >
               {t.contact.formTitle}
             </motion.h2>
@@ -154,7 +154,7 @@ export function ContactForm() {
                   <motion.div variants={staggerItem}>
                     <label
                       htmlFor="name"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
                     >
                       {t.contact.name} *
                     </label>
@@ -167,7 +167,7 @@ export function ContactForm() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                         isRtl ? 'text-right' : 'text-left'
                       }`}
                     />
@@ -177,7 +177,7 @@ export function ContactForm() {
                     <div>
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
                       >
                         {t.contact.email} *
                       </label>
@@ -190,7 +190,7 @@ export function ContactForm() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -198,7 +198,7 @@ export function ContactForm() {
                     <div>
                       <label
                         htmlFor="phone"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
                       >
                         {t.contact.phone}
                       </label>
@@ -210,7 +210,7 @@ export function ContactForm() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -220,7 +220,7 @@ export function ContactForm() {
                   <motion.div variants={staggerItem}>
                     <label
                       htmlFor="subject"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
                     >
                       {t.contact.subject} *
                     </label>
@@ -233,7 +233,7 @@ export function ContactForm() {
                       required
                       value={formData.subject}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                         isRtl ? 'text-right' : 'text-left'
                       }`}
                     />
@@ -242,7 +242,7 @@ export function ContactForm() {
                   <motion.div variants={staggerItem}>
                     <label
                       htmlFor="message"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
                     >
                       {t.contact.message} *
                     </label>
@@ -255,7 +255,7 @@ export function ContactForm() {
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
                         isRtl ? 'text-right' : 'text-left'
                       }`}
                     />
@@ -310,7 +310,7 @@ export function ContactForm() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="text-xl md:text-2xl font-bold text-gray-800 mb-6"
+              className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-6"
             >
               {t.contact.contactInfo}
             </motion.h2>
@@ -329,7 +329,7 @@ export function ContactForm() {
                   variants={staggerItem}
                   whileHover={{ scale: 1.02, x: isRtl ? -5 : 5 }}
                   transition={{ duration: 0.2 }}
-                  className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition"
+                  className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -342,8 +342,8 @@ export function ContactForm() {
                     <item.icon className="w-6 h-6" />
                   </motion.div>
                   <div>
-                    <p className="text-sm text-gray-500">{item.label}</p>
-                    <p className="text-gray-800 font-medium">{item.value}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
+                    <p className="text-gray-800 dark:text-white font-medium">{item.value}</p>
                   </div>
                 </motion.a>
               ))}
@@ -356,7 +356,7 @@ export function ContactForm() {
               viewport={{ once: true }}
               transition={{ delay: 0.5 }}
             >
-              <h3 className="text-lg font-bold text-gray-800 mb-4">{t.contact.followUs}</h3>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4">{t.contact.followUs}</h3>
               <motion.div
                 variants={staggerContainer}
                 initial="hidden"

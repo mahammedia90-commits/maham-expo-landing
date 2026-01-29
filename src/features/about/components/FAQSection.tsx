@@ -34,7 +34,7 @@ function FAQItem({ question, answer, isRtl, index }: FAQItemProps) {
         whileHover={{ x: isRtl ? -5 : 5 }}
         transition={{ duration: 0.2 }}
       >
-        <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-800">
+        <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 dark:text-white">
           {question}
         </span>
         <motion.span
@@ -59,7 +59,7 @@ function FAQItem({ question, answer, isRtl, index }: FAQItemProps) {
               animate={{ y: 0 }}
               exit={{ y: -10 }}
               transition={{ duration: 0.2 }}
-              className="text-gray-600 leading-relaxed text-xs sm:text-sm md:text-base mt-2 md:mt-3"
+              className="text-gray-600 dark:text-gray-300 leading-relaxed text-xs sm:text-sm md:text-base mt-2 md:mt-3"
             >
               {answer}
             </motion.p>
@@ -74,7 +74,7 @@ export function FAQSection() {
   const { t, isRtl } = useLanguageStore();
 
   return (
-    <section className="py-12 md:py-20 bg-gray-50">
+    <section className="py-12 md:py-20 bg-gray-50 dark:bg-gray-800/50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -83,10 +83,10 @@ export function FAQSection() {
           variants={fadeInUp}
           className="text-center mb-6 md:mb-12"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 md:mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3 md:mb-4">
             {t.about.faqTitle}
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600">{t.about.faqDesc}</p>
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300">{t.about.faqDesc}</p>
         </motion.div>
 
         <motion.div
@@ -94,7 +94,7 @@ export function FAQSection() {
           whileInView="visible"
           viewport={viewportSettings}
           variants={staggerContainer}
-          className="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8"
+          className="bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg dark:shadow-gray-900/30 p-4 sm:p-6 md:p-8"
         >
           {t.about.faqs.map((faq, index) => (
             <FAQItem

@@ -23,13 +23,13 @@ export function PrivacyContent() {
         >
           <motion.h1
             variants={fadeInUp}
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 md:mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3 md:mb-4"
           >
             {t.privacy.title}
           </motion.h1>
           <motion.p
             variants={fadeInUp}
-            className="text-sm sm:text-base md:text-lg text-gray-600"
+            className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300"
           >
             {t.privacy.subtitle}
           </motion.p>
@@ -40,7 +40,7 @@ export function PrivacyContent() {
           whileInView="visible"
           viewport={viewportSettings}
           variants={staggerContainer}
-          className={`bg-white rounded-xl md:rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 space-y-6 md:space-y-8 ${
+          className={`bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg dark:shadow-gray-900/30 p-6 sm:p-8 md:p-10 space-y-6 md:space-y-8 ${
             isRtl ? '' : 'ltr'
           }`}
         >
@@ -54,13 +54,13 @@ export function PrivacyContent() {
             >
               {t.privacy.dataWeCollect}
             </motion.h2>
-            <p className="text-gray-600 text-sm md:text-base mb-3">{t.privacy.dataWeCollectDesc}</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base mb-3">{t.privacy.dataWeCollectDesc}</p>
             <motion.ul
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className={`text-gray-600 text-sm md:text-base list-disc ${
+              className={`text-gray-600 dark:text-gray-300 text-sm md:text-base list-disc ${
                 isRtl ? 'pr-6' : 'pl-6'
               } space-y-1`}
             >
@@ -80,13 +80,13 @@ export function PrivacyContent() {
             >
               {t.privacy.howWeUseData}
             </motion.h2>
-            <p className="text-gray-600 text-sm md:text-base mb-3">{t.privacy.howWeUseDataDesc}</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base mb-3">{t.privacy.howWeUseDataDesc}</p>
             <motion.ul
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className={`text-gray-600 text-sm md:text-base list-disc ${
+              className={`text-gray-600 dark:text-gray-300 text-sm md:text-base list-disc ${
                 isRtl ? 'pr-6' : 'pl-6'
               } space-y-1`}
             >
@@ -106,13 +106,13 @@ export function PrivacyContent() {
             >
               {t.privacy.dataSharing}
             </motion.h2>
-            <p className="text-gray-600 text-sm md:text-base mb-3">{t.privacy.dataSharingDesc}</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base mb-3">{t.privacy.dataSharingDesc}</p>
             <motion.ul
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className={`text-gray-600 text-sm md:text-base list-disc ${
+              className={`text-gray-600 dark:text-gray-300 text-sm md:text-base list-disc ${
                 isRtl ? 'pr-6' : 'pl-6'
               } space-y-1`}
             >
@@ -125,7 +125,7 @@ export function PrivacyContent() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="text-gray-600 text-sm md:text-base mt-3 font-medium"
+              className="text-gray-600 dark:text-gray-300 text-sm md:text-base mt-3 font-medium"
             >
               {t.privacy.noSellData}
             </motion.p>
@@ -141,13 +141,13 @@ export function PrivacyContent() {
             >
               {t.privacy.yourRights}
             </motion.h2>
-            <p className="text-gray-600 text-sm md:text-base mb-3">{t.privacy.yourRightsDesc}</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base mb-3">{t.privacy.yourRightsDesc}</p>
             <motion.ul
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className={`text-gray-600 text-sm md:text-base list-disc ${
+              className={`text-gray-600 dark:text-gray-300 text-sm md:text-base list-disc ${
                 isRtl ? 'pr-6' : 'pl-6'
               } space-y-1`}
             >
@@ -167,7 +167,7 @@ export function PrivacyContent() {
             >
               {t.privacy.dataSecurity}
             </motion.h2>
-            <p className="text-gray-600 text-sm md:text-base leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
               {t.privacy.dataSecurityDesc}
             </p>
           </motion.div>
@@ -182,7 +182,7 @@ export function PrivacyContent() {
             >
               {t.privacy.cookies}
             </motion.h2>
-            <p className="text-gray-600 text-sm md:text-base leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
               {t.privacy.cookiesDesc}
             </p>
           </motion.div>
@@ -197,22 +197,22 @@ export function PrivacyContent() {
             >
               {t.privacy.contactUs}
             </motion.h2>
-            <p className="text-gray-600 text-sm md:text-base mb-4">{t.privacy.contactUsDesc}</p>
+            <p className="text-gray-600 dark:text-gray-300 text-sm md:text-base mb-4">{t.privacy.contactUsDesc}</p>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               whileHover={{ scale: 1.01 }}
-              className="bg-gray-50 p-4 rounded-xl space-y-2"
+              className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl space-y-2"
             >
-              <p className="text-gray-700 text-sm md:text-base">
+              <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
                 <strong>{t.contact.emailLabel}</strong> info@maham.com.sa
               </p>
-              <p className="text-gray-700 text-sm md:text-base">
+              <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
                 <strong>{t.contact.phoneLabel}</strong> <span dir="ltr">+966 53 555 5900</span>
               </p>
-              <p className="text-gray-700 text-sm md:text-base">
+              <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
                 <strong>{t.contact.addressLabel}</strong> {t.footer.saudiArabia}
               </p>
             </motion.div>
@@ -225,7 +225,7 @@ export function PrivacyContent() {
             transition={{ delay: 0.4 }}
             className="text-center pt-6 border-t"
           >
-            <p className="text-gray-500 text-sm">{t.privacy.lastUpdated}</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">{t.privacy.lastUpdated}</p>
           </motion.div>
         </motion.div>
       </div>

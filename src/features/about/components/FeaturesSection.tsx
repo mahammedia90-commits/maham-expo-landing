@@ -39,10 +39,10 @@ export function FeaturesSection() {
           variants={fadeInUp}
           className="text-center mb-8 md:mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 md:mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3 md:mb-4">
             {t.about.featuresTitle}
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
             {t.about.featuresDesc}
           </p>
         </motion.div>
@@ -62,7 +62,7 @@ export function FeaturesSection() {
                 variants={staggerItem}
                 whileHover={{ y: -8, scale: 1.02 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white p-3 sm:p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl shadow-lg border border-gray-100"
+                className="bg-white dark:bg-gray-800 p-3 sm:p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl shadow-lg dark:shadow-gray-900/30 border border-gray-100 dark:border-gray-700"
               >
                 <motion.div
                   initial={{ scale: 0, rotate: -180 }}
@@ -74,10 +74,10 @@ export function FeaturesSection() {
                 >
                   <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
                 </motion.div>
-                <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 mb-1 sm:mb-2 md:mb-3">
+                <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-800 dark:text-white mb-1 sm:mb-2 md:mb-3">
                   {feature.title}
                 </h3>
-                <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
                   {feature.description}
                 </p>
               </motion.div>

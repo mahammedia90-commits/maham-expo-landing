@@ -87,7 +87,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -180,7 +180,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                   >
                     {/* Full Name */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         {reg.fullName} <span className="text-red-500">*</span>
                       </label>
                       <motion.input
@@ -190,7 +190,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         required
                         value={formData.fullName}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -199,7 +199,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                     {/* Email & Phone */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                           {reg.email} <span className="text-red-500">*</span>
                         </label>
                         <motion.input
@@ -209,13 +209,13 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                           {reg.phone} <span className="text-red-500">*</span>
                         </label>
                         <motion.input
@@ -225,7 +225,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           required
                           value={formData.phone}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         />
@@ -234,7 +234,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
 
                     {/* Company Name */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         {reg.companyName} <span className="text-red-500">*</span>
                       </label>
                       <motion.input
@@ -244,7 +244,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         required
                         value={formData.companyName}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -253,7 +253,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                     {/* Commercial Register & City */}
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                           {reg.commercialRegister}
                         </label>
                         <motion.input
@@ -262,13 +262,13 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           name="commercialRegister"
                           value={formData.commercialRegister}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                           {reg.city} <span className="text-red-500">*</span>
                         </label>
                         <motion.select
@@ -277,7 +277,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           required
                           value={formData.city}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition bg-white ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition bg-white dark:bg-gray-800 ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         >
@@ -293,7 +293,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
 
                     {/* Spaces Count */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         {reg.spacesCount}
                       </label>
                       <motion.input
@@ -303,7 +303,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         min="1"
                         value={formData.spacesCount}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -311,7 +311,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
 
                     {/* Message */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         {reg.message}
                       </label>
                       <motion.textarea
@@ -320,7 +320,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         rows={3}
                         value={formData.message}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />

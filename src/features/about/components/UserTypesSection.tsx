@@ -26,10 +26,10 @@ export function UserTypesSection() {
           variants={fadeInUp}
           className="text-center mb-8 md:mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-3 md:mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3 md:mb-4">
             {t.about.userTypesTitle}
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto px-4">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
             {t.about.userTypesDesc}
           </p>
         </motion.div>
@@ -49,7 +49,7 @@ export function UserTypesSection() {
                 variants={staggerItem}
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-xl md:rounded-2xl shadow-lg overflow-hidden"
+                className="bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden"
               >
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -72,7 +72,7 @@ export function UserTypesSection() {
                   <p className="text-white/80 text-xs sm:text-sm">{user.subtitle}</p>
                 </motion.div>
                 <div className="p-3 sm:p-4 md:p-6">
-                  <p className="text-gray-600 mb-3 md:mb-6 text-center text-xs sm:text-sm md:text-base">
+                  <p className="text-gray-600 dark:text-gray-300 mb-3 md:mb-6 text-center text-xs sm:text-sm md:text-base">
                     {user.description}
                   </p>
                   <motion.ul
@@ -97,7 +97,7 @@ export function UserTypesSection() {
                         >
                           <CheckIcon />
                         </motion.span>
-                        <span className="text-gray-700 text-xs sm:text-sm md:text-base">
+                        <span className="text-gray-700 dark:text-gray-200 text-xs sm:text-sm md:text-base">
                           {benefit}
                         </span>
                       </motion.li>
