@@ -6,12 +6,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '../store/useLanguageStore';
+import { useThemeStore } from '../store/useThemeStore';
 import { ThemeToggle } from './ThemeToggle';
 import { GlobeIcon, MenuIcon, CloseIcon } from './Icons';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t, isRtl, toggleLanguage } = useLanguageStore();
+  const { theme } = useThemeStore();
   const pathname = usePathname();
 
   const navLinks = [
@@ -41,11 +43,11 @@ export function Header() {
           >
             <Link href="/" className="flex items-center">
               <Image
-                src="/logo.png"
+                src={theme === 'dark' ? '/logo-dark.png' : '/logo.png'}
                 alt="Maham Expo"
                 width={200}
                 height={80}
-                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain dark:brightness-110"
+                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain"
                 priority
                 unoptimized
               />
