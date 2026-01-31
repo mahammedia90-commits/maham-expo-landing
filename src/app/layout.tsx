@@ -20,10 +20,28 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   openGraph: {
-    title: "مهام إكسبو | منصة إدارة الفعاليات والمعارض",
-    description: "اكتشف المساحات المثالية لنشاطك التجاري في الفعاليات والمعارض",
+    title: "مهام إكسبو | Maham Expo",
+    description: "منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض. اكتشف المساحات المثالية لنشاطك التجاري.",
     type: "website",
+    url: "https://mahamexpo.sa",
+    siteName: "Maham Expo",
+    locale: "ar_SA",
+    images: [
+      {
+        url: "/hero-slide-2.png",
+        width: 1200,
+        height: 630,
+        alt: "Maham Expo - منصة الفعاليات والمعارض",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "مهام إكسبو | Maham Expo",
+    description: "منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض",
+    images: ["/hero-slide-2.png"],
+  },
+  metadataBase: new URL("https://mahamexpo.sa"),
 };
 
 export default function RootLayout({
