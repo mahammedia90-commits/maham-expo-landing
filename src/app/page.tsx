@@ -1,11 +1,12 @@
 'use client';
 
-import { HeroSection, ProblemSolution, DownloadSection } from '@/features/home/components';
+import { HeroSectionV2, EventsGallery, ProblemSolution, DownloadSection } from '@/features/home/components';
 
 export default function HomePage() {
   return (
     <>
-      <HeroSection />
+      <HeroSectionV2 />
+      <EventsGallery />
       <ProblemSolution />
       <DownloadSection />
     </>
