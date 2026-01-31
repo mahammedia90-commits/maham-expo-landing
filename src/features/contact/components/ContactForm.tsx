@@ -55,8 +55,8 @@ export function ContactForm() {
     {
       icon: MailIcon,
       label: t.contact.emailLabel,
-      value: 'info@maham.com.sa',
-      href: 'mailto:info@maham.com.sa',
+      value: 'info@mahamexpo.sa',
+      href: 'mailto:info@mahamexpo.sa',
     },
     {
       icon: PhoneIcon,
@@ -167,7 +167,7 @@ export function ContactForm() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                         isRtl ? 'text-right' : 'text-left'
                       }`}
                     />
@@ -190,7 +190,7 @@ export function ContactForm() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -210,7 +210,7 @@ export function ContactForm() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -233,7 +233,7 @@ export function ContactForm() {
                       required
                       value={formData.subject}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                         isRtl ? 'text-right' : 'text-left'
                       }`}
                     />
@@ -255,7 +255,7 @@ export function ContactForm() {
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
+                      className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition resize-none ${
                         isRtl ? 'text-right' : 'text-left'
                       }`}
                     />
@@ -329,7 +329,7 @@ export function ContactForm() {
                   variants={staggerItem}
                   whileHover={{ scale: 1.02, x: isRtl ? -5 : 5 }}
                   transition={{ duration: 0.2 }}
-                  className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                  className="flex items-start gap-4 p-4 bg-[#FBF8F0] dark:bg-gray-700 rounded-xl hover:bg-[#F5ECD4] dark:hover:bg-gray-700 transition"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -337,7 +337,7 @@ export function ContactForm() {
                     viewport={{ once: true }}
                     transition={{ type: 'spring', delay: index * 0.1 }}
                     whileHover={{ rotate: [0, -10, 10, 0] }}
-                    className="w-12 h-12 bg-[#1e5f74]/10 rounded-lg flex items-center justify-center text-[#1e5f74] flex-shrink-0"
+                    className="w-12 h-12 bg-[#987012]/10 rounded-lg flex items-center justify-center text-[#987012] flex-shrink-0"
                   >
                     <item.icon className="w-6 h-6" />
                   </motion.div>
@@ -371,7 +371,7 @@ export function ContactForm() {
                     variants={staggerItem}
                     whileHover={{ scale: 1.1, y: -3 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 bg-[#1e5f74] rounded-lg flex items-center justify-center text-white hover:bg-[#133b5c] transition"
+                    className="w-12 h-12 bg-[#987012] rounded-lg flex items-center justify-center text-white hover:bg-[#7A5A0E] transition"
                     aria-label={social.label}
                   >
                     <social.icon className="w-5 h-5" />

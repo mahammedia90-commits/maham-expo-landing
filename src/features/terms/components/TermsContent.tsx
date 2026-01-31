@@ -54,7 +54,7 @@ export function TermsContent() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+                className="text-lg md:text-xl font-bold text-[#987012] mb-3"
               >
                 {section.title}
               </motion.h2>

@@ -65,10 +65,10 @@ export function Header() {
               >
                 <Link
                   href={link.href}
-                  className={`font-medium transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#1e5f74] dark:after:bg-[#C9A94A] after:transform after:transition-transform after:duration-300 ${
+                  className={`font-medium transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-[2px] after:bg-[#987012] dark:after:bg-[#D4B85A] after:transform after:transition-transform after:duration-300 ${
                     isActive(link.href)
-                      ? 'text-[#1e5f74] dark:text-[#C9A94A] after:scale-x-100'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-[#1e5f74] dark:hover:text-[#C9A94A] after:scale-x-0 hover:after:scale-x-100'
+                      ? 'text-[#987012] dark:text-[#D4B85A] after:scale-x-100'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-[#987012] dark:hover:text-[#D4B85A] after:scale-x-0 hover:after:scale-x-100'
                   }`}
                 >
                   {link.label}
@@ -96,7 +96,7 @@ export function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleLanguage}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#1e5f74]/10 dark:bg-[#C9A94A]/20 hover:bg-[#1e5f74]/20 dark:hover:bg-[#C9A94A]/30 text-[#1e5f74] dark:text-[#C9A94A] transition-all font-semibold text-sm"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#987012]/10 dark:bg-[#D4B85A]/20 hover:bg-[#987012]/20 dark:hover:bg-[#D4B85A]/30 text-[#987012] dark:text-[#D4B85A] transition-all font-semibold text-sm"
               title={isRtl ? 'Switch to English' : 'التبديل إلى العربية'}
             >
               <motion.div
@@ -184,8 +184,8 @@ export function Header() {
                     href={link.href}
                     className={`py-2 transition-colors block ${
                       isActive(link.href)
-                        ? 'text-[#1e5f74] dark:text-[#C9A94A] font-medium'
-                        : 'text-gray-600 dark:text-gray-300 hover:text-[#1e5f74] dark:hover:text-[#C9A94A]'
+                        ? 'text-[#987012] dark:text-[#D4B85A] font-medium'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-[#987012] dark:hover:text-[#D4B85A]'
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >

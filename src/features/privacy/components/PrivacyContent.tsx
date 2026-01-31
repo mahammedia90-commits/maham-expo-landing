@@ -50,7 +50,7 @@ export function PrivacyContent() {
               initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+              className="text-lg md:text-xl font-bold text-[#987012] mb-3"
             >
               {t.privacy.dataWeCollect}
             </motion.h2>
@@ -76,7 +76,7 @@ export function PrivacyContent() {
               initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+              className="text-lg md:text-xl font-bold text-[#987012] mb-3"
             >
               {t.privacy.howWeUseData}
             </motion.h2>
@@ -102,7 +102,7 @@ export function PrivacyContent() {
               initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+              className="text-lg md:text-xl font-bold text-[#987012] mb-3"
             >
               {t.privacy.dataSharing}
             </motion.h2>
@@ -137,7 +137,7 @@ export function PrivacyContent() {
               initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+              className="text-lg md:text-xl font-bold text-[#987012] mb-3"
             >
               {t.privacy.yourRights}
             </motion.h2>
@@ -163,7 +163,7 @@ export function PrivacyContent() {
               initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+              className="text-lg md:text-xl font-bold text-[#987012] mb-3"
             >
               {t.privacy.dataSecurity}
             </motion.h2>
@@ -178,7 +178,7 @@ export function PrivacyContent() {
               initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+              className="text-lg md:text-xl font-bold text-[#987012] mb-3"
             >
               {t.privacy.cookies}
             </motion.h2>
@@ -193,7 +193,7 @@ export function PrivacyContent() {
               initial={{ opacity: 0, x: isRtl ? 20 : -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-lg md:text-xl font-bold text-[#1e5f74] mb-3"
+              className="text-lg md:text-xl font-bold text-[#987012] mb-3"
             >
               {t.privacy.contactUs}
             </motion.h2>
@@ -204,10 +204,10 @@ export function PrivacyContent() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               whileHover={{ scale: 1.01 }}
-              className="bg-gray-50 dark:bg-gray-700 p-4 rounded-xl space-y-2"
+              className="bg-[#FBF8F0] dark:bg-gray-700 p-4 rounded-xl space-y-2"
             >
               <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
-                <strong>{t.contact.emailLabel}</strong> info@maham.com.sa
+                <strong>{t.contact.emailLabel}</strong> info@mahamexpo.sa
               </p>
               <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
                 <strong>{t.contact.phoneLabel}</strong> <span dir="ltr">+966 53 555 5900</span>

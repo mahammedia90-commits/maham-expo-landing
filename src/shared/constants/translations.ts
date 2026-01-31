@@ -173,7 +173,7 @@ export const translations = {
       emailLabel: "البريد الإلكتروني:",
       phoneLabel: "الهاتف:",
       addressLabel: "العنوان:",
-      address: "المملكة العربية السعودية",
+      address: "المملكة العربية السعودية - الرياض - حي العقيق",
       followUs: "تابعنا على",
     },
 
@@ -263,7 +263,7 @@ export const translations = {
       description: "منصة متكاملة لإدارة سوق الفعاليات والمعارض، نربط بين المستثمرين والتجار لخلق فرص تجارية ناجحة.",
       quickLinks: "روابط سريعة",
       contactUs: "تواصل معنا",
-      saudiArabia: "المملكة العربية السعودية",
+      saudiArabia: "المملكة العربية السعودية - الرياض - حي العقيق",
       allRightsReserved: "© 2026 شركة مهام. جميع الحقوق محفوظة.",
     },
 
@@ -458,7 +458,7 @@ export const translations = {
       emailLabel: "Email:",
       phoneLabel: "Phone:",
       addressLabel: "Address:",
-      address: "Saudi Arabia",
+      address: "Saudi Arabia - Riyadh - Al Aqiq District",
       followUs: "Follow us on",
     },
 
@@ -548,7 +548,7 @@ export const translations = {
       description: "A comprehensive platform for managing the events and exhibitions market, connecting investors and dealers to create successful business opportunities.",
       quickLinks: "Quick Links",
       contactUs: "Contact Us",
-      saudiArabia: "Saudi Arabia",
+      saudiArabia: "Saudi Arabia - Riyadh - Al Aqiq District",
       allRightsReserved: "© 2026 Maham Company. All rights reserved.",
     },
 

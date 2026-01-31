@@ -190,7 +190,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         required
                         value={formData.fullName}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -209,7 +209,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         />
@@ -225,7 +225,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           required
                           value={formData.phone}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         />
@@ -244,7 +244,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         required
                         value={formData.companyName}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -262,7 +262,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           name="commercialRegister"
                           value={formData.commercialRegister}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         />
@@ -277,7 +277,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           required
                           value={formData.city}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition bg-white dark:bg-gray-800 ${
+                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition bg-white dark:bg-gray-800 ${
                             isRtl ? 'text-right' : 'text-left'
                           }`}
                         >
@@ -303,7 +303,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         min="1"
                         value={formData.spacesCount}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />
@@ -320,7 +320,7 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         rows={3}
                         value={formData.message}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#1e5f74] focus:border-transparent outline-none transition resize-none ${
+                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition resize-none ${
                           isRtl ? 'text-right' : 'text-left'
                         }`}
                       />

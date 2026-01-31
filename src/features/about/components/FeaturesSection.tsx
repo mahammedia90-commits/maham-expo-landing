@@ -70,7 +70,7 @@ export function FeaturesSection() {
                   viewport={{ once: true }}
                   transition={{ type: 'spring', stiffness: 200, delay: index * 0.1 }}
                   whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-[#1e5f74]/10 rounded-lg md:rounded-xl lg:rounded-2xl flex items-center justify-center text-[#1e5f74] mb-3 md:mb-4 lg:mb-6"
+                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-[#987012]/10 rounded-lg md:rounded-xl lg:rounded-2xl flex items-center justify-center text-[#987012] mb-3 md:mb-4 lg:mb-6"
                 >
                   <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
                 </motion.div>

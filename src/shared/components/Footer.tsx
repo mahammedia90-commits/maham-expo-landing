@@ -35,7 +35,7 @@ export function Footer() {
       whileInView="visible"
       viewport={{ once: true, margin: '-50px' }}
       variants={staggerContainer}
-      className="bg-gray-900 text-white py-8 md:py-12"
+      className="bg-[#2A2313] text-white py-8 md:py-12"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
@@ -62,7 +62,7 @@ export function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-gray-400 leading-relaxed max-w-md text-xs sm:text-sm md:text-base"
+              className="text-[#D4B85A]/80 leading-relaxed max-w-md text-xs sm:text-sm md:text-base"
             >
               {t.footer.description}
             </motion.p>
@@ -84,7 +84,7 @@ export function Footer() {
                 <motion.li key={link.href} variants={staggerItem}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors text-xs sm:text-sm md:text-base inline-block"
+                    className="text-[#D4B85A]/80 hover:text-white transition-colors text-xs sm:text-sm md:text-base inline-block"
                   >
                     <motion.span
                       whileHover={{ x: 5 }}
@@ -109,9 +109,9 @@ export function Footer() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-1 md:space-y-2 text-gray-400 text-xs sm:text-sm md:text-base"
+              className="space-y-1 md:space-y-2 text-[#D4B85A]/80 text-xs sm:text-sm md:text-base"
             >
-              <motion.li variants={staggerItem}>info@maham.com.sa</motion.li>
+              <motion.li variants={staggerItem}>info@mahamexpo.sa</motion.li>
               <motion.li variants={staggerItem} dir="ltr" className="text-right">+966 53 555 5900</motion.li>
               <motion.li variants={staggerItem}>{t.footer.saudiArabia}</motion.li>
             </motion.ul>
@@ -146,14 +146,14 @@ export function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="border-t border-gray-800 pt-4 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4"
+          className="border-t border-[#3F341C] pt-4 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4"
         >
-          <p className="text-gray-400 text-xs md:text-sm">
+          <p className="text-[#D4B85A]/80 text-xs md:text-sm">
             {t.footer.allRightsReserved}
           </p>
           <motion.p
             whileHover={{ scale: 1.05 }}
-            className="text-gray-400 text-xs md:text-sm"
+            className="text-[#D4B85A]/80 text-xs md:text-sm"
           >
             <a href="https://maham.com.sa" className="hover:text-white transition-colors">
               maham.com.sa
