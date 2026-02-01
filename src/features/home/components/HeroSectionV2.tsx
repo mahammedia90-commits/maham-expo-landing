@@ -350,26 +350,52 @@ export function HeroSectionV2() {
 
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex flex-col justify-center py-20">
-        {/* Mobile Phone Mockup */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="md:hidden flex justify-center mb-8"
-        >
-          <div className="relative w-[180px] h-[360px]">
-            <div className="absolute inset-0 bg-[#E6B830]/20 rounded-[2rem] blur-2xl scale-110" />
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-[2rem] p-1.5 shadow-2xl">
-              <div className="relative h-full w-full rounded-[1.5rem] overflow-hidden bg-black">
+        {/* Mobile Phone Mockup with Slideshow Background */}
+        <div className="md:hidden relative mb-8">
+          {/* Slideshow Image Behind Phone */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={`mobile-slide-${currentSlide}`}
+                custom={direction}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 0.7, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="absolute w-[600px] h-[600px] xs:w-[700px] xs:h-[700px] -top-24"
+              >
                 <img
-                  src="/app-screenshot.png"
-                  alt="Maham Expo App"
-                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  src={currentSlideData.image}
+                  alt="Maham Expo"
+                  className="w-full h-full object-contain"
                 />
+                {/* Fade overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/95" />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Phone Mockup */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative z-10 flex justify-center pt-8"
+          >
+            <div className="relative w-[180px] h-[360px]">
+              <div className="absolute inset-0 bg-[#E6B830]/20 rounded-[2rem] blur-2xl scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-[2rem] p-1.5 shadow-2xl">
+                <div className="relative h-full w-full rounded-[1.5rem] overflow-hidden bg-black">
+                  <img
+                    src="/app-screenshot.png"
+                    alt="Maham Expo App"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         <div className={`md:max-w-[60%] lg:max-w-[55%] xl:max-w-[50%] ${
           isRtl

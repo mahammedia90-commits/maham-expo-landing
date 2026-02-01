@@ -15,12 +15,9 @@ export const metadata: Metadata = {
   description: "مهام إكسبو - منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض. اكتشف المساحات المثالية لنشاطك التجاري.",
   keywords: "فعاليات، معارض، إيجار مساحات، مستثمرين، تجار، السعودية",
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/logo.png", type: "image/png" },
-    ],
+    icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/logo.png",
+    apple: "/favicon.ico",
   },
   openGraph: {
     title: "مهام إكسبو | Maham Expo",
