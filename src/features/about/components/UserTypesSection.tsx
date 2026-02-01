@@ -14,10 +14,10 @@ const userTypeIcons = [UserIcon, BuildingIcon, CogIcon];
 const userTypeColors = ['bg-[#987012]', 'bg-[#987012]', 'bg-green-600'];
 
 export function UserTypesSection() {
-  const { t } = useLanguageStore();
+  const { t, isRtl } = useLanguageStore();
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="py-12 md:py-20" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

@@ -13,7 +13,7 @@ export function PrivacyContent() {
   const { t, isRtl } = useLanguageStore();
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="py-12 md:py-20" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -207,10 +207,10 @@ export function PrivacyContent() {
               className="bg-[#FBF8F0] dark:bg-gray-700 p-4 rounded-xl space-y-2"
             >
               <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
-                <strong>{t.contact.emailLabel}</strong> info@mahamexpo.sa
+                <strong>{t.contact.emailLabel}</strong> <span dir="ltr" className="email-address">info@mahamexpo.sa</span>
               </p>
               <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
-                <strong>{t.contact.phoneLabel}</strong> <span dir="ltr">+966 53 555 5900</span>
+                <strong>{t.contact.phoneLabel}</strong> <span dir="ltr" className="phone-number">+966 53 555 5900</span>
               </p>
               <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
                 <strong>{t.contact.addressLabel}</strong> {t.footer.saudiArabia}

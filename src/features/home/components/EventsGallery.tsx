@@ -347,7 +347,7 @@ export function EventsGallery() {
   }, [activeFilter]);
 
   return (
-    <section ref={containerRef} className="py-20 md:py-32 bg-gradient-to-b from-[#FFFDF9] via-[#FBF8F0] to-[#F5ECD4] dark:from-[#1A1610] dark:via-[#1F1A12] dark:to-[#2A2313] relative overflow-hidden">
+    <section ref={containerRef} dir={isRtl ? 'rtl' : 'ltr'} className="py-20 md:py-32 bg-gradient-to-b from-[#FFFDF9] via-[#FBF8F0] to-[#F5ECD4] dark:from-[#1A1610] dark:via-[#1F1A12] dark:to-[#2A2313] relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-10 w-96 h-96 bg-[#E6B830]/5 rounded-full blur-[150px]" />

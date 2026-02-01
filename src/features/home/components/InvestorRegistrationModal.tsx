@@ -207,11 +207,10 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           type="email"
                           name="email"
                           required
+                          dir="ltr"
                           value={formData.email}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
-                            isRtl ? 'text-right' : 'text-left'
-                          }`}
+                          className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition text-left"
                         />
                       </div>
                       <div>
@@ -223,11 +222,10 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                           type="tel"
                           name="phone"
                           required
+                          dir="ltr"
                           value={formData.phone}
                           onChange={handleChange}
-                          className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
-                            isRtl ? 'text-right' : 'text-left'
-                          }`}
+                          className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition text-left"
                         />
                       </div>
                     </div>
@@ -301,11 +299,10 @@ export function InvestorRegistrationModal({ isOpen, onClose }: InvestorRegistrat
                         type="number"
                         name="spacesCount"
                         min="1"
+                        dir="ltr"
                         value={formData.spacesCount}
                         onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
-                          isRtl ? 'text-right' : 'text-left'
-                        }`}
+                        className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition text-left"
                       />
                     </div>
 

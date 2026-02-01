@@ -79,7 +79,7 @@ export function ContactForm() {
   ];
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="py-12 md:py-20" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Form */}
@@ -188,11 +188,10 @@ export function ContactForm() {
                         id="email"
                         name="email"
                         required
+                        dir="ltr"
                         value={formData.email}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
-                          isRtl ? 'text-right' : 'text-left'
-                        }`}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition text-left"
                       />
                     </div>
                     <div>
@@ -208,11 +207,10 @@ export function ContactForm() {
                         type="tel"
                         id="phone"
                         name="phone"
+                        dir="ltr"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition ${
-                          isRtl ? 'text-right' : 'text-left'
-                        }`}
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition text-left"
                       />
                     </div>
                   </motion.div>
@@ -341,9 +339,14 @@ export function ContactForm() {
                   >
                     <item.icon className="w-6 h-6" />
                   </motion.div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
-                    <p className="text-gray-800 dark:text-white font-medium">{item.value}</p>
+                    <p
+                      className="text-gray-800 dark:text-white font-medium"
+                      dir={item.href.startsWith('mailto:') || item.href.startsWith('tel:') ? 'ltr' : undefined}
+                    >
+                      {item.value}
+                    </p>
                   </div>
                 </motion.a>
               ))}

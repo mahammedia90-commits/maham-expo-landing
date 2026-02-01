@@ -778,6 +778,121 @@ input[type="radio"] {
   background: var(--sand-50);
 }
 
+/* ============================================
+   LTR/RTL BIDIRECTIONAL TEXT SUPPORT
+   ============================================ */
+
+/* Auto-detect LTR content in RTL context */
+[dir="rtl"] .ltr-content,
+[dir="rtl"] .text-ltr {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+/* Phone numbers, emails, and URLs should always be LTR */
+[dir="rtl"] a[href^="tel:"],
+[dir="rtl"] a[href^="mailto:"],
+[dir="rtl"] .phone-number,
+[dir="rtl"] .email-address,
+[dir="rtl"] .url-text {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}
+
+/* Numbers and dates in RTL context */
+[dir="rtl"] .number,
+[dir="rtl"] .date,
+[dir="rtl"] .time,
+[dir="rtl"] .price {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
+/* English text blocks in RTL layout */
+[dir="rtl"] .english-text,
+[dir="rtl"] [lang="en"] {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+/* Code and technical content always LTR */
+[dir="rtl"] code,
+[dir="rtl"] pre,
+[dir="rtl"] .code-block {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
+/* Mixed content - embed LTR within RTL */
+.bidi-embed {
+  unicode-bidi: embed;
+}
+
+.bidi-isolate {
+  unicode-bidi: isolate;
+}
+
+.bidi-override-ltr {
+  direction: ltr;
+  unicode-bidi: bidi-override;
+}
+
+/* Flex direction adjustments for RTL */
+[dir="rtl"] .flex-row-ltr {
+  flex-direction: row;
+}
+
+[dir="rtl"] .flex-row-reverse-ltr {
+  flex-direction: row-reverse;
+}
+
+/* Text alignment utilities for mixed content */
+[dir="rtl"] .text-start-ltr {
+  text-align: left;
+}
+
+[dir="rtl"] .text-end-ltr {
+  text-align: right;
+}
+
+/* Input fields with LTR content (like email, URLs) */
+[dir="rtl"] input[type="email"],
+[dir="rtl"] input[type="url"],
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] input[type="number"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Keep placeholder aligned when input is empty */
+[dir="rtl"] input[type="email"]::placeholder,
+[dir="rtl"] input[type="url"]::placeholder,
+[dir="rtl"] input[type="tel"]::placeholder {
+  text-align: right;
+  direction: rtl;
+}
+
+/* LTR mode - Full page in English */
+.ltr,
+[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* RTL content within LTR page */
+[dir="ltr"] .rtl-content,
+[dir="ltr"] .text-rtl,
+[dir="ltr"] [lang="ar"] {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: isolate;
+}
+
 /* Premium divider */
 .divider-gold {
   height: 2px;

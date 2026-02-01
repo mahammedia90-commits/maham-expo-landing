@@ -278,10 +278,14 @@ export function HeroSectionV2() {
 
       {/* Phone Mockup - Positioned for Balance */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8, x: -50 }}
+        initial={{ opacity: 0, scale: 0.8, x: isRtl ? -50 : 50 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
         transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="hidden md:flex absolute left-[8%] lg:left-[12%] xl:left-[15%] top-[35%] -translate-y-1/2 z-10"
+        className={`hidden md:flex absolute top-[35%] -translate-y-1/2 z-10 ${
+          isRtl
+            ? 'left-[8%] lg:left-[12%] xl:left-[15%]'
+            : 'right-[8%] lg:right-[12%] xl:right-[15%]'
+        }`}
       >
         <div className="relative perspective-1000">
           <motion.div
@@ -367,13 +371,18 @@ export function HeroSectionV2() {
           </div>
         </motion.div>
 
-        <div className="md:mr-0 md:ml-auto md:max-w-[60%] lg:max-w-[55%] xl:max-w-[50%]">
+        <div className={`md:max-w-[60%] lg:max-w-[55%] xl:max-w-[50%] ${
+          isRtl
+            ? 'md:mr-0 md:ml-auto'
+            : 'md:ml-0 md:mr-auto'
+        }`}>
 
           {/* Text Content */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
+            dir={isRtl ? 'rtl' : 'ltr'}
             className={`text-white text-center ${isRtl ? 'md:text-right' : 'md:text-left'}`}
           >
             <AnimatePresence mode="wait" custom={direction}>
@@ -431,7 +440,7 @@ export function HeroSectionV2() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5, duration: 0.6 }}
-                  className="text-base sm:text-lg text-white/70 max-w-xl leading-relaxed"
+                  className={`text-base sm:text-lg text-white/70 max-w-xl leading-relaxed ${!isRtl ? 'mx-auto md:mx-0' : ''}`}
                 >
                   {t.home.heroDescription}
                 </motion.p>

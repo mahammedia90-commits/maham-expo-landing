@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,  // Disables /_next/image API - required for static hosting
   },
-  trailingSlash: false,  // Uses about.html instead of about/index.html
+  trailingSlash: true,  // Uses about/index.html - better for most hosting providers
 };
 
 export default nextConfig;

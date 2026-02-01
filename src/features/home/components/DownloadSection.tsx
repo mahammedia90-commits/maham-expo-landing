@@ -19,7 +19,7 @@ export function DownloadSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section id="download" className="py-12 md:py-20 gradient-hero">
+    <section id="download" className="py-12 md:py-20 gradient-hero" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.h2
           initial="hidden"
@@ -63,7 +63,7 @@ export function DownloadSection() {
             </motion.div>
             <div className={isRtl ? 'text-right' : 'text-left'}>
               <div className="text-[10px] sm:text-xs opacity-80">{t.home.downloadFrom}</div>
-              <div className="text-sm sm:text-base md:text-lg font-semibold">App Store</div>
+              <div className="text-sm sm:text-base md:text-lg font-semibold" dir="ltr">App Store</div>
             </div>
           </motion.a>
 
@@ -83,7 +83,7 @@ export function DownloadSection() {
             </motion.div>
             <div className={isRtl ? 'text-right' : 'text-left'}>
               <div className="text-[10px] sm:text-xs opacity-80">{t.home.getItOn}</div>
-              <div className="text-sm sm:text-base md:text-lg font-semibold">Google Play</div>
+              <div className="text-sm sm:text-base md:text-lg font-semibold" dir="ltr">Google Play</div>
             </div>
           </motion.a>
         </motion.div>

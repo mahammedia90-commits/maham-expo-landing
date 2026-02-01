@@ -15,7 +15,7 @@ export function ProblemSolution() {
   const { t, isRtl } = useLanguageStore();
 
   return (
-    <section className="py-12 md:py-20 bg-[#FBF8F0] dark:bg-gray-800/50">
+    <section className="py-12 md:py-20 bg-[#FBF8F0] dark:bg-gray-800/50" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

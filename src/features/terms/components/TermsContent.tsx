@@ -13,7 +13,7 @@ export function TermsContent() {
   const { t, isRtl } = useLanguageStore();
 
   return (
-    <section className="py-12 md:py-20">
+    <section className="py-12 md:py-20" dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

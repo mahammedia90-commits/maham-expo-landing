@@ -111,8 +111,8 @@ export function Footer() {
               viewport={{ once: true }}
               className="space-y-1 md:space-y-2 text-[#D4B85A]/80 text-xs sm:text-sm md:text-base"
             >
-              <motion.li variants={staggerItem}>info@mahamexpo.sa</motion.li>
-              <motion.li variants={staggerItem} dir="ltr" className="text-right">+966 53 555 5900</motion.li>
+              <motion.li variants={staggerItem} dir="ltr" className="email-address">info@mahamexpo.sa</motion.li>
+              <motion.li variants={staggerItem} dir="ltr" className="phone-number">+966 53 555 5900</motion.li>
               <motion.li variants={staggerItem}>{t.footer.saudiArabia}</motion.li>
             </motion.ul>
 
@@ -155,7 +155,7 @@ export function Footer() {
             whileHover={{ scale: 1.05 }}
             className="text-[#D4B85A]/80 text-xs md:text-sm"
           >
-            <a href="https://maham.com.sa" className="hover:text-white transition-colors">
+            <a href="https://maham.com.sa" className="hover:text-white transition-colors url-text" dir="ltr">
               maham.com.sa
             </a>
           </motion.p>
