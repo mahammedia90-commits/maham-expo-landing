@@ -252,19 +252,19 @@ export function HeroSectionV2() {
         <div className="absolute bottom-0 left-0 right-0 h-[50%] bg-gradient-to-t from-black via-black/80 to-transparent" />
       </div>
 
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Animated Background Elements - Hidden on mobile to prevent overflow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
         <motion.div
           variants={pulse}
           initial="initial"
           animate="animate"
-          className="absolute top-20 right-10 md:right-20 w-48 md:w-96 h-48 md:h-96 bg-[#E6B830]/10 rounded-full blur-[120px]"
+          className="absolute top-20 right-20 w-96 h-96 bg-[#E6B830]/10 rounded-full blur-[120px]"
         />
         <motion.div
           variants={float}
           initial="initial"
           animate="animate"
-          className="absolute bottom-40 left-10 md:left-20 w-64 md:w-80 h-64 md:h-80 bg-[#987012]/15 rounded-full blur-[100px]"
+          className="absolute bottom-40 left-20 w-80 h-80 bg-[#987012]/15 rounded-full blur-[100px]"
         />
       </div>
 

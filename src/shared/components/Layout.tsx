@@ -33,9 +33,9 @@ export function Layout({ children }: LayoutProps) {
   }, [theme, mounted]);
 
   return (
-    <div className={`min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 ${isRtl ? '' : 'ltr'}`}>
+    <div className={`min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden ${isRtl ? '' : 'ltr'}`}>
       <Header />
-      <main className="flex-1 pt-14 sm:pt-16 md:pt-20">
+      <main className="flex-1 pt-14 sm:pt-16 md:pt-20 overflow-x-hidden">
         {children}
       </main>
       <Footer />

@@ -348,8 +348,8 @@ export function EventsGallery() {
 
   return (
     <section ref={containerRef} dir={isRtl ? 'rtl' : 'ltr'} className="py-20 md:py-32 bg-gradient-to-b from-[#FFFDF9] via-[#FBF8F0] to-[#F5ECD4] dark:from-[#1A1610] dark:via-[#1F1A12] dark:to-[#2A2313] relative overflow-hidden">
-      {/* Background Decorations */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Background Decorations - Hidden on mobile to prevent overflow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden sm:block">
         <div className="absolute top-20 right-10 w-96 h-96 bg-[#E6B830]/5 rounded-full blur-[150px]" />
         <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#987012]/5 rounded-full blur-[120px]" />
       </div>
