@@ -109,7 +109,7 @@ export const translations = {
         {
           title: "التاجر",
           subtitle: "Dealer",
-          description: "الباحث عن مساحة للإيجار في الفعاليات والمعارض",
+          description: "🔍 الباحث عن الفرصة المثالية - استكشف وأحجز مساحتك في الفعاليات",
           benefits: [
             "تصفح آلاف المساحات المتاحة",
             "بحث متقدم بفلاتر متعددة",
@@ -121,7 +121,7 @@ export const translations = {
         {
           title: "المستثمر",
           subtitle: "Investor",
-          description: "مالك المساحات الذي يعرض ويؤجر مساحاته في الفعاليات",
+          description: "💼 صاحب الأعمال - اعرض مساحاتك واستثمر في سوق الفعاليات",
           benefits: [
             "عرض مساحاتك لآلاف التجار",
             "إدارة الطلبات والحجوزات",
@@ -133,13 +133,18 @@ export const translations = {
         {
           title: "المشرف",
           subtitle: "Admin",
-          description: "المستوى الأعلى - إدارة كاملة للنظام والإشراف على جميع العمليات",
+          description: "👑 المستوى الأعلى - إدارة كاملة للنظام والإشراف على جميع العمليات والأقسام",
           benefits: [
             "إدارة الفعاليات والأماكن",
             "مراجعة والموافقة على المساحات",
             "إدارة المستخدمين والصلاحيات",
             "الموافقة النهائية على الطلبات",
-            "الإدارة المالية الشاملة"
+            "الإدارة المالية الشاملة",
+            "إدارة الصلاحيات وتوزيعها من السيستم الرئيسي",
+            "إدارة قسم المالية والمحاسبة",
+            "إدارة قسم العمليات (Operations)",
+            "إدارة القسم القانوني والعقود",
+            "إدارة الموارد البشرية والتسويق"
           ]
         }
       ],
@@ -394,7 +399,7 @@ export const translations = {
         {
           title: "Dealer",
           subtitle: "Dealer",
-          description: "Looking for rental space in events and exhibitions",
+          description: "🔍 Opportunity Seeker - Explore and book your space at events",
           benefits: [
             "Browse thousands of available spaces",
             "Advanced search with multiple filters",
@@ -406,7 +411,7 @@ export const translations = {
         {
           title: "Investor",
           subtitle: "Investor",
-          description: "Space owner who displays and rents spaces at events",
+          description: "💼 Business Owner - Display your spaces and invest in the events market",
           benefits: [
             "Display your spaces to thousands of dealers",
             "Manage requests and bookings",
@@ -418,13 +423,18 @@ export const translations = {
         {
           title: "Admin",
           subtitle: "Admin",
-          description: "Highest level - complete system management and oversight of all operations",
+          description: "👑 Highest Level - Complete system management and oversight of all operations and departments",
           benefits: [
             "Manage events and venues",
             "Review and approve spaces",
             "Manage users and permissions",
             "Final approval of requests",
-            "Comprehensive financial management"
+            "Comprehensive financial management",
+            "Assign permissions from the main system",
+            "Finance & Accounting department management",
+            "Operations department management",
+            "Legal & Contracts department management",
+            "HR & Marketing departments management"
           ]
         }
       ],

@@ -11,7 +11,8 @@ import {
 } from '@/shared/utils/animations';
 
 const userTypeIcons = [UserIcon, BuildingIcon, CogIcon];
-const userTypeColors = ['bg-[#987012]', 'bg-[#987012]', 'bg-green-600'];
+const userTypeColors = ['bg-[#987012]', 'bg-[#987012]', 'bg-[#3F341C]'];
+const descriptionColors = ['text-[#987012]', 'text-[#B8891A]', 'text-[#3F341C]'];
 
 export function UserTypesSection() {
   const { t, isRtl } = useLanguageStore();
@@ -72,9 +73,11 @@ export function UserTypesSection() {
                   <p className="text-white/80 text-xs sm:text-sm">{user.subtitle}</p>
                 </motion.div>
                 <div className="p-3 sm:p-4 md:p-6">
-                  <p className="text-gray-600 dark:text-gray-300 mb-3 md:mb-6 text-center text-xs sm:text-sm md:text-base">
-                    {user.description}
-                  </p>
+                  <div className={`${descriptionColors[index]} bg-gray-50 dark:bg-gray-700/50 rounded-lg px-3 py-2 mb-3 md:mb-6 text-center`}>
+                    <p className="text-xs sm:text-sm md:text-base font-semibold">
+                      {user.description}
+                    </p>
+                  </div>
                   <motion.ul
                     initial="hidden"
                     whileInView="visible"
