@@ -318,38 +318,73 @@ export function ContactForm() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="space-y-6 mb-8"
+              className="space-y-4 mb-8"
             >
-              {contactInfo.map((item, index) => (
-                <motion.a
-                  key={index}
-                  href={item.href}
-                  variants={staggerItem}
-                  whileHover={{ scale: 1.02, x: isRtl ? -5 : 5 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-start gap-4 p-4 bg-[#FBF8F0] dark:bg-gray-700 rounded-xl hover:bg-[#F5ECD4] dark:hover:bg-gray-700 transition"
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ type: 'spring', delay: index * 0.1 }}
-                    whileHover={{ rotate: [0, -10, 10, 0] }}
-                    className="w-12 h-12 bg-[#987012]/10 rounded-lg flex items-center justify-center text-[#987012] flex-shrink-0"
+              {/* Email & Phone - Side by Side */}
+              <div className="grid grid-cols-2 gap-4">
+                {contactInfo.slice(0, 2).map((item, index) => (
+                  <motion.a
+                    key={index}
+                    href={item.href}
+                    variants={staggerItem}
+                    whileHover={{ scale: 1.02, x: isRtl ? -5 : 5 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex items-center gap-4 p-4 bg-[#FBF8F0] dark:bg-gray-700 rounded-xl hover:bg-[#F5ECD4] dark:hover:bg-gray-600 transition"
                   >
-                    <item.icon className="w-6 h-6" />
-                  </motion.div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
-                    <p
-                      className="text-gray-800 dark:text-white font-medium"
-                      dir={item.href.startsWith('mailto:') || item.href.startsWith('tel:') ? 'ltr' : undefined}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ type: 'spring', delay: index * 0.1 }}
+                      whileHover={{ rotate: [0, -10, 10, 0] }}
+                      className="w-12 h-12 bg-[#987012]/10 rounded-lg flex items-center justify-center text-[#987012] flex-shrink-0"
                     >
-                      {item.value}
-                    </p>
-                  </div>
-                </motion.a>
-              ))}
+                      <item.icon className="w-6 h-6" />
+                    </motion.div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
+                      <p
+                        className="text-gray-800 dark:text-white font-medium truncate"
+                        dir={item.href.startsWith('mailto:') || item.href.startsWith('tel:') ? 'ltr' : undefined}
+                      >
+                        {item.value}
+                      </p>
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+
+              {/* Address - Full Width */}
+              {(() => {
+                const addressItem = contactInfo[2];
+                const AddressIcon = addressItem.icon;
+                return (
+                  <motion.a
+                    href={addressItem.href}
+                    variants={staggerItem}
+                    whileHover={{ scale: 1.02, x: isRtl ? -5 : 5 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex items-center gap-4 p-4 bg-[#FBF8F0] dark:bg-gray-700 rounded-xl hover:bg-[#F5ECD4] dark:hover:bg-gray-600 transition"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ type: 'spring', delay: 0.2 }}
+                      whileHover={{ rotate: [0, -10, 10, 0] }}
+                      className="w-12 h-12 bg-[#987012]/10 rounded-lg flex items-center justify-center text-[#987012] flex-shrink-0"
+                    >
+                      <AddressIcon className="w-6 h-6" />
+                    </motion.div>
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{addressItem.label}</p>
+                      <p className="text-gray-800 dark:text-white font-medium">
+                        {addressItem.value}
+                      </p>
+                    </div>
+                  </motion.a>
+                );
+              })()}
             </motion.div>
 
             {/* Social Links */}
@@ -367,7 +402,7 @@ export function ContactForm() {
                 viewport={{ once: true }}
                 className="flex gap-3"
               >
-                {socialLinks.map((social, index) => (
+                {socialLinks.map((social) => (
                   <motion.a
                     key={social.label}
                     href={social.href}
