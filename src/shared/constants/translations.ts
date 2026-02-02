@@ -109,7 +109,7 @@ export const translations = {
         {
           title: "التاجر",
           subtitle: "Dealer",
-          description: "🔍 الباحث عن الفرصة المثالية - استكشف وأحجز مساحتك في الفعاليات",
+          description: "واجهة تشغيلية للتجار تتيح استكشاف الفرص، حجز المساحات، إدارة العقود والمدفوعات، ومتابعة العمليات التشغيلية والترويج داخل الفعاليات، والتواصل المباشر ضمن بيئة رقمية منظمة.",
           benefits: [
             "تصفح آلاف المساحات المتاحة",
             "بحث متقدم بفلاتر متعددة",
@@ -121,7 +121,7 @@ export const translations = {
         {
           title: "المستثمر",
           subtitle: "Investor",
-          description: "💼 صاحب الأعمال - اعرض مساحاتك واستثمر في سوق الفعاليات",
+          description: "إدارة احترافية للاستثمار في المساحات التشغيلية، تشمل عرض المحافظ، متابعة العوائد، نسب الإشغال، التقارير المالية، وتحليل الأداء والمخاطر عبر لوحات تحكم ذكية.",
           benefits: [
             "عرض مساحاتك لآلاف التجار",
             "إدارة الطلبات والحجوزات",
@@ -133,7 +133,7 @@ export const translations = {
         {
           title: "المشرف",
           subtitle: "Admin",
-          description: "👑 المستوى الأعلى - إدارة كاملة للنظام والإشراف على جميع العمليات والأقسام",
+          description: "إدارة تنفيذية شاملة للنظام تشمل التحكم الكامل بالعمليات، الصلاحيات، العقود، التدفقات المالية، ولوحات التحكم التحليلية، مع تكامل ذكي مع Maham AI لدعم اتخاذ القرار والامتثال التشغيلي.",
           benefits: [
             "إدارة الفعاليات والأماكن",
             "مراجعة والموافقة على المساحات",
@@ -399,7 +399,7 @@ export const translations = {
         {
           title: "Dealer",
           subtitle: "Dealer",
-          description: "🔍 Opportunity Seeker - Explore and book your space at events",
+          description: "Operational interface for dealers enabling opportunity exploration, space booking, contract and payment management, operational tracking, event promotion, and direct communication within an organized digital environment.",
           benefits: [
             "Browse thousands of available spaces",
             "Advanced search with multiple filters",
@@ -411,7 +411,7 @@ export const translations = {
         {
           title: "Investor",
           subtitle: "Investor",
-          description: "💼 Business Owner - Display your spaces and invest in the events market",
+          description: "Professional investment management for operational spaces, including portfolio display, revenue tracking, occupancy rates, financial reports, and performance & risk analysis through smart dashboards.",
           benefits: [
             "Display your spaces to thousands of dealers",
             "Manage requests and bookings",
@@ -423,7 +423,7 @@ export const translations = {
         {
           title: "Admin",
           subtitle: "Admin",
-          description: "👑 Highest Level - Complete system management and oversight of all operations and departments",
+          description: "Comprehensive executive system management including full control over operations, permissions, contracts, financial flows, and analytical dashboards, with smart Maham AI integration for decision support and operational compliance.",
           benefits: [
             "Manage events and venues",
             "Review and approve spaces",
