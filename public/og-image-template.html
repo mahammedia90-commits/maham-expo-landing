@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Maham Expo OG Image</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 1200px;
+      height: 630px;
+      font-family: 'Cairo', sans-serif;
+      overflow: hidden;
+    }
+
+    .og-container {
+      width: 1200px;
+      height: 630px;
+      background: linear-gradient(135deg, #2A2313 0%, #3F341C 40%, #4D3A11 70%, #3F341C 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative elements */
+    .og-container::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(230, 184, 48, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .og-container::after {
+      content: '';
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(152, 112, 18, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    /* Gold accent line */
+    .gold-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #E6B830, #987012, #E6B830);
+    }
+
+    .gold-line-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #987012, #E6B830, #987012);
+    }
+
+    .content-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      z-index: 1;
+    }
+
+    /* Logo Section - Left side */
+    .logo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-container {
+      width: 220px;
+      height: 220px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(230, 184, 48, 0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+      border-radius: 40px 40px 0 0;
+    }
+
+    .logo-container img {
+      width: 180px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+
+    /* Text Section - Right side */
+    .text-section {
+      text-align: right;
+      max-width: 650px;
+    }
+
+    .brand-name {
+      font-size: 72px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #E6B830 0%, #F5D677 50%, #E6B830 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .brand-subtitle {
+      font-size: 36px;
+      font-weight: 600;
+      color: #D4B85A;
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+
+    .divider {
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #E6B830, transparent);
+      margin-bottom: 24px;
+      margin-left: auto;
+    }
+
+    .description {
+      font-size: 26px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .url-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, rgba(230, 184, 48, 0.2) 0%, rgba(152, 112, 18, 0.2) 100%);
+      border: 1px solid rgba(230, 184, 48, 0.4);
+      padding: 12px 28px;
+      border-radius: 50px;
+    }
+
+    .url-icon {
+      width: 24px;
+      height: 24px;
+      fill: #E6B830;
+    }
+
+    .url-text {
+      font-size: 24px;
+      font-weight: 600;
+      color: #E6B830;
+      direction: ltr;
+    }
+  </style>
+</head>
+<body>
+  <div class="og-container">
+    <div class="gold-line"></div>
+    <div class="gold-line-bottom"></div>
+
+    <div class="content-wrapper">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <div class="logo-container">
+          <img src="logo-dark.png" alt="Maham Expo Logo">
+        </div>
+      </div>
+
+      <!-- Text Section -->
+      <div class="text-section">
+        <h1 class="brand-name">Maham Expo</h1>
+        <p class="brand-subtitle">منصة متكاملة</p>
+        <div class="divider"></div>
+        <p class="description">
+          ربط المستثمرين والتجار في سوق الفعاليات والمعارض
+          <br>
+          اكتشف المساحات المثالية لنشاطك التجاري
+        </p>
+        <div class="url-badge">
+          <svg class="url-icon" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+          <span class="url-text">mahamexpo.sa</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -11,37 +11,63 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "مهام إكسبو | منصة إدارة الفعاليات والمعارض",
-  description: "مهام إكسبو - منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض. اكتشف المساحات المثالية لنشاطك التجاري.",
-  keywords: "فعاليات، معارض، إيجار مساحات، مستثمرين، تجار، السعودية",
+  title: "Maham Expo | منصة متكاملة للفعاليات والمعارض",
+  description: "منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض. اكتشف المساحات المثالية لنشاطك التجاري في السعودية.",
+  keywords: "Maham Expo, مهام إكسبو, فعاليات, معارض, إيجار مساحات, مستثمرين, تجار, السعودية, exhibitions, events, Saudi Arabia",
+  authors: [{ name: "Maham Expo" }],
+  creator: "Maham Expo",
+  publisher: "Maham Expo",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
   },
   openGraph: {
-    title: "مهام إكسبو | Maham Expo",
+    title: "Maham Expo | منصة متكاملة",
     description: "منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض. اكتشف المساحات المثالية لنشاطك التجاري.",
     type: "website",
     url: "https://mahamexpo.sa",
     siteName: "Maham Expo",
     locale: "ar_SA",
+    alternateLocale: "en_US",
     images: [
       {
-        url: "/hero-slide-2.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Maham Expo - منصة الفعاليات والمعارض",
+        alt: "Maham Expo - منصة متكاملة للفعاليات والمعارض",
+        type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "مهام إكسبو | Maham Expo",
-    description: "منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض",
-    images: ["/hero-slide-2.png"],
+    title: "Maham Expo | منصة متكاملة",
+    description: "منصة متكاملة تربط بين المستثمرين والتجار في سوق الفعاليات والمعارض. اكتشف المساحات المثالية لنشاطك التجاري.",
+    images: ["/og-image.png"],
+    creator: "@mahamexpo",
+    site: "@mahamexpo",
   },
   metadataBase: new URL("https://mahamexpo.sa"),
+  alternates: {
+    canonical: "https://mahamexpo.sa",
+    languages: {
+      "ar-SA": "https://mahamexpo.sa",
+      "en-US": "https://mahamexpo.sa",
+    },
+  },
+  verification: {
+    // Add your verification codes here when available
+    // google: "your-google-verification-code",
+  },
 };
 
 export default function RootLayout({

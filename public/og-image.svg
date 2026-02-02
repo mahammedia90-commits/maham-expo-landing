@@ -1,0 +1,141 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A2313"/>
+      <stop offset="40%" style="stop-color:#3F341C"/>
+      <stop offset="70%" style="stop-color:#4D3A11"/>
+      <stop offset="100%" style="stop-color:#3F341C"/>
+    </linearGradient>
+
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E6B830"/>
+      <stop offset="50%" style="stop-color:#F5D677"/>
+      <stop offset="100%" style="stop-color:#E6B830"/>
+    </linearGradient>
+
+    <linearGradient id="goldLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E6B830"/>
+      <stop offset="50%" style="stop-color:#987012"/>
+      <stop offset="100%" style="stop-color:#E6B830"/>
+    </linearGradient>
+
+    <linearGradient id="logoBoxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(255,255,255,0.15)"/>
+      <stop offset="100%" style="stop-color:rgba(255,255,255,0.05)"/>
+    </linearGradient>
+
+    <radialGradient id="glowTop" cx="85%" cy="15%" r="40%">
+      <stop offset="0%" style="stop-color:rgba(230,184,48,0.2)"/>
+      <stop offset="100%" style="stop-color:rgba(230,184,48,0)"/>
+    </radialGradient>
+
+    <radialGradient id="glowBottom" cx="15%" cy="85%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(152,112,18,0.15)"/>
+      <stop offset="100%" style="stop-color:rgba(152,112,18,0)"/>
+    </radialGradient>
+
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="rgba(0,0,0,0.4)"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+
+  <!-- Glow effects -->
+  <rect width="1200" height="630" fill="url(#glowTop)"/>
+  <rect width="1200" height="630" fill="url(#glowBottom)"/>
+
+  <!-- Top gold line -->
+  <rect x="0" y="0" width="1200" height="6" fill="url(#goldLineGradient)"/>
+
+  <!-- Bottom gold line -->
+  <rect x="0" y="624" width="1200" height="6" fill="url(#goldLineGradient)"/>
+
+  <!-- Logo Container Box -->
+  <g transform="translate(80, 165)">
+    <rect x="0" y="0" width="220" height="220" rx="40" ry="40"
+          fill="url(#logoBoxGradient)"
+          stroke="rgba(230,184,48,0.3)"
+          stroke-width="2"
+          filter="url(#shadow)"/>
+
+    <!-- Logo Text "M" stylized -->
+    <text x="110" y="145"
+          font-family="Arial, sans-serif"
+          font-size="120"
+          font-weight="bold"
+          fill="url(#goldGradient)"
+          text-anchor="middle">M</text>
+
+    <!-- Small X accent -->
+    <text x="155" y="105"
+          font-family="Arial, sans-serif"
+          font-size="36"
+          font-weight="bold"
+          fill="#E6B830"
+          text-anchor="middle">X</text>
+  </g>
+
+  <!-- Text Content - Right Side -->
+  <g transform="translate(380, 140)">
+    <!-- Brand Name -->
+    <text x="700" y="60"
+          font-family="Arial, sans-serif"
+          font-size="72"
+          font-weight="bold"
+          fill="url(#goldGradient)"
+          text-anchor="end">Maham Expo</text>
+
+    <!-- Arabic Subtitle -->
+    <text x="700" y="120"
+          font-family="Arial, sans-serif"
+          font-size="36"
+          font-weight="600"
+          fill="#D4B85A"
+          text-anchor="end">منصة متكاملة</text>
+
+    <!-- Divider line -->
+    <line x1="580" y1="150" x2="700" y2="150" stroke="url(#goldGradient)" stroke-width="3" opacity="0.6"/>
+
+    <!-- Description Line 1 -->
+    <text x="700" y="200"
+          font-family="Arial, sans-serif"
+          font-size="24"
+          fill="rgba(255,255,255,0.85)"
+          text-anchor="end">ربط المستثمرين والتجار في سوق الفعاليات والمعارض</text>
+
+    <!-- Description Line 2 -->
+    <text x="700" y="240"
+          font-family="Arial, sans-serif"
+          font-size="24"
+          fill="rgba(255,255,255,0.85)"
+          text-anchor="end">اكتشف المساحات المثالية لنشاطك التجاري</text>
+
+    <!-- URL Badge -->
+    <g transform="translate(485, 280)">
+      <rect x="0" y="0" width="215" height="50" rx="25" ry="25"
+            fill="rgba(230,184,48,0.15)"
+            stroke="rgba(230,184,48,0.4)"
+            stroke-width="1"/>
+
+      <!-- Globe icon -->
+      <circle cx="35" cy="25" r="12" fill="none" stroke="#E6B830" stroke-width="2"/>
+      <ellipse cx="35" cy="25" rx="5" ry="12" fill="none" stroke="#E6B830" stroke-width="1.5"/>
+      <line x1="23" y1="25" x2="47" y2="25" stroke="#E6B830" stroke-width="1.5"/>
+
+      <!-- URL text -->
+      <text x="130" y="32"
+            font-family="Arial, sans-serif"
+            font-size="22"
+            font-weight="600"
+            fill="#E6B830"
+            text-anchor="middle">mahamexpo.sa</text>
+    </g>
+  </g>
+
+  <!-- Decorative corner elements -->
+  <polygon points="0,630 0,580 50,630" fill="rgba(230,184,48,0.1)"/>
+  <polygon points="1200,0 1200,50 1150,0" fill="rgba(230,184,48,0.1)"/>
+</svg>
