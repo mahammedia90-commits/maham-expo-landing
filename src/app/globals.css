@@ -806,7 +806,13 @@ input[type="radio"] {
 [dir="rtl"] .email-address,
 [dir="rtl"] .url-text {
   direction: ltr;
-  unicode-bidi: embed;
+  unicode-bidi: isolate;
+}
+
+/* Inline contexts for phone/email/url (e.g. inside paragraphs) */
+[dir="rtl"] span.phone-number,
+[dir="rtl"] span.email-address,
+[dir="rtl"] span.url-text {
   display: inline-block;
 }
 

@@ -111,8 +111,12 @@ export function Footer() {
               viewport={{ once: true }}
               className="space-y-1 md:space-y-2 text-[#D4B85A]/80 text-xs sm:text-sm md:text-base"
             >
-              <motion.li variants={staggerItem} dir="ltr" className="email-address">info@mahamexpo.sa</motion.li>
-              <motion.li variants={staggerItem} dir="ltr" className="phone-number">+966 53 555 5900</motion.li>
+              <motion.li variants={staggerItem} className="email-address block text-end">
+                <a href="mailto:info@mahamexpo.sa" dir="ltr" className="hover:text-white transition-colors inline-block">info@mahamexpo.sa</a>
+              </motion.li>
+              <motion.li variants={staggerItem} className="phone-number block text-end">
+                <a href="tel:+966535555900" dir="ltr" className="hover:text-white transition-colors inline-block">+966 53 555 5900</a>
+              </motion.li>
               <motion.li variants={staggerItem}>{t.footer.saudiArabia}</motion.li>
             </motion.ul>
 
