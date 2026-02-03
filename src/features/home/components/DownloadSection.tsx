@@ -102,7 +102,7 @@ export function DownloadSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-base sm:text-lg md:text-xl font-bold text-[#3F341C] mb-2 md:mb-4"
+            className="text-base sm:text-lg md:text-xl font-bold text-[#3F341C] dark:text-white mb-2 md:mb-4"
           >
             {t.home.areYouInvestor}
           </motion.h3>
@@ -111,7 +111,7 @@ export function DownloadSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="text-[#5A4D2E] mb-4 md:mb-6 text-sm md:text-base"
+            className="text-[#5A4D2E] dark:text-white mb-4 md:mb-6 text-sm md:text-base"
           >
             {t.home.investorCTA}
           </motion.p>

@@ -12,7 +12,7 @@ import {
 
 const userTypeIcons = [UserIcon, BuildingIcon, CogIcon];
 const userTypeColors = ['bg-[#987012]', 'bg-[#987012]', 'bg-[#3F341C]'];
-const descriptionColors = ['text-[#987012]', 'text-[#B8891A]', 'text-[#3F341C]'];
+const descriptionColors = ['text-[#987012] dark:text-white', 'text-[#B8891A] dark:text-white', 'text-[#3F341C] dark:text-white'];
 
 export function UserTypesSection() {
   const { t, isRtl } = useLanguageStore();
