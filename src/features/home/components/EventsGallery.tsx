@@ -25,6 +25,18 @@ const eventCategories = {
 const eventsData = [
   {
     id: 1,
+    title: { ar: 'على خطاه', en: 'Ala Khutah' },
+    location: { ar: 'المملكة العربية السعودية', en: 'Saudi Arabia' },
+    date: { ar: '٢٠٢٥', en: '2025' },
+    spaces: { available: 100, total: 100 },
+    category: 'موسمي',
+    image: '/ala-khutah.png',
+    featured: false,
+    price: { ar: 'مجاني', en: 'Free' },
+    profilePdf: '/Alla Khotah.pdf',
+  },
+  {
+    id: 2,
     title: { ar: 'معرض الرياض الدولي للتجارة', en: 'Riyadh International Trade Fair' },
     location: { ar: 'مركز الرياض للمعارض والمؤتمرات', en: 'Riyadh Exhibitions Center' },
     date: { ar: '٢٦ سبتمبر - ٦ أكتوبر ٢٠٢٥', en: 'Sep 26 - Oct 6, 2025' },
@@ -35,7 +47,7 @@ const eventsData = [
     price: { ar: 'يبدأ من ٥,٠٠٠ ريال', en: 'From 5,000 SAR' },
   },
   {
-    id: 2,
+    id: 3,
     title: { ar: 'مهرجان جدة الغذائي', en: 'Jeddah Food Festival' },
     location: { ar: 'كورنيش جدة', en: 'Jeddah Corniche' },
     date: { ar: '١٥ - ٢٥ أكتوبر ٢٠٢٥', en: 'Oct 15 - 25, 2025' },
@@ -46,7 +58,7 @@ const eventsData = [
     price: { ar: 'يبدأ من ٣,٠٠٠ ريال', en: 'From 3,000 SAR' },
   },
   {
-    id: 3,
+    id: 4,
     title: { ar: 'معرض التقنية والابتكار', en: 'Tech & Innovation Expo' },
     location: { ar: 'مركز الملك عبدالعزيز', en: 'King Abdulaziz Center' },
     date: { ar: '١ - ١٠ نوفمبر ٢٠٢٥', en: 'Nov 1 - Nov 10, 2025' },
@@ -57,7 +69,7 @@ const eventsData = [
     price: { ar: 'يبدأ من ٧,٠٠٠ ريال', en: 'From 7,000 SAR' },
   },
   {
-    id: 4,
+    id: 5,
     title: { ar: 'سوق الدمام الموسمي', en: 'Dammam Seasonal Market' },
     location: { ar: 'الواجهة البحرية - الدمام', en: 'Dammam Waterfront' },
     date: { ar: '١ - ١٥ ديسمبر ٢٠٢٥', en: 'Dec 1 - Dec 15, 2025' },
@@ -68,7 +80,7 @@ const eventsData = [
     price: { ar: 'يبدأ من ٢,٥٠٠ ريال', en: 'From 2,500 SAR' },
   },
   {
-    id: 5,
+    id: 6,
     title: { ar: 'معرض المجوهرات والساعات', en: 'Jewelry & Watches Exhibition' },
     location: { ar: 'فندق الريتز كارلتون - الرياض', en: 'Ritz Carlton Hotel - Riyadh' },
     date: { ar: '٢٠ - ٣٠ نوفمبر ٢٠٢٥', en: 'Nov 20 - 30, 2025' },
@@ -79,7 +91,7 @@ const eventsData = [
     price: { ar: 'يبدأ من ١٥,٠٠٠ ريال', en: 'From 15,000 SAR' },
   },
   {
-    id: 6,
+    id: 7,
     title: { ar: 'مهرجان القهوة السعودية', en: 'Saudi Coffee Festival' },
     location: { ar: 'بوليفارد الرياض', en: 'Riyadh Boulevard' },
     date: { ar: '٥ - ١٢ ديسمبر ٢٠٢٥', en: 'Dec 5 - 12, 2025' },
@@ -270,11 +282,28 @@ function EventCard({
             </div>
           </div>
 
+          {/* Profile PDF Button */}
+          {'profilePdf' in event && event.profilePdf && (
+            <motion.a
+              href={event.profilePdf}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="mt-5 w-full py-3.5 bg-gradient-to-r from-[#E6B830] to-[#D4A628] hover:from-[#D4A628] hover:to-[#987012] text-[#1A1A1A] font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:shadow-[#E6B830]/20"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>{language === 'ar' ? 'عرض الملف التعريفي' : 'View Profile'}</span>
+            </motion.a>
+          )}
+
           {/* CTA Button */}
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="mt-5 w-full py-3.5 bg-gradient-to-r from-[#987012] to-[#7A5A0E] hover:from-[#E6B830] hover:to-[#987012] text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-lg hover:shadow-xl hover:shadow-[#987012]/20"
+            className={`${'profilePdf' in event && event.profilePdf ? 'mt-3' : 'mt-5'} w-full py-3.5 bg-gradient-to-r from-[#987012] to-[#7A5A0E] hover:from-[#E6B830] hover:to-[#987012] text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-lg hover:shadow-xl hover:shadow-[#987012]/20`}
           >
             <span>{language === 'ar' ? 'احجز مساحتك' : 'Book Your Space'}</span>
             <motion.svg
