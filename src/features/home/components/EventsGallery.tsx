@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import {
@@ -34,6 +35,7 @@ const eventsData = [
     featured: false,
     price: { ar: 'يبدأ من ٤,٠٠٠ ريال', en: 'From 4,000 SAR' },
     profilePdf: '/Alla Khotah.pdf',
+    bookingLink: '/ala-khutah',
   },
   {
     id: 8,
@@ -312,23 +314,45 @@ function EventCard({
           )}
 
           {/* CTA Button */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className={`${'profilePdf' in event && event.profilePdf ? 'mt-3' : 'mt-5'} w-full py-3.5 bg-gradient-to-r from-[#987012] to-[#7A5A0E] hover:from-[#E6B830] hover:to-[#987012] text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-lg hover:shadow-xl hover:shadow-[#987012]/20`}
-          >
-            <span>{language === 'ar' ? 'احجز مساحتك' : 'Book Your Space'}</span>
-            <motion.svg
-              className={`w-5 h-5 ${isRtl ? 'rotate-180' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+          {'bookingLink' in event && event.bookingLink ? (
+            <Link href={event.bookingLink}>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`${'profilePdf' in event && event.profilePdf ? 'mt-3' : 'mt-5'} w-full py-3.5 bg-gradient-to-r from-[#987012] to-[#7A5A0E] hover:from-[#E6B830] hover:to-[#987012] text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-lg hover:shadow-xl hover:shadow-[#987012]/20 cursor-pointer`}
+              >
+                <span>{language === 'ar' ? 'احجز مساحتك' : 'Book Your Space'}</span>
+                <motion.svg
+                  className={`w-5 h-5 ${isRtl ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </motion.svg>
+              </motion.div>
+            </Link>
+          ) : (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`${'profilePdf' in event && event.profilePdf ? 'mt-3' : 'mt-5'} w-full py-3.5 bg-gradient-to-r from-[#987012] to-[#7A5A0E] hover:from-[#E6B830] hover:to-[#987012] text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group/btn shadow-lg hover:shadow-xl hover:shadow-[#987012]/20`}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </motion.svg>
-          </motion.button>
+              <span>{language === 'ar' ? 'احجز مساحتك' : 'Book Your Space'}</span>
+              <motion.svg
+                className={`w-5 h-5 ${isRtl ? 'rotate-180' : ''}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </motion.svg>
+            </motion.button>
+          )}
         </div>
       </motion.div>
     </motion.div>
