@@ -32,7 +32,7 @@ const eventsData = [
     category: 'موسمي',
     image: '/ala-khutah.png',
     featured: false,
-    price: { ar: 'مجاني', en: 'Free' },
+    price: { ar: 'يبدأ من ٤,٠٠٠ ريال', en: 'From 4,000 SAR' },
     profilePdf: '/Alla Khotah.pdf',
   },
   {
