@@ -26,7 +26,7 @@ const eventsData = [
   {
     id: 1,
     title: { ar: 'على خطاه', en: 'Ala Khutah' },
-    location: { ar: 'المملكة العربية السعودية', en: 'Saudi Arabia' },
+    location: { ar: 'المملكة العربية السعودية - من مكة الى المدينة المنورة', en: 'Saudi Arabia - From Makkah to Madinah' },
     date: { ar: '٢٠٢٥', en: '2025' },
     spaces: { available: 100, total: 100 },
     category: 'موسمي',
@@ -34,6 +34,18 @@ const eventsData = [
     featured: false,
     price: { ar: 'يبدأ من ٤,٠٠٠ ريال', en: 'From 4,000 SAR' },
     profilePdf: '/Alla Khotah.pdf',
+  },
+  {
+    id: 8,
+    title: { ar: 'بوليفارد وورلد', en: 'Boulevard World' },
+    location: { ar: 'المملكة العربية السعودية - الرياض', en: 'Saudi Arabia - Riyadh' },
+    date: { ar: '٢٠٢٥', en: '2025' },
+    spaces: { available: 234, total: 234 },
+    category: 'موسمي',
+    image: '/blvd.png',
+    featured: false,
+    price: { ar: 'يبدأ من ٢,٥٠٠ ريال', en: 'From 2,500 SAR' },
+    profilePdf: '/BLVD Available Sites.pdf',
   },
   {
     id: 2,

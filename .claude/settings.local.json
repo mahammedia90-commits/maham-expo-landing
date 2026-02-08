@@ -17,7 +17,8 @@
       "Bash(npx next build:*)",
       "Bash(where:*)",
       "Bash(copy \"c:\\\\Users\\\\A\\\\Desktop\\\\على خطاه.png\" \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\\\\public\\\\ala-khutah.png\")",
-      "Bash(python -c:*)"
+      "Bash(python -c:*)",
+      "Bash(copy:*)"
     ]
   }
 }
