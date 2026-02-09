@@ -14,6 +14,10 @@ export interface Zone {
     ar: string;
     en: string;
   };
+  description?: {
+    ar: string;
+    en: string;
+  };
   slug: string;
   booths: Booth[];
 }
@@ -51,8 +55,12 @@ export const alaKhutahData: EventData = {
     {
       id: 'al-juhfah',
       name: {
-        ar: 'الجحفه',
+        ar: 'الجُحفة',
         en: 'Al Juhfah',
+      },
+      description: {
+        ar: 'محطة بارزة على طريق الهجرة، كانت ملتقى للقوافل، ومرّ بها النبي ﷺ وأصيب فيها بالوعك، فكانت موضع دعائه بأن يُحبّب الله إليه المدينة كما أحب مكة.',
+        en: 'A prominent station on the Hijrah route, it was a meeting point for caravans. The Prophet ﷺ passed through it and fell ill there, making it the place where he prayed that Allah would make him love Madinah as he loved Makkah.',
       },
       slug: 'al-juhfah',
       booths: [
@@ -68,8 +76,12 @@ export const alaKhutahData: EventData = {
     {
       id: 'al-reem',
       name: {
-        ar: 'الريم',
-        en: 'Al Reem',
+        ar: 'وادي الريم',
+        en: 'Wadi Al Reem',
+      },
+      description: {
+        ar: 'أحد أودية الحجاز الواقعة على مسار الطرق القديمة، يعكس امتداد الرحلة عبر الطبيعة الصحراوية ومراحل العبور المتتابعة.',
+        en: 'One of the valleys of Hijaz located along the ancient trade routes, reflecting the journey\'s extension through the desert landscape and successive crossing stages.',
       },
       slug: 'al-reem',
       booths: [
@@ -85,6 +97,10 @@ export const alaKhutahData: EventData = {
         ar: 'العرج',
         en: 'Al Araj',
       },
+      description: {
+        ar: 'وادٍ مرّ به النبي ﷺ وصلى فيه، وكان محطة طبيعية للتوقف المؤقت في طريق الهجرة، ويجسد جانب العبادة والسكينة أثناء الرحلة.',
+        en: 'A valley where the Prophet ﷺ passed through and prayed, serving as a natural resting station on the Hijrah route, embodying the aspect of worship and tranquility during the journey.',
+      },
       slug: 'al-araj',
       booths: [
         { id: 'A-C02-02', name: 'A-C02-02', image: '/على خطاه/العرج/A-C02-02.png' },
@@ -96,8 +112,12 @@ export const alaKhutahData: EventData = {
     {
       id: 'al-qahah',
       name: {
-        ar: 'القاحه',
+        ar: 'القاحة',
         en: 'Al Qahah',
+      },
+      description: {
+        ar: 'منطقة صحراوية مفتوحة ضمن مسارات السفر القديمة، تمثل مرحلة المرور الهادئ في طريق الهجرة عبر الطرق غير المأهولة.',
+        en: 'An open desert area along the ancient travel routes, representing a quiet passage stage on the Hijrah route through uninhabited paths.',
       },
       slug: 'al-qahah',
       booths: [

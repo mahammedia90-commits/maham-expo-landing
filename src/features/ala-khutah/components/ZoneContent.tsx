@@ -300,18 +300,32 @@ export function ZoneContent({ zoneId }: ZoneContentProps) {
               transition={{ delay: 0.1 }}
               className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#2A2313] dark:text-white mb-6"
             >
-              {zone.name[lang]}{' '}
-              <span className="bg-gradient-to-r from-[#E6B830] to-[#987012] bg-clip-text text-transparent">
-                {lang === 'ar' ? 'المساحات' : 'Spaces'}
+              {zone.name[lang]}
+              <span className="block mt-3">
+                <span className="bg-gradient-to-r from-[#E6B830] to-[#987012] bg-clip-text text-transparent">
+                  {lang === 'ar' ? 'المساحات' : 'Spaces'}
+                </span>
               </span>
             </motion.h1>
 
-            {/* Description */}
+            {/* Zone Description */}
+            {zone.description && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-[#2A2313]/80 dark:text-gray-300 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed mb-4"
+              >
+                {zone.description[lang]}
+              </motion.p>
+            )}
+
+            {/* Spaces Count */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-gray-600 dark:text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed"
+              transition={{ delay: 0.3 }}
+              className="text-gray-500 dark:text-gray-400 text-base sm:text-lg max-w-2xl mx-auto"
             >
               {lang === 'ar'
                 ? `تصفح ${zone.booths.length} مساحة متاحة للحجز في منطقة ${zone.name.ar}`
