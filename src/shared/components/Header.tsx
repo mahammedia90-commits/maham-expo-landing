@@ -109,6 +109,27 @@ export function Header() {
               <span>{t.nav.langToggle}</span>
             </motion.button>
 
+            {/* Login Button */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.55, duration: 0.3 }}
+              className="hidden md:block"
+            >
+              <Link href="/login">
+                <motion.span
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#987012] to-[#D4B85A] hover:from-[#B8860B] hover:to-[#E8C860] text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                  </svg>
+                  {t.nav.login}
+                </motion.span>
+              </Link>
+            </motion.div>
+
             {/* Mobile Menu Button */}
             <motion.button
               initial={{ opacity: 0 }}
@@ -193,6 +214,24 @@ export function Header() {
                   </Link>
                 </motion.div>
               ))}
+              <motion.div
+                variants={{
+                  open: { y: 0, opacity: 1 },
+                  closed: { y: 20, opacity: 0 }
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-[#987012] to-[#D4B85A] text-white px-6 py-2.5 rounded-full font-medium text-center mt-2 block"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                  </svg>
+                  {t.nav.login}
+                </Link>
+              </motion.div>
               <motion.div
                 variants={{
                   open: { y: 0, opacity: 1 },

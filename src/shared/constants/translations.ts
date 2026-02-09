@@ -11,6 +11,16 @@ export const translations = {
       privacy: "سياسة الخصوصية",
       downloadApp: "حمّل التطبيق",
       langToggle: "EN",
+      login: "تسجيل الدخول",
+    },
+
+    // Login Page
+    login: {
+      title: "تسجيل الدخول",
+      subtitle: "اختر نوع الحساب",
+      loginToSystem: "تسجيل دخول إلى النظام",
+      loginAsInvestor: "تسجيل الدخول كمستثمر",
+      loginAsDealer: "تسجيل الدخول كتاجر",
     },
 
     // Home Page
@@ -301,6 +311,16 @@ export const translations = {
       privacy: "Privacy",
       downloadApp: "Download App",
       langToggle: "ع",
+      login: "Login",
+    },
+
+    // Login Page
+    login: {
+      title: "Login",
+      subtitle: "Choose account type",
+      loginToSystem: "Login to System",
+      loginAsInvestor: "Login as Investor",
+      loginAsDealer: "Login as Dealer",
     },
 
     // Home Page
