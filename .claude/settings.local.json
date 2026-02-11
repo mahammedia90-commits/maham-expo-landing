@@ -20,7 +20,8 @@
       "Bash(python -c:*)",
       "Bash(copy:*)",
       "Bash(taskkill:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(find:*)"
     ]
   }
 }

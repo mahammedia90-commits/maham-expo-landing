@@ -134,6 +134,69 @@ export const alaKhutahData: EventData = {
         { id: 'Q-K25', name: 'Q-K25', image: '/على خطاه/القاحه/Q-K25.png' },
       ],
     },
+    {
+      id: 'ghar-thawr',
+      name: {
+        ar: 'غار ثور',
+        en: 'Ghar Thawr',
+      },
+      description: {
+        ar: 'غار في جبل ثور جنوب مكة، اختبأ فيه النبي ﷺ وأبو بكر الصديق رضي الله عنه ثلاث ليالٍ قبل استكمال رحلة الهجرة إلى المدينة المنورة.',
+        en: 'A cave in Mount Thawr south of Makkah, where the Prophet ﷺ and Abu Bakr Al-Siddiq hid for three nights before continuing the Hijrah journey to Madinah.',
+      },
+      slug: 'ghar-thawr',
+      booths: [
+        { id: 'G-S56', name: 'G-S56', image: '/على خطاه/غار ثور/G-S56.png' },
+      ],
+    },
+    {
+      id: 'al-juthathah',
+      name: {
+        ar: 'الجثاثة',
+        en: 'Al Juthathah',
+      },
+      description: {
+        ar: 'موقع على مسار طريق الهجرة النبوية، يمثل إحدى المحطات التي مرّ بها النبي ﷺ في رحلته من مكة إلى المدينة المنورة.',
+        en: 'A location along the Hijrah route, representing one of the stations the Prophet ﷺ passed through on his journey from Makkah to Madinah.',
+      },
+      slug: 'al-juthathah',
+      booths: [
+        { id: 'T-C07-01', name: 'T-C07-01', image: '/على خطاه/الجثاثة/T-C07-01.png' },
+      ],
+    },
+    {
+      id: 'asfal-usfan',
+      name: {
+        ar: 'أسفل عسفان',
+        en: 'Asfal Usfan',
+      },
+      description: {
+        ar: 'منطقة تقع أسفل عسفان على مسار الهجرة، مرّ بها النبي ﷺ وهي من المحطات التاريخية المهمة في طريق الرحلة النبوية.',
+        en: 'An area located below Usfan along the Hijrah route, through which the Prophet ﷺ passed, serving as an important historical station on the prophetic journey.',
+      },
+      slug: 'asfal-usfan',
+      booths: [
+        { id: 'U-K03', name: 'U-K03', image: '/على خطاه/اسفل عسفان/U-K03.png' },
+        { id: 'U-K18', name: 'U-K18', image: '/على خطاه/اسفل عسفان/U-K18.png' },
+        { id: 'U-K23', name: 'U-K23', image: '/على خطاه/اسفل عسفان/U-K23.png' },
+      ],
+    },
+    {
+      id: 'um-maabad',
+      name: {
+        ar: 'أم معبد',
+        en: 'Um Maabad',
+      },
+      description: {
+        ar: 'خيمة أم معبد الخزاعية، التي استضافت النبي ﷺ أثناء هجرته وشهدت معجزة حلب الشاة، وهي من أشهر محطات طريق الهجرة.',
+        en: 'The tent of Um Maabad Al-Khuzaiyyah, who hosted the Prophet ﷺ during his Hijrah and witnessed the miracle of milking the sheep, one of the most famous stations on the Hijrah route.',
+      },
+      slug: 'um-maabad',
+      booths: [
+        { id: 'M-K02', name: 'M-K02', image: '/على خطاه/ام معبد/M-K02.png' },
+        { id: 'M-K04', name: 'M-K04', image: '/على خطاه/ام معبد/M-K04.png' },
+      ],
+    },
   ],
 };
 
