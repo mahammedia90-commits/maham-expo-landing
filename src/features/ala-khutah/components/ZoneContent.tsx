@@ -81,9 +81,15 @@ function BoothCard({
           <h3 className="font-bold text-[#2A2313] dark:text-white text-lg group-hover:text-[#987012] dark:group-hover:text-[#E6B830] transition-colors duration-300">
             {booth.name}
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {language === 'ar' ? 'متاح للحجز' : 'Available for booking'}
-          </p>
+          {booth.status === 'rented' ? (
+            <p className="text-sm text-red-500 dark:text-red-400 mt-1 font-semibold">
+              {language === 'ar' ? 'تم التأجير' : 'Rented'}
+            </p>
+          ) : (
+            <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
+              {language === 'ar' ? 'متاح للحجز' : 'Available for booking'}
+            </p>
+          )}
         </div>
       </motion.div>
     </motion.div>
@@ -150,11 +156,17 @@ function ImageModal({
               <h3 className="text-2xl font-bold text-[#2A2313] dark:text-white mb-2">
                 {booth.name}
               </h3>
-              <p className="text-gray-500 dark:text-gray-400">
-                {language === 'ar'
-                  ? 'هذه المساحة متاحة للحجز. تواصل معنا للمزيد من المعلومات.'
-                  : 'This space is available for booking. Contact us for more information.'}
-              </p>
+              {booth.status === 'rented' ? (
+                <p className="text-red-500 dark:text-red-400 font-semibold">
+                  {language === 'ar' ? 'تم التأجير' : 'Rented'}
+                </p>
+              ) : (
+                <p className="text-gray-500 dark:text-gray-400">
+                  {language === 'ar'
+                    ? 'هذه المساحة متاحة للحجز. تواصل معنا للمزيد من المعلومات.'
+                    : 'This space is available for booking. Contact us for more information.'}
+                </p>
+              )}
             </div>
           </motion.div>
         </motion.div>
@@ -327,9 +339,12 @@ export function ZoneContent({ zoneId }: ZoneContentProps) {
               transition={{ delay: 0.3 }}
               className="text-gray-500 dark:text-gray-400 text-base sm:text-lg max-w-2xl mx-auto"
             >
-              {lang === 'ar'
-                ? `تصفح ${zone.booths.length} مساحة متاحة للحجز في منطقة ${zone.name.ar}`
-                : `Browse ${zone.booths.length} available spaces for booking in ${zone.name.en}`}
+              {(() => {
+                const availableCount = zone.booths.filter(b => b.status !== 'rented').length;
+                return lang === 'ar'
+                  ? `تصفح ${availableCount} مساحة متاحة للحجز من أصل ${zone.booths.length} في منطقة ${zone.name.ar}`
+                  : `Browse ${availableCount} of ${zone.booths.length} spaces available for booking in ${zone.name.en}`;
+              })()}
             </motion.p>
           </motion.div>
 

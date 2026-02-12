@@ -6,6 +6,7 @@ export interface Booth {
   id: string;
   name: string;
   image: string;
+  status?: 'available' | 'rented';
 }
 
 export interface Zone {
@@ -67,9 +68,9 @@ export const alaKhutahData: EventData = {
         { id: 'J-C03-03', name: 'J-C03-03', image: '/على خطاه/الجحفه/J-C03-03.png' },
         { id: 'J-C04-03', name: 'J-C04-03', image: '/على خطاه/الجحفه/J-C04-03.png' },
         { id: 'J-K06', name: 'J-K06', image: '/على خطاه/الجحفه/J-K06.png' },
-        { id: 'J-K10', name: 'J-K10', image: '/على خطاه/الجحفه/J-K10.png' },
+        { id: 'J-K10', name: 'J-K10', image: '/على خطاه/الجحفه/J-K10.png', status: 'rented' },
         { id: 'J-K12', name: 'J-K12', image: '/على خطاه/الجحفه/J-K12.png' },
-        { id: 'J-K19', name: 'J-K19', image: '/على خطاه/الجحفه/J-K19.png' },
+        { id: 'J-K19', name: 'J-K19', image: '/على خطاه/الجحفه/J-K19.png', status: 'rented' },
         { id: 'J-K30', name: 'J-K30', image: '/على خطاه/الجحفه/J-K30.png' },
       ],
     },
@@ -147,6 +148,7 @@ export const alaKhutahData: EventData = {
       slug: 'ghar-thawr',
       booths: [
         { id: 'G-S56', name: 'G-S56', image: '/على خطاه/غار ثور/G-S56.png' },
+        { id: 'G-K13', name: 'G-K13', image: '/على خطاه/غار ثور/G-K13.png', status: 'rented' },
       ],
     },
     {
