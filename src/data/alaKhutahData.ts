@@ -6,6 +6,8 @@ export interface Booth {
   id: string;
   name: string;
   image: string;
+  type: 'F&B' | 'Retail';
+  area: number;
   status?: 'available' | 'rented';
 }
 
@@ -65,13 +67,13 @@ export const alaKhutahData: EventData = {
       },
       slug: 'al-juhfah',
       booths: [
-        { id: 'J-C03-03', name: 'J-C03-03', image: '/على خطاه/الجحفه/J-C03-03.png' },
-        { id: 'J-C04-03', name: 'J-C04-03', image: '/على خطاه/الجحفه/J-C04-03.png' },
-        { id: 'J-K06', name: 'J-K06', image: '/على خطاه/الجحفه/J-K06.png' },
-        { id: 'J-K10', name: 'J-K10', image: '/على خطاه/الجحفه/J-K10.png', status: 'rented' },
-        { id: 'J-K12', name: 'J-K12', image: '/على خطاه/الجحفه/J-K12.png' },
-        { id: 'J-K19', name: 'J-K19', image: '/على خطاه/الجحفه/J-K19.png', status: 'rented' },
-        { id: 'J-K30', name: 'J-K30', image: '/على خطاه/الجحفه/J-K30.png' },
+        { id: 'J-C03-03', name: 'J-C03-03', image: '/على خطاه/الجحفه/J-C03-03.png', type: 'Retail', area: 35.69 },
+        { id: 'J-C04-03', name: 'J-C04-03', image: '/على خطاه/الجحفه/J-C04-03.png', type: 'Retail', area: 35.69 },
+        { id: 'J-K06', name: 'J-K06', image: '/على خطاه/الجحفه/J-K06.png', type: 'Retail', area: 16 },
+        { id: 'J-K10', name: 'J-K10', image: '/على خطاه/الجحفه/J-K10.png', type: 'F&B', area: 9, status: 'rented' },
+        { id: 'J-K12', name: 'J-K12', image: '/على خطاه/الجحفه/J-K12.png', type: 'F&B', area: 9 },
+        { id: 'J-K19', name: 'J-K19', image: '/على خطاه/الجحفه/J-K19.png', type: 'Retail', area: 16, status: 'rented' },
+        { id: 'J-K30', name: 'J-K30', image: '/على خطاه/الجحفه/J-K30.png', type: 'F&B', area: 9 },
       ],
     },
     {
@@ -86,10 +88,10 @@ export const alaKhutahData: EventData = {
       },
       slug: 'al-reem',
       booths: [
-        { id: 'R-C08', name: 'R-C08', image: '/على خطاه/الريم/R-C08.png' },
-        { id: 'R-K02', name: 'R-K02', image: '/على خطاه/الريم/R-K02.png' },
-        { id: 'R-K05', name: 'R-K05', image: '/على خطاه/الريم/R-K05.png' },
-        { id: 'R-K11', name: 'R-K11', image: '/على خطاه/الريم/R-K11.png' },
+        { id: 'R-C08', name: 'R-C08', image: '/على خطاه/الريم/R-C08.png', type: 'Retail', area: 52.36 },
+        { id: 'R-K02', name: 'R-K02', image: '/على خطاه/الريم/R-K02.png', type: 'F&B', area: 22.5 },
+        { id: 'R-K05', name: 'R-K05', image: '/على خطاه/الريم/R-K05.png', type: 'F&B', area: 22.5 },
+        { id: 'R-K11', name: 'R-K11', image: '/على خطاه/الريم/R-K11.png', type: 'F&B', area: 16 },
       ],
     },
     {
@@ -104,10 +106,10 @@ export const alaKhutahData: EventData = {
       },
       slug: 'al-araj',
       booths: [
-        { id: 'A-C02-02', name: 'A-C02-02', image: '/على خطاه/العرج/A-C02-02.png' },
-        { id: 'A-C05', name: 'A-C05', image: '/على خطاه/العرج/A-C05.png' },
-        { id: 'A-K04', name: 'A-K04', image: '/على خطاه/العرج/A-K04.png' },
-        { id: 'A-K07', name: 'A-K07', image: '/على خطاه/العرج/A-K07.png' },
+        { id: 'A-C02-02', name: 'A-C02-02', image: '/على خطاه/العرج/A-C02-02.png', type: 'Retail', area: 97.1 },
+        { id: 'A-C05', name: 'A-C05', image: '/على خطاه/العرج/A-C05.png', type: 'F&B', area: 174.35 },
+        { id: 'A-K04', name: 'A-K04', image: '/على خطاه/العرج/A-K04.png', type: 'F&B', area: 25 },
+        { id: 'A-K07', name: 'A-K07', image: '/على خطاه/العرج/A-K07.png', type: 'F&B', area: 25 },
       ],
     },
     {
@@ -122,17 +124,17 @@ export const alaKhutahData: EventData = {
       },
       slug: 'al-qahah',
       booths: [
-        { id: 'Q-C03-02', name: 'Q-C03-02', image: '/على خطاه/القاحه/Q-C03-02.png' },
-        { id: 'Q-C03-03', name: 'Q-C03-03', image: '/على خطاه/القاحه/Q-C03-03.png' },
-        { id: 'Q-C03-04', name: 'Q-C03-04', image: '/على خطاه/القاحه/Q-C03-04.png' },
-        { id: 'Q-C04-03', name: 'Q-C04-03', image: '/على خطاه/القاحه/Q-C04-03.png' },
-        { id: 'Q-C04-04', name: 'Q-C04-04', image: '/على خطاه/القاحه/Q-C04-04.png' },
-        { id: 'Q-C13-01', name: 'Q-C13-01', image: '/على خطاه/القاحه/Q-C13-01.png' },
-        { id: 'Q-K08', name: 'Q-K08', image: '/على خطاه/القاحه/Q-K08.png' },
-        { id: 'Q-K12', name: 'Q-K12', image: '/على خطاه/القاحه/Q-K12.png' },
-        { id: 'Q-K22', name: 'Q-K22', image: '/على خطاه/القاحه/Q-K22.png' },
-        { id: 'Q-K24', name: 'Q-K24', image: '/على خطاه/القاحه/Q-K24.png' },
-        { id: 'Q-K25', name: 'Q-K25', image: '/على خطاه/القاحه/Q-K25.png' },
+        { id: 'Q-C03-02', name: 'Q-C03-02', image: '/على خطاه/القاحه/Q-C03-02.png', type: 'F&B', area: 134.8 },
+        { id: 'Q-C03-03', name: 'Q-C03-03', image: '/على خطاه/القاحه/Q-C03-03.png', type: 'Retail', area: 35.69 },
+        { id: 'Q-C03-04', name: 'Q-C03-04', image: '/على خطاه/القاحه/Q-C03-04.png', type: 'Retail', area: 36.57 },
+        { id: 'Q-C04-03', name: 'Q-C04-03', image: '/على خطاه/القاحه/Q-C04-03.png', type: 'Retail', area: 35.69 },
+        { id: 'Q-C04-04', name: 'Q-C04-04', image: '/على خطاه/القاحه/Q-C04-04.png', type: 'Retail', area: 36.57 },
+        { id: 'Q-C13-01', name: 'Q-C13-01', image: '/على خطاه/القاحه/Q-C13-01.png', type: 'F&B', area: 64.5 },
+        { id: 'Q-K08', name: 'Q-K08', image: '/على خطاه/القاحه/Q-K08.png', type: 'F&B', area: 9 },
+        { id: 'Q-K12', name: 'Q-K12', image: '/على خطاه/القاحه/Q-K12.png', type: 'F&B', area: 9 },
+        { id: 'Q-K22', name: 'Q-K22', image: '/على خطاه/القاحه/Q-K22.png', type: 'F&B', area: 9 },
+        { id: 'Q-K24', name: 'Q-K24', image: '/على خطاه/القاحه/Q-K24.png', type: 'F&B', area: 40 },
+        { id: 'Q-K25', name: 'Q-K25', image: '/على خطاه/القاحه/Q-K25.png', type: 'F&B', area: 9 },
       ],
     },
     {
@@ -147,8 +149,7 @@ export const alaKhutahData: EventData = {
       },
       slug: 'ghar-thawr',
       booths: [
-        { id: 'G-S56', name: 'G-S56', image: '/على خطاه/غار ثور/G-S56.png' },
-        { id: 'G-K13', name: 'G-K13', image: '/على خطاه/غار ثور/G-K13.png', status: 'rented' },
+        { id: 'G-K13', name: 'G-K13', image: '/على خطاه/غار ثور/G-K13.png', type: 'F&B', area: 27.45, status: 'rented' },
       ],
     },
     {
@@ -163,7 +164,7 @@ export const alaKhutahData: EventData = {
       },
       slug: 'al-juthathah',
       booths: [
-        { id: 'T-C07-01', name: 'T-C07-01', image: '/على خطاه/الجثاثة/T-C07-01.png' },
+        { id: 'T-C07-01', name: 'T-C07-01', image: '/على خطاه/الجثاثة/T-C07-01.png', type: 'F&B', area: 75.56 },
       ],
     },
     {
@@ -178,9 +179,9 @@ export const alaKhutahData: EventData = {
       },
       slug: 'asfal-usfan',
       booths: [
-        { id: 'U-K03', name: 'U-K03', image: '/على خطاه/اسفل عسفان/U-K03.png' },
-        { id: 'U-K18', name: 'U-K18', image: '/على خطاه/اسفل عسفان/U-K18.png' },
-        { id: 'U-K23', name: 'U-K23', image: '/على خطاه/اسفل عسفان/U-K23.png' },
+        { id: 'U-K03', name: 'U-K03', image: '/على خطاه/اسفل عسفان/U-K03.png', type: 'F&B', area: 9 },
+        { id: 'U-K18', name: 'U-K18', image: '/على خطاه/اسفل عسفان/U-K18.png', type: 'Retail', area: 16 },
+        { id: 'U-K23', name: 'U-K23', image: '/على خطاه/اسفل عسفان/U-K23.png', type: 'F&B', area: 9 },
       ],
     },
     {
@@ -195,8 +196,8 @@ export const alaKhutahData: EventData = {
       },
       slug: 'um-maabad',
       booths: [
-        { id: 'M-K02', name: 'M-K02', image: '/على خطاه/ام معبد/M-K02.png' },
-        { id: 'M-K04', name: 'M-K04', image: '/على خطاه/ام معبد/M-K04.png' },
+        { id: 'M-K02', name: 'M-K02', image: '/على خطاه/ام معبد/M-K02.png', type: 'Retail', area: 26.6 },
+        { id: 'M-K04', name: 'M-K04', image: '/على خطاه/ام معبد/M-K04.png', type: 'Retail', area: 16.1 },
       ],
     },
   ],

@@ -76,17 +76,23 @@ function BoothCard({
           </div>
         </div>
 
-        {/* Booth Name */}
-        <div className="p-4 text-center">
+        {/* Booth Info */}
+        <div className="p-4 text-center space-y-3">
           <h3 className="font-bold text-[#2A2313] dark:text-white text-lg group-hover:text-[#987012] dark:group-hover:text-[#E6B830] transition-colors duration-300">
             {booth.name}
           </h3>
+          <div className="flex items-center justify-center gap-3 text-lg text-gray-600 dark:text-gray-300">
+            <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-[#987012]/10 text-[#987012] dark:text-[#E6B830] font-bold text-base">
+              {booth.type === 'F&B' ? (language === 'ar' ? 'أغذية ومشروبات' : 'F&B') : (language === 'ar' ? 'تجزئة' : 'Retail')}
+            </span>
+            <span className="font-bold text-base">{booth.area} {language === 'ar' ? 'م²' : 'm²'}</span>
+          </div>
           {booth.status === 'rented' ? (
-            <p className="text-sm text-red-500 dark:text-red-400 mt-1 font-semibold">
+            <p className="text-base text-red-500 dark:text-red-400 font-bold">
               {language === 'ar' ? 'تم التأجير' : 'Rented'}
             </p>
           ) : (
-            <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
+            <p className="text-base text-emerald-600 dark:text-emerald-400 font-semibold">
               {language === 'ar' ? 'متاح للحجز' : 'Available for booking'}
             </p>
           )}
@@ -156,6 +162,12 @@ function ImageModal({
               <h3 className="text-2xl font-bold text-[#2A2313] dark:text-white mb-2">
                 {booth.name}
               </h3>
+              <div className="flex items-center gap-4 mb-3 text-lg text-gray-600 dark:text-gray-300">
+                <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-[#987012]/10 text-[#987012] dark:text-[#E6B830] font-bold text-base">
+                  {booth.type === 'F&B' ? (language === 'ar' ? 'أغذية ومشروبات' : 'F&B') : (language === 'ar' ? 'تجزئة' : 'Retail')}
+                </span>
+                <span className="font-semibold">{booth.area} {language === 'ar' ? 'م²' : 'm²'}</span>
+              </div>
               {booth.status === 'rented' ? (
                 <p className="text-red-500 dark:text-red-400 font-semibold">
                   {language === 'ar' ? 'تم التأجير' : 'Rented'}
