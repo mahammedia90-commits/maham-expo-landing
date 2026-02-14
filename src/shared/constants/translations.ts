@@ -21,6 +21,7 @@ export const translations = {
       loginToSystem: "تسجيل دخول إلى النظام",
       loginAsInvestor: "تسجيل الدخول كمستثمر",
       loginAsDealer: "تسجيل الدخول كتاجر",
+      comingSoon: "سيتم التفعيل قريباً",
     },
 
     // Home Page
@@ -321,6 +322,7 @@ export const translations = {
       loginToSystem: "Login to System",
       loginAsInvestor: "Login as Investor",
       loginAsDealer: "Login as Dealer",
+      comingSoon: "Coming Soon",
     },
 
     // Home Page

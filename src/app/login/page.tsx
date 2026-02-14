@@ -15,6 +15,8 @@ const loginOptions = [
     ),
     gradient: 'from-[#987012] to-[#B8860B]',
     hoverGradient: 'hover:from-[#B8860B] hover:to-[#D4A017]',
+    href: 'https://onemay.sa:8081/ar/auth/sign-in-1',
+    comingSoon: false,
   },
   {
     key: 'loginAsInvestor' as const,
@@ -25,6 +27,8 @@ const loginOptions = [
     ),
     gradient: 'from-[#D4B85A] to-[#987012]',
     hoverGradient: 'hover:from-[#E8C860] hover:to-[#B8860B]',
+    href: null,
+    comingSoon: true,
   },
   {
     key: 'loginAsDealer' as const,
@@ -35,11 +39,19 @@ const loginOptions = [
     ),
     gradient: 'from-[#B8860B] to-[#D4B85A]',
     hoverGradient: 'hover:from-[#D4A017] hover:to-[#E8C860]',
+    href: null,
+    comingSoon: true,
   },
 ];
 
 export default function LoginPage() {
   const { t, isRtl } = useLanguageStore();
+
+  const handleClick = (option: typeof loginOptions[number]) => {
+    if (option.href) {
+      window.open(option.href, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <section
@@ -72,34 +84,53 @@ export default function LoginPage() {
               transition={{ delay: 0.15 * index + 0.3, duration: 0.5, ease: 'easeOut' }}
             >
               <motion.button
-                whileHover={{ scale: 1.03, y: -4 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/50 shadow-lg hover:shadow-2xl transition-all duration-300 p-8 flex flex-col items-center text-center cursor-pointer"
+                whileHover={option.comingSoon ? {} : { scale: 1.03, y: -4 }}
+                whileTap={option.comingSoon ? {} : { scale: 0.98 }}
+                onClick={() => handleClick(option)}
+                disabled={option.comingSoon}
+                className={`w-full group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/50 shadow-lg transition-all duration-300 p-8 flex flex-col items-center text-center ${
+                  option.comingSoon
+                    ? 'opacity-70 cursor-not-allowed'
+                    : 'hover:shadow-2xl cursor-pointer'
+                }`}
               >
                 {/* Gradient top accent */}
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${option.gradient}`} />
 
+                {/* Coming Soon Badge */}
+                {option.comingSoon && (
+                  <div className="absolute top-4 left-4 right-4 flex justify-center">
+                    <span className="bg-gradient-to-r from-[#987012] to-[#D4B85A] text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-md">
+                      {t.login.comingSoon}
+                    </span>
+                  </div>
+                )}
+
                 {/* Icon */}
-                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${option.gradient} ${option.hoverGradient} flex items-center justify-center text-white mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${option.gradient} ${option.comingSoon ? '' : option.hoverGradient} flex items-center justify-center text-white mb-6 shadow-lg ${option.comingSoon ? '' : 'group-hover:shadow-xl'} transition-all duration-300 ${option.comingSoon ? 'mt-4' : ''}`}>
                   {option.icon}
                 </div>
 
                 {/* Label */}
-                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white group-hover:text-[#987012] dark:group-hover:text-[#D4B85A] transition-colors duration-300">
+                <h3 className={`text-lg sm:text-xl font-bold text-gray-900 dark:text-white transition-colors duration-300 ${
+                  option.comingSoon ? '' : 'group-hover:text-[#987012] dark:group-hover:text-[#D4B85A]'
+                }`}>
                   {t.login[option.key]}
                 </h3>
 
-                {/* Arrow */}
-                <div className="mt-6 w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700/50 flex items-center justify-center group-hover:bg-[#987012]/10 dark:group-hover:bg-[#D4B85A]/20 transition-all duration-300">
-                  <svg
-                    className={`w-5 h-5 text-gray-400 group-hover:text-[#987012] dark:group-hover:text-[#D4B85A] transition-all duration-300 ${isRtl ? 'rotate-180' : ''}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </div>
+                {/* Arrow (only for active options) */}
+                {!option.comingSoon && (
+                  <div className="mt-6 w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700/50 flex items-center justify-center group-hover:bg-[#987012]/10 dark:group-hover:bg-[#D4B85A]/20 transition-all duration-300">
+                    <svg
+                      className={`w-5 h-5 text-gray-400 group-hover:text-[#987012] dark:group-hover:text-[#D4B85A] transition-all duration-300 ${isRtl ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
+                )}
               </motion.button>
             </motion.div>
           ))}

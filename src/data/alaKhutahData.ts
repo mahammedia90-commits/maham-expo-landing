@@ -67,7 +67,7 @@ export const alaKhutahData: EventData = {
       },
       slug: 'al-juhfah',
       booths: [
-        { id: 'J-C03-03', name: 'J-C03-03', image: '/على خطاه/الجحفه/J-C03-03.png', type: 'Retail', area: 35.69 },
+        { id: 'J-C03-03', name: 'J-C03-03', image: '/على خطاه/الجحفه/J-C03-03.png', type: 'Retail', area: 35.69, status: 'rented' },
         { id: 'J-C04-03', name: 'J-C04-03', image: '/على خطاه/الجحفه/J-C04-03.png', type: 'Retail', area: 35.69 },
         { id: 'J-K06', name: 'J-K06', image: '/على خطاه/الجحفه/J-K06.png', type: 'Retail', area: 16 },
         { id: 'J-K10', name: 'J-K10', image: '/على خطاه/الجحفه/J-K10.png', type: 'F&B', area: 9, status: 'rented' },
@@ -89,7 +89,7 @@ export const alaKhutahData: EventData = {
       slug: 'al-reem',
       booths: [
         { id: 'R-C08', name: 'R-C08', image: '/على خطاه/الريم/R-C08.png', type: 'Retail', area: 52.36 },
-        { id: 'R-K02', name: 'R-K02', image: '/على خطاه/الريم/R-K02.png', type: 'F&B', area: 22.5 },
+        { id: 'R-K02', name: 'R-K02', image: '/على خطاه/الريم/R-K02.png', type: 'F&B', area: 22.5, status: 'rented' },
         { id: 'R-K05', name: 'R-K05', image: '/على خطاه/الريم/R-K05.png', type: 'F&B', area: 22.5 },
         { id: 'R-K11', name: 'R-K11', image: '/على خطاه/الريم/R-K11.png', type: 'F&B', area: 16 },
       ],
@@ -179,9 +179,9 @@ export const alaKhutahData: EventData = {
       },
       slug: 'asfal-usfan',
       booths: [
-        { id: 'U-K03', name: 'U-K03', image: '/على خطاه/اسفل عسفان/U-K03.png', type: 'F&B', area: 9 },
-        { id: 'U-K18', name: 'U-K18', image: '/على خطاه/اسفل عسفان/U-K18.png', type: 'Retail', area: 16 },
-        { id: 'U-K23', name: 'U-K23', image: '/على خطاه/اسفل عسفان/U-K23.png', type: 'F&B', area: 9 },
+        { id: 'U-K03', name: 'U-K03', image: '/على خطاه/اسفل عسفان/U-K03.png', type: 'F&B', area: 9, status: 'rented' },
+        { id: 'U-K18', name: 'U-K18', image: '/على خطاه/اسفل عسفان/U-K18.png', type: 'Retail', area: 16, status: 'rented' },
+        { id: 'U-K23', name: 'U-K23', image: '/على خطاه/اسفل عسفان/U-K23.png', type: 'F&B', area: 9, status: 'rented' },
       ],
     },
     {
