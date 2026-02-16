@@ -26,7 +26,9 @@
       "Bash(cmd /c copy:*)",
       "Bash(cmd /c dir \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\\\\public\\\\على خطاه\\\\القاحه\\\\القاحة.mov\")",
       "Bash(cmd /c:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(cmd //c \"rmdir /s /q out\")",
+      "Bash(cmd //c \"attrib -r -h -s out\\\\* /s /d\")"
     ]
   }
 }
