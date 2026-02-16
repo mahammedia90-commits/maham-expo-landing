@@ -17,6 +17,7 @@ export function Footer() {
 
   const quickLinks = [
     { href: '/', label: t.nav.home },
+    { href: '/ala-khutah', label: t.home.alaKhutahSection.badge },
     { href: '/about', label: t.nav.about },
     { href: '/contact', label: t.nav.contacts },
     { href: '/terms', label: t.nav.terms },

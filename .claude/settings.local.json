@@ -22,7 +22,11 @@
       "Bash(taskkill:*)",
       "Bash(dir:*)",
       "Bash(find:*)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(cmd /c copy:*)",
+      "Bash(cmd /c dir \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\\\\public\\\\على خطاه\\\\القاحه\\\\القاحة.mov\")",
+      "Bash(cmd /c:*)",
+      "Bash(powershell:*)"
     ]
   }
 }

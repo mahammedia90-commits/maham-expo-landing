@@ -243,7 +243,7 @@ export function HeroSectionV2() {
           >
             <img
               src={currentSlideData.image}
-              alt="Maham Expo"
+              alt="Maham Expo - معارض وفعاليات الرياض الكبرى وتأجير بوثات على خطاه"
               className="absolute inset-0 w-full h-full object-contain object-top"
             />
           </motion.div>
@@ -311,7 +311,7 @@ export function HeroSectionV2() {
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-b-xl z-10" />
                   <img
                     src="/app-screenshot.png"
-                    alt="Maham Expo App"
+                    alt="تطبيق Maham Expo لتأجير البوثات والمساحات في فعالية على خطاه"
                     className="absolute inset-0 w-full h-full object-cover object-top"
                   />
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
@@ -366,7 +366,7 @@ export function HeroSectionV2() {
               >
                 <img
                   src={currentSlideData.image}
-                  alt="Maham Expo"
+                  alt="Maham Expo - معارض وفعاليات الرياض الكبرى وتأجير بوثات على خطاه"
                   className="w-full h-full object-contain"
                 />
                 {/* Fade overlay */}
@@ -388,7 +388,7 @@ export function HeroSectionV2() {
                 <div className="relative h-full w-full rounded-[1.5rem] overflow-hidden bg-black">
                   <img
                     src="/app-screenshot.png"
-                    alt="Maham Expo App"
+                    alt="تطبيق Maham Expo لتأجير البوثات والمساحات في فعالية على خطاه"
                     className="absolute inset-0 w-full h-full object-cover object-top"
                   />
                 </div>

@@ -62,6 +62,19 @@ export const translations = {
       investorCTA: "سجّل الآن واعرض مساحاتك لآلاف التجار الباحثين عن الموقع المثالي",
       registerAsInvestor: "سجّل كمستثمر",
 
+      // Ala Khutah Section
+      alaKhutahSection: {
+        badge: "فعالية على خطاه",
+        title: "استثمر في فعالية",
+        titleHighlight: "على خطاه",
+        description: "فعالية على خطاه تأخذك في رحلة من مكة المكرمة إلى المدينة المنورة عبر 8 مناطق استراتيجية. احجز بوثك في أكبر فعاليات الرياض الموسمية واستفد من مواقع مميزة للمطاعم والتجزئة.",
+        zonesTitle: "8 مناطق استراتيجية",
+        zonesDesc: "بوثات متنوعة للمطاعم والتجزئة في كل منطقة",
+        investTitle: "فرص استثمارية مميزة",
+        investDesc: "مواقع استراتيجية بإقبال جماهيري كبير",
+        cta: "استكشف المناطق والبوثات",
+      },
+
       // Investor Registration Modal
       investorRegistration: {
         title: "تسجيل مستثمر جديد",
@@ -362,6 +375,19 @@ export const translations = {
       areYouInvestor: "Are You an Investor?",
       investorCTA: "Register now and display your spaces to thousands of dealers looking for the perfect location",
       registerAsInvestor: "Register as Investor",
+
+      // Ala Khutah Section
+      alaKhutahSection: {
+        badge: "Ala Khutah Event",
+        title: "Invest in the",
+        titleHighlight: "Ala Khutah Event",
+        description: "The Ala Khutah event takes you on a journey from Makkah to Madinah across 8 strategic zones. Book your booth in one of Riyadh's biggest seasonal events and benefit from prime F&B and retail locations.",
+        zonesTitle: "8 Strategic Zones",
+        zonesDesc: "Diverse F&B and retail booths in each zone",
+        investTitle: "Premium Investment Opportunities",
+        investDesc: "Strategic locations with high visitor footfall",
+        cta: "Explore Zones & Booths",
+      },
 
       // Investor Registration Modal
       investorRegistration: {

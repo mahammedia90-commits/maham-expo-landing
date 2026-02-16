@@ -21,6 +21,7 @@ export interface Zone {
     ar: string;
     en: string;
   };
+  video?: string;
   slug: string;
   booths: Booth[];
 }
@@ -122,6 +123,7 @@ export const alaKhutahData: EventData = {
         ar: 'منطقة صحراوية مفتوحة ضمن مسارات السفر القديمة، تمثل مرحلة المرور الهادئ في طريق الهجرة عبر الطرق غير المأهولة.',
         en: 'An open desert area along the ancient travel routes, representing a quiet passage stage on the Hijrah route through uninhabited paths.',
       },
+      video: '/على خطاه/القاحه/القاحة.mp4',
       slug: 'al-qahah',
       booths: [
         { id: 'Q-C03-02', name: 'Q-C03-02', image: '/على خطاه/القاحه/Q-C03-02.png', type: 'F&B', area: 134.8 },

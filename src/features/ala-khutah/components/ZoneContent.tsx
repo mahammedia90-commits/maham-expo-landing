@@ -374,6 +374,29 @@ export function ZoneContent({ zoneId }: ZoneContentProps) {
             </motion.p>
           </motion.div>
 
+          {/* Zone Video */}
+          {zone.video && (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="mb-12 md:mb-16"
+            >
+              <div className="relative max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-2xl shadow-[#987012]/10 border border-[#987012]/20">
+                <video
+                  className="w-full aspect-video object-cover"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  poster=""
+                >
+                  <source src={zone.video} type="video/mp4" />
+                  {lang === 'ar' ? 'متصفحك لا يدعم تشغيل الفيديو.' : 'Your browser does not support the video tag.'}
+                </video>
+              </div>
+            </motion.div>
+          )}
+
           {/* Booths Grid */}
           <motion.div
             variants={staggerContainer}

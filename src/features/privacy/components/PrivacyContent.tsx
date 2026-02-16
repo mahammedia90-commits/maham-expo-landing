@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import {
@@ -216,6 +217,26 @@ export function PrivacyContent() {
                 <strong>{t.contact.addressLabel}</strong> {t.footer.saudiArabia}
               </p>
             </motion.div>
+          </motion.div>
+
+          {/* Internal Links */}
+          <motion.div
+            variants={staggerItem}
+            className="flex flex-wrap gap-4 justify-center pt-4"
+          >
+            <Link
+              href="/"
+              className="text-[#987012] hover:text-[#E6B830] font-medium text-sm transition-colors"
+            >
+              {isRtl ? 'الرئيسية - منصة تأجير البوثات' : 'Home - Booth Rental Platform'}
+            </Link>
+            <span className="text-gray-300 dark:text-gray-600">|</span>
+            <Link
+              href="/ala-khutah"
+              className="text-[#987012] hover:text-[#E6B830] font-medium text-sm transition-colors"
+            >
+              {isRtl ? 'فعالية على خطاه - تأجير بوثات' : 'Ala Khutah Event - Booth Rental'}
+            </Link>
           </motion.div>
 
           <motion.div
