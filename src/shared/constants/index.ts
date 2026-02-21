@@ -32,6 +32,24 @@ export const API_ENDPOINTS = {
   // Bookings
   BOOKINGS: '/bookings',
   BOOKING_DETAIL: (id: string) => `/bookings/${id}`,
+
+  // Merchant Auth
+  MERCHANT_LOGIN: '/merchant/auth/login',
+  MERCHANT_REGISTER: '/merchant/auth/register',
+  MERCHANT_LOGOUT: '/merchant/auth/logout',
+  MERCHANT_REFRESH: '/merchant/auth/refresh',
+
+  // Merchant Dashboard
+  MERCHANT_PROFILE: '/merchant/profile',
+  MERCHANT_UPDATE_PROFILE: '/merchant/profile',
+  MERCHANT_STATS: '/merchant/dashboard/stats',
+  MERCHANT_BOOTHS: '/merchant/booths',
+  MERCHANT_BOOTH_DETAIL: (id: string) => `/merchant/booths/${id}`,
+  MERCHANT_PAYMENTS: '/merchant/payments',
+  MERCHANT_PAYMENT_SUMMARY: '/merchant/payments/summary',
+  MERCHANT_DOCUMENTS: '/merchant/documents',
+  MERCHANT_UPLOAD_DOCUMENT: '/merchant/documents/upload',
+  MERCHANT_EVENTS: '/merchant/events',
 } as const;
 
 // App constants
@@ -51,4 +69,19 @@ export const STORAGE_KEYS = {
   REFRESH_TOKEN: 'refresh_token',
   LANGUAGE: 'language-storage',
   USER: 'user',
+  AUTH_STORE: 'merchant-auth-storage',
+} as const;
+
+// Route constants
+export const ROUTES = {
+  HOME: '/',
+  LOGIN: '/login',
+  MERCHANT_LOGIN: '/login/merchant',
+  MERCHANT_REGISTER: '/register/merchant',
+  DASHBOARD: '/dashboard',
+  DASHBOARD_BOOTHS: '/dashboard/booths',
+  DASHBOARD_PAYMENTS: '/dashboard/payments',
+  DASHBOARD_DOCUMENTS: '/dashboard/documents',
+  DASHBOARD_EVENTS: '/dashboard/events',
+  DASHBOARD_PROFILE: '/dashboard/profile',
 } as const;

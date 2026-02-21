@@ -2,12 +2,12 @@ export function StructuredData() {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Maham Expo',
-    alternateName: 'مهام إكسبو',
+    name: 'مهام اكسبو - فعاليات الرياض | Maham Expo',
+    alternateName: ['مهام إكسبو', 'مهام اكسبو', 'Maham Expo', 'مهام اكسبو فعاليات الرياض'],
     url: 'https://mahamexpo.sa',
     logo: 'https://mahamexpo.sa/logo.png',
     description:
-      'منصة متكاملة لتأجير البوثات والمساحات التجارية في فعاليات الرياض الكبرى وفعالية على خطاه',
+      'مهام اكسبو - منصة متكاملة لتأجير البوثات والمساحات التجارية في فعاليات الرياض الكبرى وفعالية على خطاه',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'الرياض',
@@ -64,8 +64,8 @@ export function StructuredData() {
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Maham Expo',
-    alternateName: 'مهام إكسبو',
+    name: 'مهام اكسبو - فعاليات الرياض | Maham Expo',
+    alternateName: ['مهام إكسبو', 'مهام اكسبو', 'Maham Expo'],
     url: 'https://mahamexpo.sa',
     inLanguage: ['ar', 'en'],
     publisher: {

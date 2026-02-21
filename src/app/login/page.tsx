@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 
 const loginOptions = [
@@ -39,17 +40,22 @@ const loginOptions = [
     ),
     gradient: 'from-[#B8860B] to-[#D4B85A]',
     hoverGradient: 'hover:from-[#D4A017] hover:to-[#E8C860]',
-    href: null,
-    comingSoon: true,
+    href: '/login/merchant',
+    comingSoon: false,
   },
 ];
 
 export default function LoginPage() {
   const { t, isRtl } = useLanguageStore();
+  const router = useRouter();
 
   const handleClick = (option: typeof loginOptions[number]) => {
     if (option.href) {
-      window.open(option.href, '_blank', 'noopener,noreferrer');
+      if (option.href.startsWith('/')) {
+        router.push(option.href);
+      } else {
+        window.open(option.href, '_blank', 'noopener,noreferrer');
+      }
     }
   };
 
