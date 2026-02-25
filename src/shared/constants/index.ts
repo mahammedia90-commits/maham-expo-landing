@@ -50,6 +50,26 @@ export const API_ENDPOINTS = {
   MERCHANT_DOCUMENTS: '/merchant/documents',
   MERCHANT_UPLOAD_DOCUMENT: '/merchant/documents/upload',
   MERCHANT_EVENTS: '/merchant/events',
+
+  // Sponsor Auth
+  SPONSOR_LOGIN: '/sponsor/auth/login',
+  SPONSOR_REGISTER: '/sponsor/auth/register',
+  SPONSOR_LOGOUT: '/sponsor/auth/logout',
+  SPONSOR_REFRESH: '/sponsor/auth/refresh',
+
+  // Sponsor Dashboard
+  SPONSOR_PROFILE: '/sponsor/profile',
+  SPONSOR_UPDATE_PROFILE: '/sponsor/profile',
+  SPONSOR_STATS: '/sponsor/dashboard/stats',
+  SPONSOR_PACKAGES: '/sponsor/packages',
+  SPONSOR_CONTRACTS: '/sponsor/contracts',
+  SPONSOR_PAYMENTS: '/sponsor/payments',
+  SPONSOR_PAYMENT_SUMMARY: '/sponsor/payments/summary',
+  SPONSOR_EXPOSURE: '/sponsor/exposure',
+  SPONSOR_ROI: '/sponsor/roi',
+  SPONSOR_DOCUMENTS: '/sponsor/documents',
+  SPONSOR_UPLOAD_DOCUMENT: '/sponsor/documents/upload',
+  SPONSOR_EVENTS: '/sponsor/events',
 } as const;
 
 // App constants
@@ -70,6 +90,7 @@ export const STORAGE_KEYS = {
   LANGUAGE: 'language-storage',
   USER: 'user',
   AUTH_STORE: 'merchant-auth-storage',
+  SPONSOR_AUTH_STORE: 'sponsor-auth-storage',
 } as const;
 
 // Route constants
@@ -84,4 +105,14 @@ export const ROUTES = {
   DASHBOARD_DOCUMENTS: '/dashboard/documents',
   DASHBOARD_EVENTS: '/dashboard/events',
   DASHBOARD_PROFILE: '/dashboard/profile',
+  // Sponsor
+  SPONSOR_LOGIN_PAGE: '/login/sponsor',
+  SPONSOR_DASHBOARD: '/sponsor-dashboard',
+  SPONSOR_DASHBOARD_PACKAGES: '/sponsor-dashboard/packages',
+  SPONSOR_DASHBOARD_CONTRACTS: '/sponsor-dashboard/contracts',
+  SPONSOR_DASHBOARD_PAYMENTS: '/sponsor-dashboard/payments',
+  SPONSOR_DASHBOARD_EXPOSURE: '/sponsor-dashboard/exposure',
+  SPONSOR_DASHBOARD_ROI: '/sponsor-dashboard/roi',
+  SPONSOR_DASHBOARD_EVENTS: '/sponsor-dashboard/events',
+  SPONSOR_DASHBOARD_PROFILE: '/sponsor-dashboard/profile',
 } as const;

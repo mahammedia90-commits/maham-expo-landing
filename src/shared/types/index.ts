@@ -174,3 +174,100 @@ export interface DashboardStats {
   pendingDocuments: number;
   upcomingEvents: number;
 }
+
+// Sponsor Types
+export interface SponsorUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  companyName: string;
+  commercialRegister?: string;
+  avatar?: string;
+  role: 'sponsor';
+  sponsorLevel: SponsorLevel;
+  createdAt: string;
+}
+
+export type SponsorLevel = 'platinum' | 'gold' | 'silver' | 'official_partner' | 'media_partner' | 'strategic_alliance';
+
+export interface SponsorPackage {
+  id: string;
+  name: string;
+  level: SponsorLevel;
+  price: number;
+  duration: string;
+  screens: number;
+  banners: number;
+  mediaAppearances: number;
+  vipInvitations: number;
+  logoPlacement: string;
+  boothArea: string;
+  canSponsorSession: boolean;
+  canSponsorZone: boolean;
+  status: 'active' | 'available' | 'expired';
+}
+
+export interface SponsorContract {
+  id: string;
+  packageId: string;
+  packageName: string;
+  eventName: string;
+  startDate: string;
+  endDate: string;
+  totalValue: number;
+  paidAmount: number;
+  remainingAmount: number;
+  status: 'active' | 'pending' | 'completed' | 'cancelled';
+  signedDate?: string;
+}
+
+export interface SponsorExposure {
+  id: string;
+  channel: string;
+  type: 'screen' | 'ticket' | 'app' | 'website' | 'email' | 'push_notification';
+  impressions: number;
+  clicks: number;
+  date: string;
+  status: 'active' | 'scheduled' | 'completed';
+}
+
+export interface SponsorROIReport {
+  id: string;
+  eventName: string;
+  totalVisitors: number;
+  leadsGenerated: number;
+  boothScans: number;
+  avgVisitorDuration: string;
+  conversionRate: number;
+  mediaValueEquivalent: number;
+  period: string;
+}
+
+export interface SponsorPayment {
+  id: string;
+  contractId: string;
+  contractName: string;
+  amount: number;
+  paidAmount: number;
+  remainingAmount: number;
+  status: 'paid' | 'partial' | 'pending' | 'overdue';
+  dueDate: string;
+  paidDate?: string;
+  method?: string;
+}
+
+export interface SponsorDashboardStats {
+  activeContracts: number;
+  totalInvestment: number;
+  totalExposure: number;
+  leadsGenerated: number;
+  roiPercentage: number;
+  upcomingEvents: number;
+}
+
+export interface SponsorAuthResponse {
+  user: SponsorUser;
+  token: string;
+  refreshToken?: string;
+}
