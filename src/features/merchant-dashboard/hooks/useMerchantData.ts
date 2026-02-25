@@ -55,3 +55,30 @@ export function useEvents() {
     queryFn: () => merchantService.getEvents(),
   });
 }
+
+export function useOrders() {
+  return useQuery({
+    queryKey: ['merchant', 'orders'],
+    queryFn: () => merchantService.getOrders(),
+  });
+}
+
+export function useCreateOrder() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: Parameters<typeof merchantService.createOrder>[0]) =>
+      merchantService.createOrder(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['merchant', 'orders'] });
+      queryClient.invalidateQueries({ queryKey: ['merchant', 'stats'] });
+    },
+  });
+}
+
+export function usePermits() {
+  return useQuery({
+    queryKey: ['merchant', 'permits'],
+    queryFn: () => merchantService.getPermits(),
+  });
+}

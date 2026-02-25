@@ -50,6 +50,8 @@ export const API_ENDPOINTS = {
   MERCHANT_DOCUMENTS: '/merchant/documents',
   MERCHANT_UPLOAD_DOCUMENT: '/merchant/documents/upload',
   MERCHANT_EVENTS: '/merchant/events',
+  MERCHANT_ORDERS: '/merchant/orders',
+  MERCHANT_PERMITS: '/merchant/permits',
 
   // Sponsor Auth
   SPONSOR_LOGIN: '/sponsor/auth/login',
@@ -103,7 +105,9 @@ export const ROUTES = {
   DASHBOARD_BOOTHS: '/dashboard/booths',
   DASHBOARD_PAYMENTS: '/dashboard/payments',
   DASHBOARD_DOCUMENTS: '/dashboard/documents',
+  DASHBOARD_ORDERS: '/dashboard/orders',
   DASHBOARD_EVENTS: '/dashboard/events',
+  DASHBOARD_PERMITS: '/dashboard/permits',
   DASHBOARD_PROFILE: '/dashboard/profile',
   // Sponsor
   SPONSOR_LOGIN_PAGE: '/login/sponsor',

@@ -166,6 +166,32 @@ export interface MerchantEvent {
   status: 'upcoming' | 'active' | 'ended';
 }
 
+export interface CreateOrderData {
+  type: MerchantOrder['type'];
+  eventName: string;
+  notes?: string;
+}
+
+export interface MerchantOrder {
+  id: string;
+  orderNumber: string;
+  type: 'booth_booking' | 'service_request' | 'space_upgrade' | 'equipment_rental' | 'visit_request';
+  status: 'pending' | 'approved' | 'rejected' | 'under_review';
+  eventName: string;
+  submittedAt: string;
+  notes?: string;
+}
+
+export interface MerchantPermit {
+  id: string;
+  permitNumber: string;
+  type: 'entry_permit' | 'booth_permit' | 'operational_permit' | 'vehicle_permit';
+  status: 'active' | 'expired' | 'pending' | 'rejected';
+  eventName: string;
+  issuedAt: string;
+  expiresAt: string;
+}
+
 export interface DashboardStats {
   totalBooths: number;
   activeBooths: number;
@@ -173,6 +199,8 @@ export interface DashboardStats {
   totalRemaining: number;
   pendingDocuments: number;
   upcomingEvents: number;
+  totalOrders: number;
+  activePermits: number;
 }
 
 // Sponsor Types

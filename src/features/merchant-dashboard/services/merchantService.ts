@@ -7,6 +7,9 @@ import type {
   PaymentSummary,
   MerchantDocument,
   MerchantEvent,
+  MerchantOrder,
+  MerchantPermit,
+  CreateOrderData,
   ApiResponse,
 } from '@/shared/types';
 
@@ -24,6 +27,8 @@ const mockStats: DashboardStats = {
   totalRemaining: 15000,
   pendingDocuments: 2,
   upcomingEvents: 3,
+  totalOrders: 6,
+  activePermits: 3,
 };
 
 const mockBooths: Booth[] = [
@@ -62,6 +67,24 @@ const mockEvents: MerchantEvent[] = [
   { id: 'e1', name: 'فعالية على خطاه', description: 'رحلة من مكة المكرمة إلى المدينة المنورة عبر 8 مناطق استراتيجية. احجز بوثك في أكبر فعاليات الرياض الموسمية.', location: 'الرياض', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 24, totalBooths: 120, status: 'upcoming' },
   { id: 'e2', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل يضم أفضل العلامات التجارية المحلية والدولية في قلب الرياض.', location: 'الرياض - مركز المعارض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 50, totalBooths: 200, status: 'upcoming' },
   { id: 'e3', name: 'مهرجان الطعام السعودي', description: 'مهرجان يجمع أشهر المطاعم والطهاة لتقديم أفضل الأطباق السعودية والعالمية.', location: 'جدة - الواجهة البحرية', startDate: '2026-05-01', endDate: '2026-05-15', availableBooths: 35, totalBooths: 80, status: 'upcoming' },
+];
+
+const mockOrders: MerchantOrder[] = [
+  { id: 'o1', orderNumber: 'ORD-2026-001', type: 'booth_booking', status: 'approved', eventName: 'فعالية على خطاه', submittedAt: '2026-02-20', notes: 'تم الموافقة على حجز بوث A-12' },
+  { id: 'o2', orderNumber: 'ORD-2026-002', type: 'service_request', status: 'pending', eventName: 'فعالية على خطاه', submittedAt: '2026-02-22', notes: 'طلب توصيل كهرباء إضافي' },
+  { id: 'o3', orderNumber: 'ORD-2026-003', type: 'space_upgrade', status: 'under_review', eventName: 'معرض الرياض التجاري', submittedAt: '2026-02-24' },
+  { id: 'o4', orderNumber: 'ORD-2026-004', type: 'equipment_rental', status: 'approved', eventName: 'فعالية على خطاه', submittedAt: '2026-02-18', notes: 'استئجار شاشة عرض 65 بوصة' },
+  { id: 'o5', orderNumber: 'ORD-2026-005', type: 'booth_booking', status: 'rejected', eventName: 'مهرجان الطعام السعودي', submittedAt: '2026-02-15', notes: 'المنطقة المطلوبة محجوزة بالكامل' },
+  { id: 'o6', orderNumber: 'ORD-2026-006', type: 'service_request', status: 'pending', eventName: 'معرض الرياض التجاري', submittedAt: '2026-02-25' },
+];
+
+const mockPermits: MerchantPermit[] = [
+  { id: 'pm1', permitNumber: 'PRM-2026-001', type: 'entry_permit', status: 'active', eventName: 'فعالية على خطاه', issuedAt: '2026-02-20', expiresAt: '2026-03-30' },
+  { id: 'pm2', permitNumber: 'PRM-2026-002', type: 'booth_permit', status: 'active', eventName: 'فعالية على خطاه', issuedAt: '2026-02-20', expiresAt: '2026-03-30' },
+  { id: 'pm3', permitNumber: 'PRM-2026-003', type: 'operational_permit', status: 'active', eventName: 'معرض الرياض التجاري', issuedAt: '2026-02-15', expiresAt: '2026-04-20' },
+  { id: 'pm4', permitNumber: 'PRM-2026-004', type: 'vehicle_permit', status: 'expired', eventName: 'موسم الرياض 2025', issuedAt: '2025-10-01', expiresAt: '2025-12-31' },
+  { id: 'pm5', permitNumber: 'PRM-2026-005', type: 'entry_permit', status: 'pending', eventName: 'مهرجان الطعام السعودي', issuedAt: '2026-02-25', expiresAt: '2026-05-15' },
+  { id: 'pm6', permitNumber: 'PRM-2026-006', type: 'booth_permit', status: 'rejected', eventName: 'مهرجان الطعام السعودي', issuedAt: '2026-02-15', expiresAt: '2026-05-15' },
 ];
 
 // ── Service ────────────────────────────────────────────────
@@ -114,5 +137,34 @@ export const merchantService = {
   getEvents: async (): Promise<ApiResponse<MerchantEvent[]>> => {
     if (USE_MOCK) { await delay(700); return { success: true, data: mockEvents }; }
     return api.get<ApiResponse<MerchantEvent[]>>(API_ENDPOINTS.MERCHANT_EVENTS);
+  },
+
+  getOrders: async (): Promise<ApiResponse<MerchantOrder[]>> => {
+    if (USE_MOCK) { await delay(600); return { success: true, data: mockOrders }; }
+    return api.get<ApiResponse<MerchantOrder[]>>(API_ENDPOINTS.MERCHANT_ORDERS);
+  },
+
+  createOrder: async (data: CreateOrderData): Promise<ApiResponse<MerchantOrder>> => {
+    if (USE_MOCK) {
+      await delay(1200);
+      const newOrder: MerchantOrder = {
+        id: 'o' + Date.now(),
+        orderNumber: `ORD-2026-${String(mockOrders.length + 1).padStart(3, '0')}`,
+        type: data.type,
+        status: 'pending',
+        eventName: data.eventName,
+        submittedAt: new Date().toISOString().split('T')[0],
+        notes: data.notes || undefined,
+      };
+      mockOrders.unshift(newOrder);
+      mockStats.totalOrders = mockOrders.length;
+      return { success: true, data: newOrder };
+    }
+    return api.post<ApiResponse<MerchantOrder>>(API_ENDPOINTS.MERCHANT_ORDERS, data);
+  },
+
+  getPermits: async (): Promise<ApiResponse<MerchantPermit[]>> => {
+    if (USE_MOCK) { await delay(600); return { success: true, data: mockPermits }; }
+    return api.get<ApiResponse<MerchantPermit[]>>(API_ENDPOINTS.MERCHANT_PERMITS);
   },
 };
