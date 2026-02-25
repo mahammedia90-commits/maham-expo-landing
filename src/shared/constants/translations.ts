@@ -21,7 +21,7 @@ export const translations = {
       loginToSystem: "تسجيل دخول إلى النظام",
       loginAsInvestor: "تسجيل الدخول كمستثمر",
       loginAsDealer: "تسجيل الدخول كتاجر",
-      loginAsSponsor: "تسجيل الدخول كراعي",
+      loginAsSponsor: "تسجيل دخول الشركاء والرعاة",
       comingSoon: "سيتم التفعيل قريباً",
     },
 
