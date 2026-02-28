@@ -52,6 +52,12 @@ export const API_ENDPOINTS = {
   MERCHANT_EVENTS: '/merchant/events',
   MERCHANT_ORDERS: '/merchant/orders',
   MERCHANT_PERMITS: '/merchant/permits',
+  MERCHANT_NOTIFICATIONS: '/merchant/notifications',
+  MERCHANT_ENHANCED_STATS: '/merchant/dashboard/enhanced-stats',
+  MERCHANT_SERVICES: '/merchant/services',
+  MERCHANT_SERVICE_REQUESTS: '/merchant/service-requests',
+  MERCHANT_ANALYTICS: '/merchant/analytics',
+  MERCHANT_SETTINGS: '/merchant/settings',
 
   // Sponsor Auth
   SPONSOR_LOGIN: '/sponsor/auth/login',
@@ -72,6 +78,23 @@ export const API_ENDPOINTS = {
   SPONSOR_DOCUMENTS: '/sponsor/documents',
   SPONSOR_UPLOAD_DOCUMENT: '/sponsor/documents/upload',
   SPONSOR_EVENTS: '/sponsor/events',
+
+  // Investor Auth
+  INVESTOR_LOGIN: '/investor/auth/login',
+  INVESTOR_REGISTER: '/investor/auth/register',
+  INVESTOR_LOGOUT: '/investor/auth/logout',
+  INVESTOR_REFRESH: '/investor/auth/refresh',
+
+  // Investor Dashboard
+  INVESTOR_PROFILE: '/investor/profile',
+  INVESTOR_UPDATE_PROFILE: '/investor/profile',
+  INVESTOR_STATS: '/investor/dashboard/stats',
+  INVESTOR_SPACES: '/investor/spaces',
+  INVESTOR_BOOKINGS: '/investor/bookings',
+  INVESTOR_REVENUE: '/investor/revenue',
+  INVESTOR_CONTRACTS: '/investor/contracts',
+  INVESTOR_EVENTS: '/investor/events',
+  INVESTOR_SETTINGS: '/investor/settings',
 } as const;
 
 // App constants
@@ -93,6 +116,7 @@ export const STORAGE_KEYS = {
   USER: 'user',
   AUTH_STORE: 'merchant-auth-storage',
   SPONSOR_AUTH_STORE: 'sponsor-auth-storage',
+  INVESTOR_AUTH_STORE: 'investor-auth-storage',
 } as const;
 
 // Route constants
@@ -108,6 +132,9 @@ export const ROUTES = {
   DASHBOARD_ORDERS: '/dashboard/orders',
   DASHBOARD_EVENTS: '/dashboard/events',
   DASHBOARD_PERMITS: '/dashboard/permits',
+  DASHBOARD_SERVICES: '/dashboard/services',
+  DASHBOARD_ANALYTICS: '/dashboard/analytics',
+  DASHBOARD_SETTINGS: '/dashboard/settings',
   DASHBOARD_PROFILE: '/dashboard/profile',
   // Sponsor
   SPONSOR_LOGIN_PAGE: '/login/sponsor',
@@ -119,4 +146,14 @@ export const ROUTES = {
   SPONSOR_DASHBOARD_ROI: '/sponsor-dashboard/roi',
   SPONSOR_DASHBOARD_EVENTS: '/sponsor-dashboard/events',
   SPONSOR_DASHBOARD_PROFILE: '/sponsor-dashboard/profile',
+  // Investor
+  INVESTOR_LOGIN_PAGE: '/login/investor',
+  INVESTOR_DASHBOARD: '/investor-dashboard',
+  INVESTOR_DASHBOARD_SPACES: '/investor-dashboard/spaces',
+  INVESTOR_DASHBOARD_BOOKINGS: '/investor-dashboard/bookings',
+  INVESTOR_DASHBOARD_REVENUE: '/investor-dashboard/revenue',
+  INVESTOR_DASHBOARD_CONTRACTS: '/investor-dashboard/contracts',
+  INVESTOR_DASHBOARD_EVENTS: '/investor-dashboard/events',
+  INVESTOR_DASHBOARD_SETTINGS: '/investor-dashboard/settings',
+  INVESTOR_DASHBOARD_PROFILE: '/investor-dashboard/profile',
 } as const;

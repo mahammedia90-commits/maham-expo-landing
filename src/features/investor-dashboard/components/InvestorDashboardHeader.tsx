@@ -2,17 +2,16 @@
 
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import { useThemeStore } from '@/shared/store/useThemeStore';
-import { useAuthStore } from '@/shared/store/useAuthStore';
-import { NotificationDropdown } from './NotificationDropdown';
+import { useInvestorAuthStore } from '@/shared/store/useInvestorAuthStore';
 
-interface DashboardHeaderProps {
+interface InvestorDashboardHeaderProps {
   onMenuToggle: () => void;
 }
 
-export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
+export function InvestorDashboardHeader({ onMenuToggle }: InvestorDashboardHeaderProps) {
   const { t, toggleLanguage, language } = useLanguageStore();
   const { toggleTheme, theme } = useThemeStore();
-  const { user } = useAuthStore();
+  const { user } = useInvestorAuthStore();
 
   return (
     <header className="sticky top-0 z-30 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3">
@@ -28,7 +27,7 @@ export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
             </svg>
           </button>
           <div className="hidden sm:block">
-            <p className="text-sm text-gray-500 dark:text-gray-400">{t.dashboard.welcome}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t.investorDashboard.welcome}</p>
             <p className="font-semibold text-gray-900 dark:text-white">{user?.name || ''}</p>
           </div>
         </div>
@@ -59,12 +58,9 @@ export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
             )}
           </button>
 
-          {/* Notifications */}
-          <NotificationDropdown />
-
           {/* User avatar */}
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#987012] to-[#D4B85A] flex items-center justify-center text-white font-bold text-sm">
-            {user?.name?.charAt(0)?.toUpperCase() || 'M'}
+            {user?.name?.charAt(0)?.toUpperCase() || 'I'}
           </div>
         </div>
       </div>

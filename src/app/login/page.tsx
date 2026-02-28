@@ -28,8 +28,8 @@ const loginOptions = [
     ),
     gradient: 'from-[#D4B85A] to-[#987012]',
     hoverGradient: 'hover:from-[#E8C860] hover:to-[#B8860B]',
-    href: null,
-    comingSoon: true,
+    href: '/login/investor',
+    comingSoon: false,
   },
   {
     key: 'loginAsDealer' as const,

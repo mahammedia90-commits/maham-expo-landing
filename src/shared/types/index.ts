@@ -203,6 +203,129 @@ export interface DashboardStats {
   activePermits: number;
 }
 
+// Notification Types
+export interface MerchantNotification {
+  id: string;
+  type: 'payment' | 'booth' | 'document' | 'event' | 'order' | 'permit' | 'system';
+  title: string;
+  message: string;
+  isRead: boolean;
+  createdAt: string;
+  actionUrl?: string;
+}
+
+// Enhanced Dashboard Types
+export interface RecentActivity {
+  id: string;
+  type: 'payment' | 'booking' | 'document' | 'order' | 'permit';
+  title: string;
+  description: string;
+  timestamp: string;
+}
+
+export interface QuickAction {
+  id: string;
+  label: string;
+  icon: string;
+  href: string;
+  color: string;
+}
+
+export interface UpcomingEventTimeline {
+  id: string;
+  name: string;
+  date: string;
+  daysUntil: number;
+  location: string;
+}
+
+export interface RevenueSummary {
+  monthlyData: { month: string; amount: number }[];
+  totalRevenue: number;
+  revenueGoal: number;
+  goalProgress: number;
+}
+
+export interface EnhancedDashboardStats extends DashboardStats {
+  recentActivities: RecentActivity[];
+  upcomingTimeline: UpcomingEventTimeline[];
+  revenueSummary: RevenueSummary;
+}
+
+// Service Marketplace Types
+export type ServiceCategory = 'furniture' | 'internet' | 'electricity' | 'hospitality' | 'staffing' | 'security' | 'cleaning' | 'decoration';
+
+export interface MarketplaceService {
+  id: string;
+  name: string;
+  category: ServiceCategory;
+  provider: string;
+  description: string;
+  price: number;
+  priceUnit: string;
+  rating: number;
+  image?: string;
+}
+
+export interface ServiceRequest {
+  id: string;
+  serviceId: string;
+  serviceName: string;
+  category: ServiceCategory;
+  eventName: string;
+  boothName: string;
+  quantity: number;
+  totalPrice: number;
+  status: 'pending' | 'approved' | 'rejected' | 'completed';
+  createdAt: string;
+}
+
+export interface CreateServiceRequest {
+  serviceId: string;
+  eventName: string;
+  boothName: string;
+  quantity: number;
+  notes?: string;
+}
+
+// Analytics Types
+export interface AnalyticsData {
+  salesByMonth: { month: string; amount: number }[];
+  visitorsByDay: { day: string; count: number }[];
+  revenueVsGoal: { month: string; actual: number; goal: number }[];
+  topBooths: { name: string; revenue: number; visitors: number }[];
+  categoryBreakdown: { category: string; percentage: number; color: string }[];
+  summary: {
+    totalSales: number;
+    totalVisitors: number;
+    avgOrderValue: number;
+    conversionRate: number;
+    salesGrowth: number;
+    visitorsGrowth: number;
+  };
+}
+
+// Settings Types
+export interface MerchantSettings {
+  notifications: {
+    emailNotifications: boolean;
+    smsNotifications: boolean;
+    pushNotifications: boolean;
+    paymentAlerts: boolean;
+    boothUpdates: boolean;
+    eventReminders: boolean;
+    marketingEmails: boolean;
+  };
+  display: {
+    language: 'ar' | 'en';
+    theme: 'light' | 'dark';
+    compactMode: boolean;
+  };
+  security: {
+    twoFactorAuth: boolean;
+  };
+}
+
 // Sponsor Types
 export interface SponsorUser {
   id: string;
@@ -296,6 +419,112 @@ export interface SponsorDashboardStats {
 
 export interface SponsorAuthResponse {
   user: SponsorUser;
+  token: string;
+  refreshToken?: string;
+}
+
+// Investor Types
+export interface InvestorUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  companyName: string;
+  commercialRegister?: string;
+  avatar?: string;
+  role: 'investor';
+  investmentType: InvestmentType;
+  totalSpaces: number;
+  createdAt: string;
+}
+
+export type InvestmentType = 'real_estate' | 'commercial' | 'events' | 'mixed';
+
+export interface InvestorSpace {
+  id: string;
+  name: string;
+  location: string;
+  city: string;
+  area: number;
+  type: 'hall' | 'outdoor' | 'shop' | 'booth_area' | 'warehouse';
+  photos: string[];
+  pricePerMonth: number;
+  pricePerDay: number;
+  status: 'available' | 'booked' | 'maintenance' | 'inactive';
+  amenities: string[];
+  capacity: number;
+  rating: number;
+  totalBookings: number;
+}
+
+export interface InvestorBooking {
+  id: string;
+  spaceId: string;
+  spaceName: string;
+  merchantName: string;
+  merchantPhone: string;
+  startDate: string;
+  endDate: string;
+  totalAmount: number;
+  status: 'pending' | 'approved' | 'rejected' | 'active' | 'completed' | 'cancelled';
+  createdAt: string;
+  notes?: string;
+}
+
+export interface InvestorRevenue {
+  id: string;
+  month: string;
+  amount: number;
+  source: string;
+  bookingsCount: number;
+}
+
+export interface InvestorContract {
+  id: string;
+  merchantName: string;
+  spaceName: string;
+  startDate: string;
+  endDate: string;
+  totalValue: number;
+  paidAmount: number;
+  remainingAmount: number;
+  status: 'active' | 'pending' | 'completed' | 'cancelled';
+  signedDate?: string;
+}
+
+export interface InvestorDashboardStats {
+  totalSpaces: number;
+  activeBookings: number;
+  monthlyRevenue: number;
+  totalRevenue: number;
+  pendingRequests: number;
+  occupancyRate: number;
+  activeContracts: number;
+  upcomingEvents: number;
+}
+
+export interface InvestorSettings {
+  notifications: {
+    emailNotifications: boolean;
+    smsNotifications: boolean;
+    pushNotifications: boolean;
+    bookingAlerts: boolean;
+    spaceUpdates: boolean;
+    eventReminders: boolean;
+    revenueReports: boolean;
+  };
+  display: {
+    language: 'ar' | 'en';
+    theme: 'light' | 'dark';
+    compactMode: boolean;
+  };
+  security: {
+    twoFactorAuth: boolean;
+  };
+}
+
+export interface InvestorAuthResponse {
+  user: InvestorUser;
   token: string;
   refreshToken?: string;
 }

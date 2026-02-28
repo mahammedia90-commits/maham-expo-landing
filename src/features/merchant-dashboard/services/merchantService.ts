@@ -11,6 +11,13 @@ import type {
   MerchantPermit,
   CreateOrderData,
   ApiResponse,
+  MerchantNotification,
+  EnhancedDashboardStats,
+  MarketplaceService,
+  ServiceRequest,
+  CreateServiceRequest,
+  AnalyticsData,
+  MerchantSettings,
 } from '@/shared/types';
 
 // Set to true to use mock data (no backend needed)
@@ -86,6 +93,133 @@ const mockPermits: MerchantPermit[] = [
   { id: 'pm5', permitNumber: 'PRM-2026-005', type: 'entry_permit', status: 'pending', eventName: 'مهرجان الطعام السعودي', issuedAt: '2026-02-25', expiresAt: '2026-05-15' },
   { id: 'pm6', permitNumber: 'PRM-2026-006', type: 'booth_permit', status: 'rejected', eventName: 'مهرجان الطعام السعودي', issuedAt: '2026-02-15', expiresAt: '2026-05-15' },
 ];
+
+// ── New Mock Data ─────────────────────────────────────────
+
+const mockNotifications: MerchantNotification[] = [
+  { id: 'n1', type: 'payment', title: 'دفعة مستحقة', message: 'دفعة بوث C-05 مستحقة في 1 مارس 2026', isRead: false, createdAt: '2026-02-26T10:00:00', actionUrl: '/dashboard/payments' },
+  { id: 'n2', type: 'booth', title: 'تحديث حالة البوث', message: 'تم تفعيل بوث B-03 بنجاح', isRead: false, createdAt: '2026-02-25T14:30:00', actionUrl: '/dashboard/booths' },
+  { id: 'n3', type: 'document', title: 'مستند قيد المراجعة', message: 'عقد إيجار بوث A-12 قيد المراجعة', isRead: false, createdAt: '2026-02-24T09:15:00', actionUrl: '/dashboard/documents' },
+  { id: 'n4', type: 'event', title: 'فعالية قادمة', message: 'فعالية على خطاه تبدأ بعد 3 أيام', isRead: true, createdAt: '2026-02-23T16:00:00', actionUrl: '/dashboard/events' },
+  { id: 'n5', type: 'order', title: 'طلب معتمد', message: 'تم الموافقة على طلب استئجار المعدات', isRead: true, createdAt: '2026-02-22T11:00:00', actionUrl: '/dashboard/orders' },
+  { id: 'n6', type: 'permit', title: 'تصريح جديد', message: 'تم إصدار تصريح دخول لفعالية على خطاه', isRead: true, createdAt: '2026-02-21T08:45:00', actionUrl: '/dashboard/permits' },
+  { id: 'n7', type: 'system', title: 'تحديث النظام', message: 'تم إضافة خدمات جديدة في سوق الخدمات', isRead: true, createdAt: '2026-02-20T12:00:00', actionUrl: '/dashboard/services' },
+];
+
+const mockEnhancedStats: EnhancedDashboardStats = {
+  ...mockStats,
+  recentActivities: [
+    { id: 'ra1', type: 'payment', title: 'دفعة مستلمة', description: 'تم استلام دفعة 15,000 ر.س لبوث A-12', timestamp: '2026-02-26T10:00:00' },
+    { id: 'ra2', type: 'booking', title: 'حجز بوث جديد', description: 'تم حجز بوث B-03 في معرض الرياض التجاري', timestamp: '2026-02-25T14:30:00' },
+    { id: 'ra3', type: 'document', title: 'مستند مرفوع', description: 'تم رفع رخصة البلدية للمراجعة', timestamp: '2026-02-24T09:15:00' },
+    { id: 'ra4', type: 'order', title: 'طلب مقدم', description: 'تم تقديم طلب ترقية مساحة', timestamp: '2026-02-23T16:00:00' },
+    { id: 'ra5', type: 'permit', title: 'تصريح صادر', description: 'تم إصدار تصريح تشغيلي جديد', timestamp: '2026-02-22T11:00:00' },
+  ],
+  upcomingTimeline: [
+    { id: 'ut1', name: 'فعالية على خطاه', date: '2026-03-01', daysUntil: 3, location: 'الرياض' },
+    { id: 'ut2', name: 'معرض الرياض التجاري', date: '2026-04-10', daysUntil: 43, location: 'الرياض - مركز المعارض' },
+    { id: 'ut3', name: 'مهرجان الطعام السعودي', date: '2026-05-01', daysUntil: 64, location: 'جدة - الواجهة البحرية' },
+  ],
+  revenueSummary: {
+    monthlyData: [
+      { month: 'سبتمبر', amount: 8000 },
+      { month: 'أكتوبر', amount: 12000 },
+      { month: 'نوفمبر', amount: 9500 },
+      { month: 'ديسمبر', amount: 15000 },
+      { month: 'يناير', amount: 18000 },
+      { month: 'فبراير', amount: 22000 },
+    ],
+    totalRevenue: 84500,
+    revenueGoal: 120000,
+    goalProgress: 70,
+  },
+};
+
+const mockServices: MarketplaceService[] = [
+  { id: 's1', name: 'أثاث معارض فاخر', category: 'furniture', provider: 'شركة الأثاث الذهبي', description: 'تأثيث كامل للبوث يشمل طاولات وكراسي ورفوف عرض', price: 2500, priceUnit: 'لكل بوث', rating: 4.8 },
+  { id: 's2', name: 'إنترنت فائق السرعة', category: 'internet', provider: 'شبكات سريعة', description: 'اتصال إنترنت مخصص بسرعة 100 ميجا مع واي فاي', price: 500, priceUnit: 'لكل يوم', rating: 4.5 },
+  { id: 's3', name: 'توصيلات كهربائية', category: 'electricity', provider: 'الطاقة المتكاملة', description: 'توصيل كهرباء مع نقاط إضافية وإضاءة مخصصة', price: 800, priceUnit: 'لكل بوث', rating: 4.7 },
+  { id: 's4', name: 'خدمات ضيافة VIP', category: 'hospitality', provider: 'ضيافة الأصيل', description: 'قهوة عربية وتمور ومشروبات وضيافة متكاملة', price: 1500, priceUnit: 'لكل يوم', rating: 4.9 },
+  { id: 's5', name: 'طاقم عمل مساعد', category: 'staffing', provider: 'فريق المحترفين', description: 'موظفين مدربين للمساعدة في البوث والاستقبال', price: 300, priceUnit: 'لكل شخص/يوم', rating: 4.6 },
+  { id: 's6', name: 'خدمات أمن خاصة', category: 'security', provider: 'الحماية الشاملة', description: 'أفراد أمن مدربين لحماية البوث والبضائع', price: 400, priceUnit: 'لكل شخص/يوم', rating: 4.4 },
+  { id: 's7', name: 'تنظيف يومي', category: 'cleaning', provider: 'نظافة بلس', description: 'خدمات تنظيف يومية للبوث مع مواد التنظيف', price: 200, priceUnit: 'لكل يوم', rating: 4.3 },
+  { id: 's8', name: 'ديكور وتصميم بوث', category: 'decoration', provider: 'إبداع الديكور', description: 'تصميم وتنفيذ ديكور مخصص للبوث حسب الهوية البصرية', price: 5000, priceUnit: 'لكل بوث', rating: 4.8 },
+];
+
+const mockServiceRequests: ServiceRequest[] = [
+  { id: 'sr1', serviceId: 's1', serviceName: 'أثاث معارض فاخر', category: 'furniture', eventName: 'فعالية على خطاه', boothName: 'بوث A-12', quantity: 1, totalPrice: 2500, status: 'approved', createdAt: '2026-02-20' },
+  { id: 'sr2', serviceId: 's2', serviceName: 'إنترنت فائق السرعة', category: 'internet', eventName: 'فعالية على خطاه', boothName: 'بوث A-12', quantity: 30, totalPrice: 15000, status: 'pending', createdAt: '2026-02-22' },
+  { id: 'sr3', serviceId: 's4', serviceName: 'خدمات ضيافة VIP', category: 'hospitality', eventName: 'معرض الرياض التجاري', boothName: 'بوث B-03', quantity: 10, totalPrice: 15000, status: 'pending', createdAt: '2026-02-25' },
+];
+
+const mockAnalytics: AnalyticsData = {
+  salesByMonth: [
+    { month: 'سبتمبر', amount: 8000 },
+    { month: 'أكتوبر', amount: 12000 },
+    { month: 'نوفمبر', amount: 9500 },
+    { month: 'ديسمبر', amount: 15000 },
+    { month: 'يناير', amount: 18000 },
+    { month: 'فبراير', amount: 22000 },
+  ],
+  visitorsByDay: [
+    { day: 'سبت', count: 120 },
+    { day: 'أحد', count: 180 },
+    { day: 'اثنين', count: 150 },
+    { day: 'ثلاثاء', count: 200 },
+    { day: 'أربعاء', count: 175 },
+    { day: 'خميس', count: 250 },
+    { day: 'جمعة', count: 300 },
+  ],
+  revenueVsGoal: [
+    { month: 'سبتمبر', actual: 8000, goal: 10000 },
+    { month: 'أكتوبر', actual: 12000, goal: 12000 },
+    { month: 'نوفمبر', actual: 9500, goal: 14000 },
+    { month: 'ديسمبر', actual: 15000, goal: 15000 },
+    { month: 'يناير', actual: 18000, goal: 16000 },
+    { month: 'فبراير', actual: 22000, goal: 20000 },
+  ],
+  topBooths: [
+    { name: 'بوث A-12', revenue: 15000, visitors: 450 },
+    { name: 'بوث C-05', revenue: 12000, visitors: 380 },
+    { name: 'بوث B-03', revenue: 12000, visitors: 320 },
+    { name: 'بوث D-08', revenue: 8000, visitors: 250 },
+    { name: 'بوث A-01', revenue: 6000, visitors: 180 },
+  ],
+  categoryBreakdown: [
+    { category: 'طعام', percentage: 40, color: '#987012' },
+    { category: 'تجزئة', percentage: 30, color: '#D4B85A' },
+    { category: 'خدمات', percentage: 20, color: '#6B7280' },
+    { category: 'أخرى', percentage: 10, color: '#9CA3AF' },
+  ],
+  summary: {
+    totalSales: 84500,
+    totalVisitors: 1375,
+    avgOrderValue: 16900,
+    conversionRate: 3.8,
+    salesGrowth: 22.2,
+    visitorsGrowth: 15.5,
+  },
+};
+
+const mockSettings: MerchantSettings = {
+  notifications: {
+    emailNotifications: true,
+    smsNotifications: true,
+    pushNotifications: false,
+    paymentAlerts: true,
+    boothUpdates: true,
+    eventReminders: true,
+    marketingEmails: false,
+  },
+  display: {
+    language: 'ar',
+    theme: 'light',
+    compactMode: false,
+  },
+  security: {
+    twoFactorAuth: false,
+  },
+};
 
 // ── Service ────────────────────────────────────────────────
 
@@ -166,5 +300,92 @@ export const merchantService = {
   getPermits: async (): Promise<ApiResponse<MerchantPermit[]>> => {
     if (USE_MOCK) { await delay(600); return { success: true, data: mockPermits }; }
     return api.get<ApiResponse<MerchantPermit[]>>(API_ENDPOINTS.MERCHANT_PERMITS);
+  },
+
+  // ── Notifications ──
+  getNotifications: async (): Promise<ApiResponse<MerchantNotification[]>> => {
+    if (USE_MOCK) { await delay(400); return { success: true, data: mockNotifications }; }
+    return api.get<ApiResponse<MerchantNotification[]>>(API_ENDPOINTS.MERCHANT_NOTIFICATIONS);
+  },
+
+  markNotificationRead: async (id: string): Promise<ApiResponse<MerchantNotification>> => {
+    if (USE_MOCK) {
+      await delay(200);
+      const notif = mockNotifications.find((n) => n.id === id);
+      if (notif) notif.isRead = true;
+      return { success: true, data: notif! };
+    }
+    return api.put<ApiResponse<MerchantNotification>>(`${API_ENDPOINTS.MERCHANT_NOTIFICATIONS}/${id}/read`, {});
+  },
+
+  markAllNotificationsRead: async (): Promise<ApiResponse<{ count: number }>> => {
+    if (USE_MOCK) {
+      await delay(300);
+      mockNotifications.forEach((n) => { n.isRead = true; });
+      return { success: true, data: { count: mockNotifications.length } };
+    }
+    return api.put<ApiResponse<{ count: number }>>(`${API_ENDPOINTS.MERCHANT_NOTIFICATIONS}/read-all`, {});
+  },
+
+  // ── Enhanced Stats ──
+  getEnhancedStats: async (): Promise<ApiResponse<EnhancedDashboardStats>> => {
+    if (USE_MOCK) { await delay(700); return { success: true, data: mockEnhancedStats }; }
+    return api.get<ApiResponse<EnhancedDashboardStats>>(API_ENDPOINTS.MERCHANT_ENHANCED_STATS);
+  },
+
+  // ── Services Marketplace ──
+  getServices: async (): Promise<ApiResponse<MarketplaceService[]>> => {
+    if (USE_MOCK) { await delay(500); return { success: true, data: mockServices }; }
+    return api.get<ApiResponse<MarketplaceService[]>>(API_ENDPOINTS.MERCHANT_SERVICES);
+  },
+
+  getServiceRequests: async (): Promise<ApiResponse<ServiceRequest[]>> => {
+    if (USE_MOCK) { await delay(500); return { success: true, data: mockServiceRequests }; }
+    return api.get<ApiResponse<ServiceRequest[]>>(API_ENDPOINTS.MERCHANT_SERVICE_REQUESTS);
+  },
+
+  createServiceRequest: async (data: CreateServiceRequest): Promise<ApiResponse<ServiceRequest>> => {
+    if (USE_MOCK) {
+      await delay(1000);
+      const svc = mockServices.find((s) => s.id === data.serviceId);
+      const newReq: ServiceRequest = {
+        id: 'sr' + Date.now(),
+        serviceId: data.serviceId,
+        serviceName: svc?.name || '',
+        category: svc?.category || 'furniture',
+        eventName: data.eventName,
+        boothName: data.boothName,
+        quantity: data.quantity,
+        totalPrice: (svc?.price || 0) * data.quantity,
+        status: 'pending',
+        createdAt: new Date().toISOString().split('T')[0],
+      };
+      mockServiceRequests.unshift(newReq);
+      return { success: true, data: newReq };
+    }
+    return api.post<ApiResponse<ServiceRequest>>(API_ENDPOINTS.MERCHANT_SERVICE_REQUESTS, data);
+  },
+
+  // ── Analytics ──
+  getAnalytics: async (): Promise<ApiResponse<AnalyticsData>> => {
+    if (USE_MOCK) { await delay(600); return { success: true, data: mockAnalytics }; }
+    return api.get<ApiResponse<AnalyticsData>>(API_ENDPOINTS.MERCHANT_ANALYTICS);
+  },
+
+  // ── Settings ──
+  getSettings: async (): Promise<ApiResponse<MerchantSettings>> => {
+    if (USE_MOCK) { await delay(400); return { success: true, data: mockSettings }; }
+    return api.get<ApiResponse<MerchantSettings>>(API_ENDPOINTS.MERCHANT_SETTINGS);
+  },
+
+  updateSettings: async (data: Partial<MerchantSettings>): Promise<ApiResponse<MerchantSettings>> => {
+    if (USE_MOCK) {
+      await delay(800);
+      if (data.notifications) Object.assign(mockSettings.notifications, data.notifications);
+      if (data.display) Object.assign(mockSettings.display, data.display);
+      if (data.security) Object.assign(mockSettings.security, data.security);
+      return { success: true, data: { ...mockSettings } };
+    }
+    return api.put<ApiResponse<MerchantSettings>>(API_ENDPOINTS.MERCHANT_SETTINGS, data);
   },
 };

@@ -17,7 +17,7 @@ export function Layout({ children }: LayoutProps) {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
-  const isDashboard = pathname.startsWith('/dashboard') || pathname.startsWith('/sponsor-dashboard');
+  const isDashboard = pathname.startsWith('/dashboard') || pathname.startsWith('/sponsor-dashboard') || pathname.startsWith('/investor-dashboard');
 
   useEffect(() => {
     setMounted(true);
