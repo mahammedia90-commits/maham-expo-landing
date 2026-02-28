@@ -153,16 +153,20 @@ export interface MerchantDocument {
   expiryDate?: string;
 }
 
+export type EventType = 'exhibition' | 'conference' | 'entertainment' | 'cultural' | 'sports' | 'technology';
+
 export interface MerchantEvent {
   id: string;
   name: string;
   description: string;
   location: string;
+  city: string;
   startDate: string;
   endDate: string;
   availableBooths: number;
   totalBooths: number;
   image?: string;
+  type: EventType;
   status: 'upcoming' | 'active' | 'ended';
 }
 

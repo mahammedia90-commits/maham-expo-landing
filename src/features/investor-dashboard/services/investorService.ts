@@ -25,7 +25,7 @@ const mockStats: InvestorDashboardStats = {
   pendingRequests: 3,
   occupancyRate: 78,
   activeContracts: 6,
-  upcomingEvents: 2,
+  upcomingEvents: 9,
 };
 
 const mockSpaces: InvestorSpace[] = [
@@ -62,8 +62,22 @@ const mockContracts: InvestorContract[] = [
 ];
 
 const mockEvents: MerchantEvent[] = [
-  { id: 'ie1', name: 'فعالية على خطاه', description: 'فعالية كبرى تحتاج مساحات متنوعة. فرصة مثالية لعرض مساحاتك للتجار المشاركين.', location: 'الرياض', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 15, totalBooths: 40, status: 'upcoming' },
-  { id: 'ie2', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل يجذب أكثر من 200 تاجر. احتياج كبير لمساحات العرض والمستودعات.', location: 'الرياض - مركز المعارض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 30, totalBooths: 60, status: 'upcoming' },
+  // ── حالية ──
+  { id: 'ie1', name: 'فعالية على خطاه', description: 'فعالية كبرى تحتاج مساحات متنوعة. فرصة مثالية لعرض مساحاتك للتجار المشاركين في رحلة من مكة إلى المدينة.', location: 'مكة المكرمة - المدينة المنورة', city: 'مكة المكرمة', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 15, totalBooths: 40, type: 'cultural', status: 'active' },
+  { id: 'ie2', name: 'موسم الرياض 2025-2026', description: 'أضخم حدث ترفيهي في المنطقة. طلب عالي على المساحات والقاعات والمحلات التجارية في جميع المناطق.', location: 'بوليفارد وورلد، بوليفارد سيتي', city: 'الرياض', startDate: '2025-10-10', endDate: '2026-03-31', availableBooths: 40, totalBooths: 200, type: 'entertainment', status: 'active' },
+  { id: 'ie3', name: 'LEAP 2026', description: 'أكبر مؤتمر تقني في العالم. فرصة لتأجير مساحات المعارض والقاعات بأسعار مميزة لشركات التقنية.', location: 'مركز الرياض الدولي للمؤتمرات والمعارض', city: 'الرياض', startDate: '2026-03-13', endDate: '2026-03-16', availableBooths: 25, totalBooths: 80, type: 'technology', status: 'active' },
+  { id: 'ie4', name: 'بينالي الدرعية 2026', description: 'فعالية فنية عالمية. احتياج لمساحات عرض ومحلات تجارية في حي جاكس التاريخي.', location: 'حي جاكس، الدرعية', city: 'الرياض', startDate: '2026-01-30', endDate: '2026-05-02', availableBooths: 10, totalBooths: 30, type: 'cultural', status: 'active' },
+
+  // ── قادمة ──
+  { id: 'ie5', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل يجذب أكثر من 200 تاجر. احتياج كبير لمساحات العرض والمستودعات.', location: 'الرياض - مركز المعارض', city: 'الرياض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 30, totalBooths: 60, type: 'exhibition', status: 'upcoming' },
+  { id: 'ie6', name: 'مهرجان الطعام السعودي', description: 'مهرجان يجمع أشهر المطاعم والطهاة. فرص تأجير مساحات المطاعم والبوثات على الواجهة البحرية.', location: 'الواجهة البحرية', city: 'جدة', startDate: '2026-05-01', endDate: '2026-05-15', availableBooths: 20, totalBooths: 45, type: 'entertainment', status: 'upcoming' },
+  { id: 'ie7', name: 'FSB Sports Show Riyadh 2026', description: 'معرض رياضي دولي. طلب مرتفع على مساحات العرض الكبيرة ومناطق البوثات للموردين الرياضيين.', location: 'مركز الرياض الدولي للمعارض', city: 'الرياض', startDate: '2026-06-15', endDate: '2026-06-17', availableBooths: 18, totalBooths: 50, type: 'sports', status: 'upcoming' },
+  { id: 'ie8', name: 'كأس العالم للرياضات الإلكترونية 2026', description: 'بطولة عالمية تجذب جمهوراً ضخماً. فرص استثمارية مميزة في تأجير المساحات والمحلات التجارية.', location: 'بوليفارد سيتي', city: 'الرياض', startDate: '2026-08-01', endDate: '2026-08-30', availableBooths: 22, totalBooths: 70, type: 'sports', status: 'upcoming' },
+  { id: 'ie9', name: 'Africa Coffee Expo 2026', description: 'معرض متخصص في صناعة القهوة. فرصة لتأجير مساحات المحامص والمقاهي.', location: 'مركز المعارض', city: 'جدة', startDate: '2026-07-20', endDate: '2026-07-23', availableBooths: 12, totalBooths: 35, type: 'exhibition', status: 'upcoming' },
+  { id: 'ie10', name: 'المؤتمر السعودي البحري 2026', description: 'مؤتمر متخصص في القطاع البحري. احتياج لقاعات مؤتمرات ومساحات عرض.', location: 'مركز المؤتمرات', city: 'الدمام', startDate: '2026-09-16', endDate: '2026-09-17', availableBooths: 10, totalBooths: 30, type: 'conference', status: 'upcoming' },
+  { id: 'ie11', name: 'معرض الطاقة الشمسية وتخزين الطاقة', description: 'معرض حلول الطاقة المتجددة. فرص تأجير مساحات عرض واسعة لشركات الطاقة.', location: 'مركز الرياض الدولي للمعارض', city: 'الرياض', startDate: '2026-09-22', endDate: '2026-09-24', availableBooths: 15, totalBooths: 40, type: 'exhibition', status: 'upcoming' },
+  { id: 'ie12', name: 'سوق السفر السعودي 2026', description: 'معرض السياحة والسفر. فرص تأجير محلات ومساحات عرض لشركات الطيران والفنادق.', location: 'مركز الرياض للمعارض', city: 'الرياض', startDate: '2026-10-05', endDate: '2026-10-08', availableBooths: 14, totalBooths: 45, type: 'exhibition', status: 'upcoming' },
+  { id: 'ie13', name: 'معرض المدن الذكية - السعودية', description: 'فعالية حلول المدن الذكية. فرص تأجير مساحات تقنية مجهزة بالكامل.', location: 'مركز الرياض الدولي للمؤتمرات', city: 'الرياض', startDate: '2026-11-10', endDate: '2026-11-13', availableBooths: 16, totalBooths: 50, type: 'technology', status: 'upcoming' },
 ];
 
 const mockSettings: InvestorSettings = {

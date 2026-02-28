@@ -25,7 +25,7 @@ const mockStats: SponsorDashboardStats = {
   totalExposure: 1250000,
   leadsGenerated: 847,
   roiPercentage: 320,
-  upcomingEvents: 2,
+  upcomingEvents: 8,
 };
 
 const mockPackages: SponsorPackage[] = [
@@ -72,9 +72,21 @@ const mockROIReports: SponsorROIReport[] = [
 ];
 
 const mockEvents: MerchantEvent[] = [
-  { id: 'e1', name: 'فعالية على خطاه', description: 'رحلة من مكة المكرمة إلى المدينة المنورة عبر 8 مناطق استراتيجية. فرص رعاية مميزة مع ظهور إعلامي واسع.', location: 'الرياض', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 5, totalBooths: 10, status: 'upcoming' },
-  { id: 'e2', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل يضم أفضل العلامات التجارية. باقات رعاية متنوعة تناسب جميع الميزانيات.', location: 'الرياض - مركز المعارض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 8, totalBooths: 15, status: 'upcoming' },
-  { id: 'e3', name: 'مهرجان الطعام السعودي', description: 'مهرجان يجمع أشهر المطاعم والطهاة. فرصة مثالية للرعاة في قطاع الأغذية والمشروبات.', location: 'جدة - الواجهة البحرية', startDate: '2026-05-01', endDate: '2026-05-15', availableBooths: 4, totalBooths: 8, status: 'upcoming' },
+  // ── حالية ──
+  { id: 'se1', name: 'فعالية على خطاه', description: 'رحلة من مكة إلى المدينة عبر 8 مناطق. فرص رعاية مميزة مع ظهور إعلامي واسع وجمهور ضخم.', location: 'مكة المكرمة - المدينة المنورة', city: 'مكة المكرمة', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 5, totalBooths: 10, type: 'cultural', status: 'active' },
+  { id: 'se2', name: 'موسم الرياض 2025-2026', description: 'أضخم حدث ترفيهي في المنطقة. باقات رعاية حصرية مع ملايين الزوار وظهور إعلامي عالمي.', location: 'بوليفارد وورلد، بوليفارد سيتي', city: 'الرياض', startDate: '2025-10-10', endDate: '2026-03-31', availableBooths: 12, totalBooths: 25, type: 'entertainment', status: 'active' },
+  { id: 'se3', name: 'LEAP 2026', description: 'أكبر مؤتمر تقني في العالم. فرص رعاية لشركات التقنية مع ظهور أمام قادة الصناعة العالميين.', location: 'مركز الرياض الدولي للمؤتمرات', city: 'الرياض', startDate: '2026-03-13', endDate: '2026-03-16', availableBooths: 8, totalBooths: 20, type: 'technology', status: 'active' },
+  { id: 'se4', name: 'بينالي الدرعية 2026', description: 'فعالية فنية عالمية. فرص رعاية للعلامات الفاخرة مع جمهور ثقافي نخبوي.', location: 'حي جاكس، الدرعية', city: 'الرياض', startDate: '2026-01-30', endDate: '2026-05-02', availableBooths: 4, totalBooths: 8, type: 'cultural', status: 'active' },
+
+  // ── قادمة ──
+  { id: 'se5', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل. باقات رعاية متنوعة تناسب جميع الميزانيات مع تغطية إعلامية واسعة.', location: 'الرياض - مركز المعارض', city: 'الرياض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 8, totalBooths: 15, type: 'exhibition', status: 'upcoming' },
+  { id: 'se6', name: 'مهرجان الطعام السعودي', description: 'فرصة مثالية للرعاة في قطاع الأغذية والمشروبات. جمهور عائلي كبير ومتنوع.', location: 'الواجهة البحرية', city: 'جدة', startDate: '2026-05-01', endDate: '2026-05-15', availableBooths: 4, totalBooths: 8, type: 'entertainment', status: 'upcoming' },
+  { id: 'se7', name: 'FSB Sports Show Riyadh 2026', description: 'معرض رياضي دولي. فرص رعاية لشركات الرياضة واللياقة البدنية والمعدات الرياضية.', location: 'مركز الرياض الدولي للمعارض', city: 'الرياض', startDate: '2026-06-15', endDate: '2026-06-17', availableBooths: 6, totalBooths: 12, type: 'sports', status: 'upcoming' },
+  { id: 'se8', name: 'كأس العالم للرياضات الإلكترونية 2026', description: 'بطولة عالمية للألعاب الإلكترونية. فرص رعاية استثنائية مع جمهور شبابي ضخم وتغطية رقمية واسعة.', location: 'بوليفارد سيتي', city: 'الرياض', startDate: '2026-08-01', endDate: '2026-08-30', availableBooths: 10, totalBooths: 20, type: 'sports', status: 'upcoming' },
+  { id: 'se9', name: 'Africa Coffee Expo 2026', description: 'معرض صناعة القهوة. فرص رعاية مثالية لشركات القهوة والمشروبات والمعدات.', location: 'مركز المعارض', city: 'جدة', startDate: '2026-07-20', endDate: '2026-07-23', availableBooths: 3, totalBooths: 6, type: 'exhibition', status: 'upcoming' },
+  { id: 'se10', name: 'المؤتمر السعودي البحري 2026', description: 'مؤتمر القطاع البحري. فرص رعاية متخصصة لشركات النقل البحري والموانئ.', location: 'مركز المؤتمرات', city: 'الدمام', startDate: '2026-09-16', endDate: '2026-09-17', availableBooths: 3, totalBooths: 6, type: 'conference', status: 'upcoming' },
+  { id: 'se11', name: 'سوق السفر السعودي 2026', description: 'معرض السياحة والسفر. فرص رعاية لشركات الطيران والفنادق ووكالات السياحة.', location: 'مركز الرياض للمعارض', city: 'الرياض', startDate: '2026-10-05', endDate: '2026-10-08', availableBooths: 5, totalBooths: 10, type: 'exhibition', status: 'upcoming' },
+  { id: 'se12', name: 'معرض المدن الذكية - السعودية', description: 'فعالية حلول المدن الذكية. فرص رعاية لشركات التقنية والبنية التحتية.', location: 'مركز الرياض الدولي للمؤتمرات', city: 'الرياض', startDate: '2026-11-10', endDate: '2026-11-13', availableBooths: 5, totalBooths: 10, type: 'technology', status: 'upcoming' },
 ];
 
 const mockDocuments: MerchantDocument[] = [

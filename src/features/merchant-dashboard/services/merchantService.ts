@@ -33,7 +33,7 @@ const mockStats: DashboardStats = {
   totalPaid: 45000,
   totalRemaining: 15000,
   pendingDocuments: 2,
-  upcomingEvents: 3,
+  upcomingEvents: 9,
   totalOrders: 6,
   activePermits: 3,
 };
@@ -71,9 +71,27 @@ const mockDocuments: MerchantDocument[] = [
 ];
 
 const mockEvents: MerchantEvent[] = [
-  { id: 'e1', name: 'فعالية على خطاه', description: 'رحلة من مكة المكرمة إلى المدينة المنورة عبر 8 مناطق استراتيجية. احجز بوثك في أكبر فعاليات الرياض الموسمية.', location: 'الرياض', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 24, totalBooths: 120, status: 'upcoming' },
-  { id: 'e2', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل يضم أفضل العلامات التجارية المحلية والدولية في قلب الرياض.', location: 'الرياض - مركز المعارض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 50, totalBooths: 200, status: 'upcoming' },
-  { id: 'e3', name: 'مهرجان الطعام السعودي', description: 'مهرجان يجمع أشهر المطاعم والطهاة لتقديم أفضل الأطباق السعودية والعالمية.', location: 'جدة - الواجهة البحرية', startDate: '2026-05-01', endDate: '2026-05-15', availableBooths: 35, totalBooths: 80, status: 'upcoming' },
+  // ── الفعاليات الحالية ──
+  { id: 'e1', name: 'فعالية على خطاه', description: 'رحلة من مكة المكرمة إلى المدينة المنورة عبر 8 مناطق استراتيجية. احجز بوثك في أكبر فعاليات الرياض الموسمية واستفد من مواقع مميزة للمطاعم والتجزئة.', location: 'مكة المكرمة - المدينة المنورة', city: 'مكة المكرمة', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 24, totalBooths: 120, type: 'cultural', status: 'active' },
+  { id: 'e2', name: 'موسم الرياض 2025-2026', description: 'أضخم حدث ترفيهي في المنطقة يضم مجموعة متنوعة من الفعاليات الترفيهية والثقافية والرياضية عبر مناطق متعددة تجذب ملايين الزوار.', location: 'بوليفارد وورلد، بوليفارد سيتي، المملكة أرينا', city: 'الرياض', startDate: '2025-10-10', endDate: '2026-03-31', availableBooths: 85, totalBooths: 500, type: 'entertainment', status: 'active' },
+  { id: 'e3', name: 'معرض بدايات 2026', description: 'معرض فني وثقافي يسلّط الضوء على بدايات الحركة الفنية السعودية ويستعرض أعمال رواد الفن التشكيلي في المملكة.', location: 'المتحف الوطني السعودي', city: 'الرياض', startDate: '2026-01-27', endDate: '2026-04-11', availableBooths: 12, totalBooths: 40, type: 'cultural', status: 'active' },
+  { id: 'e4', name: 'بينالي الدرعية 2026', description: 'فعالية فنية عالمية تجمع أبرز الفنانين من حول العالم في حي جاكس التاريخي بالدرعية. منصة مثالية للعلامات التجارية الفاخرة.', location: 'حي جاكس، الدرعية', city: 'الرياض', startDate: '2026-01-30', endDate: '2026-05-02', availableBooths: 18, totalBooths: 60, type: 'cultural', status: 'active' },
+  { id: 'e5', name: 'LEAP 2026', description: 'أحد أكبر المؤتمرات التقنية في العالم. يجمع قادة التقنية والابتكار والشركات الناشئة من أكثر من 170 دولة.', location: 'مركز الرياض الدولي للمؤتمرات والمعارض', city: 'الرياض', startDate: '2026-03-13', endDate: '2026-03-16', availableBooths: 60, totalBooths: 300, type: 'technology', status: 'active' },
+
+  // ── الفعاليات القادمة ──
+  { id: 'e6', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل يضم أفضل العلامات التجارية المحلية والدولية في قلب الرياض.', location: 'الرياض - مركز المعارض', city: 'الرياض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 50, totalBooths: 200, type: 'exhibition', status: 'upcoming' },
+  { id: 'e7', name: 'مهرجان الطعام السعودي', description: 'مهرجان يجمع أشهر المطاعم والطهاة لتقديم أفضل الأطباق السعودية والعالمية في أجواء ساحلية مميزة.', location: 'الواجهة البحرية', city: 'جدة', startDate: '2026-05-01', endDate: '2026-05-15', availableBooths: 35, totalBooths: 80, type: 'entertainment', status: 'upcoming' },
+  { id: 'e8', name: 'FSB Sports Show Riyadh 2026', description: 'معرض رياضي دولي يجمع أكثر من 200 مورد محلي ودولي متخصص في البنية التحتية الرياضية والملاعب والمرافق.', location: 'مركز الرياض الدولي للمؤتمرات والمعارض', city: 'الرياض', startDate: '2026-06-15', endDate: '2026-06-17', availableBooths: 40, totalBooths: 150, type: 'sports', status: 'upcoming' },
+  { id: 'e9', name: 'كأس العالم للرياضات الإلكترونية 2026', description: 'بطولة عالمية كبرى للرياضات الإلكترونية تجذب جمهوراً ضخماً من عشاق الألعاب حول العالم مع فرص تجارية مميزة.', location: 'بوليفارد سيتي', city: 'الرياض', startDate: '2026-08-01', endDate: '2026-08-30', availableBooths: 45, totalBooths: 180, type: 'sports', status: 'upcoming' },
+  { id: 'e10', name: 'المؤتمر السعودي البحري 2026', description: 'مؤتمر متخصص في القطاع البحري يستعرض أحدث التقنيات والفرص في الصناعات البحرية والموانئ.', location: 'مركز المؤتمرات', city: 'الدمام', startDate: '2026-09-16', endDate: '2026-09-17', availableBooths: 20, totalBooths: 80, type: 'conference', status: 'upcoming' },
+  { id: 'e11', name: 'سوق السفر السعودي 2026', description: 'معرض متخصص في قطاع السياحة والسفر يجمع شركات الطيران والفنادق ووكالات السفر والسياحة.', location: 'مركز الرياض للمعارض', city: 'الرياض', startDate: '2026-10-05', endDate: '2026-10-08', availableBooths: 30, totalBooths: 120, type: 'exhibition', status: 'upcoming' },
+  { id: 'e12', name: 'معرض المدن الذكية - السعودية', description: 'فعالية تجمع كبار الموردين والخبراء في حلول المدن الذكية والتقنيات الحضرية المتقدمة ضمن رؤية 2030.', location: 'مركز الرياض الدولي للمؤتمرات', city: 'الرياض', startDate: '2026-11-10', endDate: '2026-11-13', availableBooths: 35, totalBooths: 140, type: 'technology', status: 'upcoming' },
+  { id: 'e13', name: 'Africa Coffee Expo 2026', description: 'معرض متخصص في صناعة القهوة يجمع المنتجين والموردين والمحامص من أفريقيا والعالم.', location: 'مركز المعارض', city: 'جدة', startDate: '2026-07-20', endDate: '2026-07-23', availableBooths: 25, totalBooths: 90, type: 'exhibition', status: 'upcoming' },
+  { id: 'e14', name: 'معرض الطاقة الشمسية وتخزين الطاقة', description: 'معرض يركز على حلول الطاقة المتجددة والطاقة الشمسية وتقنيات تخزين الطاقة المتقدمة.', location: 'مركز الرياض الدولي للمعارض', city: 'الرياض', startDate: '2026-09-22', endDate: '2026-09-24', availableBooths: 28, totalBooths: 100, type: 'exhibition', status: 'upcoming' },
+
+  // ── الفعاليات المنتهية ──
+  { id: 'e15', name: 'IFAT Saudi Arabia 2026', description: 'الحدث الوحيد في المملكة المخصص لتقنيات النفايات والمياه والبيئة. جمع خبراء البيئة من حول العالم.', location: 'مركز الرياض الدولي للمعارض', city: 'الرياض', startDate: '2026-01-26', endDate: '2026-01-28', availableBooths: 0, totalBooths: 90, type: 'exhibition', status: 'ended' },
+  { id: 'e16', name: 'معرض مكة بيلدكس 2026', description: 'معرض متخصص في العقار والبناء والصناعة والديكور، يجمع أبرز الشركات والمقاولين في المنطقة الغربية.', location: 'مركز المعارض', city: 'مكة المكرمة', startDate: '2026-01-15', endDate: '2026-01-18', availableBooths: 0, totalBooths: 110, type: 'exhibition', status: 'ended' },
 ];
 
 const mockOrders: MerchantOrder[] = [
@@ -116,9 +134,11 @@ const mockEnhancedStats: EnhancedDashboardStats = {
     { id: 'ra5', type: 'permit', title: 'تصريح صادر', description: 'تم إصدار تصريح تشغيلي جديد', timestamp: '2026-02-22T11:00:00' },
   ],
   upcomingTimeline: [
-    { id: 'ut1', name: 'فعالية على خطاه', date: '2026-03-01', daysUntil: 3, location: 'الرياض' },
-    { id: 'ut2', name: 'معرض الرياض التجاري', date: '2026-04-10', daysUntil: 43, location: 'الرياض - مركز المعارض' },
-    { id: 'ut3', name: 'مهرجان الطعام السعودي', date: '2026-05-01', daysUntil: 64, location: 'جدة - الواجهة البحرية' },
+    { id: 'ut1', name: 'LEAP 2026', date: '2026-03-13', daysUntil: 12, location: 'مركز الرياض الدولي للمؤتمرات' },
+    { id: 'ut2', name: 'معرض الرياض التجاري', date: '2026-04-10', daysUntil: 40, location: 'الرياض - مركز المعارض' },
+    { id: 'ut3', name: 'مهرجان الطعام السعودي', date: '2026-05-01', daysUntil: 61, location: 'جدة - الواجهة البحرية' },
+    { id: 'ut4', name: 'FSB Sports Show', date: '2026-06-15', daysUntil: 106, location: 'مركز الرياض الدولي للمعارض' },
+    { id: 'ut5', name: 'كأس العالم للرياضات الإلكترونية', date: '2026-08-01', daysUntil: 153, location: 'بوليفارد سيتي، الرياض' },
   ],
   revenueSummary: {
     monthlyData: [
