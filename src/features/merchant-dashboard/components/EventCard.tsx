@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import type { MerchantEvent, EventType } from '@/shared/types';
@@ -46,11 +47,12 @@ const iconColors: Record<EventType, string> = {
 
 export function EventCard({ event }: EventCardProps) {
   const { t } = useLanguageStore();
+  const [imgError, setImgError] = useState(false);
 
   const statusColors = {
-    upcoming: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-    active: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-    ended: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+    upcoming: 'bg-blue-100/90 text-blue-700 dark:bg-blue-900/60 dark:text-blue-400',
+    active: 'bg-green-100/90 text-green-700 dark:bg-green-900/60 dark:text-green-400',
+    ended: 'bg-gray-100/90 text-gray-700 dark:bg-gray-700/80 dark:text-gray-300',
   };
 
   const statusLabels = {
@@ -69,6 +71,7 @@ export function EventCard({ event }: EventCardProps) {
   };
 
   const eventType = event.type || 'exhibition';
+  const hasImage = event.image && !imgError;
 
   return (
     <motion.div
@@ -78,33 +81,61 @@ export function EventCard({ event }: EventCardProps) {
       transition={{ duration: 0.2 }}
       className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:border-[#D4B85A]/30 dark:hover:border-[#D4B85A]/20 transition-all duration-300 group"
     >
-      {/* Image placeholder with type-specific gradient */}
-      <div className={`h-44 bg-gradient-to-br ${gradientColors[eventType]} flex items-center justify-center relative overflow-hidden`}>
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-4 left-4 w-20 h-20 rounded-full bg-current blur-2xl" />
-          <div className="absolute bottom-4 right-4 w-16 h-16 rounded-full bg-current blur-xl" />
-        </div>
-
-        <svg className={`w-16 h-16 ${iconColors[eventType]} group-hover:scale-110 transition-transform duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={typeIcons[eventType]} />
-        </svg>
+      {/* Image area */}
+      <div className={`h-48 relative overflow-hidden ${!hasImage ? `bg-gradient-to-br ${gradientColors[eventType]} flex items-center justify-center` : ''}`}>
+        {hasImage ? (
+          <>
+            {/* Real image */}
+            <img
+              src={event.image!}
+              alt={event.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              onError={() => setImgError(true)}
+              loading="lazy"
+            />
+            {/* Dark overlay for readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
+          </>
+        ) : (
+          <>
+            {/* Fallback gradient with icon */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-4 left-4 w-20 h-20 rounded-full bg-current blur-2xl" />
+              <div className="absolute bottom-4 right-4 w-16 h-16 rounded-full bg-current blur-xl" />
+            </div>
+            <svg className={`w-16 h-16 ${iconColors[eventType]} group-hover:scale-110 transition-transform duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={typeIcons[eventType]} />
+            </svg>
+          </>
+        )}
 
         {/* Status badge */}
-        <span className={`absolute top-3 right-3 text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm ${statusColors[event.status]}`}>
+        <span className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-md ${statusColors[event.status]}`}>
           {statusLabels[event.status]}
         </span>
 
         {/* Type badge */}
-        <span className={`absolute top-3 left-3 text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm ${typeColors[eventType]}`}>
+        <span className={`absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-md ${hasImage ? 'bg-black/40 text-white' : typeColors[eventType]}`}>
           {typeLabels[eventType]}
         </span>
+
+        {/* Event name overlay on image */}
+        {hasImage && (
+          <div className="absolute bottom-3 right-3 left-3">
+            <h3 className="font-bold text-white text-lg line-clamp-1 drop-shadow-lg">
+              {event.name}
+            </h3>
+          </div>
+        )}
       </div>
 
       <div className="p-5">
-        <h3 className="font-bold text-gray-900 dark:text-white text-lg mb-2 line-clamp-1 group-hover:text-[#987012] dark:group-hover:text-[#D4B85A] transition-colors">
-          {event.name}
-        </h3>
+        {/* Show title only if no image (otherwise it's on the image) */}
+        {!hasImage && (
+          <h3 className="font-bold text-gray-900 dark:text-white text-lg mb-2 line-clamp-1 group-hover:text-[#987012] dark:group-hover:text-[#D4B85A] transition-colors">
+            {event.name}
+          </h3>
+        )}
         <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 leading-relaxed">{event.description}</p>
 
         <div className="space-y-2.5 text-sm">

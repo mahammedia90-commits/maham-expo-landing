@@ -28,7 +28,12 @@
       "Bash(cmd /c:*)",
       "Bash(powershell:*)",
       "Bash(cmd //c \"rmdir /s /q out\")",
-      "Bash(cmd //c \"attrib -r -h -s out\\\\* /s /d\")"
+      "Bash(cmd //c \"attrib -r -h -s out\\\\* /s /d\")",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:api.unsplash.com)",
+      "WebFetch(domain:alakhutah.com)",
+      "WebFetch(domain:www.gea.gov.sa)"
     ]
   }
 }
