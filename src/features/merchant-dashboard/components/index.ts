@@ -12,6 +12,7 @@ export { DocumentUploader } from './DocumentUploader';
 export { DocumentCard } from './DocumentCard';
 export { EventsSection } from './EventsSection';
 export { EventCard } from './EventCard';
+export { EventDetailModal } from './EventDetailModal';
 export { ProfileSection } from './ProfileSection';
 export { OrdersSection } from './OrdersSection';
 export { OrderCard } from './OrderCard';

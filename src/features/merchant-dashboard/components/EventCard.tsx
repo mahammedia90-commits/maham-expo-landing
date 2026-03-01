@@ -7,6 +7,7 @@ import type { MerchantEvent, EventType } from '@/shared/types';
 
 interface EventCardProps {
   event: MerchantEvent;
+  onViewDetails?: (event: MerchantEvent) => void;
 }
 
 const typeColors: Record<EventType, string> = {
@@ -45,7 +46,7 @@ const iconColors: Record<EventType, string> = {
   technology: 'text-cyan-400/60 dark:text-cyan-400/30',
 };
 
-export function EventCard({ event }: EventCardProps) {
+export function EventCard({ event, onViewDetails }: EventCardProps) {
   const { t } = useLanguageStore();
   const [imgError, setImgError] = useState(false);
 
@@ -162,15 +163,34 @@ export function EventCard({ event }: EventCardProps) {
           </div>
         </div>
 
+        {/* Stats row */}
+        {event.stats && (
+          <div className="flex items-center gap-3 mt-3 text-xs text-gray-400 dark:text-gray-500">
+            <span className="flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              {event.stats.expectedVisitors >= 1000000 ? `${(event.stats.expectedVisitors / 1000000).toFixed(1)}M` : `${(event.stats.expectedVisitors / 1000).toFixed(0)}K`}
+            </span>
+            <span className="flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+              {event.stats.exhibitors}
+            </span>
+            <span className="flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6z" /></svg>
+              {event.stats.area >= 1000 ? `${(event.stats.area / 1000).toFixed(0)}K` : event.stats.area} m²
+            </span>
+          </div>
+        )}
+
         <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {t.dashboard.availableBooths}: <span className="font-semibold text-gray-900 dark:text-white">{event.availableBooths}/{event.totalBooths}</span>
           </span>
-          {event.status !== 'ended' && (
-            <button className="text-xs font-medium text-[#987012] dark:text-[#D4B85A] hover:underline">
-              {t.dashboard.viewDetails}
-            </button>
-          )}
+          <button
+            onClick={() => onViewDetails?.(event)}
+            className="text-xs font-medium text-[#987012] dark:text-[#D4B85A] hover:underline"
+          >
+            {t.dashboard.viewDetails}
+          </button>
         </div>
       </div>
     </motion.div>

@@ -158,7 +158,9 @@ export type EventType = 'exhibition' | 'conference' | 'entertainment' | 'cultura
 export interface MerchantEvent {
   id: string;
   name: string;
+  nameEn?: string;
   description: string;
+  descriptionEn?: string;
   location: string;
   city: string;
   startDate: string;
@@ -168,6 +170,11 @@ export interface MerchantEvent {
   image?: string;
   type: EventType;
   status: 'upcoming' | 'active' | 'ended';
+  stats?: {
+    expectedVisitors: number;
+    exhibitors: number;
+    area: number;
+  };
 }
 
 export interface CreateOrderData {
