@@ -17,8 +17,14 @@ const mockUser: InvestorUser = {
   createdAt: '2025-06-15T00:00:00Z',
 };
 
+const VALID_EMAIL = 'admin@admin.com';
+const VALID_PASSWORD = '123456';
+
 const mockLogin = async (credentials: LoginCredentials): Promise<InvestorAuthResponse> => {
   await new Promise((r) => setTimeout(r, 800));
+  if (credentials.email !== VALID_EMAIL || credentials.password !== VALID_PASSWORD) {
+    throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+  }
   return {
     user: { ...mockUser, email: credentials.email },
     token: 'mock-investor-jwt-token-' + Date.now(),
