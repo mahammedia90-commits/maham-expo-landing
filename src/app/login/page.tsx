@@ -7,16 +7,15 @@ import { useLanguageStore } from '@/shared/store/useLanguageStore';
 
 const loginOptions = [
   {
-    key: 'loginToSystem' as const,
+    key: 'loginAsDealer' as const,
     icon: (
       <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
       </svg>
     ),
-    gradient: 'from-[#987012] to-[#B8860B]',
-    hoverGradient: 'hover:from-[#B8860B] hover:to-[#D4A017]',
-    href: 'https://onemay.sa:8081/ar/auth/sign-in-1',
+    gradient: 'from-[#B8860B] to-[#D4B85A]',
+    hoverGradient: 'hover:from-[#D4A017] hover:to-[#E8C860]',
+    href: '/login/merchant',
     comingSoon: false,
   },
   {
@@ -32,18 +31,6 @@ const loginOptions = [
     comingSoon: false,
   },
   {
-    key: 'loginAsDealer' as const,
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-      </svg>
-    ),
-    gradient: 'from-[#B8860B] to-[#D4B85A]',
-    hoverGradient: 'hover:from-[#D4A017] hover:to-[#E8C860]',
-    href: '/login/merchant',
-    comingSoon: false,
-  },
-  {
     key: 'loginAsSponsor' as const,
     icon: (
       <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,6 +40,19 @@ const loginOptions = [
     gradient: 'from-[#987012] to-[#B8860B]',
     hoverGradient: 'hover:from-[#B8860B] hover:to-[#D4A017]',
     href: '/login/sponsor',
+    comingSoon: false,
+  },
+  {
+    key: 'loginToSystem' as const,
+    icon: (
+      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+    gradient: 'from-[#987012] to-[#B8860B]',
+    hoverGradient: 'hover:from-[#B8860B] hover:to-[#D4A017]',
+    href: 'https://onemay.sa:8081/ar/auth/sign-in-1',
     comingSoon: false,
   },
 ];
@@ -106,7 +106,7 @@ export default function LoginPage() {
                 whileTap={option.comingSoon ? {} : { scale: 0.98 }}
                 onClick={() => handleClick(option)}
                 disabled={option.comingSoon}
-                className={`w-full group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/50 shadow-lg transition-all duration-300 p-8 flex flex-col items-center text-center ${
+                className={`w-full h-full min-h-[260px] group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/50 shadow-lg transition-all duration-300 p-8 flex flex-col items-center justify-center text-center ${
                   option.comingSoon
                     ? 'opacity-70 cursor-not-allowed'
                     : 'hover:shadow-2xl cursor-pointer'
