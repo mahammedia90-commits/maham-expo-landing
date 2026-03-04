@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
-import { UserIcon, BuildingIcon, CogIcon, CheckIcon } from '@/shared/components/Icons';
+import { UserIcon, BuildingIcon, MegaphoneIcon, CheckIcon } from '@/shared/components/Icons';
 import {
   fadeInUp,
   staggerContainer,
@@ -10,9 +10,9 @@ import {
   viewportSettings,
 } from '@/shared/utils/animations';
 
-const userTypeIcons = [UserIcon, BuildingIcon, CogIcon];
-const userTypeColors = ['bg-[#987012]', 'bg-[#987012]', 'bg-[#3F341C]'];
-const descriptionColors = ['text-[#987012] dark:text-white', 'text-[#B8891A] dark:text-white', 'text-[#3F341C] dark:text-white'];
+const userTypeIcons = [UserIcon, BuildingIcon, MegaphoneIcon];
+const userTypeColors = ['bg-[#987012]', 'bg-[#987012]', 'bg-[#987012]'];
+const descriptionColors = ['text-[#987012] dark:text-white', 'text-[#B8891A] dark:text-white', 'text-[#987012] dark:text-white'];
 
 export function UserTypesSection() {
   const { t, isRtl } = useLanguageStore();

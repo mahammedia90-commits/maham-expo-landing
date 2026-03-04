@@ -54,6 +54,7 @@ const loginOptions = [
     hoverGradient: 'hover:from-[#B8860B] hover:to-[#D4A017]',
     href: 'https://onemay.sa:8081/ar/auth/sign-in-1',
     comingSoon: false,
+    hidden: true,
   },
 ];
 
@@ -93,8 +94,8 @@ export default function LoginPage() {
         </motion.div>
 
         {/* Login Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-5">
-          {loginOptions.map((option, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
+          {loginOptions.filter(option => !option.hidden).map((option, index) => (
             <motion.div
               key={option.key}
               initial={{ opacity: 0, y: 40 }}

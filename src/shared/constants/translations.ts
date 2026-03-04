@@ -156,20 +156,15 @@ export const translations = {
           ]
         },
         {
-          title: "المشرف",
-          subtitle: "Admin",
-          description: "إدارة تنفيذية شاملة للنظام تشمل التحكم الكامل بالعمليات، الصلاحيات، العقود، التدفقات المالية، ولوحات التحكم التحليلية، مع تكامل ذكي مع Maham AI لدعم اتخاذ القرار والامتثال التشغيلي.",
+          title: "الراعي",
+          subtitle: "Sponsor",
+          description: "واجهة متكاملة للرعاة تتيح عرض العلامة التجارية، إدارة حزم الرعاية، متابعة الحملات الترويجية، وتحليل العائد على الاستثمار التسويقي داخل الفعاليات والمعارض.",
           benefits: [
-            "إدارة الفعاليات والأماكن",
-            "مراجعة والموافقة على المساحات",
-            "إدارة المستخدمين والصلاحيات",
-            "الموافقة النهائية على الطلبات",
-            "الإدارة المالية الشاملة",
-            "إدارة الصلاحيات وتوزيعها من السيستم الرئيسي",
-            "إدارة قسم المالية والمحاسبة",
-            "إدارة قسم العمليات (Operations)",
-            "إدارة القسم القانوني والعقود",
-            "إدارة الموارد البشرية والتسويق"
+            "عرض العلامة التجارية في الفعاليات",
+            "اختيار حزم الرعاية المناسبة",
+            "متابعة الحملات الترويجية والإعلانية",
+            "تحليل الأداء والعائد على الاستثمار",
+            "التواصل المباشر مع منظمي الفعاليات"
           ]
         }
       ],
@@ -1013,20 +1008,15 @@ export const translations = {
           ]
         },
         {
-          title: "Admin",
-          subtitle: "Admin",
-          description: "Comprehensive executive system management including full control over operations, permissions, contracts, financial flows, and analytical dashboards, with smart Maham AI integration for decision support and operational compliance.",
+          title: "Sponsor",
+          subtitle: "Sponsor",
+          description: "An integrated interface for sponsors enabling brand exposure, sponsorship package management, promotional campaign tracking, and marketing ROI analysis within events and exhibitions.",
           benefits: [
-            "Manage events and venues",
-            "Review and approve spaces",
-            "Manage users and permissions",
-            "Final approval of requests",
-            "Comprehensive financial management",
-            "Assign permissions from the main system",
-            "Finance & Accounting department management",
-            "Operations department management",
-            "Legal & Contracts department management",
-            "HR & Marketing departments management"
+            "Brand exposure at events",
+            "Choose suitable sponsorship packages",
+            "Track promotional and advertising campaigns",
+            "Performance and ROI analysis",
+            "Direct communication with event organizers"
           ]
         }
       ],
