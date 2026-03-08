@@ -1,7 +1,7 @@
 'use client';
 
-import { BoothsSection } from '@/features/merchant-dashboard/components/BoothsSection';
+import { BoothsSection as UnitsSection } from '@/features/merchant-dashboard/components/BoothsSection';
 
-export default function BoothsPage() {
-  return <BoothsSection />;
+export default function UnitsPage() {
+  return <UnitsSection />;
 }

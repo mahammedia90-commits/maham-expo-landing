@@ -71,8 +71,8 @@ function PackageCard({ pkg }: { pkg: SponsorPackage }) {
             <span className="font-medium text-gray-900 dark:text-white">{pkg.vipInvitations}</span>
           </div>
           <div className="flex justify-between">
-            <span>{t.sponsorDashboard.boothArea}</span>
-            <span className="font-medium text-gray-900 dark:text-white">{pkg.boothArea}</span>
+            <span>{t.sponsorDashboard.unitArea}</span>
+            <span className="font-medium text-gray-900 dark:text-white">{pkg.unitArea}</span>
           </div>
           {pkg.canSponsorSession && (
             <div className="flex items-center gap-1 text-green-600 dark:text-green-400">

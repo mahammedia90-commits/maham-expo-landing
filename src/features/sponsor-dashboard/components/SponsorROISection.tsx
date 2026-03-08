@@ -29,8 +29,8 @@ function ROICard({ report }: { report: SponsorROIReport }) {
           <p className="text-xl font-bold text-gray-900 dark:text-white">{report.leadsGenerated.toLocaleString()}</p>
         </div>
         <div>
-          <p className="text-xs text-gray-500 dark:text-gray-400">{t.sponsorDashboard.boothScans}</p>
-          <p className="text-xl font-bold text-gray-900 dark:text-white">{report.boothScans.toLocaleString()}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{t.sponsorDashboard.unitScans}</p>
+          <p className="text-xl font-bold text-gray-900 dark:text-white">{report.unitScans.toLocaleString()}</p>
         </div>
         <div>
           <p className="text-xs text-gray-500 dark:text-gray-400">{t.sponsorDashboard.avgDuration}</p>

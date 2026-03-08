@@ -33,7 +33,17 @@
       "WebFetch(domain:unsplash.com)",
       "WebFetch(domain:api.unsplash.com)",
       "WebFetch(domain:alakhutah.com)",
-      "WebFetch(domain:www.gea.gov.sa)"
+      "WebFetch(domain:www.gea.gov.sa)",
+      "Bash(pip install:*)",
+      "Bash(/c/ZKBioTime/Python311/python.exe:*)",
+      "Bash(rm:*)",
+      "WebFetch(domain:riyadh.sa)",
+      "WebFetch(domain:apigw.riyadh.sa)",
+      "WebFetch(domain:api.riyadh.sa)",
+      "Read(//c/tmp/**)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(/c/ZKBioTime/Python311/python:*)"
     ]
   }
 }

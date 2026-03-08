@@ -71,11 +71,11 @@ export function SponsorLoginForm() {
               {t.sponsorAuth.email}
             </label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
               className={`w-full px-4 py-3 rounded-xl border ${errors.email ? 'border-red-400' : 'border-gray-300 dark:border-gray-600'} bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition-all`}
-              placeholder="email@example.com"
+              placeholder="admin"
               dir="ltr"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}

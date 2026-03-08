@@ -4,7 +4,7 @@ import { TermsContent } from '@/features/terms/components';
 export const metadata: Metadata = {
   title: 'الشروط والأحكام | Maham Expo - مهام إكسبو',
   description:
-    'الشروط والأحكام الخاصة باستخدام منصة مهام إكسبو لتأجير البوثات والمساحات في فعاليات الرياض ومعرض على خطاه.',
+    'الشروط والأحكام الخاصة باستخدام منصة مهام إكسبو لتأجير الوحدات والمساحات في فعاليات الرياض ومعرض على خطاه.',
   alternates: {
     canonical: 'https://mahamexpo.sa/terms',
   },

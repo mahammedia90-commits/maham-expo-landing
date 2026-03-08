@@ -5,10 +5,10 @@ import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import type { Booth } from '@/shared/types';
 
 interface BoothCardProps {
-  booth: Booth;
+  unit: Booth;
 }
 
-export function BoothCard({ booth }: BoothCardProps) {
+export function BoothCard({ unit }: BoothCardProps) {
   const { t } = useLanguageStore();
 
   const statusColors = {
@@ -45,38 +45,38 @@ export function BoothCard({ booth }: BoothCardProps) {
 
       <div className="p-4">
         <div className="flex items-start justify-between mb-3">
-          <h3 className="font-semibold text-gray-900 dark:text-white">{booth.name}</h3>
-          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusColors[booth.status]}`}>
-            {statusLabels[booth.status]}
+          <h3 className="font-semibold text-gray-900 dark:text-white">{unit.name}</h3>
+          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusColors[unit.status]}`}>
+            {statusLabels[unit.status]}
           </span>
         </div>
 
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{booth.eventName}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{unit.eventName}</p>
 
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-gray-500 dark:text-gray-400">{t.dashboard.zone}</span>
-            <span className="text-gray-900 dark:text-white font-medium">{booth.zone}</span>
+            <span className="text-gray-900 dark:text-white font-medium">{unit.zone}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500 dark:text-gray-400">{t.dashboard.size}</span>
-            <span className="text-gray-900 dark:text-white font-medium">{booth.size}</span>
+            <span className="text-gray-900 dark:text-white font-medium">{unit.size}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500 dark:text-gray-400">{t.dashboard.type}</span>
-            <span className="text-gray-900 dark:text-white font-medium">{typeLabels[booth.type]}</span>
+            <span className="text-gray-900 dark:text-white font-medium">{typeLabels[unit.type]}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500 dark:text-gray-400">{t.dashboard.period}</span>
             <span className="text-gray-900 dark:text-white font-medium text-xs" dir="ltr">
-              {new Date(booth.startDate).toLocaleDateString()} - {new Date(booth.endDate).toLocaleDateString()}
+              {new Date(unit.startDate).toLocaleDateString()} - {new Date(unit.endDate).toLocaleDateString()}
             </span>
           </div>
         </div>
 
         <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
           <span className="text-lg font-bold text-[#987012] dark:text-[#D4B85A]">
-            {booth.price.toLocaleString()}
+            {unit.price.toLocaleString()}
           </span>
           <span className="text-sm text-gray-500 dark:text-gray-400">{t.dashboard.sar}</span>
         </div>

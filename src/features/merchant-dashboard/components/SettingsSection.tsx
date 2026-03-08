@@ -100,10 +100,10 @@ export function SettingsSection() {
               description={t.dashboard.paymentAlertsDesc}
             />
             <ToggleSwitch
-              enabled={localSettings.notifications.boothUpdates}
-              onChange={(v) => updateNotification('boothUpdates', v)}
-              label={t.dashboard.boothUpdates}
-              description={t.dashboard.boothUpdatesDesc}
+              enabled={localSettings.notifications.unitUpdates}
+              onChange={(v) => updateNotification('unitUpdates', v)}
+              label={t.dashboard.unitUpdates}
+              description={t.dashboard.unitUpdatesDesc}
             />
             <ToggleSwitch
               enabled={localSettings.notifications.eventReminders}

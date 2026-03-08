@@ -55,8 +55,8 @@ export function ServiceRequestCard({ request }: ServiceRequestCardProps) {
           <span className="text-gray-900 dark:text-white">{request.eventName}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">{t.dashboard.booths}</span>
-          <span className="text-gray-900 dark:text-white">{request.boothName}</span>
+          <span className="text-gray-500 dark:text-gray-400">{t.dashboard.units}</span>
+          <span className="text-gray-900 dark:text-white">{request.unitName}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-500 dark:text-gray-400">{t.dashboard.quantity}</span>

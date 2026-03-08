@@ -15,7 +15,7 @@ import {
 export function AlaKhutahPageClient() {
   const { language, isRtl } = useLanguageStore();
   const lang = language as 'ar' | 'en';
-  const totalBooths = getTotalBoothCount();
+  const totalUnits = getTotalBoothCount();
 
   return (
     <section
@@ -110,7 +110,7 @@ export function AlaKhutahPageClient() {
             </div>
             <div className="w-px h-12 bg-[#987012]/20 hidden md:block" />
             <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-[#E6B830]">{totalBooths}</div>
+              <div className="text-3xl md:text-4xl font-bold text-[#E6B830]">{totalUnits}</div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 {lang === 'ar' ? 'مساحة متاحة' : 'Available Spaces'}
               </div>
@@ -162,7 +162,7 @@ export function AlaKhutahPageClient() {
                       className="absolute inset-0"
                     >
                       <Image
-                        src={zone.booths[0]?.image || '/ala-khutah.png'}
+                        src={zone.units[0]?.image || '/ala-khutah.png'}
                         alt={`${zone.name[lang]} - ${lang === 'ar' ? 'منطقة في فعالية على خطاه' : 'Zone in Ala Khutah event'}`}
                         fill
                         className="object-cover"
@@ -209,7 +209,7 @@ export function AlaKhutahPageClient() {
                             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                           />
                         </svg>
-                        {zone.booths.length} {lang === 'ar' ? 'مساحة' : 'spaces'}
+                        {zone.units.length} {lang === 'ar' ? 'مساحة' : 'spaces'}
                       </span>
                     </div>
                   </div>
@@ -221,8 +221,8 @@ export function AlaKhutahPageClient() {
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                       {lang === 'ar'
-                        ? `${zone.booths.length} مساحة متاحة للحجز`
-                        : `${zone.booths.length} spaces available for booking`}
+                        ? `${zone.units.length} مساحة متاحة للحجز`
+                        : `${zone.units.length} spaces available for booking`}
                     </p>
 
                     {/* View Button */}

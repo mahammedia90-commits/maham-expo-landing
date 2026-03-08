@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
-import { useBooths, useEvents, useCreateServiceRequest } from '../hooks/useMerchantData';
+import { useUnits, useEvents, useCreateServiceRequest } from '../hooks/useMerchantData';
 import type { MarketplaceService } from '@/shared/types';
 
 interface ServiceRequestModalProps {
@@ -14,24 +14,24 @@ interface ServiceRequestModalProps {
 export function ServiceRequestModal({ service, onClose }: ServiceRequestModalProps) {
   const { t } = useLanguageStore();
   const { data: eventsData } = useEvents();
-  const { data: boothsData } = useBooths();
+  const { data: unitsData } = useUnits();
   const createRequest = useCreateServiceRequest();
 
   const [eventName, setEventName] = useState('');
-  const [boothName, setBoothName] = useState('');
+  const [unitName, setBoothName] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState('');
   const [success, setSuccess] = useState(false);
 
   const events = eventsData?.data || [];
-  const booths = (boothsData?.data || []).filter((b) => b.status === 'active');
+  const units = (unitsData?.data || []).filter((b) => b.status === 'active');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!service || !eventName || !boothName) return;
+    if (!service || !eventName || !unitName) return;
 
     createRequest.mutate(
-      { serviceId: service.id, eventName, boothName, quantity, notes },
+      { serviceId: service.id, eventName, unitName, quantity, notes },
       {
         onSuccess: () => setSuccess(true),
       }
@@ -101,14 +101,14 @@ export function ServiceRequestModal({ service, onClose }: ServiceRequestModalPro
                     {t.dashboard.selectBooth}
                   </label>
                   <select
-                    value={boothName}
+                    value={unitName}
                     onChange={(e) => setBoothName(e.target.value)}
                     required
                     className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#987012] focus:border-transparent"
                   >
                     <option value="">{t.dashboard.selectBooth}</option>
-                    {booths.map((booth) => (
-                      <option key={booth.id} value={booth.name}>{booth.name}</option>
+                    {units.map((unit) => (
+                      <option key={unit.id} value={unit.name}>{unit.name}</option>
                     ))}
                   </select>
                 </div>

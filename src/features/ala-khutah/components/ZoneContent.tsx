@@ -17,17 +17,17 @@ import {
 
 // Booth Card Component
 function BoothCard({
-  booth,
+  unit,
   index,
   isRtl,
   language,
   onImageClick,
 }: {
-  booth: Booth;
+  unit: Booth;
   index: number;
   isRtl: boolean;
   language: 'ar' | 'en';
-  onImageClick: (booth: Booth) => void;
+  onImageClick: (unit: Booth) => void;
 }) {
   return (
     <motion.div
@@ -44,7 +44,7 @@ function BoothCard({
         {/* Booth Image */}
         <div
           className="relative aspect-square overflow-hidden cursor-pointer"
-          onClick={() => onImageClick(booth)}
+          onClick={() => onImageClick(unit)}
         >
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -52,8 +52,8 @@ function BoothCard({
             className="absolute inset-0"
           >
             <Image
-              src={booth.image}
-              alt={booth.name}
+              src={unit.image}
+              alt={unit.name}
               fill
               className="object-contain bg-white dark:bg-[#1A1610] p-2"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -79,21 +79,21 @@ function BoothCard({
         {/* Booth Info */}
         <div className="p-4 text-center space-y-3">
           <h3 className="font-bold text-[#2A2313] dark:text-white text-lg group-hover:text-[#987012] dark:group-hover:text-[#E6B830] transition-colors duration-300">
-            {booth.name}
+            {unit.name}
           </h3>
           <div className="flex items-center justify-center gap-3 text-lg text-gray-600 dark:text-gray-300">
             <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-[#987012]/10 text-[#987012] dark:text-[#E6B830] font-bold text-base">
-              {booth.type === 'F&B' ? (language === 'ar' ? 'أغذية ومشروبات' : 'F&B') : (language === 'ar' ? 'تجزئة' : 'Retail')}
+              {unit.type === 'F&B' ? (language === 'ar' ? 'أغذية ومشروبات' : 'F&B') : (language === 'ar' ? 'تجزئة' : 'Retail')}
             </span>
-            <span className="font-bold text-base">{booth.area} {language === 'ar' ? 'م²' : 'm²'}</span>
+            <span className="font-bold text-base">{unit.area} {language === 'ar' ? 'م²' : 'm²'}</span>
           </div>
-          {booth.status === 'rented' ? (
+          {unit.status === 'rented' ? (
             <p className="text-base text-red-500 dark:text-red-400 font-bold">
               {language === 'ar' ? 'تم التأجير' : 'Rented'}
             </p>
           ) : (
             <a
-              href={`https://wa.me/966535555900?text=${encodeURIComponent(language === 'ar' ? `أرغب في حجز الموقع ${booth.name}` : `I want to book space ${booth.name}`)}`}
+              href={`https://wa.me/966535555900?text=${encodeURIComponent(language === 'ar' ? `أرغب في حجز الموقع ${unit.name}` : `I want to book space ${unit.name}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25D366] hover:bg-[#1fb855] text-white font-bold text-base rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#25D366]/30"
@@ -112,17 +112,17 @@ function BoothCard({
 
 // Image Modal Component
 function ImageModal({
-  booth,
+  unit,
   isOpen,
   onClose,
   language,
 }: {
-  booth: Booth | null;
+  unit: Booth | null;
   isOpen: boolean;
   onClose: () => void;
   language: 'ar' | 'en';
 }) {
-  if (!booth) return null;
+  if (!unit) return null;
 
   return (
     <AnimatePresence>
@@ -156,8 +156,8 @@ function ImageModal({
             {/* Image */}
             <div className="relative aspect-[4/3] w-full">
               <Image
-                src={booth.image}
-                alt={booth.name}
+                src={unit.image}
+                alt={unit.name}
                 fill
                 className="object-contain bg-white dark:bg-[#1A1610]"
                 sizes="(max-width: 1024px) 100vw, 80vw"
@@ -168,21 +168,21 @@ function ImageModal({
             {/* Booth Info */}
             <div className="p-6 border-t border-gray-200 dark:border-[#987012]/20">
               <h3 className="text-2xl font-bold text-[#2A2313] dark:text-white mb-2">
-                {booth.name}
+                {unit.name}
               </h3>
               <div className="flex items-center gap-4 mb-3 text-lg text-gray-600 dark:text-gray-300">
                 <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-[#987012]/10 text-[#987012] dark:text-[#E6B830] font-bold text-base">
-                  {booth.type === 'F&B' ? (language === 'ar' ? 'أغذية ومشروبات' : 'F&B') : (language === 'ar' ? 'تجزئة' : 'Retail')}
+                  {unit.type === 'F&B' ? (language === 'ar' ? 'أغذية ومشروبات' : 'F&B') : (language === 'ar' ? 'تجزئة' : 'Retail')}
                 </span>
-                <span className="font-semibold">{booth.area} {language === 'ar' ? 'م²' : 'm²'}</span>
+                <span className="font-semibold">{unit.area} {language === 'ar' ? 'م²' : 'm²'}</span>
               </div>
-              {booth.status === 'rented' ? (
+              {unit.status === 'rented' ? (
                 <p className="text-lg text-red-500 dark:text-red-400 font-bold">
                   {language === 'ar' ? 'تم التأجير' : 'Rented'}
                 </p>
               ) : (
                 <a
-                  href={`https://wa.me/966535555900?text=${encodeURIComponent(language === 'ar' ? `أرغب في حجز الموقع ${booth.name}` : `I want to book space ${booth.name}`)}`}
+                  href={`https://wa.me/966535555900?text=${encodeURIComponent(language === 'ar' ? `أرغب في حجز الموقع ${unit.name}` : `I want to book space ${unit.name}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 px-6 py-3 bg-[#25D366] hover:bg-[#1fb855] text-white font-bold text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#25D366]/30"
@@ -214,8 +214,8 @@ export function ZoneContent({ zoneId }: ZoneContentProps) {
   const [selectedBooth, setSelectedBooth] = useState<Booth | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleImageClick = (booth: Booth) => {
-    setSelectedBooth(booth);
+  const handleImageClick = (unit: Booth) => {
+    setSelectedBooth(unit);
     setIsModalOpen(true);
   };
 
@@ -366,10 +366,10 @@ export function ZoneContent({ zoneId }: ZoneContentProps) {
               className="text-gray-500 dark:text-gray-400 text-base sm:text-lg max-w-2xl mx-auto"
             >
               {(() => {
-                const availableCount = zone.booths.filter(b => b.status !== 'rented').length;
+                const availableCount = zone.units.filter(b => b.status !== 'rented').length;
                 return lang === 'ar'
-                  ? `تصفح ${availableCount} مساحة متاحة للحجز من أصل ${zone.booths.length} في منطقة ${zone.name.ar}`
-                  : `Browse ${availableCount} of ${zone.booths.length} spaces available for booking in ${zone.name.en}`;
+                  ? `تصفح ${availableCount} مساحة متاحة للحجز من أصل ${zone.units.length} في منطقة ${zone.name.ar}`
+                  : `Browse ${availableCount} of ${zone.units.length} spaces available for booking in ${zone.name.en}`;
               })()}
             </motion.p>
           </motion.div>
@@ -397,17 +397,17 @@ export function ZoneContent({ zoneId }: ZoneContentProps) {
             </motion.div>
           )}
 
-          {/* Booths Grid */}
+          {/* Units Grid */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
-            {zone.booths.map((booth, index) => (
+            {zone.units.map((unit, index) => (
               <BoothCard
-                key={booth.id}
-                booth={booth}
+                key={unit.id}
+                unit={unit}
                 index={index}
                 isRtl={isRtl}
                 language={lang}
@@ -443,7 +443,7 @@ export function ZoneContent({ zoneId }: ZoneContentProps) {
 
       {/* Image Modal */}
       <ImageModal
-        booth={selectedBooth}
+        unit={selectedBooth}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         language={lang}

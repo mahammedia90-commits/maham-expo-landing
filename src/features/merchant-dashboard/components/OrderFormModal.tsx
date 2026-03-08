@@ -69,7 +69,7 @@ export function OrderFormModal({ isOpen, onClose }: OrderFormModalProps) {
   };
 
   const orderTypes: { value: MerchantOrder['type']; label: string }[] = [
-    { value: 'booth_booking', label: t.dashboard.boothBooking },
+    { value: 'unit_booking', label: t.dashboard.unitBooking },
     { value: 'service_request', label: t.dashboard.serviceRequest },
     { value: 'space_upgrade', label: t.dashboard.spaceUpgrade },
     { value: 'equipment_rental', label: t.dashboard.equipmentRental },

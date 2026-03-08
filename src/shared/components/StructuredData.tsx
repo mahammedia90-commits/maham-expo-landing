@@ -7,7 +7,7 @@ export function StructuredData() {
     url: 'https://mahamexpo.sa',
     logo: 'https://mahamexpo.sa/logo.png',
     description:
-      'مهام اكسبو - منصة متكاملة لتأجير البوثات والمساحات التجارية في فعاليات الرياض الكبرى وفعالية على خطاه',
+      'مهام اكسبو - منصة متكاملة لتأجير الوحدات والمساحات التجارية في فعاليات الرياض الكبرى وفعالية على خطاه',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'الرياض',
@@ -34,7 +34,7 @@ export function StructuredData() {
     '@type': 'Event',
     name: 'فعالية على خطاه - Ala Khutah',
     description:
-      'فعالية على خطاه - رحلة من مكة إلى المدينة مع فرص استثمارية لتأجير البوثات والمساحات التجارية في 8 مناطق استراتيجية.',
+      'فعالية على خطاه - رحلة من مكة إلى المدينة مع فرص استثمارية لتأجير الوحدات والمساحات التجارية في 8 مناطق استراتيجية.',
     url: 'https://mahamexpo.sa/ala-khutah',
     location: {
       '@type': 'Place',
@@ -57,7 +57,7 @@ export function StructuredData() {
       availability: 'https://schema.org/InStock',
       priceCurrency: 'SAR',
       offerCount: 8,
-      description: 'بوثات ومساحات تجارية للمطاعم والتجزئة',
+      description: 'وحدات ومساحات تجارية للمطاعم والتجزئة',
     },
   };
 

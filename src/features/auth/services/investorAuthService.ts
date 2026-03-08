@@ -17,8 +17,8 @@ const mockUser: InvestorUser = {
   createdAt: '2025-06-15T00:00:00Z',
 };
 
-const VALID_EMAIL = 'admin@admin.com';
-const VALID_PASSWORD = '123456';
+const VALID_EMAIL = 'admin';
+const VALID_PASSWORD = 'admin';
 
 const mockLogin = async (credentials: LoginCredentials): Promise<InvestorAuthResponse> => {
   await new Promise((r) => setTimeout(r, 800));

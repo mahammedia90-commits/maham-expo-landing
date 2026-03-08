@@ -1,6 +1,6 @@
 // على خطاه Event Data Manifest
-// This file contains all zones and booths data for the event
-// To add new zones or booths, simply update this file
+// This file contains all zones and units data for the event
+// To add new zones or units, simply update this file
 
 export interface Booth {
   id: string;
@@ -23,7 +23,7 @@ export interface Zone {
   };
   video?: string;
   slug: string;
-  booths: Booth[];
+  units: Booth[];
 }
 
 export interface EventData {
@@ -39,7 +39,7 @@ export interface EventData {
   zones: Zone[];
 }
 
-// Helper function to extract booth name from image filename
+// Helper function to extract unit name from image filename
 const extractBoothName = (filename: string): string => {
   // Remove file extension and return the name
   return filename.replace(/\.[^/.]+$/, '');
@@ -67,7 +67,7 @@ export const alaKhutahData: EventData = {
         en: 'A prominent station on the Hijrah route, it was a meeting point for caravans. The Prophet ﷺ passed through it and fell ill there, making it the place where he prayed that Allah would make him love Madinah as he loved Makkah.',
       },
       slug: 'al-juhfah',
-      booths: [
+      units: [
         { id: 'J-C03-03', name: 'J-C03-03', image: '/على خطاه/الجحفه/J-C03-03.png', type: 'Retail', area: 35.69, status: 'rented' },
         { id: 'J-C04-03', name: 'J-C04-03', image: '/على خطاه/الجحفه/J-C04-03.png', type: 'Retail', area: 35.69, status: 'rented' },
         { id: 'J-K06', name: 'J-K06', image: '/على خطاه/الجحفه/J-K06.png', type: 'Retail', area: 16, status: 'rented' },
@@ -88,7 +88,7 @@ export const alaKhutahData: EventData = {
         en: 'One of the valleys of Hijaz located along the ancient trade routes, reflecting the journey\'s extension through the desert landscape and successive crossing stages.',
       },
       slug: 'al-reem',
-      booths: [
+      units: [
         { id: 'R-C04-03', name: 'R-C04-03', image: '/على خطاه/الريم/R-C08.png', type: 'Retail', area: 52.36 },
         { id: 'R-K02', name: 'R-K02', image: '/على خطاه/الريم/R-K02.png', type: 'F&B', area: 22.5, status: 'rented' },
         { id: 'R-K05', name: 'R-K05', image: '/على خطاه/الريم/R-K05.png', type: 'F&B', area: 22.5, status: 'rented' },
@@ -106,7 +106,7 @@ export const alaKhutahData: EventData = {
         en: 'A valley where the Prophet ﷺ passed through and prayed, serving as a natural resting station on the Hijrah route, embodying the aspect of worship and tranquility during the journey.',
       },
       slug: 'al-araj',
-      booths: [
+      units: [
         { id: 'A-C02-02', name: 'A-C02-02', image: '/على خطاه/العرج/A-C02-02.png', type: 'Retail', area: 97.1 },
         { id: 'A-C05', name: 'A-C05', image: '/على خطاه/العرج/A-C05.png', type: 'F&B', area: 174.35 },
         { id: 'A-K04', name: 'A-K04', image: '/على خطاه/العرج/A-K04.png', type: 'F&B', area: 25 },
@@ -125,7 +125,7 @@ export const alaKhutahData: EventData = {
       },
       video: '/على خطاه/القاحه/القاحة.mp4',
       slug: 'al-qahah',
-      booths: [
+      units: [
         { id: 'Q-C03-02', name: 'Q-C03-02', image: '/على خطاه/القاحه/Q-C03-02.png', type: 'F&B', area: 134.8 },
         { id: 'Q-C03-03', name: 'Q-C03-03', image: '/على خطاه/القاحه/Q-C03-03.png', type: 'Retail', area: 35.69 },
         { id: 'Q-C03-04', name: 'Q-C03-04', image: '/على خطاه/القاحه/Q-C03-04.png', type: 'Retail', area: 36.57 },
@@ -150,7 +150,7 @@ export const alaKhutahData: EventData = {
         en: 'A cave in Mount Thawr south of Makkah, where the Prophet ﷺ and Abu Bakr Al-Siddiq hid for three nights before continuing the Hijrah journey to Madinah.',
       },
       slug: 'ghar-thawr',
-      booths: [
+      units: [
         { id: 'G-K13', name: 'G-K13', image: '/على خطاه/غار ثور/G-K13.png', type: 'F&B', area: 27.45, status: 'rented' },
       ],
     },
@@ -165,7 +165,7 @@ export const alaKhutahData: EventData = {
         en: 'A location along the Hijrah route, representing one of the stations the Prophet ﷺ passed through on his journey from Makkah to Madinah.',
       },
       slug: 'al-juthathah',
-      booths: [
+      units: [
         { id: 'T-C07-01', name: 'T-C07-01', image: '/على خطاه/الجثاثة/T-C07-01.png', type: 'F&B', area: 75.56, status: 'rented' },
       ],
     },
@@ -180,7 +180,7 @@ export const alaKhutahData: EventData = {
         en: 'An area located below Usfan along the Hijrah route, through which the Prophet ﷺ passed, serving as an important historical station on the prophetic journey.',
       },
       slug: 'asfal-usfan',
-      booths: [
+      units: [
         { id: 'U-K03', name: 'U-K03', image: '/على خطاه/اسفل عسفان/U-K03.png', type: 'F&B', area: 9, status: 'rented' },
         { id: 'U-K18', name: 'U-K18', image: '/على خطاه/اسفل عسفان/U-K18.png', type: 'Retail', area: 16, status: 'rented' },
         { id: 'U-K23', name: 'U-K23', image: '/على خطاه/اسفل عسفان/U-K23.png', type: 'F&B', area: 9, status: 'rented' },
@@ -197,7 +197,7 @@ export const alaKhutahData: EventData = {
         en: 'The tent of Um Maabad Al-Khuzaiyyah, who hosted the Prophet ﷺ during his Hijrah and witnessed the miracle of milking the sheep, one of the most famous stations on the Hijrah route.',
       },
       slug: 'um-maabad',
-      booths: [
+      units: [
         { id: 'M-K02', name: 'M-K02', image: '/على خطاه/ام معبد/M-K02.png', type: 'Retail', area: 26.6 },
         { id: 'M-K04', name: 'M-K04', image: '/على خطاه/ام معبد/M-K04.png', type: 'Retail', area: 16.1 },
       ],
@@ -210,7 +210,7 @@ export const getZoneBySlug = (slug: string): Zone | undefined => {
   return alaKhutahData.zones.find((zone) => zone.slug === slug || zone.id === slug);
 };
 
-// Helper function to get total booth count
+// Helper function to get total unit count
 export const getTotalBoothCount = (): number => {
-  return alaKhutahData.zones.reduce((total, zone) => total + zone.booths.length, 0);
+  return alaKhutahData.zones.reduce((total, zone) => total + zone.units.length, 0);
 };

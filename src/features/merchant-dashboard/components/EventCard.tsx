@@ -183,7 +183,7 @@ export function EventCard({ event, onViewDetails }: EventCardProps) {
 
         <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
           <span className="text-sm text-gray-500 dark:text-gray-400">
-            {t.dashboard.availableBooths}: <span className="font-semibold text-gray-900 dark:text-white">{event.availableBooths}/{event.totalBooths}</span>
+            {t.dashboard.availableUnits}: <span className="font-semibold text-gray-900 dark:text-white">{event.availableUnits}/{event.totalUnits}</span>
           </span>
           <button
             onClick={() => onViewDetails?.(event)}

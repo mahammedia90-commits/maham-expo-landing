@@ -123,8 +123,8 @@ export interface Booth {
 
 export interface Payment {
   id: string;
-  boothId: string;
-  boothName: string;
+  unitId: string;
+  unitName: string;
   amount: number;
   paidAmount: number;
   remainingAmount: number;
@@ -165,11 +165,24 @@ export interface MerchantEvent {
   city: string;
   startDate: string;
   endDate: string;
-  availableBooths: number;
-  totalBooths: number;
+  availableUnits: number;
+  totalUnits: number;
   image?: string;
+  images?: string[];
   type: EventType;
   status: 'upcoming' | 'active' | 'ended';
+  organizer?: string;
+  organizerEn?: string;
+  website?: string;
+  email?: string;
+  phone?: string;
+  lat?: number;
+  lon?: number;
+  startTime?: string;
+  endTime?: string;
+  priceType?: 'free' | 'paid';
+  priceAmount?: number;
+  views?: number;
   stats?: {
     expectedVisitors: number;
     exhibitors: number;
@@ -186,7 +199,7 @@ export interface CreateOrderData {
 export interface MerchantOrder {
   id: string;
   orderNumber: string;
-  type: 'booth_booking' | 'service_request' | 'space_upgrade' | 'equipment_rental' | 'visit_request';
+  type: 'unit_booking' | 'service_request' | 'space_upgrade' | 'equipment_rental' | 'visit_request';
   status: 'pending' | 'approved' | 'rejected' | 'under_review';
   eventName: string;
   submittedAt: string;
@@ -196,7 +209,7 @@ export interface MerchantOrder {
 export interface MerchantPermit {
   id: string;
   permitNumber: string;
-  type: 'entry_permit' | 'booth_permit' | 'operational_permit' | 'vehicle_permit';
+  type: 'entry_permit' | 'unit_permit' | 'operational_permit' | 'vehicle_permit';
   status: 'active' | 'expired' | 'pending' | 'rejected';
   eventName: string;
   issuedAt: string;
@@ -204,8 +217,8 @@ export interface MerchantPermit {
 }
 
 export interface DashboardStats {
-  totalBooths: number;
-  activeBooths: number;
+  totalUnits: number;
+  activeUnits: number;
   totalPaid: number;
   totalRemaining: number;
   pendingDocuments: number;
@@ -217,7 +230,7 @@ export interface DashboardStats {
 // Notification Types
 export interface MerchantNotification {
   id: string;
-  type: 'payment' | 'booth' | 'document' | 'event' | 'order' | 'permit' | 'system';
+  type: 'payment' | 'unit' | 'document' | 'event' | 'order' | 'permit' | 'system';
   title: string;
   message: string;
   isRead: boolean;
@@ -284,7 +297,7 @@ export interface ServiceRequest {
   serviceName: string;
   category: ServiceCategory;
   eventName: string;
-  boothName: string;
+  unitName: string;
   quantity: number;
   totalPrice: number;
   status: 'pending' | 'approved' | 'rejected' | 'completed';
@@ -294,7 +307,7 @@ export interface ServiceRequest {
 export interface CreateServiceRequest {
   serviceId: string;
   eventName: string;
-  boothName: string;
+  unitName: string;
   quantity: number;
   notes?: string;
 }
@@ -304,7 +317,7 @@ export interface AnalyticsData {
   salesByMonth: { month: string; amount: number }[];
   visitorsByDay: { day: string; count: number }[];
   revenueVsGoal: { month: string; actual: number; goal: number }[];
-  topBooths: { name: string; revenue: number; visitors: number }[];
+  topUnits: { name: string; revenue: number; visitors: number }[];
   categoryBreakdown: { category: string; percentage: number; color: string }[];
   summary: {
     totalSales: number;
@@ -323,7 +336,7 @@ export interface MerchantSettings {
     smsNotifications: boolean;
     pushNotifications: boolean;
     paymentAlerts: boolean;
-    boothUpdates: boolean;
+    unitUpdates: boolean;
     eventReminders: boolean;
     marketingEmails: boolean;
   };
@@ -364,7 +377,7 @@ export interface SponsorPackage {
   mediaAppearances: number;
   vipInvitations: number;
   logoPlacement: string;
-  boothArea: string;
+  unitArea: string;
   canSponsorSession: boolean;
   canSponsorZone: boolean;
   status: 'active' | 'available' | 'expired';
@@ -399,7 +412,7 @@ export interface SponsorROIReport {
   eventName: string;
   totalVisitors: number;
   leadsGenerated: number;
-  boothScans: number;
+  unitScans: number;
   avgVisitorDuration: string;
   conversionRate: number;
   mediaValueEquivalent: number;
@@ -457,7 +470,7 @@ export interface InvestorSpace {
   location: string;
   city: string;
   area: number;
-  type: 'hall' | 'outdoor' | 'shop' | 'booth_area' | 'warehouse';
+  type: 'hall' | 'outdoor' | 'shop' | 'unit_area' | 'warehouse';
   photos: string[];
   pricePerMonth: number;
   pricePerDay: number;

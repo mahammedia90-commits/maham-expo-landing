@@ -29,10 +29,10 @@ const mockStats: SponsorDashboardStats = {
 };
 
 const mockPackages: SponsorPackage[] = [
-  { id: 'pkg1', name: 'الباقة البلاتينية', level: 'platinum', price: 150000, duration: '12 شهر', screens: 10, banners: 20, mediaAppearances: 15, vipInvitations: 50, logoPlacement: 'الصفحة الرئيسية + جميع الشاشات', boothArea: '10×10 م', canSponsorSession: true, canSponsorZone: true, status: 'active' },
-  { id: 'pkg2', name: 'الباقة الذهبية', level: 'gold', price: 80000, duration: '6 أشهر', screens: 5, banners: 10, mediaAppearances: 8, vipInvitations: 25, logoPlacement: 'الشاشات الرئيسية', boothArea: '6×6 م', canSponsorSession: true, canSponsorZone: false, status: 'active' },
-  { id: 'pkg3', name: 'الباقة الفضية', level: 'silver', price: 40000, duration: '3 أشهر', screens: 2, banners: 5, mediaAppearances: 3, vipInvitations: 10, logoPlacement: 'شاشات المنطقة', boothArea: '4×4 م', canSponsorSession: false, canSponsorZone: false, status: 'available' },
-  { id: 'pkg4', name: 'شريك إعلامي', level: 'media_partner', price: 25000, duration: '3 أشهر', screens: 1, banners: 3, mediaAppearances: 10, vipInvitations: 5, logoPlacement: 'المواد الإعلامية', boothArea: '3×3 م', canSponsorSession: false, canSponsorZone: false, status: 'available' },
+  { id: 'pkg1', name: 'الباقة البلاتينية', level: 'platinum', price: 150000, duration: '12 شهر', screens: 10, banners: 20, mediaAppearances: 15, vipInvitations: 50, logoPlacement: 'الصفحة الرئيسية + جميع الشاشات', unitArea: '10×10 م', canSponsorSession: true, canSponsorZone: true, status: 'active' },
+  { id: 'pkg2', name: 'الباقة الذهبية', level: 'gold', price: 80000, duration: '6 أشهر', screens: 5, banners: 10, mediaAppearances: 8, vipInvitations: 25, logoPlacement: 'الشاشات الرئيسية', unitArea: '6×6 م', canSponsorSession: true, canSponsorZone: false, status: 'active' },
+  { id: 'pkg3', name: 'الباقة الفضية', level: 'silver', price: 40000, duration: '3 أشهر', screens: 2, banners: 5, mediaAppearances: 3, vipInvitations: 10, logoPlacement: 'شاشات المنطقة', unitArea: '4×4 م', canSponsorSession: false, canSponsorZone: false, status: 'available' },
+  { id: 'pkg4', name: 'شريك إعلامي', level: 'media_partner', price: 25000, duration: '3 أشهر', screens: 1, banners: 3, mediaAppearances: 10, vipInvitations: 5, logoPlacement: 'المواد الإعلامية', unitArea: '3×3 م', canSponsorSession: false, canSponsorZone: false, status: 'available' },
 ];
 
 const mockContracts: SponsorContract[] = [
@@ -67,27 +67,20 @@ const mockExposure: SponsorExposure[] = [
 ];
 
 const mockROIReports: SponsorROIReport[] = [
-  { id: 'roi1', eventName: 'فعالية على خطاه', totalVisitors: 45000, leadsGenerated: 520, boothScans: 3200, avgVisitorDuration: '12 دقيقة', conversionRate: 11.5, mediaValueEquivalent: 480000, period: 'مارس 2026' },
-  { id: 'roi2', eventName: 'معرض الرياض التجاري', totalVisitors: 28000, leadsGenerated: 327, boothScans: 1800, avgVisitorDuration: '8 دقائق', conversionRate: 8.2, mediaValueEquivalent: 290000, period: 'أبريل 2026' },
+  { id: 'roi1', eventName: 'فعالية على خطاه', totalVisitors: 45000, leadsGenerated: 520, unitScans: 3200, avgVisitorDuration: '12 دقيقة', conversionRate: 11.5, mediaValueEquivalent: 480000, period: 'مارس 2026' },
+  { id: 'roi2', eventName: 'معرض الرياض التجاري', totalVisitors: 28000, leadsGenerated: 327, unitScans: 1800, avgVisitorDuration: '8 دقائق', conversionRate: 8.2, mediaValueEquivalent: 290000, period: 'أبريل 2026' },
 ];
 
-const mockEvents: MerchantEvent[] = [
-  // ── حالية ──
-  { id: 'se1', name: 'فعالية على خطاه', description: 'رحلة من مكة إلى المدينة عبر 8 مناطق. فرص رعاية مميزة مع ظهور إعلامي واسع وجمهور ضخم.', location: 'مكة المكرمة - المدينة المنورة', city: 'مكة المكرمة', startDate: '2026-03-01', endDate: '2026-03-30', availableBooths: 5, totalBooths: 10, type: 'cultural', status: 'active', image: 'https://mmnews.tv/wp-content/uploads/2026/02/Ala-Khutah-project.webp' },
-  { id: 'se2', name: 'موسم الرياض 2025-2026', description: 'أضخم حدث ترفيهي في المنطقة. باقات رعاية حصرية مع ملايين الزوار وظهور إعلامي عالمي.', location: 'بوليفارد وورلد، بوليفارد سيتي', city: 'الرياض', startDate: '2025-10-10', endDate: '2026-03-31', availableBooths: 12, totalBooths: 25, type: 'entertainment', status: 'active', image: 'https://images.unsplash.com/photo-1663900108404-a05e8bf82cda?w=800&h=400&fit=crop&q=80' },
-  { id: 'se3', name: 'LEAP 2026', description: 'أكبر مؤتمر تقني في العالم. فرص رعاية لشركات التقنية مع ظهور أمام قادة الصناعة العالميين.', location: 'مركز الرياض الدولي للمؤتمرات', city: 'الرياض', startDate: '2026-03-13', endDate: '2026-03-16', availableBooths: 8, totalBooths: 20, type: 'technology', status: 'active', image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=400&fit=crop&q=80' },
-  { id: 'se4', name: 'بينالي الدرعية 2026', description: 'فعالية فنية عالمية. فرص رعاية للعلامات الفاخرة مع جمهور ثقافي نخبوي.', location: 'حي جاكس، الدرعية', city: 'الرياض', startDate: '2026-01-30', endDate: '2026-05-02', availableBooths: 4, totalBooths: 8, type: 'cultural', status: 'active', image: 'https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=800&h=400&fit=crop&q=80' },
-
-  // ── قادمة ──
-  { id: 'se5', name: 'معرض الرياض التجاري', description: 'معرض تجاري شامل. باقات رعاية متنوعة تناسب جميع الميزانيات مع تغطية إعلامية واسعة.', location: 'الرياض - مركز المعارض', city: 'الرياض', startDate: '2026-04-10', endDate: '2026-04-20', availableBooths: 8, totalBooths: 15, type: 'exhibition', status: 'upcoming', image: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800&h=400&fit=crop&q=80' },
-  { id: 'se6', name: 'مهرجان الطعام السعودي', description: 'فرصة مثالية للرعاة في قطاع الأغذية والمشروبات. جمهور عائلي كبير ومتنوع.', location: 'الواجهة البحرية', city: 'جدة', startDate: '2026-05-01', endDate: '2026-05-15', availableBooths: 4, totalBooths: 8, type: 'entertainment', status: 'upcoming', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=400&fit=crop&q=80' },
-  { id: 'se7', name: 'FSB Sports Show Riyadh 2026', description: 'معرض رياضي دولي. فرص رعاية لشركات الرياضة واللياقة البدنية والمعدات الرياضية.', location: 'مركز الرياض الدولي للمعارض', city: 'الرياض', startDate: '2026-06-15', endDate: '2026-06-17', availableBooths: 6, totalBooths: 12, type: 'sports', status: 'upcoming', image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=400&fit=crop&q=80' },
-  { id: 'se8', name: 'كأس العالم للرياضات الإلكترونية 2026', description: 'بطولة عالمية للألعاب الإلكترونية. فرص رعاية استثنائية مع جمهور شبابي ضخم وتغطية رقمية واسعة.', location: 'بوليفارد سيتي', city: 'الرياض', startDate: '2026-08-01', endDate: '2026-08-30', availableBooths: 10, totalBooths: 20, type: 'sports', status: 'upcoming', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=400&fit=crop&q=80' },
-  { id: 'se9', name: 'Africa Coffee Expo 2026', description: 'معرض صناعة القهوة. فرص رعاية مثالية لشركات القهوة والمشروبات والمعدات.', location: 'مركز المعارض', city: 'جدة', startDate: '2026-07-20', endDate: '2026-07-23', availableBooths: 3, totalBooths: 6, type: 'exhibition', status: 'upcoming', image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&h=400&fit=crop&q=80' },
-  { id: 'se10', name: 'المؤتمر السعودي البحري 2026', description: 'مؤتمر القطاع البحري. فرص رعاية متخصصة لشركات النقل البحري والموانئ.', location: 'مركز المؤتمرات', city: 'الدمام', startDate: '2026-09-16', endDate: '2026-09-17', availableBooths: 3, totalBooths: 6, type: 'conference', status: 'upcoming', image: 'https://images.unsplash.com/photo-1724364552281-dbed323c4633?w=800&h=400&fit=crop&q=80' },
-  { id: 'se11', name: 'سوق السفر السعودي 2026', description: 'معرض السياحة والسفر. فرص رعاية لشركات الطيران والفنادق ووكالات السياحة.', location: 'مركز الرياض للمعارض', city: 'الرياض', startDate: '2026-10-05', endDate: '2026-10-08', availableBooths: 5, totalBooths: 10, type: 'exhibition', status: 'upcoming', image: 'https://images.unsplash.com/photo-1763455892848-39bbc7ca90a0?w=800&h=400&fit=crop&q=80' },
-  { id: 'se12', name: 'معرض المدن الذكية - السعودية', description: 'فعالية حلول المدن الذكية. فرص رعاية لشركات التقنية والبنية التحتية.', location: 'مركز الرياض الدولي للمؤتمرات', city: 'الرياض', startDate: '2026-11-10', endDate: '2026-11-13', availableBooths: 5, totalBooths: 10, type: 'technology', status: 'upcoming', image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&h=400&fit=crop&q=80' },
-];
+// Sponsor events derived from shared database
+import { saudiEventsDatabase } from '@/shared/constants/eventsData';
+const mockEvents: MerchantEvent[] = saudiEventsDatabase.map((event) => ({
+  ...event,
+  id: `sp-${event.id}`,
+  description: `${event.name} - فرص رعاية مميزة مع ظهور إعلامي واسع وجمهور ضخم. باقات رعاية حصرية تشمل حقوق التسمية والظهور على الشاشات واللوحات الإعلانية.`,
+  descriptionEn: `${event.nameEn || event.name} - Premium sponsorship opportunities with extensive media exposure and massive audience. Exclusive packages including naming rights, screen displays, and billboard placements.`,
+  availableUnits: Math.max(3, Math.floor(event.availableUnits * 0.3)),
+  totalUnits: Math.max(5, Math.floor(event.totalUnits * 0.15)),
+}));
 
 const mockDocuments: MerchantDocument[] = [
   { id: 'sd1', name: 'السجل التجاري', type: 'commercial_register', status: 'approved', fileUrl: '#', uploadedAt: '2025-12-01', expiryDate: '2027-12-01' },

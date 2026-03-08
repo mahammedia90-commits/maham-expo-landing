@@ -10,10 +10,10 @@ export function useDashboardStats() {
   });
 }
 
-export function useBooths() {
+export function useUnits() {
   return useQuery({
-    queryKey: ['merchant', 'booths'],
-    queryFn: () => merchantService.getBooths(),
+    queryKey: ['merchant', 'units'],
+    queryFn: () => merchantService.getUnits(),
   });
 }
 

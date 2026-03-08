@@ -60,30 +60,30 @@ export function AnalyticsSection() {
         </motion.div>
       </div>
 
-      {/* Top Booths + Category Breakdown */}
+      {/* Top Units + Category Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
           <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              {t.dashboard.topBoothsPerformance}
+              {t.dashboard.topUnitsPerformance}
             </h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-200 dark:border-gray-700">
-                    <th className="text-start py-2 text-gray-500 dark:text-gray-400 font-medium">{t.dashboard.booths}</th>
+                    <th className="text-start py-2 text-gray-500 dark:text-gray-400 font-medium">{t.dashboard.units}</th>
                     <th className="text-start py-2 text-gray-500 dark:text-gray-400 font-medium">{t.dashboard.revenue}</th>
                     <th className="text-start py-2 text-gray-500 dark:text-gray-400 font-medium">{t.dashboard.visitors}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {analytics.topBooths.map((booth, i) => (
+                  {analytics.topUnits.map((unit, i) => (
                     <tr key={i} className="border-b border-gray-100 dark:border-gray-750 last:border-0">
-                      <td className="py-2.5 text-gray-900 dark:text-white font-medium">{booth.name}</td>
+                      <td className="py-2.5 text-gray-900 dark:text-white font-medium">{unit.name}</td>
                       <td className="py-2.5 text-[#987012] dark:text-[#D4B85A] font-semibold">
-                        {booth.revenue.toLocaleString()} {t.dashboard.sar}
+                        {unit.revenue.toLocaleString()} {t.dashboard.sar}
                       </td>
-                      <td className="py-2.5 text-gray-600 dark:text-gray-400">{booth.visitors}</td>
+                      <td className="py-2.5 text-gray-600 dark:text-gray-400">{unit.visitors}</td>
                     </tr>
                   ))}
                 </tbody>

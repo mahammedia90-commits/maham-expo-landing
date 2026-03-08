@@ -21,7 +21,7 @@ function SpaceCard({ space }: { space: InvestorSpace }) {
     hall: t.investorDashboard.hall,
     outdoor: t.investorDashboard.outdoor,
     shop: t.investorDashboard.shop,
-    booth_area: t.investorDashboard.booth_area,
+    unit_area: t.investorDashboard.unit_area,
     warehouse: t.investorDashboard.warehouse,
   };
 

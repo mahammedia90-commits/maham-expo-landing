@@ -228,14 +228,14 @@ export function PrivacyContent() {
               href="/"
               className="text-[#987012] hover:text-[#E6B830] font-medium text-sm transition-colors"
             >
-              {isRtl ? 'الرئيسية - منصة تأجير البوثات' : 'Home - Booth Rental Platform'}
+              {isRtl ? 'الرئيسية - منصة تأجير الوحدات' : 'Home - Unit Rental Platform'}
             </Link>
             <span className="text-gray-300 dark:text-gray-600">|</span>
             <Link
               href="/ala-khutah"
               className="text-[#987012] hover:text-[#E6B830] font-medium text-sm transition-colors"
             >
-              {isRtl ? 'فعالية على خطاه - تأجير بوثات' : 'Ala Khutah Event - Booth Rental'}
+              {isRtl ? 'فعالية على خطاه - تأجير وحدات' : 'Ala Khutah Event - Unit Rental'}
             </Link>
           </motion.div>
 
