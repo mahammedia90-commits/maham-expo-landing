@@ -7,10 +7,10 @@ const USE_MOCK = true;
 
 const mockUser: MerchantUser = {
   id: 'merchant-001',
-  name: 'أحمد التاجر',
+  name: 'مرحباً',
   email: 'merchant@maham.com',
   phone: '+966 55 123 4567',
-  businessName: 'مؤسسة أحمد التجارية',
+  businessName: 'مؤسسة ماهم التجارية',
   commercialRegister: '1234567890',
   role: 'merchant',
   createdAt: '2025-06-15T00:00:00Z',

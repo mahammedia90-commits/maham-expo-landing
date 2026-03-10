@@ -6,7 +6,7 @@ const USE_MOCK = true;
 
 const mockUser: InvestorUser = {
   id: 'investor-001',
-  name: 'عبدالله المستثمر',
+  name: 'مرحباً',
   email: 'investor@maham.com',
   phone: '+966 55 123 4567',
   companyName: 'شركة المساحات الذهبية',

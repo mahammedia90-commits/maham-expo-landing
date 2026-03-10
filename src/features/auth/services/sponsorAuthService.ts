@@ -6,7 +6,7 @@ const USE_MOCK = true;
 
 const mockUser: SponsorUser = {
   id: 'sponsor-001',
-  name: 'محمد الراعي',
+  name: 'مرحباً',
   email: 'sponsor@maham.com',
   phone: '+966 55 987 6543',
   companyName: 'شركة الرعاية الذهبية',

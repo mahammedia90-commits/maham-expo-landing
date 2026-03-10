@@ -75,8 +75,8 @@ export function MerchantLoginForm() {
               value={email}
               onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
               className={`w-full px-4 py-3 rounded-xl border ${errors.email ? 'border-red-400' : 'border-gray-300 dark:border-gray-600'} bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition-all`}
-              placeholder="admin"
               dir="ltr"
+              autoComplete="off"
             />
             {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>
@@ -90,8 +90,8 @@ export function MerchantLoginForm() {
               value={password}
               onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: undefined })); }}
               className={`w-full px-4 py-3 rounded-xl border ${errors.password ? 'border-red-400' : 'border-gray-300 dark:border-gray-600'} bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#987012] focus:border-transparent outline-none transition-all`}
-              placeholder="••••••••"
               dir="ltr"
+              autoComplete="new-password"
             />
             {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
           </div>
@@ -107,14 +107,6 @@ export function MerchantLoginForm() {
         >
           {login.isPending ? t.merchantAuth.loggingIn : t.merchantAuth.login}
         </motion.button>
-
-        {/* Links */}
-        <div className="mt-6 text-center text-sm">
-          <span className="text-gray-500 dark:text-gray-400">{t.merchantAuth.noAccount} </span>
-          <Link href={ROUTES.MERCHANT_REGISTER} className="text-[#987012] dark:text-[#D4B85A] font-medium hover:underline">
-            {t.merchantAuth.createAccount}
-          </Link>
-        </div>
       </div>
 
       {/* Back link */}
