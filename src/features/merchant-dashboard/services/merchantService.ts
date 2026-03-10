@@ -39,11 +39,11 @@ const mockStats: DashboardStats = {
 };
 
 const mockUnits: Booth[] = [
-  { id: 'b1', name: 'وحدة A-12', zone: 'الجحفة', size: '3×3 م', type: 'food', status: 'active', eventName: 'فعالية على خطاه', startDate: '2026-03-01', endDate: '2026-03-30', price: 15000, },
-  { id: 'b2', name: 'وحدة C-05', zone: 'الريم', size: '4×4 م', type: 'retail', status: 'active', eventName: 'فعالية على خطاه', startDate: '2026-03-01', endDate: '2026-03-30', price: 20000, },
-  { id: 'b3', name: 'وحدة D-08', zone: 'أم معبد', size: '2×3 م', type: 'services', status: 'pending', eventName: 'فعالية على خطاه', startDate: '2026-04-01', endDate: '2026-04-30', price: 10000, },
-  { id: 'b4', name: 'وحدة B-03', zone: 'الأعرج', size: '3×3 م', type: 'food', status: 'active', eventName: 'معرض الرياض التجاري', startDate: '2026-02-15', endDate: '2026-03-15', price: 12000, },
-  { id: 'b5', name: 'وحدة A-01', zone: 'غار ثور', size: '5×5 م', type: 'retail', status: 'expired', eventName: 'موسم الرياض 2025', startDate: '2025-10-01', endDate: '2025-12-31', price: 25000, },
+  { id: 'b1', name: 'وحدة J-C03-03', zone: 'الجحفة', size: '3×3 م', type: 'food', status: 'active', eventName: 'فعالية على خطاه', startDate: '2026-03-01', endDate: '2026-03-30', price: 15000, image: '/على خطاه/الجحفه/J-C03-03.png' },
+  { id: 'b2', name: 'وحدة R-K02', zone: 'الريم', size: '4×4 م', type: 'retail', status: 'active', eventName: 'فعالية على خطاه', startDate: '2026-03-01', endDate: '2026-03-30', price: 20000, image: '/على خطاه/الريم/R-K02.png' },
+  { id: 'b3', name: 'وحدة M-K02', zone: 'أم معبد', size: '2×3 م', type: 'services', status: 'pending', eventName: 'فعالية على خطاه', startDate: '2026-04-01', endDate: '2026-04-30', price: 10000, image: '/على خطاه/ام معبد/M-K02.png' },
+  { id: 'b4', name: 'وحدة A-C02-02', zone: 'الأعرج', size: '3×3 م', type: 'food', status: 'active', eventName: 'فعالية على خطاه', startDate: '2026-02-15', endDate: '2026-03-15', price: 12000, image: '/على خطاه/العرج/A-C02-02.png' },
+  { id: 'b5', name: 'وحدة G-K13', zone: 'غار ثور', size: '5×5 م', type: 'retail', status: 'expired', eventName: 'فعالية على خطاه', startDate: '2025-10-01', endDate: '2025-12-31', price: 25000, image: '/على خطاه/غار ثور/G-K13.png' },
 ];
 
 const mockPayments: Payment[] = [

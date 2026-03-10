@@ -40,3 +40,4 @@ export { AnalyticsSummaryCards } from './AnalyticsSummaryCards';
 export { AnalyticsSection } from './AnalyticsSection';
 export { ToggleSwitch } from './ToggleSwitch';
 export { SettingsSection } from './SettingsSection';
+export { OccupancySection } from './OccupancySection';

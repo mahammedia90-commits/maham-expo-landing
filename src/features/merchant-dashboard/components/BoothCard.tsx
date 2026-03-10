@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import type { Booth } from '@/shared/types';
@@ -10,6 +11,7 @@ interface BoothCardProps {
 
 export function BoothCard({ unit }: BoothCardProps) {
   const { t } = useLanguageStore();
+  const [imgError, setImgError] = useState(false);
 
   const statusColors = {
     active: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
@@ -36,11 +38,22 @@ export function BoothCard({ unit }: BoothCardProps) {
       animate={{ opacity: 1, y: 0 }}
       className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-shadow"
     >
-      {/* Image placeholder */}
-      <div className="h-36 bg-gradient-to-br from-[#987012]/20 to-[#D4B85A]/20 dark:from-[#987012]/10 dark:to-[#D4B85A]/10 flex items-center justify-center">
-        <svg className="w-12 h-12 text-[#987012]/40 dark:text-[#D4B85A]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
+      {/* Unit Image */}
+      <div className="h-40 relative bg-gradient-to-br from-[#987012]/20 to-[#D4B85A]/20 dark:from-[#987012]/10 dark:to-[#D4B85A]/10">
+        {unit.image && !imgError ? (
+          <img
+            src={unit.image}
+            alt={unit.name}
+            className="absolute inset-0 w-full h-full object-cover"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <svg className="w-12 h-12 text-[#987012]/40 dark:text-[#D4B85A]/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+        )}
       </div>
 
       <div className="p-4">

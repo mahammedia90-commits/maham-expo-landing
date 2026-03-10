@@ -133,6 +133,7 @@ export const ROUTES = {
   DASHBOARD_EVENTS: '/dashboard/events',
   DASHBOARD_PERMITS: '/dashboard/permits',
   DASHBOARD_SERVICES: '/dashboard/services',
+  DASHBOARD_OCCUPANCY: '/dashboard/occupancy',
   DASHBOARD_ANALYTICS: '/dashboard/analytics',
   DASHBOARD_SETTINGS: '/dashboard/settings',
   DASHBOARD_PROFILE: '/dashboard/profile',
