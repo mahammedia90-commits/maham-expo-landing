@@ -15,7 +15,7 @@ export function SponsorAuthGuard({ children }: SponsorAuthGuardProps) {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace(ROUTES.SPONSOR_LOGIN_PAGE);
+      router.replace(ROUTES.LOGIN);
     }
   }, [isAuthenticated, isLoading, router]);
 

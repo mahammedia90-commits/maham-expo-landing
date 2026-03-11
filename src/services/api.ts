@@ -48,10 +48,10 @@ apiClient.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          // Unauthorized - clear token and redirect to merchant login
+          // Unauthorized - clear token and redirect to appropriate login
           if (typeof window !== 'undefined') {
             localStorage.removeItem('auth_token');
-            window.location.href = '/login/merchant';
+            window.location.href = '/login';
           }
           break;
         case 403:

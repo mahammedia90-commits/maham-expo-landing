@@ -28,11 +28,11 @@ export function useInvestorLogout() {
     mutationFn: () => investorAuthService.logout(),
     onSuccess: () => {
       logout();
-      router.push(ROUTES.INVESTOR_LOGIN_PAGE);
+      router.push(ROUTES.LOGIN);
     },
     onError: () => {
       logout();
-      router.push(ROUTES.INVESTOR_LOGIN_PAGE);
+      router.push(ROUTES.LOGIN);
     },
   });
 }

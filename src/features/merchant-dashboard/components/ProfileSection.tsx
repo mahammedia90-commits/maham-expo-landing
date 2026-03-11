@@ -6,6 +6,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import { useAuthStore } from '@/shared/store/useAuthStore';
 import { authService } from '@/features/auth/services/authService';
+import { ChangePasswordModal } from '@/features/auth/components/ChangePasswordModal';
+import { EmailVerificationForm } from '@/features/auth/components/EmailVerificationForm';
 
 export function ProfileSection() {
   const { t, isRtl } = useLanguageStore();
@@ -18,6 +20,7 @@ export function ProfileSection() {
     businessName: user?.businessName || '',
   });
   const [successMsg, setSuccessMsg] = useState('');
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   const updateProfile = useMutation({
     mutationFn: (data: typeof form) => authService.updateProfile(data),
@@ -145,6 +148,42 @@ export function ProfileSection() {
           </div>
         </form>
       </motion.div>
+
+      {/* Security Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mt-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6"
+      >
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          {t.dashboard.securitySettings}
+        </h3>
+        <div className="flex items-center justify-between py-3">
+          <div>
+            <p className="text-sm font-medium text-gray-900 dark:text-white">{t.dashboard.changePassword}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t.dashboard.changePasswordDesc}</p>
+          </div>
+          <button
+            onClick={() => setShowPasswordModal(true)}
+            className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          >
+            {t.dashboard.changePassword}
+          </button>
+        </div>
+      </motion.div>
+
+      {/* Email Verification Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="mt-6"
+      >
+        <EmailVerificationForm />
+      </motion.div>
+
+      <ChangePasswordModal isOpen={showPasswordModal} onClose={() => setShowPasswordModal(false)} />
     </div>
   );
 }

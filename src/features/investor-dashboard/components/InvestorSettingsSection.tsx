@@ -6,6 +6,7 @@ import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import { useInvestorSettings, useUpdateInvestorSettings } from '../hooks/useInvestorData';
 import { ToggleSwitch } from '@/features/merchant-dashboard/components/ToggleSwitch';
 import { LoadingSkeleton } from '@/features/merchant-dashboard/components/LoadingSkeleton';
+import { ChangePasswordModal } from '@/features/auth/components/ChangePasswordModal';
 import type { InvestorSettings } from '@/shared/types';
 
 export function InvestorSettingsSection() {
@@ -15,6 +16,7 @@ export function InvestorSettingsSection() {
 
   const [localSettings, setLocalSettings] = useState<InvestorSettings | null>(null);
   const [saved, setSaved] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   useEffect(() => {
     if (data?.data) setLocalSettings(data.data);
@@ -106,7 +108,10 @@ export function InvestorSettingsSection() {
                 <p className="text-sm font-medium text-gray-900 dark:text-white">{t.investorDashboard.changePassword}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t.investorDashboard.changePasswordDesc}</p>
               </div>
-              <button className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-xs font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <button
+                onClick={() => setShowPasswordModal(true)}
+                className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-xs font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
                 {t.investorDashboard.changePassword}
               </button>
             </div>
@@ -125,6 +130,8 @@ export function InvestorSettingsSection() {
           )}
         </motion.div>
       </div>
+
+      <ChangePasswordModal isOpen={showPasswordModal} onClose={() => setShowPasswordModal(false)} />
     </div>
   );
 }

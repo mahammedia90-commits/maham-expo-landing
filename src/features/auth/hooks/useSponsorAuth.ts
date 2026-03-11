@@ -28,11 +28,11 @@ export function useSponsorLogout() {
     mutationFn: () => sponsorAuthService.logout(),
     onSuccess: () => {
       logout();
-      router.push(ROUTES.SPONSOR_LOGIN_PAGE);
+      router.push(ROUTES.LOGIN);
     },
     onError: () => {
       logout();
-      router.push(ROUTES.SPONSOR_LOGIN_PAGE);
+      router.push(ROUTES.LOGIN);
     },
   });
 }

@@ -1,11 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
   images: {
-    unoptimized: true,  // Disables /_next/image API - required for static hosting
+    unoptimized: true,
   },
-  trailingSlash: true,  // Uses about/index.html - better for most hosting providers
+  trailingSlash: true,
+  async rewrites() {
+    return [
+      {
+        source: '/auth-api/:path*',
+        destination: 'https://auth-service-api.mahamexpo.sa/api/v1/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

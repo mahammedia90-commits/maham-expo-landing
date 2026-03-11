@@ -15,7 +15,7 @@ export function InvestorAuthGuard({ children }: InvestorAuthGuardProps) {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace(ROUTES.INVESTOR_LOGIN_PAGE);
+      router.replace(ROUTES.LOGIN);
     }
   }, [isAuthenticated, isLoading, router]);
 

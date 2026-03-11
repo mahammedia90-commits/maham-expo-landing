@@ -1,65 +1,122 @@
-import { api } from '@/services/api';
-import { API_ENDPOINTS } from '@/shared/constants';
-import type { AuthResponse, LoginCredentials, RegisterData, MerchantUser } from '@/shared/types';
+import { authApi } from '@/services/authApi';
+import { AUTH_ENDPOINTS } from '@/shared/constants';
+import type {
+  AuthResponse,
+  LoginCredentials,
+  RegisterData,
+  MerchantUser,
+  AuthApiLoginResponse,
+  AuthApiRegisterResponse,
+  AuthApiMeResponse,
+  AuthApiGenericResponse,
+} from '@/shared/types';
 
-// Set to true to use mock data (no backend needed)
-const USE_MOCK = true;
-
-const mockUser: MerchantUser = {
-  id: 'merchant-001',
-  name: 'مرحباً',
-  email: 'merchant@maham.com',
-  phone: '+966 55 123 4567',
-  businessName: 'مؤسسة ماهم التجارية',
-  commercialRegister: '1234567890',
-  role: 'merchant',
-  createdAt: '2025-06-15T00:00:00Z',
-};
-
-const VALID_EMAIL = 'admin';
-const VALID_PASSWORD = 'admin';
-
-const mockLogin = async (credentials: LoginCredentials): Promise<AuthResponse> => {
-  await new Promise((r) => setTimeout(r, 800));
-  if (credentials.email !== VALID_EMAIL || credentials.password !== VALID_PASSWORD) {
-    throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
-  }
+function mapApiUserToMerchant(apiUser: AuthApiLoginResponse['data']['user']): MerchantUser {
   return {
-    user: { ...mockUser, email: credentials.email },
-    token: 'mock-jwt-token-' + Date.now(),
+    id: apiUser.id,
+    name: apiUser.name,
+    email: apiUser.email,
+    phone: apiUser.phone || '',
+    avatar: apiUser.avatar || undefined,
+    role: 'merchant',
+    roles: apiUser.roles,
+    permissions: apiUser.permissions,
+    status: apiUser.status,
+    createdAt: apiUser.created_at,
   };
-};
-
-const mockRegister = async (data: RegisterData): Promise<AuthResponse> => {
-  await new Promise((r) => setTimeout(r, 1000));
-  return {
-    user: {
-      ...mockUser,
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      businessName: data.businessName,
-      commercialRegister: data.commercialRegister,
-    },
-    token: 'mock-jwt-token-' + Date.now(),
-  };
-};
+}
 
 export const authService = {
-  login: (credentials: LoginCredentials) =>
-    USE_MOCK ? mockLogin(credentials) : api.post<AuthResponse>(API_ENDPOINTS.MERCHANT_LOGIN, credentials),
+  login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
+    const response = await authApi.post<AuthApiLoginResponse>(AUTH_ENDPOINTS.LOGIN, {
+      identifier: credentials.email,
+      password: credentials.password,
+    });
 
-  register: (data: RegisterData) =>
-    USE_MOCK ? mockRegister(data) : api.post<AuthResponse>(API_ENDPOINTS.MERCHANT_REGISTER, data),
+    return {
+      user: mapApiUserToMerchant(response.data.user),
+      token: response.data.token,
+    };
+  },
 
-  logout: () =>
-    USE_MOCK ? Promise.resolve() : api.post(API_ENDPOINTS.MERCHANT_LOGOUT),
+  register: async (data: RegisterData): Promise<AuthResponse> => {
+    const response = await authApi.post<AuthApiRegisterResponse>(AUTH_ENDPOINTS.REGISTER, {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      password_confirmation: data.password_confirmation,
+      phone: data.phone,
+      roles: [data.role],
+    });
 
-  getProfile: () =>
-    api.get<{ data: MerchantUser }>(API_ENDPOINTS.MERCHANT_PROFILE),
+    return {
+      user: mapApiUserToMerchant(response.data.user),
+      token: response.data.token,
+    };
+  },
 
-  updateProfile: (data: Partial<MerchantUser>) =>
-    USE_MOCK
-      ? Promise.resolve({ data: { ...mockUser, ...data } as MerchantUser })
-      : api.put<{ data: MerchantUser }>(API_ENDPOINTS.MERCHANT_UPDATE_PROFILE, data),
+  logout: async (): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.LOGOUT);
+  },
+
+  getProfile: async (): Promise<{ data: MerchantUser }> => {
+    const response = await authApi.get<AuthApiMeResponse>(AUTH_ENDPOINTS.ME);
+    return { data: mapApiUserToMerchant(response.data) };
+  },
+
+  updateProfile: async (data: Partial<MerchantUser>): Promise<{ data: MerchantUser }> => {
+    const response = await authApi.put<{ success: boolean; data: AuthApiMeResponse['data'] }>(
+      AUTH_ENDPOINTS.PROFILE,
+      {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      }
+    );
+    return { data: mapApiUserToMerchant(response.data) };
+  },
+
+  refreshToken: async (): Promise<{ token: string }> => {
+    const response = await authApi.post<{ success: boolean; data: { token: string } }>(
+      AUTH_ENDPOINTS.REFRESH
+    );
+    return { token: response.data.token };
+  },
+
+  changePassword: async (currentPassword: string, password: string, passwordConfirmation: string): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.CHANGE_PASSWORD, {
+      current_password: currentPassword,
+      password,
+      password_confirmation: passwordConfirmation,
+    });
+  },
+
+  forgotPassword: async (email: string): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.FORGOT_PASSWORD, { email });
+  },
+
+  resetPassword: async (email: string, token: string, password: string, passwordConfirmation: string): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.RESET_PASSWORD, {
+      email,
+      token,
+      password,
+      password_confirmation: passwordConfirmation,
+    });
+  },
+
+  sendVerificationEmail: async (): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.SEND_VERIFICATION);
+  },
+
+  verifyEmail: async (code: string): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.VERIFY_EMAIL, { code });
+  },
+
+  verifyToken: async (token: string): Promise<{ valid: boolean }> => {
+    const response = await authApi.post<{ success: boolean; data: { valid: boolean } }>(
+      AUTH_ENDPOINTS.VERIFY_TOKEN,
+      { token }
+    );
+    return { valid: response.data.valid };
+  },
 };

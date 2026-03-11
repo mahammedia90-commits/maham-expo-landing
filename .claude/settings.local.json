@@ -43,7 +43,9 @@
       "Read(//c/tmp/**)",
       "Bash(python:*)",
       "Bash(python3:*)",
-      "Bash(/c/ZKBioTime/Python311/python:*)"
+      "Bash(/c/ZKBioTime/Python311/python:*)",
+      "Bash(cd \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\" && rm -rf .next && npx tsc --noEmit 2>&1 | head -20)",
+      "Bash(cd \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\" && rm -rf .next/types && npx tsc --noEmit 2>&1 | head -20)"
     ]
   }
 }

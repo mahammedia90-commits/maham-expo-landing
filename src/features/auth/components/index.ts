@@ -1,7 +1,8 @@
 export { AuthGuard } from './AuthGuard';
-export { MerchantLoginForm } from './MerchantLoginForm';
-export { MerchantRegistrationForm } from './MerchantRegistrationForm';
+export { ForgotPasswordForm } from './ForgotPasswordForm';
+export { RegistrationForm } from './RegistrationForm';
+export { ResetPasswordForm } from './ResetPasswordForm';
 export { SponsorAuthGuard } from './SponsorAuthGuard';
-export { SponsorLoginForm } from './SponsorLoginForm';
 export { InvestorAuthGuard } from './InvestorAuthGuard';
-export { InvestorLoginForm } from './InvestorLoginForm';
+export { ChangePasswordModal } from './ChangePasswordModal';
+export { EmailVerificationForm } from './EmailVerificationForm';

@@ -1,8 +1,26 @@
 export * from './translations';
 
+// Centralized Auth Service Endpoints
+export const AUTH_ENDPOINTS = {
+  LOGIN: '/auth/login',
+  REGISTER: '/auth/register',
+  LOGOUT: '/auth/logout',
+  REFRESH: '/auth/refresh',
+  ME: '/auth/me',
+  PROFILE: '/auth/profile',
+  FORGOT_PASSWORD: '/auth/forgot-password',
+  RESET_PASSWORD: '/auth/reset-password',
+  CHANGE_PASSWORD: '/auth/change-password',
+  SEND_VERIFICATION: '/auth/email/send-verification',
+  VERIFY_EMAIL: '/auth/email/verify',
+  VERIFY_TOKEN: '/verify-token',
+  CHECK_PERMISSION: '/check-permission',
+  CHECK_PERMISSIONS: '/check-permissions',
+} as const;
+
 // API endpoints
 export const API_ENDPOINTS = {
-  // Auth
+  // Auth (legacy - use AUTH_ENDPOINTS for centralized auth service)
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
   LOGOUT: '/auth/logout',
@@ -123,6 +141,7 @@ export const STORAGE_KEYS = {
 export const ROUTES = {
   HOME: '/',
   LOGIN: '/login',
+  REGISTER: '/register',
   MERCHANT_LOGIN: '/login/merchant',
   MERCHANT_REGISTER: '/register/merchant',
   DASHBOARD: '/dashboard',
@@ -157,4 +176,7 @@ export const ROUTES = {
   INVESTOR_DASHBOARD_EVENTS: '/investor-dashboard/events',
   INVESTOR_DASHBOARD_SETTINGS: '/investor-dashboard/settings',
   INVESTOR_DASHBOARD_PROFILE: '/investor-dashboard/profile',
+  // Auth pages
+  FORGOT_PASSWORD: '/forgot-password',
+  RESET_PASSWORD: '/reset-password',
 } as const;

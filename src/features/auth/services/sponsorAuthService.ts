@@ -1,47 +1,60 @@
-import { api } from '@/services/api';
-import { API_ENDPOINTS } from '@/shared/constants';
-import type { SponsorAuthResponse, LoginCredentials, SponsorUser } from '@/shared/types';
+import { authApi } from '@/services/authApi';
+import { AUTH_ENDPOINTS } from '@/shared/constants';
+import type {
+  SponsorAuthResponse,
+  LoginCredentials,
+  SponsorUser,
+  AuthApiLoginResponse,
+  AuthApiMeResponse,
+  AuthApiGenericResponse,
+} from '@/shared/types';
 
-const USE_MOCK = true;
-
-const mockUser: SponsorUser = {
-  id: 'sponsor-001',
-  name: 'مرحباً',
-  email: 'sponsor@maham.com',
-  phone: '+966 55 987 6543',
-  companyName: 'شركة الرعاية الذهبية',
-  commercialRegister: '9876543210',
-  role: 'sponsor',
-  sponsorLevel: 'gold',
-  createdAt: '2025-08-01T00:00:00Z',
-};
-
-const VALID_EMAIL = 'admin';
-const VALID_PASSWORD = 'admin';
-
-const mockLogin = async (credentials: LoginCredentials): Promise<SponsorAuthResponse> => {
-  await new Promise((r) => setTimeout(r, 800));
-  if (credentials.email !== VALID_EMAIL || credentials.password !== VALID_PASSWORD) {
-    throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
-  }
+function mapApiUserToSponsor(apiUser: AuthApiLoginResponse['data']['user']): SponsorUser {
   return {
-    user: { ...mockUser, email: credentials.email },
-    token: 'mock-sponsor-jwt-token-' + Date.now(),
+    id: apiUser.id,
+    name: apiUser.name,
+    email: apiUser.email,
+    phone: apiUser.phone || '',
+    avatar: apiUser.avatar || undefined,
+    role: 'sponsor',
+    roles: apiUser.roles,
+    permissions: apiUser.permissions,
+    status: apiUser.status,
+    createdAt: apiUser.created_at,
   };
-};
+}
 
 export const sponsorAuthService = {
-  login: (credentials: LoginCredentials) =>
-    USE_MOCK ? mockLogin(credentials) : api.post<SponsorAuthResponse>(API_ENDPOINTS.SPONSOR_LOGIN, credentials),
+  login: async (credentials: LoginCredentials): Promise<SponsorAuthResponse> => {
+    const response = await authApi.post<AuthApiLoginResponse>(AUTH_ENDPOINTS.LOGIN, {
+      identifier: credentials.email,
+      password: credentials.password,
+    });
 
-  logout: () =>
-    USE_MOCK ? Promise.resolve() : api.post(API_ENDPOINTS.SPONSOR_LOGOUT),
+    return {
+      user: mapApiUserToSponsor(response.data.user),
+      token: response.data.token,
+    };
+  },
 
-  getProfile: () =>
-    api.get<{ data: SponsorUser }>(API_ENDPOINTS.SPONSOR_PROFILE),
+  logout: async (): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.LOGOUT);
+  },
 
-  updateProfile: (data: Partial<SponsorUser>) =>
-    USE_MOCK
-      ? Promise.resolve({ data: { ...mockUser, ...data } as SponsorUser })
-      : api.put<{ data: SponsorUser }>(API_ENDPOINTS.SPONSOR_UPDATE_PROFILE, data),
+  getProfile: async (): Promise<{ data: SponsorUser }> => {
+    const response = await authApi.get<AuthApiMeResponse>(AUTH_ENDPOINTS.ME);
+    return { data: mapApiUserToSponsor(response.data) };
+  },
+
+  updateProfile: async (data: Partial<SponsorUser>): Promise<{ data: SponsorUser }> => {
+    const response = await authApi.put<{ success: boolean; data: AuthApiMeResponse['data'] }>(
+      AUTH_ENDPOINTS.PROFILE,
+      {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      }
+    );
+    return { data: mapApiUserToSponsor(response.data) };
+  },
 };

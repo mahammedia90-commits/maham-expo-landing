@@ -6,6 +6,7 @@ import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import { useSettings, useUpdateSettings } from '../hooks/useMerchantData';
 import { ToggleSwitch } from './ToggleSwitch';
 import { LoadingSkeleton } from './LoadingSkeleton';
+import { ChangePasswordModal } from '@/features/auth/components/ChangePasswordModal';
 import type { MerchantSettings } from '@/shared/types';
 
 export function SettingsSection() {
@@ -15,6 +16,7 @@ export function SettingsSection() {
 
   const [localSettings, setLocalSettings] = useState<MerchantSettings | null>(null);
   const [saved, setSaved] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   useEffect(() => {
     if (data?.data) setLocalSettings(data.data);
@@ -187,7 +189,10 @@ export function SettingsSection() {
                 <p className="text-sm font-medium text-gray-900 dark:text-white">{t.dashboard.changePassword}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t.dashboard.changePasswordDesc}</p>
               </div>
-              <button className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-xs font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <button
+                onClick={() => setShowPasswordModal(true)}
+                className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-xs font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
                 {t.dashboard.changePassword}
               </button>
             </div>
@@ -219,6 +224,8 @@ export function SettingsSection() {
           )}
         </motion.div>
       </div>
+
+      <ChangePasswordModal isOpen={showPasswordModal} onClose={() => setShowPasswordModal(false)} />
     </div>
   );
 }

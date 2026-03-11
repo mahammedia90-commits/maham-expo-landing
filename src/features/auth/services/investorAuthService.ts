@@ -1,48 +1,60 @@
-import { api } from '@/services/api';
-import { API_ENDPOINTS } from '@/shared/constants';
-import type { InvestorAuthResponse, LoginCredentials, InvestorUser } from '@/shared/types';
+import { authApi } from '@/services/authApi';
+import { AUTH_ENDPOINTS } from '@/shared/constants';
+import type {
+  InvestorAuthResponse,
+  LoginCredentials,
+  InvestorUser,
+  AuthApiLoginResponse,
+  AuthApiMeResponse,
+  AuthApiGenericResponse,
+} from '@/shared/types';
 
-const USE_MOCK = true;
-
-const mockUser: InvestorUser = {
-  id: 'investor-001',
-  name: 'مرحباً',
-  email: 'investor@maham.com',
-  phone: '+966 55 123 4567',
-  companyName: 'شركة المساحات الذهبية',
-  commercialRegister: '1234567890',
-  role: 'investor',
-  investmentType: 'mixed',
-  totalSpaces: 5,
-  createdAt: '2025-06-15T00:00:00Z',
-};
-
-const VALID_EMAIL = 'admin';
-const VALID_PASSWORD = 'admin';
-
-const mockLogin = async (credentials: LoginCredentials): Promise<InvestorAuthResponse> => {
-  await new Promise((r) => setTimeout(r, 800));
-  if (credentials.email !== VALID_EMAIL || credentials.password !== VALID_PASSWORD) {
-    throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
-  }
+function mapApiUserToInvestor(apiUser: AuthApiLoginResponse['data']['user']): InvestorUser {
   return {
-    user: { ...mockUser, email: credentials.email },
-    token: 'mock-investor-jwt-token-' + Date.now(),
+    id: apiUser.id,
+    name: apiUser.name,
+    email: apiUser.email,
+    phone: apiUser.phone || '',
+    avatar: apiUser.avatar || undefined,
+    role: 'investor',
+    roles: apiUser.roles,
+    permissions: apiUser.permissions,
+    status: apiUser.status,
+    createdAt: apiUser.created_at,
   };
-};
+}
 
 export const investorAuthService = {
-  login: (credentials: LoginCredentials) =>
-    USE_MOCK ? mockLogin(credentials) : api.post<InvestorAuthResponse>(API_ENDPOINTS.INVESTOR_LOGIN, credentials),
+  login: async (credentials: LoginCredentials): Promise<InvestorAuthResponse> => {
+    const response = await authApi.post<AuthApiLoginResponse>(AUTH_ENDPOINTS.LOGIN, {
+      identifier: credentials.email,
+      password: credentials.password,
+    });
 
-  logout: () =>
-    USE_MOCK ? Promise.resolve() : api.post(API_ENDPOINTS.INVESTOR_LOGOUT),
+    return {
+      user: mapApiUserToInvestor(response.data.user),
+      token: response.data.token,
+    };
+  },
 
-  getProfile: () =>
-    api.get<{ data: InvestorUser }>(API_ENDPOINTS.INVESTOR_PROFILE),
+  logout: async (): Promise<void> => {
+    await authApi.post<AuthApiGenericResponse>(AUTH_ENDPOINTS.LOGOUT);
+  },
 
-  updateProfile: (data: Partial<InvestorUser>) =>
-    USE_MOCK
-      ? Promise.resolve({ data: { ...mockUser, ...data } as InvestorUser })
-      : api.put<{ data: InvestorUser }>(API_ENDPOINTS.INVESTOR_UPDATE_PROFILE, data),
+  getProfile: async (): Promise<{ data: InvestorUser }> => {
+    const response = await authApi.get<AuthApiMeResponse>(AUTH_ENDPOINTS.ME);
+    return { data: mapApiUserToInvestor(response.data) };
+  },
+
+  updateProfile: async (data: Partial<InvestorUser>): Promise<{ data: InvestorUser }> => {
+    const response = await authApi.put<{ success: boolean; data: AuthApiMeResponse['data'] }>(
+      AUTH_ENDPOINTS.PROFILE,
+      {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      }
+    );
+    return { data: mapApiUserToInvestor(response.data) };
+  },
 };

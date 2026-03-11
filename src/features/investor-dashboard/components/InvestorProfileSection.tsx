@@ -6,6 +6,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
 import { useInvestorAuthStore } from '@/shared/store/useInvestorAuthStore';
 import { investorAuthService } from '@/features/auth/services/investorAuthService';
+import { ChangePasswordModal } from '@/features/auth/components/ChangePasswordModal';
+import { EmailVerificationForm } from '@/features/auth/components/EmailVerificationForm';
 import type { InvestmentType } from '@/shared/types';
 
 export function InvestorProfileSection() {
@@ -19,6 +21,7 @@ export function InvestorProfileSection() {
     companyName: user?.companyName || '',
   });
   const [successMsg, setSuccessMsg] = useState('');
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   const updateProfile = useMutation({
     mutationFn: (data: typeof form) => investorAuthService.updateProfile(data),
@@ -122,6 +125,42 @@ export function InvestorProfileSection() {
           </div>
         </form>
       </motion.div>
+
+      {/* Security Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mt-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6"
+      >
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          {t.investorDashboard.securitySettings}
+        </h3>
+        <div className="flex items-center justify-between py-3">
+          <div>
+            <p className="text-sm font-medium text-gray-900 dark:text-white">{t.investorDashboard.changePassword}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t.investorDashboard.changePasswordDesc}</p>
+          </div>
+          <button
+            onClick={() => setShowPasswordModal(true)}
+            className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+          >
+            {t.investorDashboard.changePassword}
+          </button>
+        </div>
+      </motion.div>
+
+      {/* Email Verification Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="mt-6"
+      >
+        <EmailVerificationForm />
+      </motion.div>
+
+      <ChangePasswordModal isOpen={showPasswordModal} onClose={() => setShowPasswordModal(false)} />
     </div>
   );
 }

@@ -73,16 +73,75 @@ export interface AppStats {
   totalUsers: number;
 }
 
+// Auth API User (from centralized auth service)
+export interface AuthApiUser {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  avatar?: string | null;
+  status: 'active' | 'suspended' | 'blocked';
+  email_verified: boolean;
+  phone_verified: boolean;
+  roles: string[];
+  permissions: string[];
+  last_login_at?: string | null;
+  created_at: string;
+}
+
+// Auth API Responses
+export interface AuthApiLoginResponse {
+  success: boolean;
+  message: string;
+  data: {
+    user: AuthApiUser;
+    token: string;
+    token_type: string;
+    expires_in: number;
+  };
+}
+
+export interface AuthApiRegisterResponse {
+  success: boolean;
+  message: string;
+  data: {
+    user: AuthApiUser;
+    token: string;
+  };
+}
+
+export interface AuthApiMeResponse {
+  success: boolean;
+  data: AuthApiUser;
+}
+
+export interface AuthApiRefreshResponse {
+  success: boolean;
+  data: {
+    token: string;
+    token_type: string;
+    expires_in: number;
+  };
+}
+
+export interface AuthApiGenericResponse {
+  success: boolean;
+  message: string;
+}
+
 // Auth Types
 export interface MerchantUser {
   id: string;
   name: string;
   email: string;
   phone: string;
-  businessName: string;
+  businessName?: string;
   commercialRegister?: string;
   avatar?: string;
   role: 'merchant';
+  roles?: string[];
+  permissions?: string[];
+  status?: string;
   createdAt: string;
 }
 
@@ -96,8 +155,10 @@ export interface RegisterData {
   email: string;
   phone: string;
   password: string;
-  businessName: string;
-  commercialRegister: string;
+  password_confirmation: string;
+  role: string;
+  businessName?: string;
+  commercialRegister?: string;
 }
 
 export interface AuthResponse {
@@ -356,11 +417,14 @@ export interface SponsorUser {
   name: string;
   email: string;
   phone: string;
-  companyName: string;
+  companyName?: string;
   commercialRegister?: string;
   avatar?: string;
   role: 'sponsor';
-  sponsorLevel: SponsorLevel;
+  roles?: string[];
+  permissions?: string[];
+  status?: string;
+  sponsorLevel?: SponsorLevel;
   createdAt: string;
 }
 
@@ -453,12 +517,15 @@ export interface InvestorUser {
   name: string;
   email: string;
   phone: string;
-  companyName: string;
+  companyName?: string;
   commercialRegister?: string;
   avatar?: string;
   role: 'investor';
-  investmentType: InvestmentType;
-  totalSpaces: number;
+  roles?: string[];
+  permissions?: string[];
+  status?: string;
+  investmentType?: InvestmentType;
+  totalSpaces?: number;
   createdAt: string;
 }
 
