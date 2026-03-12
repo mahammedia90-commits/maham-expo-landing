@@ -182,6 +182,7 @@ export const ROUTES = {
   ADMIN_ROLES: '/admin/roles',
   ADMIN_PERMISSIONS: '/admin/permissions',
   ADMIN_SERVICES: '/admin/services',
+  ADMIN_EVENTS: '/admin/events',
   // Auth pages
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',
