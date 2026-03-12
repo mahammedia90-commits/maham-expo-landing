@@ -27,7 +27,9 @@ export function RolesSection() {
     try {
       const [rolesRes, permsRes] = await Promise.all([rolesApi.list(), permissionsApi.list()]);
       setRoles(Array.isArray(rolesRes.data) ? rolesRes.data : []);
-      setAllPermissions(Array.isArray(permsRes.data) ? permsRes.data : []);
+      // Permissions API returns { data: { permissions: [...] } } not { data: [...] }
+      const permsList = permsRes.data?.permissions ?? (Array.isArray(permsRes.data) ? permsRes.data : []);
+      setAllPermissions(permsList);
     } catch { setRoles([]); } finally { setLoading(false); }
   }, []);
 

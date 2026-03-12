@@ -64,86 +64,86 @@ interface SingleResponse<T> {
 // Users API
 export const usersApi = {
   list: (params?: { page?: number; search?: string; status?: string; role?: string }) =>
-    authApi.get<PaginatedResponse<AdminUser>>('/users', { params }),
+    authApi.get<PaginatedResponse<AdminUser>>('/users/', { params }),
 
   get: (id: string) =>
-    authApi.get<SingleResponse<AdminUser>>(`/users/${id}`),
+    authApi.get<SingleResponse<AdminUser>>(`/users/${id}/`),
 
   create: (data: { name: string; email: string; password: string; password_confirmation: string; phone?: string; status?: string; roles?: string[] }) =>
-    authApi.post<SingleResponse<AdminUser>>('/users', data),
+    authApi.post<SingleResponse<AdminUser>>('/users/', data),
 
   update: (id: string, data: { name?: string; email?: string; phone?: string; status?: string; roles?: string[] }) =>
-    authApi.put<SingleResponse<AdminUser>>(`/users/${id}`, data),
+    authApi.put<SingleResponse<AdminUser>>(`/users/${id}/`, data),
 
   delete: (id: string) =>
-    authApi.delete<SingleResponse<null>>(`/users/${id}`),
+    authApi.delete<SingleResponse<null>>(`/users/${id}/`),
 };
 
 // Roles API
 export const rolesApi = {
   list: () =>
-    authApi.get<PaginatedResponse<Role>>('/roles'),
+    authApi.get<PaginatedResponse<Role>>('/roles/'),
 
   get: (id: string) =>
-    authApi.get<SingleResponse<Role>>(`/roles/${id}`),
+    authApi.get<SingleResponse<Role>>(`/roles/${id}/`),
 
   create: (data: { name: string; display_name?: string; description?: string }) =>
-    authApi.post<SingleResponse<Role>>('/roles', data),
+    authApi.post<SingleResponse<Role>>('/roles/', data),
 
   update: (id: string, data: { name?: string; display_name?: string; description?: string }) =>
-    authApi.put<SingleResponse<Role>>(`/roles/${id}`, data),
+    authApi.put<SingleResponse<Role>>(`/roles/${id}/`, data),
 
   delete: (id: string) =>
-    authApi.delete<SingleResponse<null>>(`/roles/${id}`),
+    authApi.delete<SingleResponse<null>>(`/roles/${id}/`),
 
   syncPermissions: (id: string, permissions: string[]) =>
-    authApi.post<SingleResponse<Role>>(`/roles/${id}/permissions`, { permissions }),
+    authApi.post<SingleResponse<Role>>(`/roles/${id}/permissions/`, { permissions }),
 
   addPermissions: (id: string, permissions: string[]) =>
-    authApi.post<SingleResponse<Role>>(`/roles/${id}/permissions/add`, { permissions }),
+    authApi.post<SingleResponse<Role>>(`/roles/${id}/permissions/add/`, { permissions }),
 
   removePermissions: (id: string, permissions: string[]) =>
-    authApi.post<SingleResponse<Role>>(`/roles/${id}/permissions/remove`, { permissions }),
+    authApi.post<SingleResponse<Role>>(`/roles/${id}/permissions/remove/`, { permissions }),
 };
 
 // Permissions API
 export const permissionsApi = {
   list: () =>
-    authApi.get<PaginatedResponse<Permission>>('/permissions'),
+    authApi.get<PaginatedResponse<Permission>>('/permissions/'),
 
   get: (id: string) =>
-    authApi.get<SingleResponse<Permission>>(`/permissions/${id}`),
+    authApi.get<SingleResponse<Permission>>(`/permissions/${id}/`),
 
   create: (data: { name: string; display_name?: string; description?: string }) =>
-    authApi.post<SingleResponse<Permission>>('/permissions', data),
+    authApi.post<SingleResponse<Permission>>('/permissions/', data),
 
   createResource: (data: { resource: string; actions?: string[] }) =>
-    authApi.post<SingleResponse<Permission[]>>('/permissions/resource', data),
+    authApi.post<SingleResponse<Permission[]>>('/permissions/resource/', data),
 
   update: (id: string, data: { name?: string; display_name?: string; description?: string }) =>
-    authApi.put<SingleResponse<Permission>>(`/permissions/${id}`, data),
+    authApi.put<SingleResponse<Permission>>(`/permissions/${id}/`, data),
 
   delete: (id: string) =>
-    authApi.delete<SingleResponse<null>>(`/permissions/${id}`),
+    authApi.delete<SingleResponse<null>>(`/permissions/${id}/`),
 };
 
 // Services API
 export const servicesApi = {
   list: () =>
-    authApi.get<PaginatedResponse<Service>>('/services'),
+    authApi.get<PaginatedResponse<Service>>('/services/'),
 
   get: (id: string) =>
-    authApi.get<SingleResponse<Service>>(`/services/${id}`),
+    authApi.get<SingleResponse<Service>>(`/services/${id}/`),
 
   create: (data: { name: string; base_url: string; description?: string; is_active?: boolean }) =>
-    authApi.post<SingleResponse<Service>>('/services', data),
+    authApi.post<SingleResponse<Service>>('/services/', data),
 
   update: (id: string, data: { name?: string; base_url?: string; description?: string; is_active?: boolean }) =>
-    authApi.put<SingleResponse<Service>>(`/services/${id}`, data),
+    authApi.put<SingleResponse<Service>>(`/services/${id}/`, data),
 
   delete: (id: string) =>
-    authApi.delete<SingleResponse<null>>(`/services/${id}`),
+    authApi.delete<SingleResponse<null>>(`/services/${id}/`),
 
   regenerateToken: (id: string) =>
-    authApi.post<SingleResponse<Service>>(`/services/${id}/regenerate-token`),
+    authApi.post<SingleResponse<Service>>(`/services/${id}/regenerate-token/`),
 };

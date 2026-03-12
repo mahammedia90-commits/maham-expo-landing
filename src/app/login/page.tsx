@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
-import { useAuthStore } from '@/shared/store/useAuthStore';
 import { useUnifiedLogin } from '@/features/auth/hooks/useUnifiedLogin';
 import { ROUTES } from '@/shared/constants';
 
@@ -14,8 +12,6 @@ type LoginMethod = 'email' | 'phone';
 export default function LoginPage() {
   const { t, isRtl } = useLanguageStore();
   const login = useUnifiedLogin();
-  const router = useRouter();
-  const { setAuth } = useAuthStore();
   const [method, setMethod] = useState<LoginMethod>('email');
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -173,27 +169,6 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          {/* TODO: TEMP - Remove later */}
-          <button
-            type="button"
-            onClick={() => {
-              setAuth({
-                id: 'temp-admin',
-                name: 'Admin',
-                email: 'admin@maham.sa',
-                phone: '',
-                role: 'merchant',
-                roles: ['admin'],
-                permissions: ['users.view','users.create','users.update','users.delete','roles.view','roles.create','roles.update','roles.delete','permissions.view','permissions.create','permissions.update','permissions.delete','services.view','services.create','services.update','services.delete'],
-                status: 'active',
-                createdAt: new Date().toISOString(),
-              }, 'temp-token');
-              router.push(ROUTES.ADMIN_DASHBOARD);
-            }}
-            className="block w-full mt-3 text-center text-xs text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors"
-          >
-            Admin Panel →
-          </button>
         </div>
 
         {/* Back link */}
