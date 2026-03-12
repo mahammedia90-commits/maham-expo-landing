@@ -22,7 +22,8 @@ export function useLogin() {
   });
 }
 
-function getRoleAndRoute(roles: string[]): { role: 'merchant' | 'investor' | 'sponsor'; route: string } {
+function getRoleAndRoute(roles: string[]): { role: 'merchant' | 'investor' | 'sponsor' | 'admin'; route: string } {
+  if (roles.includes('super-admin') || roles.includes('admin')) return { role: 'admin', route: ROUTES.ADMIN_DASHBOARD };
   if (roles.includes('merchant')) return { role: 'merchant', route: ROUTES.DASHBOARD };
   if (roles.includes('investor')) return { role: 'investor', route: ROUTES.INVESTOR_DASHBOARD };
   if (roles.includes('sponsor')) return { role: 'sponsor', route: ROUTES.SPONSOR_DASHBOARD };

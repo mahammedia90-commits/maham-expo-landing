@@ -176,6 +176,12 @@ export const ROUTES = {
   INVESTOR_DASHBOARD_EVENTS: '/investor-dashboard/events',
   INVESTOR_DASHBOARD_SETTINGS: '/investor-dashboard/settings',
   INVESTOR_DASHBOARD_PROFILE: '/investor-dashboard/profile',
+  // Admin
+  ADMIN_DASHBOARD: '/admin',
+  ADMIN_USERS: '/admin/users',
+  ADMIN_ROLES: '/admin/roles',
+  ADMIN_PERMISSIONS: '/admin/permissions',
+  ADMIN_SERVICES: '/admin/services',
   // Auth pages
   FORGOT_PASSWORD: '/forgot-password',
   RESET_PASSWORD: '/reset-password',

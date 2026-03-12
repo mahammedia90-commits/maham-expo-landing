@@ -1,4 +1,5 @@
 export { AuthGuard } from './AuthGuard';
+export { AdminAuthGuard } from './AdminAuthGuard';
 export { ForgotPasswordForm } from './ForgotPasswordForm';
 export { RegistrationForm } from './RegistrationForm';
 export { ResetPasswordForm } from './ResetPasswordForm';
