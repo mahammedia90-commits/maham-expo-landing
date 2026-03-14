@@ -85,19 +85,20 @@ export default function DashboardPage() {
   const needsVerification = user && !(user as any).email_verified;
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* FEAT-06: Welcome Screen for first-time users */}
       {isFirstVisit && (
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl sm:rounded-2xl p-5 sm:p-8 text-center"
-          style={{ background: 'linear-gradient(135deg, rgba(197,165,90,0.08), rgba(197,165,90,0.02))', border: '1px solid var(--gold-border)' }}>
+          className="relative rounded-2xl p-6 sm:p-8 text-center overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, rgba(139,105,20,0.06), rgba(139,105,20,0.01))', border: '1px solid var(--gold-border)' }}>
+          <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, transparent, var(--gold-accent), transparent)' }} />
           <div className="w-14 h-14 rounded-2xl bg-gold-subtle flex items-center justify-center mx-auto mb-4">
             <Sparkles size={24} className="t-gold" />
           </div>
-          <h2 className="text-lg sm:text-xl font-bold t-primary mb-2">
+          <h2 className="text-lg sm:text-xl font-bold t-primary mb-2 tracking-tight">
             {isAr ? `مرحباً ${user?.name || ''}!` : `Welcome ${user?.name || ''}!`}
           </h2>
-          <p className="text-xs sm:text-sm t-tertiary mb-5 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm t-tertiary mb-6 max-w-md mx-auto leading-relaxed">
             {isAr ? 'ابدأ رحلتك مع Maham Expo — تصفح المعارض واحجز وحدتك في دقائق' : 'Start your journey with Maham Expo — browse exhibitions and book your unit in minutes'}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -140,75 +141,75 @@ export default function DashboardPage() {
       )}
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {stats.map((s, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-            className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5 cursor-default">
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center" style={{ backgroundColor: 'var(--gold-bg)' }}>
-                <s.icon size={15} style={{ color: s.color }} />
+          <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
+            className="glass-card stat-strip p-3.5 sm:p-5 cursor-default" style={{ '--strip-color': s.color } as React.CSSProperties}>
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'var(--gold-bg)' }}>
+                <s.icon size={16} style={{ color: s.color }} strokeWidth={1.8} />
               </div>
             </div>
-            <p className="text-lg sm:text-2xl font-bold t-primary font-['Inter']">{s.value}</p>
-            <p className="text-[12px] sm:text-xs t-secondary mt-0.5">{s.label}</p>
+            <p className="text-xl sm:text-2xl font-extrabold t-primary font-['Inter'] tracking-tight">{s.value}</p>
+            <p className="text-[12px] sm:text-xs t-tertiary mt-1 font-medium">{s.label}</p>
           </motion.div>
         ))}
       </div>
 
       {/* Recent Bookings + Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="lg:col-span-2 glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-          <div className="flex items-center justify-between mb-3 sm:mb-5">
-            <h3 className="text-sm sm:text-base font-bold t-primary">{isAr ? 'أحدث الحجوزات' : 'Recent Bookings'}</h3>
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+          className="lg:col-span-2 glass-card p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-5">
+            <h3 className="text-sm sm:text-base font-bold t-primary tracking-tight">{isAr ? 'أحدث الحجوزات' : 'Recent Bookings'}</h3>
             <Link href="/dashboard/bookings">
-              <span className="text-[11px] sm:text-xs t-gold flex items-center gap-1 cursor-pointer">
+              <span className="text-[11px] sm:text-xs t-gold flex items-center gap-1 cursor-pointer font-medium hover:underline">
                 {isAr ? 'عرض الكل' : 'View All'} <ArrowIcon size={11} />
               </span>
             </Link>
           </div>
-          <div className="space-y-2 sm:space-y-3">
+          <div className="space-y-2 sm:space-y-2.5">
             {bookings.length > 0 ? bookings.slice(0, 4).map((b, i) => (
               <Link key={i} href="/dashboard/bookings">
-                <div className="flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl transition-colors cursor-pointer hover:bg-[var(--glass-bg-hover)]"
-                  style={{ backgroundColor: 'var(--glass-bg)' }}>
+                <div className="flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl transition-all cursor-pointer inner-card">
                   <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                     {statusIcon(b.status)}
                     <div className="min-w-0">
-                      <p className="text-xs sm:text-sm t-primary truncate">{isAr ? b.unitAr : b.unitEn} — {isAr ? b.expoNameAr : b.expoNameEn}</p>
+                      <p className="text-xs sm:text-sm t-primary truncate font-medium">{isAr ? b.unitAr : b.unitEn} — {isAr ? b.expoNameAr : b.expoNameEn}</p>
                       <p className="text-[11px] sm:text-[12px] t-muted font-['Inter'] truncate">{isAr ? b.unitEn : b.unitAr}</p>
                     </div>
                   </div>
                   <div className={`${isRtl ? 'text-left' : 'text-right'} shrink-0 ${isRtl ? 'mr-2' : 'ml-2'}`}>
                     <p className="text-[12px] sm:text-[11px] t-secondary font-['Inter']">{b.id}</p>
-                    <p className="text-[11px] sm:text-[12px]" style={{ color: b.status === 'confirmed' ? 'var(--status-green)' : 'var(--status-yellow)' }}>{statusLabel(b.status)}</p>
+                    <p className="text-[11px] sm:text-[12px] font-medium" style={{ color: b.status === 'confirmed' ? 'var(--status-green)' : 'var(--status-yellow)' }}>{statusLabel(b.status)}</p>
                   </div>
                 </div>
               </Link>
             )) : (
-              <div className="text-center py-6">
-                <CalendarCheck size={28} className="mx-auto t-muted mb-2" style={{ opacity: 0.3 }} />
-                <p className="text-xs t-tertiary">{isAr ? 'لا توجد حجوزات حالياً' : 'No bookings yet'}</p>
+              <div className="text-center py-8 sm:py-10">
+                <div className="w-12 h-12 rounded-2xl bg-gold-subtle flex items-center justify-center mx-auto mb-3">
+                  <CalendarCheck size={20} className="t-gold" style={{ opacity: 0.6 }} />
+                </div>
+                <p className="text-sm t-primary font-medium mb-1">{isAr ? 'لا توجد حجوزات حالياً' : 'No bookings yet'}</p>
                 <Link href="/dashboard/expos">
-                  <span className="text-[12px] t-gold cursor-pointer">{isAr ? 'تصفح المعارض وابدأ' : 'Browse expos to get started'}</span>
+                  <span className="text-[12px] t-gold cursor-pointer font-medium hover:underline">{isAr ? 'تصفح المعارض وابدأ' : 'Browse expos to get started'}</span>
                 </Link>
               </div>
             )}
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-          className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-          <h3 className="text-sm sm:text-base font-bold t-primary mb-3 sm:mb-5">{isAr ? 'إجراءات سريعة' : 'Quick Actions'}</h3>
-          <div className="grid grid-cols-2 lg:grid-cols-1 gap-2 sm:gap-3">
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+          className="glass-card p-4 sm:p-6">
+          <h3 className="text-sm sm:text-base font-bold t-primary mb-4 sm:mb-5 tracking-tight">{isAr ? 'إجراءات سريعة' : 'Quick Actions'}</h3>
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3">
             {quickActions.map((a, i) => (
               <Link key={i} href={a.path}>
-                <div className="flex items-center gap-2 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02]"
-                  style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gold-subtle flex items-center justify-center shrink-0">
-                    <a.icon size={14} className="t-gold" />
+                <div className="flex items-center gap-2.5 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl cursor-pointer transition-all inner-card group">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gold-subtle flex items-center justify-center shrink-0 transition-all group-hover:scale-105">
+                    <a.icon size={14} className="t-gold" strokeWidth={1.8} />
                   </div>
-                  <p className="text-[11px] sm:text-sm t-secondary truncate">{a.label}</p>
+                  <p className="text-[12px] sm:text-sm t-secondary truncate font-medium">{a.label}</p>
                 </div>
               </Link>
             ))}
@@ -217,40 +218,40 @@ export default function DashboardPage() {
       </div>
 
       {/* Upcoming Events */}
-      <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-        className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-        <div className="flex items-center justify-between mb-3 sm:mb-5">
-          <h3 className="text-sm sm:text-base font-bold t-primary">{isAr ? 'الفعاليات القادمة' : 'Upcoming Events'}</h3>
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+        className="glass-card p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-4 sm:mb-5">
+          <h3 className="text-sm sm:text-base font-bold t-primary tracking-tight">{isAr ? 'الفعاليات القادمة' : 'Upcoming Events'}</h3>
           <Link href="/dashboard/expos">
-            <span className="text-[11px] sm:text-xs t-gold flex items-center gap-1 cursor-pointer">
+            <span className="text-[11px] sm:text-xs t-gold flex items-center gap-1 cursor-pointer font-medium hover:underline">
               {isAr ? 'عرض الكل' : 'View All'} <ArrowIcon size={11} />
             </span>
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {upcomingEvents.map((e, i) => (
             <Link key={i} href="/dashboard/expos">
-              <div className="p-3 sm:p-4 rounded-xl cursor-pointer transition-all group hover:scale-[1.02]" style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>
-                <div className="flex items-start gap-3 mb-2">
-                  <img src={e.image} alt={e.nameAr} className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+              <div className="p-3.5 sm:p-4 rounded-xl cursor-pointer transition-all group inner-card">
+                <div className="flex items-start gap-3 mb-3">
+                  <img src={e.image} alt={e.nameAr} className="w-12 h-12 rounded-xl object-cover flex-shrink-0 ring-1 ring-[var(--glass-border)]" />
                   <div className="min-w-0">
                     <p className="text-xs sm:text-sm font-semibold t-primary truncate">{isAr ? e.nameAr : e.nameEn}</p>
-                    <p className="text-[11px] sm:text-[12px] t-tertiary font-['Inter'] truncate">{isAr ? e.nameEn : e.nameAr}</p>
+                    <p className="text-[11px] sm:text-[12px] t-tertiary font-['Inter'] truncate mt-0.5">{isAr ? e.nameEn : e.nameAr}</p>
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-[12px] t-tertiary">
-                    <Calendar size={10} />
-                    <span className="font-['Inter']">{e.dateStart}</span>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-1.5 text-[12px] t-tertiary">
+                    <Calendar size={11} strokeWidth={1.8} />
+                    <span className="font-['Inter'] font-medium">{e.dateStart}</span>
                   </div>
-                  <span className="text-[11px] sm:text-[12px]" style={{ color: 'var(--status-green)' }}>
-                    {e.availableUnits} {isAr ? 'وحدة متاحة' : 'units available'}
+                  <span className="text-[11px] sm:text-[12px] font-medium" style={{ color: 'var(--status-green)' }}>
+                    {e.availableUnits} {isAr ? 'وحدة' : 'units'}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 mt-1.5 text-[11px] t-muted">
-                  <span className="flex items-center gap-0.5"><MapPin size={11} />{isAr ? e.city : e.cityEn}</span>
-                  <span className="flex items-center gap-0.5"><Star size={11} style={{ color: 'var(--gold-accent)' }} />{e.rating}</span>
-                  <span className="flex items-center gap-0.5"><Users size={11} />{e.footfall.split(' ')[0]}</span>
+                <div className="flex items-center gap-3 text-[11px] t-muted">
+                  <span className="flex items-center gap-1"><MapPin size={11} strokeWidth={1.8} />{isAr ? e.city : e.cityEn}</span>
+                  <span className="flex items-center gap-1"><Star size={11} strokeWidth={1.8} style={{ color: 'var(--gold-accent)' }} />{e.rating}</span>
+                  <span className="flex items-center gap-1"><Users size={11} strokeWidth={1.8} />{e.footfall.split(' ')[0]}</span>
                 </div>
               </div>
             </Link>

@@ -132,17 +132,22 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           )}
         </div>
 
-        <nav className="flex-1 py-3 overflow-y-auto">
+        <nav className="flex-1 py-2 overflow-y-auto no-scrollbar">
           {navSections.map((section, si) => (
-            <div key={si} className="mb-2">
-              {!collapsed && <p className="px-5 py-1.5 text-[11px] t-muted uppercase tracking-wider font-semibold">{isAr ? section.titleAr : section.titleEn}</p>}
+            <div key={si} className="mb-1">
+              {!collapsed && (
+                <div className="px-5 pt-4 pb-1.5">
+                  <p className="text-[10px] t-muted uppercase tracking-[0.08em] font-bold">{isAr ? section.titleAr : section.titleEn}</p>
+                </div>
+              )}
+              {collapsed && si > 0 && <div className="mx-4 my-2 divider-subtle" />}
               {section.items.map((item) => {
                 const isActive = pathname === item.path || (item.path !== "/dashboard" && pathname.startsWith(item.path));
                 return (
                   <Link key={item.path} href={item.path}>
-                    <div className={`flex items-center gap-3 mx-3 my-0.5 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${isActive ? "bg-gold-subtle border-gold shadow-sm" : "hover:bg-[var(--glass-bg-hover)] border border-transparent"}`} style={isActive ? { border: `1px solid var(--gold-border)` } : undefined}>
-                      <item.icon size={18} className="shrink-0" style={{ color: isActive ? "var(--gold-accent)" : "var(--text-tertiary)" }} />
-                      {!collapsed && <span className="text-[13px] font-medium" style={{ color: isActive ? "var(--gold-accent)" : "var(--text-secondary)" }}>{isAr ? item.labelAr : item.labelEn}</span>}
+                    <div className={`flex items-center gap-3 mx-2.5 my-0.5 px-3 py-2 rounded-xl transition-all duration-200 cursor-pointer ${isActive ? "bg-gold-subtle" : "hover:bg-[var(--glass-bg-hover)]"}`} style={isActive ? { border: `1px solid var(--gold-border)`, boxShadow: 'var(--glow-gold)' } : { border: '1px solid transparent' }}>
+                      <item.icon size={17} className="shrink-0" style={{ color: isActive ? "var(--gold-accent)" : "var(--text-muted)" }} strokeWidth={isActive ? 2.2 : 1.8} />
+                      {!collapsed && <span className={`text-[13px] ${isActive ? 'font-semibold' : 'font-medium'}`} style={{ color: isActive ? "var(--gold-accent)" : "var(--text-secondary)" }}>{isAr ? item.labelAr : item.labelEn}</span>}
                     </div>
                   </Link>
                 );
@@ -152,12 +157,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="border-t" style={{ borderColor: "var(--glass-border)" }}>
-          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-5 py-3 transition-colors hover:bg-[var(--glass-bg-hover)]" style={{ color: "var(--status-red)" }}>
-            <LogOut size={16} />
+          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-5 py-2.5 transition-all hover:bg-[var(--glass-bg-hover)] rounded-lg mx-auto" style={{ color: "var(--text-muted)" }}>
+            <LogOut size={15} strokeWidth={1.8} />
             {!collapsed && <span className="text-xs font-medium">{isAr ? 'تسجيل الخروج' : 'Logout'}</span>}
           </button>
-          <button onClick={() => setCollapsed(!collapsed)} className="flex items-center justify-center w-full py-3 transition-colors" style={{ color: "var(--text-muted)" }}>
-            {collapsed ? (isRtl ? <ChevronLeft size={16} /> : <ChevronRight size={16} />) : (isRtl ? <ChevronRight size={16} /> : <ChevronLeft size={16} />)}
+          <button onClick={() => setCollapsed(!collapsed)} className="flex items-center justify-center w-full py-2.5 transition-all hover:bg-[var(--glass-bg-hover)]" style={{ color: "var(--text-muted)" }}>
+            {collapsed ? (isRtl ? <ChevronLeft size={15} /> : <ChevronRight size={15} />) : (isRtl ? <ChevronRight size={15} /> : <ChevronLeft size={15} />)}
           </button>
         </div>
       </aside>
@@ -231,35 +236,37 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <main className={`flex-1 min-w-0 min-h-screen transition-all duration-300 ${mainMargin}`} style={{ paddingBottom: "calc(100px + env(safe-area-inset-bottom, 24px))" }}>
-        <header className="sticky top-0 z-30 px-4 sm:px-6 py-3" style={{ background: "var(--dash-bg)", borderBottom: "1px solid var(--glass-border)", boxShadow: isDark ? '0 1px 8px rgba(0,0,0,0.2)' : '0 1px 4px rgba(0,0,0,0.04)' }}>
-          <div className="flex items-center justify-between gap-2 min-w-0">
-            <div className="flex items-center gap-2">
-              {isSubPage && (
-                <button onClick={handleBack} className="p-2 rounded-lg transition-colors shrink-0" style={{ color: "var(--text-tertiary)", background: "var(--glass-bg)" }}>
-                  {isRtl ? <ArrowRight size={16} /> : <ChevronLeft size={16} />}
-                </button>
-              )}
-              <h1 className="text-sm sm:text-base font-bold text-gold-gradient">
-                {currentItem ? (isAr ? currentItem.labelAr : currentItem.labelEn) : (isAr ? 'لوحة التحكم' : 'Dashboard')}
-              </h1>
-            </div>
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              <motion.button whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }} onClick={toggleTheme} className="p-2 rounded-xl transition-all" style={{ color: "var(--text-tertiary)", background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)', border: "1px solid var(--glass-border)" }}>
-                {isDark ? <Sun size={16} /> : <Moon size={16} />}
-              </motion.button>
-              <Link href="/dashboard/notifications"><button className="relative p-2 rounded-lg transition-colors" style={{ color: "var(--text-tertiary)" }}><Bell size={16} /></button></Link>
-              <Link href="/dashboard/messages"><button className="relative p-2 rounded-lg transition-colors hidden sm:block" style={{ color: "var(--text-tertiary)" }}><MessageSquare size={16} /><span className="absolute top-1 right-1 w-2 h-2 rounded-full" style={{ backgroundColor: "var(--status-blue)" }} /></button></Link>
-              <div className="hidden sm:flex flex-col" style={{ textAlign: isRtl ? "left" : "right" }}><span className="text-xs t-secondary">{traderName}</span></div>
-              <Link href="/dashboard/profile">
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer" style={{ background: 'linear-gradient(135deg, var(--gold-accent), var(--gold-light))', boxShadow: '0 2px 12px rgba(212,175,55,0.2)' }}>
-                  <User size={14} style={{ color: "var(--btn-gold-text)" }} />
-                </motion.div>
-              </Link>
+        <header className="sticky top-0 z-30" style={{ background: "var(--dash-bg)" }}>
+          <div className="px-4 sm:px-6 py-3" style={{ borderBottom: "1px solid var(--glass-border)" }}>
+            <div className="flex items-center justify-between gap-2 min-w-0">
+              <div className="flex items-center gap-2.5">
+                {isSubPage && (
+                  <button onClick={handleBack} className="p-2 rounded-xl transition-all shrink-0" style={{ color: "var(--text-tertiary)", background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
+                    {isRtl ? <ArrowRight size={15} /> : <ChevronLeft size={15} />}
+                  </button>
+                )}
+                <h1 className="text-sm sm:text-base font-bold text-gold-gradient tracking-tight">
+                  {currentItem ? (isAr ? currentItem.labelAr : currentItem.labelEn) : (isAr ? 'لوحة التحكم' : 'Dashboard')}
+                </h1>
+              </div>
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <motion.button whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.95 }} onClick={toggleTheme} className="p-2 rounded-xl transition-all" style={{ color: "var(--text-tertiary)", background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
+                  {isDark ? <Sun size={15} /> : <Moon size={15} />}
+                </motion.button>
+                <Link href="/dashboard/notifications"><button className="relative p-2 rounded-xl transition-all" style={{ color: "var(--text-tertiary)", background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}><Bell size={15} /></button></Link>
+                <Link href="/dashboard/messages"><button className="relative p-2 rounded-xl transition-all hidden sm:block" style={{ color: "var(--text-tertiary)", background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}><MessageSquare size={15} /><span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--status-blue)" }} /></button></Link>
+                <div className="hidden sm:flex flex-col" style={{ textAlign: isRtl ? "left" : "right" }}><span className="text-xs t-secondary font-medium">{traderName}</span></div>
+                <Link href="/dashboard/profile">
+                  <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }} className="w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer" style={{ background: 'linear-gradient(135deg, var(--gold-accent), var(--gold-light))', boxShadow: '0 2px 8px rgba(139,105,20,0.15)' }}>
+                    <User size={14} style={{ color: "var(--btn-gold-text)" }} />
+                  </motion.div>
+                </Link>
+              </div>
             </div>
           </div>
         </header>
-        <div className="p-2 sm:p-4 lg:p-6 pb-24 lg:pb-6 overflow-x-hidden">
-          <motion.div key={pathname} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: "easeOut" }}>
+        <div className="p-3 sm:p-5 lg:p-6 pb-24 lg:pb-8 overflow-x-hidden">
+          <motion.div key={pathname} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}>
             {children}
           </motion.div>
         </div>
