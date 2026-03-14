@@ -1,7 +1,266 @@
 'use client';
 
-import { DashboardOverview } from '@/features/merchant-dashboard/components/DashboardOverview';
+/**
+ * Dashboard — Main overview with real stats, recent activity, quick actions
+ * Adapted from reference Dashboard.tsx for Next.js App Router
+ */
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import {
+  CalendarCheck, FileText, CreditCard, TrendingUp, MapPin,
+  Clock, ArrowLeft, ArrowRight, CheckCircle, AlertTriangle, XCircle,
+  Star, Users, Building2, Calendar,
+  Sparkles, Rocket, Eye,
+} from 'lucide-react';
+import { useAuthStore } from '@/shared/store/useAuthStore';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
+import { useThemeStore } from '@/shared/store/useThemeStore';
+import { events2026, eventStats } from '@/features/merchant-dashboard/data/events2026';
+
+const statusIcon = (s: string) => {
+  if (s === 'confirmed' || s === 'active') return <CheckCircle size={13} style={{ color: 'var(--status-green)' }} />;
+  if (s === 'pending_payment' || s === 'pending_review') return <AlertTriangle size={13} style={{ color: 'var(--status-yellow)' }} />;
+  return <XCircle size={13} style={{ color: 'var(--status-red)' }} />;
+};
+
+// Mock data (no backend for bookings/contracts/payments yet)
+const mockBookings: Array<{
+  id: string;
+  status: string;
+  unitAr: string;
+  unitEn: string;
+  expoNameAr: string;
+  expoNameEn: string;
+}> = [];
+
+const mockContracts: Array<{ id: string }> = [];
+
+const mockPayments: Array<{ status: string; amount: number }> = [];
 
 export default function DashboardPage() {
-  return <DashboardOverview />;
+  const { user } = useAuthStore();
+  const { language, isRtl } = useLanguageStore();
+  const { theme } = useThemeStore();
+
+  const isDark = theme === 'dark';
+  const isAr = language === 'ar';
+
+  const bookings = mockBookings;
+  const contracts = mockContracts;
+  const payments = mockPayments;
+
+  const isFirstVisit = bookings.length === 0 && contracts.length === 0;
+
+  const totalPaid = payments.filter(p => p.status === 'completed').reduce((a, p) => a + p.amount, 0);
+  const activeBookings = bookings.filter(b => b.status !== 'cancelled').length;
+  const signedContracts = contracts.length;
+
+  const ArrowIcon = isRtl ? ArrowLeft : ArrowRight;
+
+  const statusLabel = (s: string) => {
+    const map: Record<string, string> = {
+      pending_payment: isAr ? 'قيد الدفع' : 'Pending Payment',
+      confirmed: isAr ? 'مؤكد' : 'Confirmed',
+      active: isAr ? 'نشط' : 'Active',
+      cancelled: isAr ? 'ملغي' : 'Cancelled',
+    };
+    return map[s] || s;
+  };
+
+  const stats = [
+    { icon: CalendarCheck, value: String(activeBookings), label: isAr ? 'الحجوزات النشطة' : 'Active Bookings', color: 'var(--status-green)' },
+    { icon: FileText, value: String(signedContracts), label: isAr ? 'العقود' : 'Contracts', color: 'var(--gold-accent)' },
+    { icon: CreditCard, value: totalPaid > 0 ? `${(totalPaid / 1000).toFixed(0)}K` : '0', label: isAr ? 'المدفوعات' : 'Total Paid', color: 'var(--status-blue)' },
+    { icon: TrendingUp, value: `${eventStats.openEvents}`, label: isAr ? 'الفعاليات المتاحة' : 'Open Events', color: 'var(--gold-light)' },
+  ];
+
+  const quickActions = [
+    { label: isAr ? 'حجز جديد' : 'Book New', path: '/dashboard/expos', icon: MapPin },
+    { label: isAr ? 'عرض العقود' : 'View Contracts', path: '/dashboard/contracts', icon: FileText },
+    { label: isAr ? 'إجراء دفعة' : 'Make Payment', path: '/dashboard/payments', icon: CreditCard },
+    { label: isAr ? 'طلب تصريح' : 'Request Permit', path: '/dashboard/services', icon: Clock },
+  ];
+
+  const upcomingEvents = events2026
+    .filter(e => e.status === 'open' || e.status === 'upcoming' || e.status === 'closing_soon')
+    .slice(0, 3);
+
+  const needsVerification = user && !(user as any).email_verified;
+
+  return (
+    <div className="space-y-4 sm:space-y-6">
+      {/* FEAT-06: Welcome Screen for first-time users */}
+      {isFirstVisit && (
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+          className="rounded-xl sm:rounded-2xl p-5 sm:p-8 text-center"
+          style={{ background: 'linear-gradient(135deg, rgba(197,165,90,0.08), rgba(197,165,90,0.02))', border: '1px solid var(--gold-border)' }}>
+          <div className="w-14 h-14 rounded-2xl bg-gold-subtle flex items-center justify-center mx-auto mb-4">
+            <Sparkles size={24} className="t-gold" />
+          </div>
+          <h2 className="text-lg sm:text-xl font-bold t-primary mb-2">
+            {isAr ? `مرحباً ${user?.name || ''}!` : `Welcome ${user?.name || ''}!`}
+          </h2>
+          <p className="text-xs sm:text-sm t-tertiary mb-5 max-w-md mx-auto">
+            {isAr ? 'ابدأ رحلتك مع Maham Expo — تصفح المعارض واحجز وحدتك في دقائق' : 'Start your journey with Maham Expo — browse exhibitions and book your unit in minutes'}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/dashboard/expos">
+              <button className="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto sm:mx-0">
+                <Rocket size={14} />
+                {isAr ? 'تصفح المعارض والفعاليات' : 'Browse Exhibitions & Events'}
+              </button>
+            </Link>
+            {needsVerification && (
+              <Link href="/dashboard/kyc">
+                <button className="glass-card px-6 py-2.5 rounded-xl text-xs font-medium t-secondary flex items-center gap-2 mx-auto sm:mx-0 hover:border-[var(--gold-border)] transition-all">
+                  <Eye size={14} />
+                  {isAr ? 'وثّق حسابك أولاً' : 'Verify Your Account First'}
+                </button>
+              </Link>
+            )}
+          </div>
+        </motion.div>
+      )}
+
+      {/* KYC Verification Banner */}
+      {needsVerification && !isFirstVisit && (
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+          className="rounded-xl sm:rounded-2xl p-3 sm:p-5 flex items-center gap-3 sm:gap-4"
+          style={{ background: 'linear-gradient(135deg, rgba(251,191,36,0.08), rgba(251,191,36,0.02))', border: '1px solid var(--gold-border)' }}>
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(251,191,36,0.15)' }}>
+            <AlertTriangle size={20} style={{ color: 'var(--status-yellow)' }} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm sm:text-base font-bold t-primary">{isAr ? 'يجب التحقق من حسابك أولاً' : 'Account Verification Required'}</p>
+            <p className="text-[10px] sm:text-xs t-tertiary mt-0.5">{isAr ? 'أكمل التحقق من هويتك للوصول إلى جميع الميزات' : 'Complete identity verification to access all features'}</p>
+          </div>
+          <Link href="/dashboard/kyc">
+            <button className="btn-gold px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs whitespace-nowrap shrink-0">
+              {isAr ? 'إكمال التحقق' : 'Complete KYC'}
+            </button>
+          </Link>
+        </motion.div>
+      )}
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+        {stats.map((s, i) => (
+          <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
+            whileHover={{ y: -3, scale: 1.01 }}
+            className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5 cursor-default" style={{ boxShadow: isDark ? 'var(--glow-gold)' : '0 4px 15px rgba(0,0,0,0.04)' }}>
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center" style={{ backgroundColor: `color-mix(in srgb, ${s.color} 15%, transparent)` }}>
+                <s.icon size={15} style={{ color: s.color }} />
+              </div>
+            </div>
+            <p className="text-lg sm:text-2xl font-bold t-primary font-['Inter']" style={{ fontFamily: "'Playfair Display', 'Inter', serif" }}>{s.value}</p>
+            <p className="text-[10px] sm:text-xs t-secondary mt-0.5">{s.label}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Recent Bookings + Quick Actions */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+          className="lg:col-span-2 glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-5">
+            <h3 className="text-sm sm:text-base font-bold t-primary">{isAr ? 'أحدث الحجوزات' : 'Recent Bookings'}</h3>
+            <Link href="/dashboard/bookings">
+              <span className="text-[11px] sm:text-xs t-gold flex items-center gap-1 cursor-pointer">
+                {isAr ? 'عرض الكل' : 'View All'} <ArrowIcon size={11} />
+              </span>
+            </Link>
+          </div>
+          <div className="space-y-2 sm:space-y-3">
+            {bookings.length > 0 ? bookings.slice(0, 4).map((b, i) => (
+              <Link key={i} href="/dashboard/bookings">
+                <div className="flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl transition-colors cursor-pointer hover:bg-[var(--glass-bg-hover)]"
+                  style={{ backgroundColor: 'var(--glass-bg)' }}>
+                  <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                    {statusIcon(b.status)}
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm t-primary truncate">{isAr ? b.unitAr : b.unitEn} — {isAr ? b.expoNameAr : b.expoNameEn}</p>
+                      <p className="text-[9px] sm:text-[10px] t-muted font-['Inter'] truncate">{isAr ? b.unitEn : b.unitAr}</p>
+                    </div>
+                  </div>
+                  <div className={`${isRtl ? 'text-left' : 'text-right'} shrink-0 ${isRtl ? 'mr-2' : 'ml-2'}`}>
+                    <p className="text-[10px] sm:text-[11px] t-secondary font-['Inter']">{b.id}</p>
+                    <p className="text-[9px] sm:text-[10px]" style={{ color: b.status === 'confirmed' ? 'var(--status-green)' : 'var(--status-yellow)' }}>{statusLabel(b.status)}</p>
+                  </div>
+                </div>
+              </Link>
+            )) : (
+              <div className="text-center py-6">
+                <CalendarCheck size={28} className="mx-auto t-muted mb-2" style={{ opacity: 0.3 }} />
+                <p className="text-xs t-tertiary">{isAr ? 'لا توجد حجوزات حالياً' : 'No bookings yet'}</p>
+                <Link href="/dashboard/expos">
+                  <span className="text-[10px] t-gold cursor-pointer">{isAr ? 'تصفح المعارض وابدأ' : 'Browse expos to get started'}</span>
+                </Link>
+              </div>
+            )}
+          </div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+          className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
+          <h3 className="text-sm sm:text-base font-bold t-primary mb-3 sm:mb-5">{isAr ? 'إجراءات سريعة' : 'Quick Actions'}</h3>
+          <div className="grid grid-cols-2 lg:grid-cols-1 gap-2 sm:gap-3">
+            {quickActions.map((a, i) => (
+              <Link key={i} href={a.path}>
+                <div className="flex items-center gap-2 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl cursor-pointer transition-all hover:scale-[1.02]"
+                  style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gold-subtle flex items-center justify-center shrink-0">
+                    <a.icon size={14} className="t-gold" />
+                  </div>
+                  <p className="text-[11px] sm:text-sm t-secondary truncate">{a.label}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Upcoming Events */}
+      <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+        className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
+        <div className="flex items-center justify-between mb-3 sm:mb-5">
+          <h3 className="text-sm sm:text-base font-bold t-primary">{isAr ? 'الفعاليات القادمة' : 'Upcoming Events'}</h3>
+          <Link href="/dashboard/expos">
+            <span className="text-[11px] sm:text-xs t-gold flex items-center gap-1 cursor-pointer">
+              {isAr ? 'عرض الكل' : 'View All'} <ArrowIcon size={11} />
+            </span>
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+          {upcomingEvents.map((e, i) => (
+            <Link key={i} href="/dashboard/expos">
+              <div className="p-3 sm:p-4 rounded-xl cursor-pointer transition-all group hover:scale-[1.02]" style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', boxShadow: isDark ? '0 2px 10px rgba(0,0,0,0.1)' : '0 2px 8px rgba(0,0,0,0.03)' }}>
+                <div className="flex items-start gap-3 mb-2">
+                  <img src={e.image} alt={e.nameAr} className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-xs sm:text-sm font-semibold t-primary truncate">{isAr ? e.nameAr : e.nameEn}</p>
+                    <p className="text-[9px] sm:text-[10px] t-gold font-['Inter'] truncate" style={{ opacity: 0.6 }}>{isAr ? e.nameEn : e.nameAr}</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 text-[10px] t-tertiary">
+                    <Calendar size={10} />
+                    <span className="font-['Inter']">{e.dateStart}</span>
+                  </div>
+                  <span className="text-[9px] sm:text-[10px]" style={{ color: 'var(--status-green)', opacity: 0.8 }}>
+                    {e.availableUnits} {isAr ? 'وحدة متاحة' : 'units available'}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 mt-1.5 text-[9px] t-muted">
+                  <span className="flex items-center gap-0.5"><MapPin size={9} />{isAr ? e.city : e.cityEn}</span>
+                  <span className="flex items-center gap-0.5"><Star size={9} style={{ color: 'var(--gold-accent)' }} />{e.rating}</span>
+                  <span className="flex items-center gap-0.5"><Users size={9} />{e.footfall.split(' ')[0]}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
 }

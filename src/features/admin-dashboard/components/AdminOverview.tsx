@@ -29,7 +29,7 @@ export function AdminOverview() {
         setStats({
           users: usersRes.status === 'fulfilled' ? (usersRes.value.meta?.total || usersRes.value.data?.length || 0) : 0,
           roles: rolesRes.status === 'fulfilled' ? (rolesRes.value.data?.length || 0) : 0,
-          permissions: permsRes.status === 'fulfilled' ? (permsRes.value.data?.permissions?.length || permsRes.value.data?.length || 0) : 0,
+          permissions: permsRes.status === 'fulfilled' ? ((permsRes.value.data as any)?.permissions?.length || (permsRes.value.data as any)?.length || 0) : 0,
           services: servicesRes.status === 'fulfilled' ? (servicesRes.value.data?.length || 0) : 0,
         });
       } catch {

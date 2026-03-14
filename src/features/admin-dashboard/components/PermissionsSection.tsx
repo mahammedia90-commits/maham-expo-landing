@@ -26,7 +26,7 @@ export function PermissionsSection() {
     try {
       const res = await permissionsApi.list();
       // API returns { data: { permissions: [...] } } or { data: [...] }
-      const list = res.data?.permissions ?? (Array.isArray(res.data) ? res.data : []);
+      const list = (res.data as any)?.permissions ?? (Array.isArray(res.data) ? res.data : []);
       setPermissions(list);
     } catch { setPermissions([]); } finally { setLoading(false); }
   }, []);
