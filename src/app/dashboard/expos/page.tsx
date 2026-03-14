@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguageStore } from "@/shared/store/useLanguageStore";
-import { useThemeStore } from "@/shared/store/useThemeStore";
+
 import { useAuthStore } from "@/shared/store/useAuthStore";
 import { events2026, eventCategories, eventStats, type ExpoEvent, type ExpoUnit } from "@/features/merchant-dashboard/data/events2026";
 
@@ -40,8 +40,6 @@ export default function BrowseExpos() {
   const [showFilters, setShowFilters] = useState(false);
   const [cityFilter, setCityFilter] = useState("الكل");
   const { language, isRtl } = useLanguageStore();
-  const { theme } = useThemeStore();
-  const isDark = theme === "dark";
 
   const isAr = language === "ar";
 
@@ -195,7 +193,7 @@ export default function BrowseExpos() {
                   ? `شركة من ${liveActivity.city} حجزت جناحاً قبل ${liveActivity.mins} دقائق`
                   : `A company from ${liveActivity.city} booked a booth ${liveActivity.mins} minutes ago`}
               </p>
-              <span className="text-[9px] t-muted font-['Inter'] shrink-0">{isAr ? "تم الحجز للتو" : "Just Booked"}</span>
+              <span className="text-[11px] t-muted font-['Inter'] shrink-0">{isAr ? "تم الحجز للتو" : "Just Booked"}</span>
             </div>
           </motion.div>
         )}
@@ -204,8 +202,8 @@ export default function BrowseExpos() {
       {/* Header */}
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient truncate" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "تصفح المعارض والفعاليات 2026" : "Browse Exhibitions & Events 2026"}</h2>
-          <p className="text-[10px] sm:text-xs t-gold font-['Inter']" style={{ opacity: 0.6 }}>{events2026.length} {isAr ? "فعاليات متاحة" : "Events Available"}</p>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient truncate">{isAr ? "تصفح المعارض والفعاليات 2026" : "Browse Exhibitions & Events 2026"}</h2>
+          <p className="text-[12px] sm:text-xs t-tertiary font-['Inter']">{events2026.length} {isAr ? "فعاليات متاحة" : "Events Available"}</p>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button onClick={() => setShowFilters(!showFilters)} className={`p-2 rounded-lg transition-colors ${showFilters ? "bg-gold-subtle t-gold" : "glass-card t-tertiary"}`}>
@@ -223,8 +221,8 @@ export default function BrowseExpos() {
       {/* Price Alert Banner */}
       <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ backgroundColor: "rgba(251, 191, 36, 0.06)", border: "1px solid rgba(251, 191, 36, 0.12)" }}>
         <AlertTriangle size={13} className="text-[var(--status-yellow)] shrink-0" />
-        <p className="text-[10px] t-secondary flex-1">{isAr ? "الأسعار قد ترتفع مع امتلاء المعرض" : "Prices may increase as the exhibition fills"}</p>
-        <span className="text-[9px] px-2 py-0.5 rounded-full font-['Inter']" style={{ backgroundColor: "rgba(251, 191, 36, 0.1)", color: "var(--status-yellow)" }}>
+        <p className="text-[12px] t-secondary flex-1">{isAr ? "الأسعار قد ترتفع مع امتلاء المعرض" : "Prices may increase as the exhibition fills"}</p>
+        <span className="text-[11px] px-2 py-0.5 rounded-full font-['Inter']" style={{ backgroundColor: "rgba(251, 191, 36, 0.1)", color: "var(--status-yellow)" }}>
           {isAr ? "زيادة سعرية متوقعة" : "Price increase expected"}
         </span>
       </div>
@@ -239,7 +237,7 @@ export default function BrowseExpos() {
         <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
           {eventCategories.slice(0, 8).map((cat) => (
             <button key={cat.ar} onClick={() => setActiveCategory(cat.ar)}
-              className={`px-2.5 py-1.5 rounded-lg text-[10px] sm:text-[11px] transition-all whitespace-nowrap shrink-0 ${activeCategory === cat.ar ? "btn-gold" : "glass-card t-secondary"}`}>
+              className={`px-2.5 py-1.5 rounded-lg text-[12px] sm:text-[12px] transition-all whitespace-nowrap shrink-0 ${activeCategory === cat.ar ? "btn-gold" : "glass-card t-secondary"}`}>
               {getCatLabel(cat)}
             </button>
           ))}
@@ -252,14 +250,14 @@ export default function BrowseExpos() {
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
             <div className="glass-card rounded-xl p-3 sm:p-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div>
-                <label className="text-[10px] t-muted mb-1 block">{isAr ? "المدينة" : "City"}</label>
+                <label className="text-[12px] t-muted mb-1 block">{isAr ? "المدينة" : "City"}</label>
                 <select value={cityFilter} onChange={(e) => setCityFilter(e.target.value)}
                   className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-lg px-2 py-1.5 text-xs t-secondary">
                   {cities.map(c => <option key={c} value={c}>{cityDisplayMap[c] || c}</option>)}
                 </select>
               </div>
               <div>
-                <label className="text-[10px] t-muted mb-1 block">{isAr ? "ترتيب حسب" : "Sort By"}</label>
+                <label className="text-[12px] t-muted mb-1 block">{isAr ? "ترتيب حسب" : "Sort By"}</label>
                 <select value={sortBy} onChange={(e) => setSortBy(e.target.value as "date" | "price" | "rating" | "availability")}
                   className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-lg px-2 py-1.5 text-xs t-secondary">
                   <option value="date">{isAr ? "الأقرب تاريخاً" : "Nearest Date"}</option>
@@ -269,11 +267,11 @@ export default function BrowseExpos() {
                 </select>
               </div>
               <div>
-                <label className="text-[10px] t-muted mb-1 block">{isAr ? "الفئات المتبقية" : "More Categories"}</label>
+                <label className="text-[12px] t-muted mb-1 block">{isAr ? "الفئات المتبقية" : "More Categories"}</label>
                 <div className="flex gap-1 flex-wrap">
                   {eventCategories.slice(8).map(cat => (
                     <button key={cat.ar} onClick={() => setActiveCategory(cat.ar)}
-                      className={`px-2 py-0.5 rounded text-[9px] transition-all ${activeCategory === cat.ar ? "bg-gold-subtle t-gold" : "glass-card t-muted"}`}>
+                      className={`px-2 py-0.5 rounded text-[11px] transition-all ${activeCategory === cat.ar ? "bg-gold-subtle t-gold" : "glass-card t-muted"}`}>
                       {getCatLabel(cat)}
                     </button>
                   ))}
@@ -281,7 +279,7 @@ export default function BrowseExpos() {
               </div>
               <div className="flex items-end">
                 <button onClick={() => { setActiveCategory("الكل"); setCityFilter("الكل"); setSortBy("date"); }}
-                  className="text-[10px] t-gold underline">{isAr ? "إعادة تعيين الفلاتر" : "Reset Filters"}</button>
+                  className="text-[12px] t-gold underline">{isAr ? "إعادة تعيين الفلاتر" : "Reset Filters"}</button>
               </div>
             </div>
           </motion.div>
@@ -299,17 +297,17 @@ export default function BrowseExpos() {
           <div key={i} className="glass-card rounded-xl p-2 sm:p-3 text-center">
             <s.icon size={14} className="mx-auto mb-1" style={{ color: s.color, opacity: 0.7 }} />
             <p className="text-base sm:text-lg font-bold font-['Inter']" style={{ color: s.color }}>{s.value}</p>
-            <p className="text-[9px] sm:text-[10px] t-tertiary">{s.label}</p>
+            <p className="text-[11px] sm:text-[12px] t-tertiary">{s.label}</p>
           </div>
         ))}
       </div>
 
       {/* Today's bookings indicator */}
       <div className="flex items-center justify-between">
-        <p className="text-[10px] t-muted">{filtered.length} {isAr ? "نتيجة" : "results"} {search && `${isAr ? "لـ" : "for"} "${search}"`}</p>
+        <p className="text-[12px] t-muted">{filtered.length} {isAr ? "نتيجة" : "results"} {search && `${isAr ? "لـ" : "for"} "${search}"`}</p>
         <div className="flex items-center gap-1.5">
           <Flame size={11} className="text-[var(--status-yellow)]" />
-          <span className="text-[10px] t-muted font-['Inter']">
+          <span className="text-[12px] t-muted font-['Inter']">
             {isAr
               ? `${Math.floor(Math.random() * 8) + 5} حجوزات اليوم`
               : `${Math.floor(Math.random() * 8) + 5} bookings today`}
@@ -326,50 +324,49 @@ export default function BrowseExpos() {
           const viewers = viewerCounts[expo.id] || 0;
           return (
             <motion.div key={expo.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-              className="glass-card rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer transition-all hover:scale-[1.01]" onClick={() => setSelectedExpo(expo)}
-              style={{ boxShadow: isDark ? 'var(--glow-gold)' : '0 4px 15px rgba(0,0,0,0.04)' }}>
+              className="glass-card rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer" onClick={() => setSelectedExpo(expo)}>
               <div className="relative h-36 sm:h-44 overflow-hidden">
                 <img src={expo.image} alt={getExpoName(expo)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--surface-dark), transparent, transparent)" }} />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--dash-bg) 0%, transparent 100%)" }} />
                 {/* Status Badge */}
-                <span className={`absolute top-3 ${isRtl ? 'right-3' : 'left-3'} px-2 py-1 rounded-full text-[10px] font-medium backdrop-blur-md`}
+                <span className={`absolute top-3 ${isRtl ? 'right-3' : 'left-3'} px-2 py-1 rounded-full text-[12px] font-medium backdrop-blur-md`}
                   style={{ backgroundColor: `color-mix(in srgb, ${sc.color} 15%, transparent)`, color: sc.color, border: `1px solid color-mix(in srgb, ${sc.color} 25%, transparent)` }}>
                   {sc.label}
                 </span>
                 {/* Featured / Early Booking Badge */}
                 <div className={`absolute top-3 ${isRtl ? 'left-3' : 'right-3'} flex flex-col gap-1`}>
                   {expo.featured && (
-                    <span className="px-2 py-1 rounded-full text-[10px] bg-gold-subtle flex items-center gap-1"
+                    <span className="px-2 py-1 rounded-full text-[12px] bg-gold-subtle flex items-center gap-1"
                       style={{ color: "var(--gold-light)", border: "1px solid var(--gold-border)" }}>
                       <Sparkles size={10} /> {isAr ? "مميز" : "Featured"}
                     </span>
                   )}
                   {early && (
-                    <span className="px-2 py-1 rounded-full text-[10px] flex items-center gap-1 backdrop-blur-md"
-                      style={{ backgroundColor: "rgba(96, 165, 250, 0.15)", color: "#60A5FA", border: "1px solid rgba(96, 165, 250, 0.25)" }}>
+                    <span className="px-2 py-1 rounded-full text-[12px] flex items-center gap-1 backdrop-blur-md"
+                      style={{ backgroundColor: "rgba(96, 165, 250, 0.15)", color: "var(--status-blue)", border: "1px solid rgba(96, 165, 250, 0.25)" }}>
                       <Tag size={9} /> {isAr ? "حجز مبكر" : "Early Booking"}
                     </span>
                   )}
                 </div>
                 {/* Bottom badges */}
                 <div className={`absolute bottom-3 ${isRtl ? 'right-3' : 'left-3'} flex items-center gap-1.5`}>
-                  <div className="flex items-center gap-1 rounded-full px-2 py-0.5" style={{ backgroundColor: "rgba(0,0,0,0.4)", backdropFilter: "blur(8px)" }}>
+                  <div className="flex items-center gap-1 rounded-full px-2 py-0.5" style={{ backgroundColor: "var(--glass-bg)", backdropFilter: "blur(8px)" }}>
                     <Star size={10} style={{ color: "var(--gold-accent)", fill: "var(--gold-accent)" }} />
-                    <span className="text-[10px] text-white font-['Inter']">{expo.rating}</span>
+                    <span className="text-[12px] t-primary font-['Inter']">{expo.rating}</span>
                   </div>
                   {/* Viewers now */}
-                  <div className="flex items-center gap-1 rounded-full px-2 py-0.5" style={{ backgroundColor: "rgba(0,0,0,0.4)", backdropFilter: "blur(8px)" }}>
-                    <Eye size={10} className="text-white/70" />
-                    <span className="text-[10px] text-white/70 font-['Inter']">{viewers}</span>
+                  <div className="flex items-center gap-1 rounded-full px-2 py-0.5" style={{ backgroundColor: "var(--glass-bg)", backdropFilter: "blur(8px)" }}>
+                    <Eye size={10} className="t-muted" />
+                    <span className="text-[12px] t-muted font-['Inter']">{viewers}</span>
                   </div>
                 </div>
                 {/* Scarcity badge */}
                 {(scarcity === "critical" || scarcity === "low") && (
                   <div className={`absolute bottom-3 ${isRtl ? 'left-3' : 'right-3'}`}>
-                    <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-medium animate-pulse"
+                    <span className="flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium animate-pulse"
                       style={{
                         backgroundColor: scarcity === "critical" ? "rgba(239, 68, 68, 0.2)" : "rgba(251, 191, 36, 0.2)",
-                        color: scarcity === "critical" ? "#EF4444" : "#FBBF24",
+                        color: scarcity === "critical" ? "var(--status-red)" : "var(--status-yellow)",
                         border: `1px solid ${scarcity === "critical" ? "rgba(239, 68, 68, 0.3)" : "rgba(251, 191, 36, 0.3)"}`,
                         backdropFilter: "blur(8px)",
                       }}>
@@ -383,30 +380,30 @@ export default function BrowseExpos() {
               </div>
               <div className="p-3 sm:p-4 overflow-hidden">
                 <h3 className="text-sm font-bold t-primary mb-0.5 truncate">{getExpoName(expo)}</h3>
-                <p className="text-[10px] t-gold font-['Inter'] mb-2 truncate" style={{ opacity: 0.6 }}>{isAr ? expo.nameEn : expo.nameAr}</p>
+                <p className="text-[12px] t-gold font-['Inter'] mb-2 truncate" style={{ opacity: 0.6 }}>{isAr ? expo.nameEn : expo.nameAr}</p>
                 <p className="text-[11px] t-tertiary line-clamp-2 mb-3 break-words">{getExpoDesc(expo)}</p>
-                <div className="flex items-center gap-3 text-[10px] t-muted mb-3 flex-wrap">
+                <div className="flex items-center gap-3 text-[12px] t-muted mb-3 flex-wrap">
                   <span className="flex items-center gap-1 shrink-0"><MapPin size={10} />{getExpoCity(expo)}</span>
                   <span className="flex items-center gap-1 font-['Inter'] shrink-0"><Calendar size={10} />{expo.dateStart}</span>
                   <span className="flex items-center gap-1 shrink-0"><Users size={10} />{expo.footfall.split(" ")[0]}</span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <div className="shrink-0">
-                    <p className="text-[9px] t-muted">{isAr ? "الوحدات المتاحة" : "Available Units"}</p>
+                    <p className="text-[11px] t-muted">{isAr ? "الوحدات المتاحة" : "Available Units"}</p>
                     <p className="text-sm font-bold font-['Inter']">
                       <span style={{ color: expo.availableUnits > 0 ? "var(--status-green)" : "var(--status-red)" }}>{expo.availableUnits}</span>
-                      <span className="t-muted text-[10px]"> / {expo.totalUnits}</span>
+                      <span className="t-muted text-[12px]"> / {expo.totalUnits}</span>
                     </p>
                   </div>
                   <div className={isRtl ? "text-left" : "text-right"} style={{ direction: "ltr" }}>
-                    <p className="text-[9px] t-muted">{isAr ? "نطاق الأسعار" : "Price Range"} ({isAr ? "ر.س" : "SAR"})</p>
+                    <p className="text-[11px] t-muted">{isAr ? "نطاق الأسعار" : "Price Range"} ({isAr ? "ر.س" : "SAR"})</p>
                     <p className="text-xs t-gold font-['Inter']">{expo.priceRange}</p>
                   </div>
                 </div>
                 {/* Scarcity progress bar */}
                 {(scarcity === "critical" || scarcity === "low" || scarcity === "medium") && (
                   <div className="mt-2 pt-2" style={{ borderTop: "1px solid var(--glass-border)" }}>
-                    <div className="flex justify-between text-[9px] t-muted mb-1">
+                    <div className="flex justify-between text-[11px] t-muted mb-1">
                       <span>{isAr ? "نسبة الإشغال" : "Occupancy Rate"}</span>
                       <span className="font-['Inter']">{Math.round(((expo.totalUnits - expo.availableUnits) / expo.totalUnits) * 100)}%</span>
                     </div>
@@ -429,7 +426,7 @@ export default function BrowseExpos() {
         <div className="text-center py-12 glass-card rounded-2xl">
           <Search size={40} className="mx-auto t-muted mb-3" style={{ opacity: 0.3 }} />
           <p className="text-sm t-tertiary">{isAr ? "لا توجد نتائج مطابقة" : "No matching results"}</p>
-          <p className="text-[10px] t-muted mt-1">{isAr ? "جرب تغيير الفلاتر أو كلمة البحث" : "Try different filters or search terms"}</p>
+          <p className="text-[12px] t-muted mt-1">{isAr ? "جرب تغيير الفلاتر أو كلمة البحث" : "Try different filters or search terms"}</p>
         </div>
       )}
 
@@ -438,7 +435,7 @@ export default function BrowseExpos() {
         {selectedExpo && !showUnitPicker && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ backgroundColor: "rgba(0,0,0,0.7)" }} onClick={() => setSelectedExpo(null)} />
+              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ backgroundColor: "var(--modal-overlay)" }} onClick={() => setSelectedExpo(null)} />
             <motion.div
               initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -449,8 +446,8 @@ export default function BrowseExpos() {
               </div>
               <div className="relative h-36 sm:h-48">
                 <img src={selectedExpo.image} alt={getExpoName(selectedExpo)} className="w-full h-full object-cover" />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--surface-dark), color-mix(in srgb, var(--surface-dark) 50%, transparent), transparent)" }} />
-                <button onClick={() => setSelectedExpo(null)} className={`absolute top-4 ${isRtl ? 'right-4' : 'left-4'} p-2 rounded-full t-secondary`} style={{ backgroundColor: "rgba(0,0,0,0.4)", backdropFilter: "blur(8px)" }}>
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, var(--dash-bg) 0%, transparent 100%)" }} />
+                <button onClick={() => setSelectedExpo(null)} className={`absolute top-4 ${isRtl ? 'right-4' : 'left-4'} p-2 rounded-full t-secondary`} style={{ backgroundColor: "var(--glass-bg)", backdropFilter: "blur(8px)" }}>
                   <X size={16} />
                 </button>
                 <div className={`absolute bottom-4 ${isRtl ? 'right-6' : 'left-6'}`}>
@@ -471,7 +468,7 @@ export default function BrowseExpos() {
                       {isAr ? `باقي ${selectedExpo.availableUnits} أجنحة فقط!` : `Only ${selectedExpo.availableUnits} booths left!`}
                     </p>
                     {viewerCounts[selectedExpo.id] && (
-                      <span className="text-[9px] t-muted font-['Inter']">
+                      <span className="text-[11px] t-muted font-['Inter']">
                         {isAr ? `${viewerCounts[selectedExpo.id]} يشاهدون الآن` : `${viewerCounts[selectedExpo.id]} viewing now`}
                       </span>
                     )}
@@ -479,8 +476,8 @@ export default function BrowseExpos() {
                 )}
 
                 <p className="text-xs t-tertiary leading-relaxed">{getExpoDesc(selectedExpo)}</p>
-                {!isAr && <p className="text-[10px] t-muted font-['Inter'] leading-relaxed">{selectedExpo.descAr}</p>}
-                {isAr && <p className="text-[10px] t-muted font-['Inter'] leading-relaxed">{selectedExpo.descEn}</p>}
+                {!isAr && <p className="text-[12px] t-muted font-['Inter'] leading-relaxed">{selectedExpo.descAr}</p>}
+                {isAr && <p className="text-[12px] t-muted font-['Inter'] leading-relaxed">{selectedExpo.descEn}</p>}
 
                 <div className="grid grid-cols-2 gap-2 sm:gap-3">
                   {[
@@ -494,7 +491,7 @@ export default function BrowseExpos() {
                     <div key={i} className="p-3 rounded-xl modal-inner">
                       <div className="flex items-center gap-1.5 mb-1">
                         <d.icon size={12} className="t-gold" style={{ opacity: 0.6 }} />
-                        <span className="text-[9px] t-muted">{d.label}</span>
+                        <span className="text-[11px] t-muted">{d.label}</span>
                       </div>
                       <p className="text-xs t-secondary break-words">{d.value}</p>
                     </div>
@@ -527,18 +524,18 @@ export default function BrowseExpos() {
                     ].map((sp, i) => (
                       <div key={i} className="p-2 rounded-lg" style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] font-medium" style={{ color: sp.color }}>{sp.name}</span>
-                          <span className="text-[8px] px-1.5 py-0.5 rounded-full" style={{
+                          <span className="text-[12px] font-medium" style={{ color: sp.color }}>{sp.name}</span>
+                          <span className="text-[11px] px-1.5 py-0.5 rounded-full" style={{
                             backgroundColor: sp.available ? "rgba(74, 222, 128, 0.1)" : "rgba(239, 68, 68, 0.1)",
                             color: sp.available ? "var(--status-green)" : "var(--status-red)",
                           }}>
                             {sp.available ? (isAr ? "متاح" : "Available") : (isAr ? "محجوز" : "Reserved")}
                           </span>
                         </div>
-                        <p className="text-[10px] t-gold font-['Inter']">{sp.price} {isAr ? "ر.س" : "SAR"}</p>
+                        <p className="text-[12px] t-gold font-['Inter']">{sp.price} {isAr ? "ر.س" : "SAR"}</p>
                         {sp.available && (
                           <button onClick={(e) => { e.stopPropagation(); toast.info(isAr ? "استفسار" : "Inquire"); }}
-                            className="mt-1.5 w-full text-[9px] py-1 rounded text-center t-gold" style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--gold-border)" }}>
+                            className="mt-1.5 w-full text-[11px] py-1 rounded text-center t-gold" style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--gold-border)" }}>
                             {isAr ? "استفسار" : "Inquire"}
                           </button>
                         )}
@@ -549,7 +546,7 @@ export default function BrowseExpos() {
 
                 {/* Occupancy Bar */}
                 <div>
-                  <div className="flex justify-between text-[10px] t-muted mb-1.5">
+                  <div className="flex justify-between text-[12px] t-muted mb-1.5">
                     <span>{isAr ? "نسبة الإشغال" : "Occupancy Rate"}</span>
                     <span className="font-['Inter']">{Math.round(((selectedExpo.totalUnits - selectedExpo.availableUnits) / selectedExpo.totalUnits) * 100)}%</span>
                   </div>
@@ -557,7 +554,7 @@ export default function BrowseExpos() {
                     <div className="h-full rounded-full transition-all"
                       style={{ width: `${((selectedExpo.totalUnits - selectedExpo.availableUnits) / selectedExpo.totalUnits) * 100}%`, backgroundColor: selectedExpo.availableUnits === 0 ? "var(--status-red)" : "var(--gold-accent)" }} />
                   </div>
-                  <div className="flex justify-between text-[9px] t-muted mt-1">
+                  <div className="flex justify-between text-[11px] t-muted mt-1">
                     <span>{isAr ? "الوحدات المتاحة" : "Available Units"}: {selectedExpo.availableUnits}</span>
                     <span>{isAr ? "الإجمالي" : "Total"}: {selectedExpo.totalUnits}</span>
                   </div>
@@ -566,7 +563,7 @@ export default function BrowseExpos() {
                 {/* Early Booking Incentive */}
                 {isEarlyBooking(selectedExpo) && (
                   <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ backgroundColor: "rgba(96, 165, 250, 0.08)", border: "1px solid rgba(96, 165, 250, 0.15)" }}>
-                    <Tag size={13} className="text-[#60A5FA] shrink-0" />
+                    <Tag size={13} className="text-[var(--status-blue)] shrink-0" />
                     <p className="text-[11px] t-secondary">{isAr ? "احجز اليوم واحصل على مزايا الحجز المبكر" : "Book today and get early booking benefits"}</p>
                   </div>
                 )}
@@ -608,7 +605,7 @@ export default function BrowseExpos() {
         {showUnitPicker && selectedExpo && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ backgroundColor: "rgba(0,0,0,0.7)" }} onClick={() => setShowUnitPicker(false)} />
+              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ backgroundColor: "var(--modal-overlay)" }} onClick={() => setShowUnitPicker(false)} />
             <motion.div
               initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -621,7 +618,7 @@ export default function BrowseExpos() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="min-w-0">
                     <h3 className="text-sm font-bold t-primary">{isAr ? "اختر الوحدة للحجز" : "Select a Unit to Book"}</h3>
-                    <p className="text-[10px] t-gold/50 font-['Inter'] truncate">{isAr ? selectedExpo.nameEn : selectedExpo.nameAr}</p>
+                    <p className="text-[12px] t-gold/50 font-['Inter'] truncate">{isAr ? selectedExpo.nameEn : selectedExpo.nameAr}</p>
                   </div>
                   <button onClick={() => setShowUnitPicker(false)} className="p-2 rounded-lg t-tertiary shrink-0" style={{ background: "var(--glass-bg)" }}>
                     <X size={14} />
@@ -631,7 +628,7 @@ export default function BrowseExpos() {
                 {/* Countdown incentive */}
                 <div className="flex items-center gap-2 px-3 py-2 rounded-xl mb-3" style={{ backgroundColor: "rgba(197, 165, 90, 0.06)", border: "1px solid rgba(197, 165, 90, 0.12)" }}>
                   <Clock size={12} className="t-gold shrink-0" />
-                  <p className="text-[10px] t-secondary">{isAr ? "هذا الجناح محجوز لك لمدة 30 دقيقة" : "This booth is reserved for you for 30 minutes"}</p>
+                  <p className="text-[12px] t-secondary">{isAr ? "هذا الجناح محجوز لك لمدة 30 دقيقة" : "This booth is reserved for you for 30 minutes"}</p>
                 </div>
 
                 <div className="space-y-2">
@@ -640,18 +637,18 @@ export default function BrowseExpos() {
                       <div className="flex items-start justify-between mb-2">
                         <div className="min-w-0">
                           <p className="text-xs t-primary font-semibold truncate">{getUnitName(unit)}</p>
-                          <p className="text-[9px] t-muted font-['Inter']">{isAr ? unit.nameEn : unit.nameAr} · Zone {unit.zone}</p>
+                          <p className="text-[11px] t-muted font-['Inter']">{isAr ? unit.nameEn : unit.nameAr} · Zone {unit.zone}</p>
                         </div>
-                        <p className="text-sm font-bold t-gold font-['Inter'] shrink-0">{unit.price.toLocaleString()} <span className="text-[9px] t-muted">{isAr ? "ر.س" : "SAR"}</span></p>
+                        <p className="text-sm font-bold t-gold font-['Inter'] shrink-0">{unit.price.toLocaleString()} <span className="text-[11px] t-muted">{isAr ? "ر.س" : "SAR"}</span></p>
                       </div>
-                      <div className="flex items-center gap-3 text-[10px] t-tertiary mb-2 flex-wrap">
+                      <div className="flex items-center gap-3 text-[12px] t-tertiary mb-2 flex-wrap">
                         <span>{getUnitType(unit)}</span>
                         <span>{unit.size}</span>
                         <span>{isAr ? "عربون" : "Deposit"}: {unit.deposit.toLocaleString()} {isAr ? "ر.س" : "SAR"}</span>
                       </div>
                       <div className="flex items-center gap-1.5 flex-wrap mb-2">
                         {getUnitServices(unit).map((s, j) => (
-                          <span key={j} className="px-1.5 py-0.5 rounded text-[8px] t-muted" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>{s}</span>
+                          <span key={j} className="px-1.5 py-0.5 rounded text-[11px] t-muted" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>{s}</span>
                         ))}
                       </div>
                       <button onClick={() => handleBookUnit(selectedExpo, unit)}

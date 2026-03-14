@@ -239,13 +239,13 @@ export default function ExhibitorServices() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "\u062E\u062F\u0645\u0627\u062A \u0648\u0639\u0645\u0644\u064A\u0627\u062A \u0627\u0644\u062A\u0627\u062C\u0631" : "Trader Services & Operations"}</h1>
+          <h1 className="text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? "\u062E\u062F\u0645\u0627\u062A \u0648\u0639\u0645\u0644\u064A\u0627\u062A \u0627\u0644\u062A\u0627\u062C\u0631" : "Trader Services & Operations"}</h1>
           <p className="text-xs t-tertiary mt-1">{isAr ? "\u0643\u0644 \u0645\u0627 \u062A\u062D\u062A\u0627\u062C\u0647 \u0644\u0646\u062C\u0627\u062D \u0645\u0634\u0627\u0631\u0643\u062A\u0643 \u2014 \u062E\u062F\u0645\u0627\u062A\u060C \u0639\u0645\u0644\u064A\u0627\u062A\u060C \u062A\u0635\u0627\u0631\u064A\u062D \u0648\u0628\u0627\u062C\u0627\u062A" : "Everything you need \u2014 services, operations, permits & badges"}</p>
         </div>
         <button onClick={() => setShowCart(true)} className="relative btn-gold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2">
           <ShoppingCart size={16} />
           {isAr ? "\u0627\u0644\u0633\u0644\u0629" : "Cart"}
-          {cart.length > 0 && <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-[9px] flex items-center justify-center font-bold font-['Inter']">{cart.length}</span>}
+          {cart.length > 0 && <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-[11px] flex items-center justify-center font-bold font-['Inter']">{cart.length}</span>}
         </button>
       </div>
 
@@ -259,7 +259,7 @@ export default function ExhibitorServices() {
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 ${isActive ? "btn-gold" : "glass-card hover:bg-[var(--glass-bg)] t-tertiary"}`}>
               <TabIcon size={14} />
               {isAr ? tab.labelAr : tab.labelEn}
-              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-['Inter'] ${isActive ? "bg-black/20 text-white" : "bg-[var(--glass-bg)] t-muted"}`}>{tab.count}</span>
+              <span className={`text-[11px] px-1.5 py-0.5 rounded-full font-['Inter'] ${isActive ? "bg-black/20 text-white" : "bg-[var(--glass-bg)] t-muted"}`}>{tab.count}</span>
             </button>
           );
         })}
@@ -288,7 +288,7 @@ export default function ExhibitorServices() {
           <div key={i} className="glass-card rounded-xl p-3 text-center">
             <stat.icon size={16} className="mx-auto t-gold mb-1.5" />
             <p className="text-lg font-bold t-primary font-['Inter']">{stat.value}</p>
-            <p className="text-[9px] t-tertiary">{stat.label}</p>
+            <p className="text-[11px] t-tertiary">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -304,10 +304,10 @@ export default function ExhibitorServices() {
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${cat.color}15`, border: `1px solid ${cat.color}30` }}><CatIcon size={18} style={{ color: cat.color }} /></div>
                 <div className="flex-1 text-start min-w-0">
                   <h3 className="text-sm font-bold t-primary">{isAr ? cat.nameAr : cat.nameEn}</h3>
-                  <p className="text-[10px] t-tertiary truncate">{isAr ? cat.descAr : cat.descEn}</p>
+                  <p className="text-[12px] t-tertiary truncate">{isAr ? cat.descAr : cat.descEn}</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[10px] t-muted font-['Inter']">{cat.services.length} {isAr ? "\u062E\u062F\u0645\u0629" : "services"}</span>
+                  <span className="text-[12px] t-muted font-['Inter']">{cat.services.length} {isAr ? "\u062E\u062F\u0645\u0629" : "services"}</span>
                   {isExpanded ? <ChevronUp size={14} className="t-tertiary" /> : <ChevronDown size={14} className="t-tertiary" />}
                 </div>
               </button>
@@ -321,21 +321,21 @@ export default function ExhibitorServices() {
                         const isFree = service.price === 0;
                         return (
                           <div key={service.id} className="relative p-4 rounded-xl transition-all hover:bg-[var(--glass-bg)]" style={{ backgroundColor: "rgba(255,255,255,0.01)", border: "1px solid var(--glass-border)" }}>
-                            {service.popular && <span className="absolute top-2 end-2 px-2 py-0.5 rounded-full text-[8px] font-bold bg-[#C5A55A]/15 text-[#C5A55A] border border-[#C5A55A]/20">{isAr ? "\u0627\u0644\u0623\u0643\u062B\u0631 \u0637\u0644\u0628\u0627\u064B" : "Popular"}</span>}
+                            {service.popular && <span className="absolute top-2 end-2 px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#C5A55A]/15 text-[#C5A55A] border border-[#C5A55A]/20">{isAr ? "\u0627\u0644\u0623\u0643\u062B\u0631 \u0637\u0644\u0628\u0627\u064B" : "Popular"}</span>}
                             <div className="flex items-start gap-3 mb-3">
                               <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${cat.color}10` }}><SvcIcon size={14} style={{ color: cat.color }} /></div>
                               <div className="flex-1 min-w-0">
                                 <h4 className="text-xs font-bold t-secondary">{isAr ? service.nameAr : service.nameEn}</h4>
-                                <p className="text-[10px] t-tertiary mt-0.5 leading-relaxed">{isAr ? service.descAr : service.descEn}</p>
+                                <p className="text-[12px] t-tertiary mt-0.5 leading-relaxed">{isAr ? service.descAr : service.descEn}</p>
                               </div>
                             </div>
                             <div className="flex items-center justify-between">
                               <div>
-                                {isFree ? <span className="text-sm font-bold text-green-400">{isAr ? "\u0645\u062C\u0627\u0646\u064A" : "Free"}</span> : <><span className="text-sm font-bold text-[#C5A55A] font-['Inter']">{service.price.toLocaleString()}</span><span className="text-[9px] t-tertiary ms-1">{isAr ? "\u0631.\u0633" : "SAR"} / {isAr ? service.unitAr : service.unit}</span></>}
+                                {isFree ? <span className="text-sm font-bold text-green-400">{isAr ? "\u0645\u062C\u0627\u0646\u064A" : "Free"}</span> : <><span className="text-sm font-bold text-[#C5A55A] font-['Inter']">{service.price.toLocaleString()}</span><span className="text-[11px] t-tertiary ms-1">{isAr ? "\u0631.\u0633" : "SAR"} / {isAr ? service.unitAr : service.unit}</span></>}
                               </div>
                               <div className="flex items-center gap-2">
-                                {service.rating && <div className="flex items-center gap-0.5"><Star size={10} className="text-[#FBBF24] fill-[#FBBF24]" /><span className="text-[9px] t-muted font-['Inter']">{service.rating}</span></div>}
-                                {service.deliveryDays !== undefined && <div className="flex items-center gap-0.5"><Clock size={10} className="t-muted" /><span className="text-[9px] t-muted font-['Inter']">{service.deliveryDays === 0 ? (isAr ? "\u0641\u0648\u0631\u064A" : "Instant") : `${service.deliveryDays}d`}</span></div>}
+                                {service.rating && <div className="flex items-center gap-0.5"><Star size={10} className="text-[#FBBF24] fill-[#FBBF24]" /><span className="text-[11px] t-muted font-['Inter']">{service.rating}</span></div>}
+                                {service.deliveryDays !== undefined && <div className="flex items-center gap-0.5"><Clock size={10} className="t-muted" /><span className="text-[11px] t-muted font-['Inter']">{service.deliveryDays === 0 ? (isAr ? "\u0641\u0648\u0631\u064A" : "Instant") : `${service.deliveryDays}d`}</span></div>}
                               </div>
                             </div>
                             <div className="mt-3 pt-3 border-t border-[var(--glass-border)]">
@@ -346,7 +346,7 @@ export default function ExhibitorServices() {
                                     <span className="text-sm font-bold t-primary font-['Inter'] w-6 text-center">{inCart.quantity}</span>
                                     <button onClick={() => updateQuantity(service.id, 1)} className="w-7 h-7 rounded-lg glass-card flex items-center justify-center hover:bg-[var(--glass-bg)]"><Plus size={12} className="t-secondary" /></button>
                                   </div>
-                                  <button onClick={() => removeFromCart(service.id)} className="text-[10px] text-red-400 hover:text-red-300">{isAr ? "\u0625\u0632\u0627\u0644\u0629" : "Remove"}</button>
+                                  <button onClick={() => removeFromCart(service.id)} className="text-[12px] text-red-400 hover:text-red-300">{isAr ? "\u0625\u0632\u0627\u0644\u0629" : "Remove"}</button>
                                 </div>
                               ) : (
                                 <button onClick={() => addToCart(service, cat)} className="w-full py-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition-all hover:bg-[#C5A55A]/10 text-[#C5A55A] border border-[#C5A55A]/20">
@@ -373,11 +373,11 @@ export default function ExhibitorServices() {
           <div className="w-12 h-12 rounded-xl bg-[#C5A55A]/10 flex items-center justify-center shrink-0"><Headphones size={22} className="text-[#C5A55A]" /></div>
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-bold t-primary">{isAr ? "\u062A\u062D\u062A\u0627\u062C \u062E\u062F\u0645\u0629 \u0645\u062E\u0635\u0635\u0629\u061F" : "Need a Custom Service?"}</h3>
-            <p className="text-[10px] t-tertiary mt-0.5">{isAr ? "\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627 \u0648\u0633\u0646\u0648\u0641\u0631 \u0644\u0643 \u0643\u0644 \u0645\u0627 \u062A\u062D\u062A\u0627\u062C\u0647" : "Contact us and we'll provide everything you need"}</p>
+            <p className="text-[12px] t-tertiary mt-0.5">{isAr ? "\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627 \u0648\u0633\u0646\u0648\u0641\u0631 \u0644\u0643 \u0643\u0644 \u0645\u0627 \u062A\u062D\u062A\u0627\u062C\u0647" : "Contact us and we'll provide everything you need"}</p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">
-            <a href="tel:00966535555900" className="flex items-center gap-1.5 px-3 py-2 rounded-lg glass-card text-[10px] t-secondary hover:text-[#C5A55A] transition-colors"><Phone size={12} /><span className="font-['Inter']">00966535555900</span></a>
-            <a href="mailto:rent@mahamexpo.sa" className="flex items-center gap-1.5 px-3 py-2 rounded-lg glass-card text-[10px] t-secondary hover:text-[#C5A55A] transition-colors"><Mail size={12} /><span>rent@mahamexpo.sa</span></a>
+            <a href="tel:00966535555900" className="flex items-center gap-1.5 px-3 py-2 rounded-lg glass-card text-[12px] t-secondary hover:text-[#C5A55A] transition-colors"><Phone size={12} /><span className="font-['Inter']">00966535555900</span></a>
+            <a href="mailto:rent@mahamexpo.sa" className="flex items-center gap-1.5 px-3 py-2 rounded-lg glass-card text-[12px] t-secondary hover:text-[#C5A55A] transition-colors"><Mail size={12} /><span>rent@mahamexpo.sa</span></a>
           </div>
         </div>
       </div>
@@ -385,11 +385,11 @@ export default function ExhibitorServices() {
       {/* Cart Drawer */}
       <AnimatePresence>
         {showCart && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.8)" }} onClick={() => setShowCart(false)}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-end sm:items-center justify-center" style={{ backgroundColor: "var(--modal-overlay)" }} onClick={() => setShowCart(false)}>
             <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }} className="glass-card rounded-t-2xl sm:rounded-2xl w-full sm:max-w-lg max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
               <div className="sticky top-0 z-10 p-4 border-b border-[var(--glass-border)]" style={{ backgroundColor: "var(--bg-primary)" }}>
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-bold t-primary flex items-center gap-2"><ShoppingCart size={16} className="t-gold" />{isAr ? "\u0633\u0644\u0629 \u0627\u0644\u062E\u062F\u0645\u0627\u062A" : "Service Cart"}<span className="text-[10px] t-muted font-['Inter']">({cart.length})</span></h3>
+                  <h3 className="text-base font-bold t-primary flex items-center gap-2"><ShoppingCart size={16} className="t-gold" />{isAr ? "\u0633\u0644\u0629 \u0627\u0644\u062E\u062F\u0645\u0627\u062A" : "Service Cart"}<span className="text-[12px] t-muted font-['Inter']">({cart.length})</span></h3>
                   <button onClick={() => setShowCart(false)} className="glass-card p-1.5 rounded-full"><X size={14} className="t-secondary" /></button>
                 </div>
               </div>
@@ -397,7 +397,7 @@ export default function ExhibitorServices() {
                 <div className="p-8 text-center">
                   <ShoppingCart size={40} className="mx-auto t-muted mb-3" />
                   <p className="text-sm t-tertiary">{isAr ? "\u0627\u0644\u0633\u0644\u0629 \u0641\u0627\u0631\u063A\u0629" : "Cart is empty"}</p>
-                  <p className="text-[10px] t-muted mt-1">{isAr ? "\u0623\u0636\u0641 \u062E\u062F\u0645\u0627\u062A \u0645\u0646 \u0627\u0644\u0642\u0627\u0626\u0645\u0629 \u0623\u0639\u0644\u0627\u0647" : "Add services from the list above"}</p>
+                  <p className="text-[12px] t-muted mt-1">{isAr ? "\u0623\u0636\u0641 \u062E\u062F\u0645\u0627\u062A \u0645\u0646 \u0627\u0644\u0642\u0627\u0626\u0645\u0629 \u0623\u0639\u0644\u0627\u0647" : "Add services from the list above"}</p>
                 </div>
               ) : (
                 <>
@@ -407,7 +407,7 @@ export default function ExhibitorServices() {
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${item.category.color}10` }}><item.service.icon size={14} style={{ color: item.category.color }} /></div>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-bold t-secondary truncate">{isAr ? item.service.nameAr : item.service.nameEn}</p>
-                          <p className="text-[9px] t-muted font-['Inter']">{item.service.price === 0 ? (isAr ? "\u0645\u062C\u0627\u0646\u064A" : "Free") : `${item.service.price.toLocaleString()} ${isAr ? "\u0631.\u0633" : "SAR"} \u00D7 ${item.quantity}`}</p>
+                          <p className="text-[11px] t-muted font-['Inter']">{item.service.price === 0 ? (isAr ? "\u0645\u062C\u0627\u0646\u064A" : "Free") : `${item.service.price.toLocaleString()} ${isAr ? "\u0631.\u0633" : "SAR"} \u00D7 ${item.quantity}`}</p>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <button onClick={() => updateQuantity(item.service.id, -1)} className="w-6 h-6 rounded glass-card flex items-center justify-center"><Minus size={10} className="t-secondary" /></button>
@@ -424,7 +424,7 @@ export default function ExhibitorServices() {
                       <span className="text-lg font-bold text-[#C5A55A] font-['Inter']">{cartTotal.toLocaleString()} <span className="text-xs">{isAr ? "\u0631.\u0633" : "SAR"}</span></span>
                     </div>
                     <button onClick={handleCheckout} className="w-full btn-gold py-3 rounded-xl text-sm flex items-center justify-center gap-2 font-bold"><CreditCard size={14} />{isAr ? "\u0625\u0631\u0633\u0627\u0644 \u0637\u0644\u0628 \u0627\u0644\u062E\u062F\u0645\u0627\u062A" : "Submit Service Request"}</button>
-                    <p className="text-[8px] t-muted text-center mt-2">{isAr ? "\u0633\u064A\u062A\u0645 \u0627\u0644\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0643 \u062E\u0644\u0627\u0644 24 \u0633\u0627\u0639\u0629 \u0644\u062A\u0623\u0643\u064A\u062F \u0627\u0644\u0637\u0644\u0628 \u0648\u0627\u0644\u062F\u0641\u0639" : "We'll contact you within 24 hours to confirm and process payment"}</p>
+                    <p className="text-[11px] t-muted text-center mt-2">{isAr ? "\u0633\u064A\u062A\u0645 \u0627\u0644\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0643 \u062E\u0644\u0627\u0644 24 \u0633\u0627\u0639\u0629 \u0644\u062A\u0623\u0643\u064A\u062F \u0627\u0644\u0637\u0644\u0628 \u0648\u0627\u0644\u062F\u0641\u0639" : "We'll contact you within 24 hours to confirm and process payment"}</p>
                   </div>
                 </>
               )}

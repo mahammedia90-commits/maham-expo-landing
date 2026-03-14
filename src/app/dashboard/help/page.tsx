@@ -55,8 +55,8 @@ export default function HelpCenter() {
   return (
     <div className="space-y-4 sm:space-y-5">
       <div>
-        <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "مركز المساعدة" : "Help Center"}</h2>
-        <p className="text-[10px] t-gold/50 font-['Inter']">Help Center & Support</p>
+        <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? "مركز المساعدة" : "Help Center"}</h2>
+        <p className="text-[12px] t-gold/50 font-['Inter']">Help Center & Support</p>
       </div>
 
       {/* Contact Cards */}
@@ -70,7 +70,7 @@ export default function HelpCenter() {
           <div key={i} className="glass-card rounded-xl p-3 text-center">
             <c.icon size={16} className="t-gold mx-auto mb-2" />
             <p className="text-[11px] t-secondary font-medium">{c.label}</p>
-            <p className="text-[9px] t-muted mt-0.5">{c.value}</p>
+            <p className="text-[11px] t-muted mt-0.5">{c.value}</p>
           </div>
         ))}
       </div>
@@ -127,13 +127,13 @@ export default function HelpCenter() {
         {!ticketSubmitted ? (
           <div className="space-y-4">
             <div>
-              <label className="text-[10px] t-tertiary mb-1.5 block">{isAr ? "الموضوع" : "Subject"}</label>
+              <label className="text-[12px] t-tertiary mb-1.5 block">{isAr ? "الموضوع" : "Subject"}</label>
               <input type="text" value={ticketSubject} onChange={(e) => setTicketSubject(e.target.value)}
                 placeholder={isAr ? "موضوع التذكرة" : "Ticket subject"}
                 className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl px-4 py-2.5 text-xs t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)]" />
             </div>
             <div>
-              <label className="text-[10px] t-tertiary mb-1.5 block">{isAr ? "الرسالة" : "Message"}</label>
+              <label className="text-[12px] t-tertiary mb-1.5 block">{isAr ? "الرسالة" : "Message"}</label>
               <textarea value={ticketMessage} onChange={(e) => setTicketMessage(e.target.value)}
                 placeholder={isAr ? "اكتب رسالتك هنا..." : "Type your message here..."} rows={4}
                 className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl px-4 py-3 text-xs t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)] resize-none" />
@@ -148,7 +148,7 @@ export default function HelpCenter() {
             <CheckCircle2 size={40} className="mx-auto text-[var(--status-green)] mb-3" />
             <p className="text-sm t-secondary">{isAr ? "تم إرسال التذكرة بنجاح" : "Ticket submitted successfully"}</p>
             <p className="text-xs t-tertiary">{isAr ? "رقم التذكرة" : "Ticket Number"}: #TK-2026-0847</p>
-            <p className="text-[10px] t-muted font-['Inter'] mt-1">{isAr ? "سيتم الرد خلال 24 ساعة" : "Response within 24 hours"}</p>
+            <p className="text-[12px] t-muted font-['Inter'] mt-1">{isAr ? "سيتم الرد خلال 24 ساعة" : "Response within 24 hours"}</p>
           </div>
         )}
       </div>

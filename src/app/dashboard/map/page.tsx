@@ -131,7 +131,7 @@ export default function ExpoMap() {
               </div>
               <div className="absolute top-full mt-1 right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 <div className="glass-card rounded-lg px-2 py-1 whitespace-nowrap">
-                  <p className="text-[10px] t-primary">{b.id}</p>
+                  <p className="text-[12px] t-primary">{b.id}</p>
                 </div>
               </div>
             </motion.button>
@@ -139,12 +139,12 @@ export default function ExpoMap() {
 
           {/* Legend */}
           <div className={`absolute bottom-4 ${isRtl ? 'right-4' : 'left-4'} glass-card rounded-xl p-3`}>
-            <p className="text-[10px] t-secondary mb-2">{isAr ? "الدليل" : "Legend"}</p>
+            <p className="text-[12px] t-secondary mb-2">{isAr ? "الدليل" : "Legend"}</p>
             <div className="space-y-1.5">
               {(["available", "reserved", "booked"] as BoothStatus[]).map((key) => (
                 <div key={key} className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: statusColors[key] }} />
-                  <span className="text-[10px] t-secondary">{statusLabels[key]}</span>
+                  <span className="text-[12px] t-secondary">{statusLabels[key]}</span>
                 </div>
               ))}
             </div>
@@ -166,7 +166,7 @@ export default function ExpoMap() {
                   <p className="text-xs t-gold/60 font-['Inter']">{selected.id}</p>
                 </div>
                 <div
-                  className="px-3 py-1 rounded-full text-[10px] font-medium"
+                  className="px-3 py-1 rounded-full text-[12px] font-medium"
                   style={{
                     backgroundColor: `${statusColors[selected.status]}15`,
                     color: statusColors[selected.status],
@@ -215,7 +215,7 @@ export default function ExpoMap() {
           {/* Available Units List */}
           <div className="glass-card rounded-2xl p-5">
             <h4 className="text-sm font-bold t-primary mb-1">{isAr ? "الوحدات المتاحة" : "Available Units"}</h4>
-            <p className="text-[10px] t-gold/50 font-['Inter'] mb-3">({filtered.filter(b => b.status === "available").length})</p>
+            <p className="text-[12px] t-gold/50 font-['Inter'] mb-3">({filtered.filter(b => b.status === "available").length})</p>
             <div className="space-y-2 max-h-60 overflow-y-auto">
               {filtered.filter(b => b.status === "available").map((b) => (
                 <button
@@ -227,7 +227,7 @@ export default function ExpoMap() {
                 >
                   <div>
                     <p className="text-xs t-secondary">{getBoothName(b)}</p>
-                    <p className="text-[9px] t-tertiary font-['Inter']">{b.size}</p>
+                    <p className="text-[11px] t-tertiary font-['Inter']">{b.size}</p>
                   </div>
                   <span className="text-xs t-gold font-['Inter']">{b.price} {isAr ? "ر.س" : "SAR"}</span>
                 </button>

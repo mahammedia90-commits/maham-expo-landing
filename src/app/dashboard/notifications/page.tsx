@@ -58,11 +58,11 @@ export default function Notifications() {
     <div className="space-y-3 sm:space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "الإشعارات" : "Notifications"}</h2>
-          <p className="text-[10px] sm:text-xs t-gold font-['Inter']" style={{ opacity: 0.6 }}>Notifications — {unreadCount} unread</p>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? "الإشعارات" : "Notifications"}</h2>
+          <p className="text-[12px] sm:text-xs t-gold font-['Inter']" style={{ opacity: 0.6 }}>Notifications — {unreadCount} unread</p>
         </div>
         {unreadCount > 0 && (
-          <button onClick={markAllRead} className="glass-card px-3 py-1.5 rounded-lg text-[10px] t-gold transition-colors flex items-center gap-1">
+          <button onClick={markAllRead} className="glass-card px-3 py-1.5 rounded-lg text-[12px] t-gold transition-colors flex items-center gap-1">
             <CheckCheck size={12} /> {isAr ? "تعليم الكل كمقروء" : "Mark All Read"}
           </button>
         )}
@@ -74,12 +74,12 @@ export default function Notifications() {
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] whitespace-nowrap transition-all ${filter === f.value ? "bg-gold-subtle border-gold t-gold" : "glass-card t-tertiary"}`}
             style={filter === f.value ? { border: "1px solid var(--gold-border)" } : undefined}>
             {f.label}
-            {f.count > 0 && <span className="px-1.5 py-0.5 rounded-full text-[9px]" style={{ backgroundColor: "var(--glass-bg)" }}>{f.count}</span>}
+            {f.count > 0 && <span className="px-1.5 py-0.5 rounded-full text-[11px]" style={{ backgroundColor: "var(--glass-bg)" }}>{f.count}</span>}
           </button>
         ))}
       </div>
 
-      <button onClick={() => setShowRead(!showRead)} className="flex items-center gap-1.5 text-[10px] t-muted transition-colors">
+      <button onClick={() => setShowRead(!showRead)} className="flex items-center gap-1.5 text-[12px] t-muted transition-colors">
         {showRead ? <Bell size={12} /> : <BellOff size={12} />}
         {showRead ? (isAr ? "إخفاء المقروءة" : "Hide Read") : (isAr ? "عرض الكل" : "Show All")}
       </button>
@@ -104,7 +104,7 @@ export default function Notifications() {
                     <div className="flex items-start justify-between gap-2">
                       <p className={`text-sm font-medium ${!notif.read ? "t-primary" : "t-secondary"}`}>{notif.title}</p>
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className="text-[9px] t-muted">{notif.time}</span>
+                        <span className="text-[11px] t-muted">{notif.time}</span>
                         {!notif.read && <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "var(--gold-accent)" }} />}
                       </div>
                     </div>
@@ -112,15 +112,15 @@ export default function Notifications() {
                     <div className="flex items-center gap-3 mt-3">
                       {notif.actionUrl && (
                         <Link href={notif.actionUrl}>
-                          <span className="text-[10px] t-gold flex items-center gap-1 cursor-pointer"><Zap size={10} />{notif.actionLabel}</span>
+                          <span className="text-[12px] t-gold flex items-center gap-1 cursor-pointer"><Zap size={10} />{notif.actionLabel}</span>
                         </Link>
                       )}
                       {!notif.read && (
-                        <button onClick={() => markAsRead(notif.id)} className="text-[10px] t-muted transition-colors flex items-center gap-1">
+                        <button onClick={() => markAsRead(notif.id)} className="text-[12px] t-muted transition-colors flex items-center gap-1">
                           <Check size={10} /> {isAr ? "تعليم كمقروء" : "Mark Read"}
                         </button>
                       )}
-                      <button onClick={() => deleteNotification(notif.id)} className="text-[10px] t-muted transition-colors flex items-center gap-1">
+                      <button onClick={() => deleteNotification(notif.id)} className="text-[12px] t-muted transition-colors flex items-center gap-1">
                         <Trash2 size={10} /> {isAr ? "حذف" : "Delete"}
                       </button>
                     </div>

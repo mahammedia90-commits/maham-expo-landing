@@ -122,30 +122,27 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const drawerInitial = isRtl ? { x: "100%" } : { x: "-100%" };
 
   return (
-    <div className="min-h-screen flex" dir={isRtl ? 'rtl' : 'ltr'}>
+    <div className="dashboard-shell min-h-screen flex" dir={isRtl ? 'rtl' : 'ltr'} style={{ background: 'var(--dash-bg)' }}>
       {/* Desktop Sidebar */}
       <aside className={`hidden lg:flex flex-col sidebar-glass fixed top-0 ${sidebarSide} h-screen z-40 transition-all duration-300 ${collapsed ? "w-20" : "w-64"}`}>
         <div className="flex flex-col items-center justify-center py-6 px-4 border-b" style={{ borderColor: "var(--glass-border)" }}>
-          <img src={LOGO_URL} alt="Maham Expo" className={`object-contain transition-all duration-300 ${collapsed ? "h-10 w-10" : "h-16 w-auto max-w-[200px]"}`} style={{ filter: isDark ? 'drop-shadow(0 0 15px rgba(212,175,55,0.1))' : 'brightness(0.25) contrast(1.2)' }} />
+          <img src={LOGO_URL} alt="Maham Expo" className={`object-contain transition-all duration-300 ${collapsed ? "h-10 w-10" : "h-14 w-auto max-w-[180px]"}`} style={{ filter: isDark ? 'drop-shadow(0 0 10px rgba(212,175,55,0.08))' : 'none' }} />
           {!collapsed && (
-            <>
-              <p className="text-[9px] t-tertiary mt-2 text-center leading-tight font-semibold">{isAr ? "شركة مهام إكسبو لتنظيم المعارض والمؤتمرات" : "Maham Expo for Exhibitions & Conferences"}</p>
-              <p className="text-[8px] t-muted text-center leading-tight mt-0.5" style={{ opacity: 0.7 }}>{isAr ? "Maham Expo for Exhibitions & Conferences" : "شركة مهام إكسبو لتنظيم المعارض والمؤتمرات"}</p>
-            </>
+            <p className="text-[11px] t-tertiary mt-2 text-center leading-tight font-medium">{isAr ? "شركة مهام إكسبو لتنظيم المعارض والمؤتمرات" : "Maham Expo for Exhibitions & Conferences"}</p>
           )}
         </div>
 
         <nav className="flex-1 py-3 overflow-y-auto">
           {navSections.map((section, si) => (
             <div key={si} className="mb-2">
-              {!collapsed && <p className="px-5 py-1.5 text-[9px] t-muted uppercase tracking-wider">{isAr ? section.titleAr : section.titleEn}</p>}
+              {!collapsed && <p className="px-5 py-1.5 text-[11px] t-muted uppercase tracking-wider font-semibold">{isAr ? section.titleAr : section.titleEn}</p>}
               {section.items.map((item) => {
                 const isActive = pathname === item.path || (item.path !== "/dashboard" && pathname.startsWith(item.path));
                 return (
                   <Link key={item.path} href={item.path}>
                     <div className={`flex items-center gap-3 mx-3 my-0.5 px-3 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${isActive ? "bg-gold-subtle border-gold shadow-sm" : "hover:bg-[var(--glass-bg-hover)] border border-transparent"}`} style={isActive ? { border: `1px solid var(--gold-border)` } : undefined}>
                       <item.icon size={18} className="shrink-0" style={{ color: isActive ? "var(--gold-accent)" : "var(--text-tertiary)" }} />
-                      {!collapsed && <span className="text-[13px] font-medium" style={{ color: isActive ? "var(--gold-light)" : "var(--text-secondary)" }}>{isAr ? item.labelAr : item.labelEn}</span>}
+                      {!collapsed && <span className="text-[13px] font-medium" style={{ color: isActive ? "var(--gold-accent)" : "var(--text-secondary)" }}>{isAr ? item.labelAr : item.labelEn}</span>}
                     </div>
                   </Link>
                 );
@@ -166,7 +163,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Mobile Bottom Nav */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ background: "var(--bg-primary, #0a0a0a)", borderTop: "1px solid var(--glass-border)", paddingBottom: "max(env(safe-area-inset-bottom, 8px), 8px)" }}>
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50" style={{ background: "var(--dash-bg)", borderTop: "1px solid var(--glass-border)", paddingBottom: "max(env(safe-area-inset-bottom, 8px), 8px)", boxShadow: isDark ? '0 -1px 8px rgba(0,0,0,0.3)' : '0 -1px 4px rgba(0,0,0,0.06)' }}>
         <div className="flex items-center justify-around py-2 px-1">
           {mobileNavItems.map((item) => {
             const isExactActive = pathname === item.path;
@@ -174,7 +171,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <Link key={item.path} href={item.path}>
                 <div className="flex flex-col items-center gap-0.5 py-1.5 px-2 sm:px-3 rounded-xl transition-all relative min-w-[44px]" style={{ color: isExactActive ? "var(--gold-accent)" : "var(--text-tertiary)" }}>
                   <item.icon size={20} strokeWidth={isExactActive ? 2.5 : 1.8} />
-                  <span className="text-[9px] sm:text-[10px] font-medium leading-tight truncate max-w-[56px] text-center">{isAr ? item.labelAr : item.labelEn}</span>
+                  <span className="text-[11px] font-medium leading-tight truncate max-w-[56px] text-center">{isAr ? item.labelAr : item.labelEn}</span>
                   {isExactActive && <div className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-6 h-[3px] rounded-full" style={{ backgroundColor: "var(--gold-accent)" }} />}
                 </div>
               </Link>
@@ -182,7 +179,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           })}
           <button onClick={() => setMobileOpen(true)} className="flex flex-col items-center gap-0.5 py-1.5 px-2 sm:px-3 min-w-[44px]" style={{ color: "var(--text-tertiary)" }}>
             <Menu size={20} strokeWidth={1.8} />
-            <span className="text-[9px] sm:text-[10px] font-medium">{isAr ? 'المزيد' : 'More'}</span>
+            <span className="text-[11px] font-medium">{isAr ? 'المزيد' : 'More'}</span>
           </button>
         </div>
       </nav>
@@ -192,7 +189,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {mobileOpen && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="lg:hidden fixed inset-0 z-[55]" style={{ backgroundColor: "var(--modal-overlay)" }} onClick={closeMobile} />
-            <motion.div initial={drawerInitial} animate={{ x: 0 }} exit={drawerInitial} transition={{ type: "spring", stiffness: 300, damping: 30 }} className={`lg:hidden fixed top-0 ${drawerSide} h-full w-[280px] z-[56] overflow-y-auto`} style={{ background: "var(--sidebar-bg)", backdropFilter: "blur(40px)", WebkitBackdropFilter: "blur(40px)", ...drawerBorder }}>
+            <motion.div initial={drawerInitial} animate={{ x: 0 }} exit={drawerInitial} transition={{ type: "spring", stiffness: 300, damping: 30 }} className={`lg:hidden fixed top-0 ${drawerSide} h-full w-[280px] z-[56] overflow-y-auto`} style={{ background: "var(--dash-bg)", ...drawerBorder }}>
               <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: "var(--glass-border)" }}>
                 <img src={LOGO_URL} alt="Maham Expo" className="h-9 object-contain" style={{ filter: isDark ? 'none' : 'brightness(0.3)' }} />
                 <button onClick={closeMobile} className="p-2 rounded-lg" style={{ color: "var(--text-tertiary)", background: "var(--glass-bg)" }}><X size={16} /></button>
@@ -206,14 +203,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <nav className="p-3">
                 {navSections.map((section, si) => (
                   <div key={si} className="mb-3">
-                    <p className="px-2 py-1 text-[9px] t-muted uppercase tracking-wider">{isAr ? section.titleAr : section.titleEn}</p>
+                    <p className="px-2 py-1 text-[11px] t-muted uppercase tracking-wider font-semibold">{isAr ? section.titleAr : section.titleEn}</p>
                     {section.items.map((item) => {
                       const isActive = pathname === item.path;
                       return (
                         <Link key={item.path} href={item.path}>
                           <div onClick={closeMobile} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all my-0.5 ${isActive ? "bg-gold-subtle" : ""}`} style={isActive ? { border: "1px solid var(--gold-border)" } : { border: "1px solid transparent" }}>
                             <item.icon size={16} style={{ color: isActive ? "var(--gold-accent)" : "var(--text-tertiary)" }} />
-                            <span className="text-[13px]" style={{ color: isActive ? "var(--gold-light)" : "var(--text-secondary)" }}>{isAr ? item.labelAr : item.labelEn}</span>
+                            <span className="text-[13px]" style={{ color: isActive ? "var(--gold-accent)" : "var(--text-secondary)" }}>{isAr ? item.labelAr : item.labelEn}</span>
                           </div>
                         </Link>
                       );
@@ -225,7 +222,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <button onClick={handleLogout} className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl hover:bg-[var(--glass-bg-hover)]" style={{ color: "var(--status-red)" }}>
                   <LogOut size={16} /><span className="text-[13px] font-medium">{isAr ? 'تسجيل الخروج' : 'Logout'}</span>
                 </button>
-                <p className="text-[9px] t-muted text-center mt-3">{isAr ? "مهام إكسبو — بوابة التاجر" : "Maham Expo — Trader Portal"}</p>
+                <p className="text-[11px] t-muted text-center mt-3">{isAr ? "مهام إكسبو — بوابة التاجر" : "Maham Expo — Trader Portal"}</p>
               </div>
             </motion.div>
           </>
@@ -234,7 +231,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content */}
       <main className={`flex-1 min-w-0 min-h-screen transition-all duration-300 ${mainMargin}`} style={{ paddingBottom: "calc(100px + env(safe-area-inset-bottom, 24px))" }}>
-        <header className="sticky top-0 z-30 px-3 sm:px-6 py-2.5 sm:py-3" style={{ background: "var(--sidebar-bg)", backdropFilter: "blur(60px) saturate(1.4)", WebkitBackdropFilter: "blur(60px) saturate(1.4)", borderBottom: "1px solid var(--glass-border)", boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.15)' : '0 2px 10px rgba(0,0,0,0.04)' }}>
+        <header className="sticky top-0 z-30 px-4 sm:px-6 py-3" style={{ background: "var(--dash-bg)", borderBottom: "1px solid var(--glass-border)", boxShadow: isDark ? '0 1px 8px rgba(0,0,0,0.2)' : '0 1px 4px rgba(0,0,0,0.04)' }}>
           <div className="flex items-center justify-between gap-2 min-w-0">
             <div className="flex items-center gap-2">
               {isSubPage && (
@@ -242,7 +239,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                   {isRtl ? <ArrowRight size={16} /> : <ChevronLeft size={16} />}
                 </button>
               )}
-              <h1 className="text-sm sm:text-base font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>
+              <h1 className="text-sm sm:text-base font-bold text-gold-gradient">
                 {currentItem ? (isAr ? currentItem.labelAr : currentItem.labelEn) : (isAr ? 'لوحة التحكم' : 'Dashboard')}
               </h1>
             </div>

@@ -77,7 +77,7 @@ export default function Messages() {
           <div className="mx-3 mt-2 p-2 rounded-lg bg-gold-subtle" style={{ border: "1px solid var(--gold-border)" }}>
             <div className="flex items-center gap-1.5">
               <Shield size={9} className="t-gold shrink-0" />
-              <span className="text-[8px] t-gold" style={{ opacity: 0.8 }}>{isAr ? "جميع المحادثات مشفرة ومراقبة" : "All conversations are encrypted and monitored"}</span>
+              <span className="text-[11px] t-gold" style={{ opacity: 0.8 }}>{isAr ? "جميع المحادثات مشفرة ومراقبة" : "All conversations are encrypted and monitored"}</span>
             </div>
           </div>
           <div className="flex-1 overflow-y-auto py-1" style={{ minHeight: 0 }}>
@@ -95,12 +95,12 @@ export default function Messages() {
                 <div className="flex-1 overflow-hidden text-start">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-medium t-secondary truncate">{conv.name}</span>
-                    <span className="text-[8px] t-muted shrink-0">{conv.lastTime}</span>
+                    <span className="text-[11px] t-muted shrink-0">{conv.lastTime}</span>
                   </div>
-                  <p className="text-[10px] t-tertiary truncate">{conv.lastMessage}</p>
+                  <p className="text-[12px] t-tertiary truncate">{conv.lastMessage}</p>
                   <div className="flex items-center justify-between mt-0.5">
-                    <p className="text-[8px] t-muted truncate">{conv.expoName}</p>
-                    {conv.unread > 0 && <span className="shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-bold" style={{ backgroundColor: "var(--badge-bg)", color: "var(--badge-text)" }}>{conv.unread}</span>}
+                    <p className="text-[11px] t-muted truncate">{conv.expoName}</p>
+                    {conv.unread > 0 && <span className="shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[11px] font-bold" style={{ backgroundColor: "var(--badge-bg)", color: "var(--badge-text)" }}>{conv.unread}</span>}
                   </div>
                 </div>
               </button>
@@ -122,13 +122,13 @@ export default function Messages() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs font-medium t-primary truncate">{activeConversation.name}</p>
-                  <p className="text-[8px] t-muted truncate">{activeConversation.roleLabel}</p>
+                  <p className="text-[11px] t-muted truncate">{activeConversation.roleLabel}</p>
                 </div>
               </div>
               {activeConversation.masked && (
                 <div className="flex items-center gap-1 px-2 py-1 rounded-lg shrink-0" style={{ backgroundColor: "color-mix(in srgb, var(--status-red) 10%, transparent)" }}>
                   <Lock size={9} style={{ color: "var(--status-red)", opacity: 0.6 }} />
-                  <span className="text-[8px] hidden sm:inline" style={{ color: "var(--status-red)", opacity: 0.6 }}>{isAr ? "هوية مخفية" : "Hidden Identity"}</span>
+                  <span className="text-[11px] hidden sm:inline" style={{ color: "var(--status-red)", opacity: 0.6 }}>{isAr ? "هوية مخفية" : "Hidden Identity"}</span>
                 </div>
               )}
             </div>
@@ -141,7 +141,7 @@ export default function Messages() {
                 {msg.sender === "system" ? (
                   <div className="max-w-[90%] sm:max-w-md px-3 py-2 rounded-xl text-center"
                     style={{ backgroundColor: msg.blocked ? "color-mix(in srgb, var(--status-red) 10%, transparent)" : "var(--glass-bg)", border: msg.blocked ? "1px solid color-mix(in srgb, var(--status-red) 20%, transparent)" : "1px solid var(--glass-border)" }}>
-                    <p className="text-[9px] sm:text-[10px] leading-relaxed" style={{ color: msg.blocked ? "var(--status-red)" : "var(--text-muted)", opacity: msg.blocked ? 0.8 : 0.6 }}>{msg.text}</p>
+                    <p className="text-[11px] sm:text-[12px] leading-relaxed" style={{ color: msg.blocked ? "var(--status-red)" : "var(--text-muted)", opacity: msg.blocked ? 0.8 : 0.6 }}>{msg.text}</p>
                   </div>
                 ) : (
                   <div className={`max-w-[80%] sm:max-w-[70%] ${msg.blocked ? "opacity-50" : ""}`}>
@@ -149,13 +149,13 @@ export default function Messages() {
                       {msg.blocked && (
                         <div className="flex items-center gap-1 mb-1">
                           <XCircle size={9} style={{ color: "var(--status-red)" }} />
-                          <span className="text-[7px]" style={{ color: "var(--status-red)" }}>{isAr ? "محظور" : "Blocked"}</span>
+                          <span className="text-[11px]" style={{ color: "var(--status-red)" }}>{isAr ? "محظور" : "Blocked"}</span>
                         </div>
                       )}
                       <p className={`text-[11px] sm:text-xs leading-relaxed ${msg.blocked ? "line-through t-muted" : "t-secondary"}`}>{msg.text}</p>
                     </div>
                     <div className={`flex items-center gap-1 mt-0.5 ${msg.sender === "me" ? "" : (isRtl ? "justify-start" : "justify-end")}`}>
-                      <span className="text-[8px] t-muted">{msg.time}</span>
+                      <span className="text-[11px] t-muted">{msg.time}</span>
                       {msg.sender === "me" && !msg.blocked && (
                         msg.status === "read" ? <CheckCheck size={9} className="t-gold" style={{ opacity: 0.6 }} /> :
                         msg.status === "delivered" ? <CheckCheck size={9} className="t-muted" /> :
@@ -186,7 +186,7 @@ export default function Messages() {
             </div>
             <div className="flex items-center gap-1 mt-1.5">
               <Shield size={8} className="t-gold" style={{ opacity: 0.3 }} />
-              <span className="text-[7px] sm:text-[8px] t-muted">{isAr ? "محادثاتك مشفرة ومحمية — لا يمكن مشاركة معلومات الاتصال" : "Your chats are encrypted and protected — contact info sharing is blocked"}</span>
+              <span className="text-[11px] sm:text-[11px] t-muted">{isAr ? "محادثاتك مشفرة ومحمية — لا يمكن مشاركة معلومات الاتصال" : "Your chats are encrypted and protected — contact info sharing is blocked"}</span>
             </div>
           </div>
         </div>

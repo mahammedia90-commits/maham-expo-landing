@@ -95,10 +95,10 @@ export default function WaitlistPage() {
       {/* Header */}
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>
             {isAr ? "\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0627\u0646\u062A\u0638\u0627\u0631" : "Waitlist"}
           </h2>
-          <p className="text-[10px] t-gold/50 font-['Inter']">Booth Waitlist Management</p>
+          <p className="text-[12px] t-gold/50 font-['Inter']">Booth Waitlist Management</p>
         </div>
         <Link href="/dashboard/expos">
           <button className="btn-gold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5">
@@ -118,7 +118,7 @@ export default function WaitlistPage() {
             <p className="text-sm text-green-400 font-bold">
               {isAr ? `${stats.available} \u0648\u062D\u062F\u0629 \u0623\u0635\u0628\u062D\u062A \u0645\u062A\u0627\u062D\u0629!` : `${stats.available} booth(s) now available!`}
             </p>
-            <p className="text-[10px] t-muted">
+            <p className="text-[12px] t-muted">
               {isAr ? "\u0633\u0627\u0631\u0639 \u0628\u0627\u0644\u062D\u062C\u0632 \u0642\u0628\u0644 \u0646\u0641\u0627\u0630 \u0627\u0644\u0641\u0631\u0635\u0629" : "Book now before it's taken"}
             </p>
           </div>
@@ -134,7 +134,7 @@ export default function WaitlistPage() {
         ].map((s, i) => (
           <div key={i} className="glass-card rounded-xl p-3 text-center">
             <p className="text-xl font-bold font-['Inter']" style={{ color: s.color }}>{s.value}</p>
-            <p className="text-[9px] t-tertiary mt-0.5">{s.label}</p>
+            <p className="text-[11px] t-tertiary mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -146,7 +146,7 @@ export default function WaitlistPage() {
           <p className="text-sm t-secondary mb-1">
             {isAr ? "\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0627\u0646\u062A\u0638\u0627\u0631 \u0641\u0627\u0631\u063A\u0629" : "Your waitlist is empty"}
           </p>
-          <p className="text-[10px] t-muted mb-3">
+          <p className="text-[12px] t-muted mb-3">
             {isAr ? "\u064A\u0645\u0643\u0646\u0643 \u0627\u0644\u0627\u0646\u0636\u0645\u0627\u0645 \u0644\u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0627\u0646\u062A\u0638\u0627\u0631 \u0645\u0646 \u0635\u0641\u062D\u0629 \u062A\u0641\u0627\u0635\u064A\u0644 \u0627\u0644\u0645\u0639\u0631\u0636 \u0639\u0646\u062F \u0646\u0641\u0627\u0630 \u0627\u0644\u0648\u062D\u062F\u0627\u062A" : "Join the waitlist from expo details when booths are sold out"}
           </p>
           <Link href="/dashboard/expos">
@@ -168,7 +168,7 @@ export default function WaitlistPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <p className="text-sm font-bold t-primary">{item.boothCode}</p>
-                      <span className="px-2 py-0.5 rounded-full text-[9px]"
+                      <span className="px-2 py-0.5 rounded-full text-[11px]"
                         style={{ backgroundColor: `${sc}15`, color: sc, border: `1px solid ${sc}25` }}>
                         {statusLabel(item.status)}
                       </span>
@@ -181,12 +181,12 @@ export default function WaitlistPage() {
                     <p className="text-sm font-bold text-[#C5A55A] font-['Inter']">
                       {item.price.toLocaleString()}
                     </p>
-                    <p className="text-[8px] t-muted">{isAr ? "\u0631.\u0633" : "SAR"}</p>
+                    <p className="text-[11px] t-muted">{isAr ? "\u0631.\u0633" : "SAR"}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-[10px] t-muted">
+                  <div className="flex items-center gap-4 text-[12px] t-muted">
                     <span className="flex items-center gap-1">
                       <Building2 size={10} /> {item.boothType}
                     </span>
@@ -198,7 +198,7 @@ export default function WaitlistPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[9px] t-muted">
+                    <span className="text-[11px] t-muted">
                       #{item.position} {isAr ? "\u0641\u064A \u0627\u0644\u0642\u0627\u0626\u0645\u0629" : "in queue"}
                     </span>
                   </div>
@@ -239,7 +239,7 @@ export default function WaitlistPage() {
           ].map((step, i) => (
             <div key={i} className="flex items-start gap-3">
               <div className="w-5 h-5 rounded-full bg-[#C5A55A]/10 flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-[9px] font-bold text-[#C5A55A]">{i + 1}</span>
+                <span className="text-[11px] font-bold text-[#C5A55A]">{i + 1}</span>
               </div>
               <p className="text-[11px] t-tertiary leading-relaxed">
                 {isAr ? step.ar : step.en}
@@ -254,7 +254,7 @@ export default function WaitlistPage() {
         {selectedItem && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/70 z-50 backdrop-blur-sm" onClick={() => setSelectedItem(null)} />
+              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ backgroundColor: "var(--modal-overlay)" }} onClick={() => setSelectedItem(null)} />
             <motion.div
               initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -278,9 +278,9 @@ export default function WaitlistPage() {
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <p className="text-lg font-bold text-[#C5A55A]">{selectedItem.boothCode}</p>
-                      <p className="text-[10px] t-muted">Zone {selectedItem.zone} \u00B7 {selectedItem.boothType}</p>
+                      <p className="text-[12px] t-muted">Zone {selectedItem.zone} \u00B7 {selectedItem.boothType}</p>
                     </div>
-                    <span className="px-2.5 py-1 rounded-full text-[10px]"
+                    <span className="px-2.5 py-1 rounded-full text-[12px]"
                       style={{ backgroundColor: `${statusColor[selectedItem.status]}15`, color: statusColor[selectedItem.status] }}>
                       {statusLabel(selectedItem.status)}
                     </span>
@@ -288,7 +288,7 @@ export default function WaitlistPage() {
                   <p className="text-xs t-tertiary mb-2">
                     {isAr ? selectedItem.expoNameAr : selectedItem.expoNameEn}
                   </p>
-                  <div className="grid grid-cols-2 gap-2 text-[10px]">
+                  <div className="grid grid-cols-2 gap-2 text-[12px]">
                     <div className="p-2 rounded-lg" style={{ background: "var(--glass-bg)" }}>
                       <p className="t-muted">{isAr ? "\u0627\u0644\u0633\u0639\u0631" : "Price"}</p>
                       <p className="t-secondary font-bold font-['Inter']">{selectedItem.price.toLocaleString()} {isAr ? "\u0631.\u0633" : "SAR"}</p>

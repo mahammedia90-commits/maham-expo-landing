@@ -205,12 +205,12 @@ export default function Payments() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "المدفوعات والفواتير" : "Payments & Billing"}</h2>
-          <p className="text-[10px] t-gold/50 font-['Inter']">Payments & Billing</p>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient">{isAr ? "المدفوعات والفواتير" : "Payments & Billing"}</h2>
+          <p className="text-[12px] t-gold/50 font-['Inter']">Payments & Billing</p>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={() => setCurrency(c => c === "SAR" ? "USD" : "SAR")}
-            className="glass-card px-2.5 py-1.5 rounded-lg text-[10px] t-secondary">
+            className="glass-card px-2.5 py-1.5 rounded-lg text-[12px] t-secondary">
             {currency === "SAR" ? "SAR → $" : "$ → SAR"}
           </button>
         </div>
@@ -223,20 +223,20 @@ export default function Payments() {
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#4ADE8015" }}>
               <CheckCircle size={14} style={{ color: "#4ADE80" }} />
             </div>
-            <span className="text-[10px] t-tertiary">{isAr ? "إجمالي المدفوع" : "Total Paid"}</span>
+            <span className="text-[12px] t-tertiary">{isAr ? "إجمالي المدفوع" : "Total Paid"}</span>
           </div>
           <p className="text-lg sm:text-xl font-bold text-[var(--status-green)] font-['Inter']">{convertAmount(totalPaid)}</p>
-          <p className="text-[9px] t-muted">{currencyLabel}</p>
+          <p className="text-[11px] t-muted">{currencyLabel}</p>
         </div>
         <div className="glass-card rounded-xl p-3 sm:p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#FBBF2415" }}>
               <AlertTriangle size={14} style={{ color: "#FBBF24" }} />
             </div>
-            <span className="text-[10px] t-tertiary">{isAr ? "إجمالي المتبقي" : "Total Remaining"}</span>
+            <span className="text-[12px] t-tertiary">{isAr ? "إجمالي المتبقي" : "Total Remaining"}</span>
           </div>
           <p className="text-lg sm:text-xl font-bold text-[var(--status-yellow)] font-['Inter']">{convertAmount(totalPending)}</p>
-          <p className="text-[9px] t-muted">{currencyLabel}</p>
+          <p className="text-[11px] t-muted">{currencyLabel}</p>
         </div>
       </div>
 
@@ -256,7 +256,7 @@ export default function Payments() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-[11px] t-secondary truncate">{bookingLabel(bk)}</p>
-                    <p className="text-[9px] t-muted">
+                    <p className="text-[11px] t-muted">
                       {isAr ? "الحجز" : "Booking"}: <span className="font-['Inter']">{bk.id}</span>
                       {bk.paidAmount > 0 && <span className="text-[var(--status-green)]"> ({isAr ? "مدفوع جزئياً" : "Partially Paid"})</span>}
                     </p>
@@ -264,7 +264,7 @@ export default function Payments() {
                 </div>
                 <div className={`shrink-0 ${isRtl ? "mr-2 text-left" : "ml-2 text-right"}`}>
                   <p className="text-sm font-bold t-gold font-['Inter']">{convertAmount(bk.remainingAmount)}</p>
-                  <button onClick={() => handlePay(bk)} className="btn-gold px-3 py-1 rounded-lg text-[10px] mt-1">
+                  <button onClick={() => handlePay(bk)} className="btn-gold px-3 py-1 rounded-lg text-[12px] mt-1">
                     {isAr ? "ادفع الآن" : "Pay Now"}
                   </button>
                 </div>
@@ -279,7 +279,7 @@ export default function Payments() {
         <div className="glass-card rounded-xl sm:rounded-2xl p-6 text-center">
           <CreditCard size={32} className="mx-auto t-muted mb-3" />
           <p className="text-sm t-secondary mb-1">{isAr ? "لا توجد مدفوعات معلقة" : "No pending payments"}</p>
-          <p className="text-[10px] t-muted">{isAr ? "قم بحجز وحدة في أحد المعارض وسيظهر هنا رابط الدفع" : "Book a unit in an exhibition and the payment link will appear here"}</p>
+          <p className="text-[12px] t-muted">{isAr ? "قم بحجز وحدة في أحد المعارض وسيظهر هنا رابط الدفع" : "Book a unit in an exhibition and the payment link will appear here"}</p>
         </div>
       )}
 
@@ -296,7 +296,7 @@ export default function Payments() {
             { name: isAr ? "رسوم تشغيلية" : "Operational Fees", pct: "10%", color: "#A78BFA" },
           ].map((r, i) => (
             <div key={i} className="p-2.5 sm:p-4 rounded-xl text-center" style={{ background: i === 1 ? "var(--gold-bg)" : "var(--glass-bg)", border: i === 1 ? "1px solid var(--gold-border)" : "1px solid var(--glass-border)" }}>
-              <p className="text-[10px] t-tertiary mb-1">{r.name}</p>
+              <p className="text-[12px] t-tertiary mb-1">{r.name}</p>
               <p className="text-lg font-bold font-['Inter']" style={{ color: r.color }}>{r.pct}</p>
             </div>
           ))}
@@ -320,15 +320,15 @@ export default function Payments() {
                   <div className="flex items-start justify-between mb-1.5">
                     <div className="min-w-0 flex-1">
                       <p className="text-xs t-secondary truncate">{isRtl ? p.descAr : p.descEn}</p>
-                      <p className="text-[9px] t-muted font-['Inter']">{p.id} · {p.date}</p>
+                      <p className="text-[11px] t-muted font-['Inter']">{p.id} · {p.date}</p>
                     </div>
-                    <span className="inline-block px-2 py-0.5 rounded-full text-[9px] shrink-0"
+                    <span className="inline-block px-2 py-0.5 rounded-full text-[11px] shrink-0"
                       style={{ backgroundColor: `${sc}15`, color: sc }}>
                       {statusLabel(p.status)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] t-tertiary">{p.method} · {p.bookingId}</span>
+                    <span className="text-[12px] t-tertiary">{p.method} · {p.bookingId}</span>
                     <span className="text-sm font-bold text-[var(--status-green)] font-['Inter']">{convertAmount(p.amount)} {currencyLabel}</span>
                   </div>
                 </motion.div>
@@ -369,7 +369,7 @@ export default function Payments() {
                       <td className="px-4 py-3 text-[11px] t-tertiary">{p.method}</td>
                       <td className="px-4 py-3 text-[11px] t-gold/50 font-['Inter']">{p.bookingId}</td>
                       <td className="px-4 py-3">
-                        <span className="inline-block px-2 py-0.5 rounded-full text-[10px]" style={{ backgroundColor: `${sc}12`, color: sc }}>{statusLabel(p.status)}</span>
+                        <span className="inline-block px-2 py-0.5 rounded-full text-[12px]" style={{ backgroundColor: `${sc}12`, color: sc }}>{statusLabel(p.status)}</span>
                       </td>
                       <td className="px-4 py-3 text-[11px] t-tertiary font-['Inter']">{p.date}</td>
                       <td className="px-4 py-3">
@@ -412,7 +412,8 @@ export default function Payments() {
         {showPayModal && selectedBooking && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/70 z-50 backdrop-blur-sm"
+              className="fixed inset-0 z-50 backdrop-blur-sm"
+              style={{ background: "var(--modal-overlay)" }}
               onClick={() => !processing && !paymentSuccess && setShowPayModal(false)} />
             <motion.div
               initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
@@ -435,7 +436,7 @@ export default function Payments() {
                       <p className="text-[11px] t-tertiary">{isAr ? "تم سداد المبلغ وإصدار العقد تلقائياً" : "Amount paid and contract issued automatically"}</p>
                     </div>
 
-                    <div className="rounded-xl p-3" style={{ background: "var(--modal-inner-bg)", border: "1px solid var(--glass-border)" }}>
+                    <div className="rounded-xl p-3" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-[11px] t-tertiary">{isAr ? "المبلغ المدفوع" : "Amount Paid"}</span>
                         <span className="text-sm font-bold text-[var(--status-green)] font-['Inter']">{convertAmount(selectedBooking.remainingAmount)} {currencyLabel}</span>
@@ -479,7 +480,7 @@ export default function Payments() {
                             </div>
                             <div className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}>
                               <p className="text-xs t-primary font-semibold">{isAr ? "إرسال عبر البريد الإلكتروني" : "Send via Email"}</p>
-                              <p className="text-[9px] t-muted font-['Inter']">{kycData?.email || "—"}</p>
+                              <p className="text-[11px] t-muted font-['Inter']">{kycData?.email || "—"}</p>
                             </div>
                             {sentChannels.includes("email") && <CheckCircle size={16} style={{ color: "var(--status-green)" }} />}
                           </button>
@@ -492,7 +493,7 @@ export default function Payments() {
                             </div>
                             <div className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}>
                               <p className="text-xs t-primary font-semibold">{isAr ? "إرسال رابط عبر SMS" : "Send Link via SMS"}</p>
-                              <p className="text-[9px] t-muted font-['Inter']">{kycData?.phone || trader?.phone || "—"}</p>
+                              <p className="text-[11px] t-muted font-['Inter']">{kycData?.phone || trader?.phone || "—"}</p>
                             </div>
                             {sentChannels.includes("sms") && <CheckCircle size={16} style={{ color: "var(--status-green)" }} />}
                           </button>
@@ -505,7 +506,7 @@ export default function Payments() {
                             </div>
                             <div className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}>
                               <p className="text-xs t-primary font-semibold">{isAr ? "إرسال عبر واتساب" : "Send via WhatsApp"}</p>
-                              <p className="text-[9px] t-muted font-['Inter']">WhatsApp</p>
+                              <p className="text-[11px] t-muted font-['Inter']">WhatsApp</p>
                             </div>
                             {sentChannels.includes("whatsapp") && <CheckCircle size={16} style={{ color: "var(--status-green)" }} />}
                           </button>
@@ -533,18 +534,18 @@ export default function Payments() {
                       )}
                     </div>
 
-                    <div className="rounded-xl p-3 mb-4" style={{ background: "var(--modal-inner-bg)", border: "1px solid var(--glass-border)" }}>
+                    <div className="rounded-xl p-3 mb-4" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
                       <p className="text-xs t-secondary">{bookingLabel(selectedBooking)}</p>
                       <p className="text-2xl font-bold t-gold font-['Inter'] mt-2">
                         {convertAmount(selectedBooking.remainingAmount)} <span className="text-sm t-tertiary">{currencyLabel}</span>
                       </p>
-                      <p className="text-[9px] t-muted font-['Inter'] mt-1">Ref: {selectedBooking.id}</p>
+                      <p className="text-[11px] t-muted font-['Inter'] mt-1">Ref: {selectedBooking.id}</p>
                     </div>
 
                     {kycData && (
-                      <div className="rounded-xl p-3 mb-4" style={{ background: "var(--modal-inner-bg)", border: "1px solid var(--glass-border)" }}>
-                        <p className="text-[10px] t-muted mb-2">{isAr ? "بيانات التاجر (من التوثيق)" : "Trader Data (from Verification)"}</p>
-                        <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+                      <div className="rounded-xl p-3 mb-4" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
+                        <p className="text-[12px] t-muted mb-2">{isAr ? "بيانات التاجر (من التوثيق)" : "Trader Data (from Verification)"}</p>
+                        <div className="grid grid-cols-2 gap-1.5 text-[12px]">
                           <div><span className="t-muted">{isAr ? "الاسم" : "Name"}: </span><span className="t-secondary">{kycData.fullName}</span></div>
                           <div><span className="t-muted">{isAr ? "الشركة" : "Company"}: </span><span className="t-secondary">{kycData.companyName}</span></div>
                           <div><span className="t-muted">{isAr ? "السجل" : "CR"}: </span><span className="t-secondary font-['Inter']">{kycData.crNumber}</span></div>
@@ -554,7 +555,7 @@ export default function Payments() {
                     )}
 
                     <div className="space-y-1.5 mb-4">
-                      <p className="text-[10px] t-tertiary mb-1">{isAr ? "اختر طريقة الدفع" : "Select Payment Method"}</p>
+                      <p className="text-[12px] t-tertiary mb-1">{isAr ? "اختر طريقة الدفع" : "Select Payment Method"}</p>
                       {[
                         { id: "mada", label: `${isAr ? "مدى" : "Mada"} | Mada` },
                         { id: "credit", label: `${isAr ? "بطاقة ائتمان" : "Credit Card"} | Credit Card` },
@@ -583,7 +584,7 @@ export default function Payments() {
 
                     <div className="flex items-center gap-2 mb-4 p-2 rounded-lg bg-[var(--status-green)]/5">
                       <Shield size={11} className="text-[var(--status-green)]/60 shrink-0" />
-                      <span className="text-[9px] text-[var(--status-green)]/60">{isAr ? "الدفع مشفر ومحمي بتقنية SSL — العقد يصدر تلقائياً بعد الدفع" : "Payment is encrypted and SSL-protected — Contract is issued automatically after payment"}</span>
+                      <span className="text-[11px] text-[var(--status-green)]/60">{isAr ? "الدفع مشفر ومحمي بتقنية SSL — العقد يصدر تلقائياً بعد الدفع" : "Payment is encrypted and SSL-protected — Contract is issued automatically after payment"}</span>
                     </div>
 
                     <button onClick={processPayment} disabled={processing}

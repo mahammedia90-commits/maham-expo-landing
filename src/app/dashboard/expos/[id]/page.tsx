@@ -184,7 +184,7 @@ function ContractPreview({
             <p><span className="t-tertiary">{isAr ? "العربون المدفوع:" : "Deposit Paid:"}</span> <span className="text-green-400 font-['Inter']">{depositAmount.toLocaleString()} {isAr ? "ر.س" : "SAR"}</span></p>
           </div>
         </div>
-        <div className="mt-4 p-3 rounded-lg text-[10px] t-muted leading-relaxed" style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
+        <div className="mt-4 p-3 rounded-lg text-[12px] t-muted leading-relaxed" style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
           {isAr
             ? "بالموافقة على هذا العقد، أقر بأنني قرأت واطلعت على جميع الشروط والأحكام الخاصة بحجز الأجنحة في معرض مهام إكسبو، وأوافق على الالتزام بها. يعد هذا العقد ملزماً قانونياً عند إتمام عملية الدفع."
             : "By accepting this contract, I acknowledge that I have read and understood all terms and conditions for booth booking at Maham Expo, and agree to comply with them. This contract becomes legally binding upon payment completion."}
@@ -547,17 +547,17 @@ export default function ExpoDetailPage() {
           </motion.button>
         </Link>
         <div className="flex-1 min-w-0">
-          <h2 className="text-lg font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>
+          <h2 className="text-lg font-bold text-gold-gradient">
             {isAr ? "مخطط الطابق" : "Floor Plan"}
           </h2>
-          <p className="text-[10px] t-muted truncate">{isAr ? expo.nameAr : expo.nameEn}</p>
+          <p className="text-[12px] t-muted truncate">{isAr ? expo.nameAr : expo.nameEn}</p>
         </div>
         {/* Live viewers */}
         <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ backgroundColor: "rgba(74, 222, 128, 0.08)", border: "1px solid rgba(74, 222, 128, 0.15)" }}>
           <div className="w-1.5 h-1.5 rounded-full bg-[var(--status-green)] animate-pulse" />
           <Eye size={11} className="text-[var(--status-green)]" />
-          <span className="text-[10px] text-[var(--status-green)] font-['Inter']">{viewerCount}</span>
-          <span className="text-[9px] t-muted">{isAr ? "يشاهدون الآن" : "viewing now"}</span>
+          <span className="text-[12px] text-[var(--status-green)] font-['Inter']">{viewerCount}</span>
+          <span className="text-[11px] t-muted">{isAr ? "يشاهدون الآن" : "viewing now"}</span>
         </div>
       </div>
 
@@ -570,7 +570,7 @@ export default function ExpoDetailPage() {
           <p className="text-[11px] t-secondary flex-1">
             {isAr ? `بقي ${stats.available} وحدة فقط!` : `Only ${stats.available} units left!`}
           </p>
-          <span className="text-[9px] t-muted font-['Inter']">
+          <span className="text-[11px] t-muted font-['Inter']">
             {isAr ? `${viewerCount} يشاهدون الآن` : `${viewerCount} viewing now`}
           </span>
         </motion.div>
@@ -594,7 +594,7 @@ export default function ExpoDetailPage() {
                   <p className="text-sm font-bold text-[#E8D5A3]">
                     {isAr ? "تثبيت مؤقت" : "Temporary Hold"} — {holdBooth.code}
                   </p>
-                  <p className="text-[10px] t-tertiary">
+                  <p className="text-[12px] t-tertiary">
                     {isAr ? "أكمل الدفع قبل انتهاء المدة" : "Complete payment before time expires"}
                   </p>
                 </div>
@@ -652,7 +652,7 @@ export default function ExpoDetailPage() {
         ].map((s, i) => (
           <motion.div key={i} whileHover={{ scale: 1.03, y: -2 }} className="glass-card rounded-xl p-3 text-center cursor-default">
             <p className={`text-xl font-bold font-['Inter'] ${s.color}`}>{s.value}</p>
-            <p className="text-[10px] t-tertiary mt-0.5">{s.label}</p>
+            <p className="text-[12px] t-tertiary mt-0.5">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -673,12 +673,13 @@ export default function ExpoDetailPage() {
         {showVisitRequest && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "var(--modal-overlay)" }}
             onClick={() => setShowVisitRequest(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
               className="glass-card rounded-2xl p-6 max-w-md w-full space-y-4"
+              style={{ background: "var(--modal-bg)" }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center">
@@ -710,7 +711,7 @@ export default function ExpoDetailPage() {
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl text-[9px] t-muted" style={{ backgroundColor: "rgba(74,222,128,0.03)", border: "1px solid rgba(74,222,128,0.1)" }}>
+              <div className="p-3 rounded-xl text-[11px] t-muted" style={{ backgroundColor: "rgba(74,222,128,0.03)", border: "1px solid rgba(74,222,128,0.1)" }}>
                 {isAr
                   ? "ملاحظة: في حال حجز وحدة بعد الزيارة، يتم خصم رسوم الزيارة من إجمالي قيمة العقد."
                   : "Note: If you book a unit after the visit, the visit fee will be deducted from the total contract value."}
@@ -770,7 +771,7 @@ export default function ExpoDetailPage() {
           {(["available", "reserved", "sold", "my-hold"] as BoothStatus[]).map((s) => (
             <div key={s} className="flex items-center gap-1.5">
               <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: boothColors[s], border: `1px solid ${boothBorders[s]}` }} />
-              <span className="text-[10px] t-tertiary">{statusLabel(s)}</span>
+              <span className="text-[12px] t-tertiary">{statusLabel(s)}</span>
             </div>
           ))}
         </div>
@@ -802,9 +803,9 @@ export default function ExpoDetailPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-base font-bold text-[#E8D5A3]">{selectedBooth.code}</h3>
-                  <p className="text-[10px] t-tertiary">{zoneLabel(selectedBooth.zone)}</p>
+                  <p className="text-[12px] t-tertiary">{zoneLabel(selectedBooth.zone)}</p>
                 </div>
-                <span className={`px-2.5 py-1 rounded-lg text-[10px] ${
+                <span className={`px-2.5 py-1 rounded-lg text-[12px] ${
                   selectedBooth.status === "available" ? "bg-green-400/15 text-green-400" :
                   selectedBooth.status === "my-hold" ? "bg-[#C5A55A]/15 text-[#C5A55A]" :
                   "bg-yellow-400/15 text-yellow-400"
@@ -819,9 +820,9 @@ export default function ExpoDetailPage() {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1.5">
                       <ImageIcon size={12} className="t-gold" />
-                      <span className="text-[10px] font-bold t-secondary">{isAr ? "صور الوحدة" : "Unit Gallery"}</span>
+                      <span className="text-[12px] font-bold t-secondary">{isAr ? "صور الوحدة" : "Unit Gallery"}</span>
                     </div>
-                    <button onClick={() => { setGalleryOpen(true); setGalleryIdx(0); }} className="text-[9px] t-gold hover:underline">
+                    <button onClick={() => { setGalleryOpen(true); setGalleryIdx(0); }} className="text-[11px] t-gold hover:underline">
                       {isAr ? "عرض الكل" : "View All"}
                     </button>
                   </div>
@@ -841,9 +842,9 @@ export default function ExpoDetailPage() {
               <AnimatePresence>
                 {galleryOpen && selectedBooth && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.9)" }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "var(--modal-overlay)" }}
                     onClick={() => setGalleryOpen(false)}>
-                    <div className="relative max-w-lg w-full" onClick={e => e.stopPropagation()}>
+                    <div className="relative max-w-lg w-full" style={{ background: "var(--modal-bg)" }} onClick={e => e.stopPropagation()}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={boothGallery[selectedBooth.type]?.[galleryIdx]?.url} className="w-full rounded-xl" alt="" />
                       <p className="text-center text-xs t-secondary mt-2">
@@ -888,7 +889,7 @@ export default function ExpoDetailPage() {
                   <span className="text-xs t-tertiary flex items-center gap-2"><Zap size={12} /> {isAr ? "المميزات" : "Features"}</span>
                   <div className="flex gap-1 flex-wrap justify-end">
                     {selectedBooth.featureKeys.map((fk, i) => (
-                      <span key={i} className="px-1.5 py-0.5 rounded bg-[var(--glass-bg)] text-[9px] t-secondary">{featureLabel(fk, isAr)}</span>
+                      <span key={i} className="px-1.5 py-0.5 rounded bg-[var(--glass-bg)] text-[11px] t-secondary">{featureLabel(fk, isAr)}</span>
                     ))}
                   </div>
                 </div>
@@ -896,11 +897,11 @@ export default function ExpoDetailPage() {
 
               {/* Price */}
               <div className="glass-card rounded-xl p-4 mb-4 text-center">
-                <p className="text-[10px] t-tertiary mb-1">{isAr ? "السعر الإجمالي" : "Total Price"}</p>
+                <p className="text-[12px] t-tertiary mb-1">{isAr ? "السعر الإجمالي" : "Total Price"}</p>
                 <p className="text-2xl font-bold text-[#C5A55A] font-['Inter']">
                   {selectedBooth.price.toLocaleString()} <span className="text-sm t-tertiary">{isAr ? "ر.س" : "SAR"}</span>
                 </p>
-                <p className="text-[10px] t-muted mt-1">{isAr ? "شامل ضريبة القيمة المضافة" : "VAT included"}</p>
+                <p className="text-[12px] t-muted mt-1">{isAr ? "شامل ضريبة القيمة المضافة" : "VAT included"}</p>
               </div>
 
               {/* Booking Steps Indicator */}
@@ -922,12 +923,12 @@ export default function ExpoDetailPage() {
                       return (
                         <div key={step.key} className="flex items-center flex-1">
                           <div className="flex flex-col items-center flex-1">
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold transition-all ${
+                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all ${
                               isCurrent ? "bg-[#C5A55A] text-[#0A0A12]" :
                               isActive ? "bg-green-400/20 text-green-400 border border-green-400/30" :
                               "bg-[var(--glass-bg)] t-muted border border-[var(--glass-border)]"
                             }`}>{i + 1}</div>
-                            <span className={`text-[8px] mt-1 ${isCurrent ? "text-[#C5A55A] font-bold" : isActive ? "text-green-400" : "t-muted"}`}>
+                            <span className={`text-[11px] mt-1 ${isCurrent ? "text-[#C5A55A] font-bold" : isActive ? "text-green-400" : "t-muted"}`}>
                               {isAr ? step.ar : step.en}
                             </span>
                           </div>
@@ -983,7 +984,7 @@ export default function ExpoDetailPage() {
                       </button>
                     )}
                   </div>
-                  <p className="text-[9px] t-muted text-center flex items-center justify-center gap-1">
+                  <p className="text-[11px] t-muted text-center flex items-center justify-center gap-1">
                     <Info size={10} /> {isAr ? "التثبيت مؤقت لمدة 30 دقيقة فقط" : "Hold is temporary for 30 minutes only"}
                   </p>
                 </div>
@@ -996,7 +997,7 @@ export default function ExpoDetailPage() {
                       <Shield size={14} className="text-green-400/70" />
                       <p className="text-xs text-green-400/70">{isAr ? "إقرار قانوني" : "Legal Acknowledgment"}</p>
                     </div>
-                    <p className="text-[10px] t-tertiary leading-relaxed">
+                    <p className="text-[12px] t-tertiary leading-relaxed">
                       {isAr
                         ? "أقر بأنني اطلعت على جميع تفاصيل الوحدة المختارة وشروط الحجز والإلغاء، وأوافق على الالتزام بسياسات المعرض."
                         : "I acknowledge that I have reviewed all details of the selected unit and booking/cancellation terms, and agree to comply with expo policies."}
@@ -1058,7 +1059,7 @@ export default function ExpoDetailPage() {
                   <div className="glass-card rounded-xl p-3 border-l-2 border-amber-500/50">
                     <div className="flex items-start gap-2">
                       <Info size={14} className="text-amber-400 shrink-0 mt-0.5" />
-                      <div className="text-[10px] t-secondary leading-relaxed space-y-1">
+                      <div className="text-[12px] t-secondary leading-relaxed space-y-1">
                         <p className="font-semibold t-primary">{isAr ? "سياسة العربون:" : "Deposit Policy:"}</p>
                         <p>{isAr ? "يُدفع العربون (5%) لتثبيت حجزك قبل إرسال الطلب للمشرف" : "Deposit (5%) is paid to secure your booking before supervisor review"}</p>
                         <p>{isAr ? "سيتم مراجعة طلبك خلال 30 دقيقة كحد أقصى" : "Your request will be reviewed within 30 minutes maximum"}</p>
@@ -1086,10 +1087,10 @@ export default function ExpoDetailPage() {
                     </div>
                     <h4 className="text-sm font-bold t-primary mb-1">{isAr ? "دفع العربون" : "Pay Deposit"}</h4>
                     <p className="text-2xl font-bold text-[#C5A55A] font-['Inter'] mb-1">{(holdBooth.price * 0.05).toLocaleString()} <span className="text-sm">{isAr ? "ر.س" : "SAR"}</span></p>
-                    <p className="text-[10px] t-muted">{isAr ? "شامل ضريبة القيمة المضافة" : "VAT included"}</p>
+                    <p className="text-[12px] t-muted">{isAr ? "شامل ضريبة القيمة المضافة" : "VAT included"}</p>
                   </div>
                   <div className="glass-card rounded-xl p-3">
-                    <p className="text-[10px] t-secondary text-center">{isAr ? "اختر طريقة الدفع" : "Select Payment Method"}</p>
+                    <p className="text-[12px] t-secondary text-center">{isAr ? "اختر طريقة الدفع" : "Select Payment Method"}</p>
                     <div className="grid grid-cols-2 gap-2 mt-2">
                       {[
                         { icon: "CC", label: isAr ? "بطاقة ائتمان" : "Credit Card" },
@@ -1099,7 +1100,7 @@ export default function ExpoDetailPage() {
                       ].map((m, i) => (
                         <button key={i} onClick={handlePayDeposit} className="glass-card p-2.5 rounded-lg text-center hover:border-[#C5A55A]/50 transition-all border border-transparent">
                           <span className="text-lg block mb-0.5 font-bold text-[#C5A55A]">{m.icon}</span>
-                          <span className="text-[10px] t-secondary">{m.label}</span>
+                          <span className="text-[12px] t-secondary">{m.label}</span>
                         </button>
                       ))}
                     </div>
@@ -1138,7 +1139,7 @@ export default function ExpoDetailPage() {
                     <h4 className="text-sm font-bold t-secondary mb-2">
                       {isAr ? "بانتظار موافقة المشرف" : "Awaiting Supervisor Approval"}
                     </h4>
-                    <p className="text-[10px] t-tertiary leading-relaxed mb-3">
+                    <p className="text-[12px] t-tertiary leading-relaxed mb-3">
                       {isAr
                         ? "تم إرسال طلبك للمشرف لمراجعة ملفك التجاري والتحقق من توافق نشاطك مع فئة المعرض. ستتلقى إشعاراً بالنتيجة خلال دقائق."
                         : "Your request has been sent to the supervisor to review your business profile and verify compatibility with the expo category. You will receive a notification shortly."}
@@ -1153,14 +1154,14 @@ export default function ExpoDetailPage() {
                     <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "var(--glass-bg)" }}>
                       <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${Math.min(reviewTimer * 8, 95)}%`, background: "linear-gradient(90deg, var(--gold-accent), var(--status-yellow))" }} />
                     </div>
-                    <p className="text-[8px] t-muted mt-2">
+                    <p className="text-[11px] t-muted mt-2">
                       {isAr ? "المراجعة تتم عادة خلال 1-5 دقائق" : "Review usually takes 1-5 minutes"}
                     </p>
                   </div>
 
                   {/* What's being reviewed */}
                   <div className="glass-card rounded-xl p-3">
-                    <p className="text-[9px] t-muted mb-2">{isAr ? "ما يتم مراجعته:" : "What's being reviewed:"}</p>
+                    <p className="text-[11px] t-muted mb-2">{isAr ? "ما يتم مراجعته:" : "What's being reviewed:"}</p>
                     <div className="space-y-1.5">
                       {[
                         { ar: "الملف التجاري والسجل التجاري", en: "Business profile & commercial registration", done: reviewTimer > 3 },
@@ -1174,7 +1175,7 @@ export default function ExpoDetailPage() {
                           ) : (
                             <div className="w-3 h-3 rounded-full border border-[var(--glass-border)] shrink-0" />
                           )}
-                          <span className={`text-[10px] ${item.done ? "t-secondary" : "t-muted"}`}>
+                          <span className={`text-[12px] ${item.done ? "t-secondary" : "t-muted"}`}>
                             {isAr ? item.ar : item.en}
                           </span>
                         </div>
@@ -1201,7 +1202,7 @@ export default function ExpoDetailPage() {
                     <h4 className="text-sm font-bold text-green-400 mb-2">
                       {isAr ? "تمت الموافقة على طلبك!" : "Your Request is Approved!"}
                     </h4>
-                    <p className="text-[10px] t-tertiary leading-relaxed mb-3">
+                    <p className="text-[12px] t-tertiary leading-relaxed mb-3">
                       {isAr
                         ? `تمت الموافقة على طلبك من قبل المشرف. تم دفع العربون (${(selectedBooth!.price * 0.05).toLocaleString()} ر.س) مسبقاً. المتبقي: ${(selectedBooth!.price * 0.95).toLocaleString()} ر.س لإتمام الحجز.`
                         : `Your request has been approved. Deposit (${(selectedBooth!.price * 0.05).toLocaleString()} SAR) already paid. Remaining: ${(selectedBooth!.price * 0.95).toLocaleString()} SAR to complete booking.`}
@@ -1209,15 +1210,15 @@ export default function ExpoDetailPage() {
                     <div className="flex items-center justify-center gap-3 mb-3">
                       <div className="flex items-center gap-1 px-2 py-1 rounded-full" style={{ backgroundColor: "rgba(74,222,128,0.08)" }}>
                         <Phone size={10} className="text-green-400" />
-                        <span className="text-[8px] text-green-400">SMS</span>
+                        <span className="text-[11px] text-green-400">SMS</span>
                       </div>
                       <div className="flex items-center gap-1 px-2 py-1 rounded-full" style={{ backgroundColor: "rgba(74,222,128,0.08)" }}>
                         <Mail size={10} className="text-green-400" />
-                        <span className="text-[8px] text-green-400">Email</span>
+                        <span className="text-[11px] text-green-400">Email</span>
                       </div>
                       <div className="flex items-center gap-1 px-2 py-1 rounded-full" style={{ backgroundColor: "rgba(74,222,128,0.08)" }}>
                         <CreditCard size={10} className="text-green-400" />
-                        <span className="text-[8px] text-green-400">Apple Pay</span>
+                        <span className="text-[11px] text-green-400">Apple Pay</span>
                       </div>
                     </div>
                   </div>
@@ -1229,7 +1230,7 @@ export default function ExpoDetailPage() {
                     <CreditCard size={14} />
                     {isAr ? `ادفع المتبقي — ${(selectedBooth!.price * 0.95).toLocaleString()} ر.س` : `Pay Remaining — ${(selectedBooth!.price * 0.95).toLocaleString()} SAR`}
                   </button>
-                  <p className="text-[8px] t-muted text-center">
+                  <p className="text-[11px] t-muted text-center">
                     {isAr ? "يجب إتمام الدفع خلال فترة التثبيت المؤقت — العربون تم دفعه مسبقاً" : "Payment must be completed within the hold period — deposit already paid"}
                   </p>
                 </div>
@@ -1245,7 +1246,7 @@ export default function ExpoDetailPage() {
                     <h4 className="text-sm font-bold text-red-400 mb-2">
                       {isAr ? "تم رفض الطلب" : "Request Rejected"}
                     </h4>
-                    <p className="text-[10px] t-tertiary leading-relaxed mb-3">
+                    <p className="text-[12px] t-tertiary leading-relaxed mb-3">
                       {isAr
                         ? "نأسف، تم رفض طلبك من قبل الجهة المشغلة. يمكنك التواصل مع الدعم أو اختيار وحدة أخرى."
                         : "Sorry, your request has been rejected by the operator. You can contact support or select another unit."}
@@ -1254,11 +1255,11 @@ export default function ExpoDetailPage() {
                     <div className="p-3 rounded-xl mb-3" style={{ backgroundColor: "rgba(74,222,128,0.05)", border: "1px solid rgba(74,222,128,0.15)" }}>
                       <div className="flex items-center gap-2 mb-1">
                         <CreditCard size={12} className="text-green-400" />
-                        <span className="text-[10px] text-green-400 font-bold">
+                        <span className="text-[12px] text-green-400 font-bold">
                           {isAr ? "استرداد العربون" : "Deposit Refund"}
                         </span>
                       </div>
-                      <p className="text-[9px] t-secondary leading-relaxed">
+                      <p className="text-[11px] t-secondary leading-relaxed">
                         {isAr
                           ? `سيتم استرداد مبلغ العربون (${selectedBooth ? (selectedBooth.price * 0.05).toLocaleString() : "0"} ر.س) كاملاً إلى حسابك خلال 5-7 أيام عمل.`
                           : `Your deposit (${selectedBooth ? (selectedBooth.price * 0.05).toLocaleString() : "0"} SAR) will be fully refunded to your account within 5-7 business days.`}
@@ -1266,11 +1267,11 @@ export default function ExpoDetailPage() {
                     </div>
                     {rejectionReason && (
                       <div className="p-2.5 rounded-lg mb-3" style={{ backgroundColor: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.15)" }}>
-                        <p className="text-[9px] t-muted mb-1">{isAr ? "سبب الرفض:" : "Reason:"}</p>
-                        <p className="text-[10px] text-red-400">{rejectionReason}</p>
+                        <p className="text-[11px] t-muted mb-1">{isAr ? "سبب الرفض:" : "Reason:"}</p>
+                        <p className="text-[12px] text-red-400">{rejectionReason}</p>
                       </div>
                     )}
-                    <div className="flex items-center justify-center gap-2 text-[9px] t-muted">
+                    <div className="flex items-center justify-center gap-2 text-[11px] t-muted">
                       <Phone size={10} />
                       <span>00966535555900</span>
                       <span>|</span>
@@ -1298,7 +1299,7 @@ export default function ExpoDetailPage() {
                   {/* Contract Accepted Badge */}
                   <div className="flex items-center gap-2 p-3 rounded-xl" style={{ backgroundColor: "rgba(74,222,128,0.05)", border: "1px solid rgba(74,222,128,0.15)" }}>
                     <CheckCircle2 size={14} className="text-green-400" />
-                    <span className="text-[10px] text-green-400 font-semibold">
+                    <span className="text-[12px] text-green-400 font-semibold">
                       {isAr ? "تم قبول العقد بنجاح — يمكنك المتابعة للدفع" : "Contract accepted — proceed to payment"}
                     </span>
                   </div>
@@ -1321,15 +1322,15 @@ export default function ExpoDetailPage() {
                       </div>
                     </div>
                     <div className="mt-3 p-2.5 rounded-lg" style={{ backgroundColor: "rgba(74,222,128,0.05)", border: "1px solid rgba(74,222,128,0.15)" }}>
-                      <div className="flex justify-between text-[9px] mb-1">
+                      <div className="flex justify-between text-[11px] mb-1">
                         <span className="text-green-400">{isAr ? "العربون المدفوع" : "Deposit Paid"}</span>
                         <span className="text-green-400 font-['Inter'] font-bold">-{(selectedBooth.price * 0.05).toLocaleString()} {isAr ? "ر.س" : "SAR"}</span>
                       </div>
                     </div>
                     <div className="mt-2 p-2.5 rounded-lg text-center" style={{ backgroundColor: "rgba(197,165,90,0.05)", border: "1px solid rgba(197,165,90,0.15)" }}>
-                      <p className="text-[9px] t-tertiary mb-1">{isAr ? "المبلغ المتبقي المطلوب" : "Remaining Amount Due"}</p>
+                      <p className="text-[11px] t-tertiary mb-1">{isAr ? "المبلغ المتبقي المطلوب" : "Remaining Amount Due"}</p>
                       <p className="text-lg font-bold text-[#C5A55A] font-['Inter']">{(selectedBooth.price * 0.95).toLocaleString()} <span className="text-xs">{isAr ? "ر.س" : "SAR"}</span></p>
-                      <p className="text-[8px] t-muted">{isAr ? "إجمالي الوحدة بعد خصم العربون" : "Unit total after deposit deduction"}</p>
+                      <p className="text-[11px] t-muted">{isAr ? "إجمالي الوحدة بعد خصم العربون" : "Unit total after deposit deduction"}</p>
                     </div>
                   </div>
 
@@ -1337,9 +1338,9 @@ export default function ExpoDetailPage() {
                   <div className="p-3 rounded-xl" style={{ backgroundColor: "rgba(251,191,36,0.03)", border: "1px solid rgba(251,191,36,0.1)" }}>
                     <div className="flex items-center gap-2 mb-2">
                       <AlertTriangle size={10} className="text-yellow-400" />
-                      <span className="text-[9px] font-bold text-yellow-400">{isAr ? "سياسة الإلغاء" : "Cancellation Policy"}</span>
+                      <span className="text-[11px] font-bold text-yellow-400">{isAr ? "سياسة الإلغاء" : "Cancellation Policy"}</span>
                     </div>
-                    <div className="space-y-1 text-[8px] t-muted">
+                    <div className="space-y-1 text-[11px] t-muted">
                       <p>{isAr ? "العربون غير مسترد في جميع الحالات" : "Deposit (5%) is non-refundable after approval and full payment"}</p>
                       <p>{isAr ? "إلغاء قبل 15+ يوماً: استرداد 50% من المتبقي" : "Cancel 15+ days before: 50% refund of remaining"}</p>
                       <p>{isAr ? "إلغاء قبل أقل من 15 يوماً: لا يوجد استرداد" : "Cancel <15 days: no refund"}</p>
@@ -1348,7 +1349,7 @@ export default function ExpoDetailPage() {
 
                   {/* Payment Methods */}
                   <div className="space-y-2">
-                    <p className="text-[10px] t-tertiary">{isAr ? "طريقة الدفع" : "Payment Method"}</p>
+                    <p className="text-[12px] t-tertiary">{isAr ? "طريقة الدفع" : "Payment Method"}</p>
                     {["Credit Card", "Mada", "Apple Pay", "Bank Transfer"].map((m, i) => (
                       <label key={i} className="flex items-center gap-3 glass-card rounded-xl p-3 cursor-pointer hover:bg-[var(--glass-bg)] transition-colors">
                         <input type="radio" name="payment" defaultChecked={i === 0} className="accent-[#C5A55A]" />
@@ -1364,7 +1365,7 @@ export default function ExpoDetailPage() {
                     <CheckCircle2 size={14} />
                     {isAr ? `تأكيد الدفع — ${(selectedBooth.price * 0.95).toLocaleString()} ر.س` : `Confirm Payment — ${(selectedBooth.price * 0.95).toLocaleString()} SAR`}
                   </button>
-                  <p className="text-[9px] t-muted text-center">
+                  <p className="text-[11px] t-muted text-center">
                     {isAr ? "العربون تم خصمه من الإجمالي — المبلغ المعروض هو المتبقي فقط" : "Deposit deducted from total — amount shown is remaining only"}
                   </p>
                 </div>
@@ -1418,11 +1419,11 @@ export default function ExpoDetailPage() {
                 <div key={i} className="flex items-center justify-between p-2 rounded-lg" style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: sp.color }} />
-                    <span className="text-[10px] t-secondary">{sp.name}</span>
+                    <span className="text-[12px] t-secondary">{sp.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] t-gold font-['Inter']">{sp.price} {isAr ? "ر.س" : "SAR"}</span>
-                    <span className="text-[8px] px-1.5 py-0.5 rounded-full" style={{
+                    <span className="text-[12px] t-gold font-['Inter']">{sp.price} {isAr ? "ر.س" : "SAR"}</span>
+                    <span className="text-[11px] px-1.5 py-0.5 rounded-full" style={{
                       backgroundColor: sp.avail ? "rgba(74, 222, 128, 0.1)" : "rgba(239, 68, 68, 0.1)",
                       color: sp.avail ? "var(--status-green)" : "var(--status-red)",
                     }}>
@@ -1440,10 +1441,10 @@ export default function ExpoDetailPage() {
       <AnimatePresence>
         {showCompare && compareList.length >= 2 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "rgba(0,0,0,0.85)" }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: "var(--modal-overlay)" }}
             onClick={() => setShowCompare(false)}>
             <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
-              className="glass-card rounded-2xl p-5 max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+              className="glass-card rounded-2xl p-5 max-w-2xl w-full max-h-[80vh] overflow-y-auto" style={{ background: "var(--modal-bg)" }} onClick={e => e.stopPropagation()}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-base font-bold t-primary flex items-center gap-2">
                   <BarChart3 size={16} className="t-gold" />
@@ -1484,7 +1485,7 @@ export default function ExpoDetailPage() {
                     </tr>
                     <tr className="border-b border-[var(--glass-border)]">
                       <td className="py-2 px-3 t-tertiary">{isAr ? "المميزات" : "Features"}</td>
-                      {compareList.map(b => <td key={b.id} className="py-2 px-3 text-center t-secondary text-[10px]">{b.featureKeys.map(f => featureLabel(f, isAr)).join(", ")}</td>)}
+                      {compareList.map(b => <td key={b.id} className="py-2 px-3 text-center t-secondary text-[12px]">{b.featureKeys.map(f => featureLabel(f, isAr)).join(", ")}</td>)}
                     </tr>
                     <tr>
                       <td className="py-2 px-3 t-tertiary font-bold">{isAr ? "السعر" : "Price"}</td>

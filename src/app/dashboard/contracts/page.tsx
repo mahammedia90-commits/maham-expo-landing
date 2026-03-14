@@ -87,10 +87,10 @@ export default function Contracts() {
     <div className="space-y-4 sm:space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "العقود والاتفاقيات" : "Contracts & Agreements"}</h2>
-          <p className="text-[10px] t-gold/50 font-['Inter']">Smart E-Contracts</p>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient">{isAr ? "العقود والاتفاقيات" : "Contracts & Agreements"}</h2>
+          <p className="text-[12px] t-gold/50 font-['Inter']">Smart E-Contracts</p>
         </div>
-        <div className="flex items-center gap-1.5 text-[10px] t-tertiary">
+        <div className="flex items-center gap-1.5 text-[12px] t-tertiary">
           <Shield size={12} className="t-gold" />
           <span className="hidden sm:inline">Encrypted</span>
         </div>
@@ -102,7 +102,7 @@ export default function Contracts() {
           <Lock size={14} className="t-gold shrink-0 mt-0.5" />
           <div>
             <p className="text-[11px] t-gold font-semibold mb-1">{isAr ? "العقد يصدر تلقائياً بعد إكمال الدفع بالكامل" : "Contract is issued automatically after full payment completion"}</p>
-            <div className="text-[10px] t-tertiary leading-relaxed space-y-0.5">
+            <div className="text-[12px] t-tertiary leading-relaxed space-y-0.5">
               <p>
                 {isAr ? "توثيق الحساب (KYC)" : "Account Verification (KYC)"} → {isAr ? "حجز وحدة في معرض" : "Book a unit in an exhibition"} → {isAr ? "إكمال الدفع بالكامل" : "Complete full payment"} → {isAr ? "إصدار العقد تلقائياً" : "Contract issued automatically"}
               </p>
@@ -135,22 +135,22 @@ export default function Contracts() {
                       </h4>
                     </div>
                   </div>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] shrink-0"
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] sm:text-[12px] shrink-0"
                     style={{ backgroundColor: `${sc}12`, color: sc, border: `1px solid ${sc}25` }}>
                     <SIcon size={9} />
                     {statusLabel(c.status)}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 sm:gap-6 text-[10px] sm:text-[11px] t-tertiary flex-wrap">
+                <div className="flex items-center gap-3 sm:gap-6 text-[12px] sm:text-[11px] t-tertiary flex-wrap">
                   <span>{isAr ? "رقم العقد" : "Contract ID"}: <span className="t-gold/70 font-['Inter']">{c.id}</span></span>
                   <span>{isAr ? "قيمة العقد" : "Contract Value"}: <span className="t-secondary font-['Inter']">{c.totalValue.toLocaleString()} {isAr ? "ر.س" : "SAR"}</span></span>
                   <span className="font-['Inter']">{c.createdAt}</span>
                 </div>
                 {c.sentVia.length > 0 && (
                   <div className="flex items-center gap-1.5 mt-2">
-                    <span className="text-[9px] t-muted">{isAr ? "تم الإرسال عبر" : "Sent via"}:</span>
+                    <span className="text-[11px] t-muted">{isAr ? "تم الإرسال عبر" : "Sent via"}:</span>
                     {c.sentVia.map(ch => (
-                      <span key={ch} className="text-[8px] px-1.5 py-0.5 rounded bg-[var(--status-green)]/10 text-[var(--status-green)]">
+                      <span key={ch} className="text-[11px] px-1.5 py-0.5 rounded bg-[var(--status-green)]/10 text-[var(--status-green)]">
                         {channelLabel(ch)}
                       </span>
                     ))}
@@ -164,8 +164,8 @@ export default function Contracts() {
         <div className="glass-card rounded-xl sm:rounded-2xl p-8 text-center">
           <FileText size={36} className="mx-auto t-muted mb-3" />
           <p className="text-sm t-secondary mb-1">{isAr ? "لا توجد عقود صادرة" : "No issued contracts"}</p>
-          <p className="text-[10px] t-muted mb-3">{isAr ? "العقد يصدر تلقائياً بعد إكمال الدفع بالكامل" : "Contract is issued automatically after full payment completion"}</p>
-          <div className="flex items-center justify-center gap-2 text-[10px] t-gold">
+          <p className="text-[12px] t-muted mb-3">{isAr ? "العقد يصدر تلقائياً بعد إكمال الدفع بالكامل" : "Contract is issued automatically after full payment completion"}</p>
+          <div className="flex items-center justify-center gap-2 text-[12px] t-gold">
             <CreditCard size={12} />
             <span>{isAr ? "إكمال الدفع بالكامل" : "Complete full payment"}</span>
           </div>
@@ -177,7 +177,7 @@ export default function Contracts() {
         {selectedContract && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/70 z-50 backdrop-blur-sm" onClick={() => setSelectedContract(null)} />
+              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ background: "var(--modal-overlay)" }} onClick={() => setSelectedContract(null)} />
             <motion.div
               initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -215,8 +215,8 @@ export default function Contracts() {
 
                 {kycData && (
                   <div className="mt-4 rounded-xl p-3" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
-                    <p className="text-[10px] t-gold font-semibold mb-2">{isAr ? "بيانات التاجر (من التوثيق)" : "Trader Data (from Verification)"}</p>
-                    <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+                    <p className="text-[12px] t-gold font-semibold mb-2">{isAr ? "بيانات التاجر (من التوثيق)" : "Trader Data (from Verification)"}</p>
+                    <div className="grid grid-cols-2 gap-1.5 text-[12px]">
                       <div><span className="t-muted">{isAr ? "الاسم" : "Name"}: </span><span className="t-secondary">{kycData.fullName}</span></div>
                       <div><span className="t-muted">{isAr ? "الشركة" : "Company"}: </span><span className="t-secondary">{kycData.companyName}</span></div>
                       <div><span className="t-muted">{isAr ? "السجل" : "CR"}: </span><span className="t-secondary font-['Inter']">{kycData.crNumber}</span></div>
@@ -257,7 +257,7 @@ export default function Contracts() {
         {shareContract && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/70 z-50 backdrop-blur-sm" onClick={() => setShareContract(null)} />
+              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ background: "var(--modal-overlay)" }} onClick={() => setShareContract(null)} />
             <motion.div
               initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}

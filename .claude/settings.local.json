@@ -45,7 +45,9 @@
       "Bash(python3:*)",
       "Bash(/c/ZKBioTime/Python311/python:*)",
       "Bash(cd \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\" && rm -rf .next && npx tsc --noEmit 2>&1 | head -20)",
-      "Bash(cd \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\" && rm -rf .next/types && npx tsc --noEmit 2>&1 | head -20)"
+      "Bash(cd \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\" && rm -rf .next/types && npx tsc --noEmit 2>&1 | head -20)",
+      "Bash(cd \"C:/Users/A/Desktop/Maham Expo 3/maham-expo\" && rm -rf src/app/dashboard/booths src/app/dashboard/documents src/app/dashboard/occupancy src/app/dashboard/orders src/app/dashboard/permits src/app/dashboard/settings src/app/dashboard/units && mkdir -p src/app/dashboard/expos src/app/dashboard/expos/\\\\[id\\\\] src/app/dashboard/bookings src/app/dashboard/contracts src/app/dashboard/map src/app/dashboard/waitlist src/app/dashboard/team src/app/dashboard/ai-assistant src/app/dashboard/messages src/app/dashboard/reviews src/app/dashboard/notifications src/app/dashboard/kyc src/app/dashboard/help)",
+      "Bash(cd \"C:\\\\Users\\\\A\\\\Desktop\\\\Maham Expo 3\\\\maham-expo\" && node scripts/extract-translations.js 2>&1)"
     ]
   }
 }

@@ -52,8 +52,8 @@ export default function Reviews() {
   return (
     <div className="space-y-4 sm:space-y-6">
       <div>
-        <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "التقييمات والمراجعات" : "Ratings & Reviews"}</h2>
-        <p className="text-[10px] sm:text-xs t-gold/50 font-['Inter']">Ratings & Reviews</p>
+        <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? "التقييمات والمراجعات" : "Ratings & Reviews"}</h2>
+        <p className="text-[12px] sm:text-xs t-gold/50 font-['Inter']">Ratings & Reviews</p>
       </div>
 
       {/* Stats */}
@@ -67,7 +67,7 @@ export default function Reviews() {
           <div key={i} className="glass-card rounded-xl p-2.5 sm:p-4">
             <div className="flex items-center gap-2 mb-2">
               <s.icon size={14} className={`${s.color} opacity-60`} />
-              <span className="text-[10px] t-tertiary">{s.label}</span>
+              <span className="text-[12px] t-tertiary">{s.label}</span>
             </div>
             <p className={`text-lg font-bold font-['Inter'] ${s.color}`}>{s.value}</p>
           </div>
@@ -85,8 +85,8 @@ export default function Reviews() {
           <div className="glass-card rounded-xl p-4 mb-5">
             <p className="text-sm font-bold t-secondary">{isAr ? "معرض المنتجات العربية — الرياض" : "Arab Products Expo — Riyadh"}</p>
             <div className="flex items-center gap-4 mt-2">
-              <span className="text-[10px] t-tertiary">{isAr ? "الوحدة" : "Unit"}: A21</span>
-              <span className="text-[10px] t-tertiary font-['Inter']">2026-04-19</span>
+              <span className="text-[12px] t-tertiary">{isAr ? "الوحدة" : "Unit"}: A21</span>
+              <span className="text-[12px] t-tertiary font-['Inter']">2026-04-19</span>
             </div>
           </div>
 
@@ -120,17 +120,17 @@ export default function Reviews() {
             {showROIForm && (
               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
                 <div>
-                  <label className="text-[9px] t-tertiary block mb-1">{isAr ? "الإيرادات" : "Revenue"} ({isAr ? "ر.س" : "SAR"})</label>
+                  <label className="text-[11px] t-tertiary block mb-1">{isAr ? "الإيرادات" : "Revenue"} ({isAr ? "ر.س" : "SAR"})</label>
                   <input type="number" value={roiData.revenue} onChange={(e) => setRoiData(prev => ({ ...prev, revenue: e.target.value }))} placeholder="0"
                     className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-lg px-3 py-2 text-xs t-secondary focus:outline-none focus:border-[var(--gold-border)]" />
                 </div>
                 <div>
-                  <label className="text-[9px] t-tertiary block mb-1">{isAr ? "العملاء المحتملين" : "Leads"}</label>
+                  <label className="text-[11px] t-tertiary block mb-1">{isAr ? "العملاء المحتملين" : "Leads"}</label>
                   <input type="number" value={roiData.leads} onChange={(e) => setRoiData(prev => ({ ...prev, leads: e.target.value }))} placeholder="0"
                     className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-lg px-3 py-2 text-xs t-secondary focus:outline-none focus:border-[var(--gold-border)]" />
                 </div>
                 <div>
-                  <label className="text-[9px] t-tertiary block mb-1">{isAr ? "الصفقات المغلقة" : "Closed Deals"}</label>
+                  <label className="text-[11px] t-tertiary block mb-1">{isAr ? "الصفقات المغلقة" : "Closed Deals"}</label>
                   <input type="number" value={roiData.deals} onChange={(e) => setRoiData(prev => ({ ...prev, deals: e.target.value }))} placeholder="0"
                     className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-lg px-3 py-2 text-xs t-secondary focus:outline-none focus:border-[var(--gold-border)]" />
                 </div>
@@ -179,7 +179,7 @@ export default function Reviews() {
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <p className="text-sm font-bold t-secondary">{review.expo}</p>
-                  <p className="text-[10px] t-tertiary font-['Inter']">{review.date}</p>
+                  <p className="text-[12px] t-tertiary font-['Inter']">{review.date}</p>
                 </div>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((s) => (
@@ -192,7 +192,7 @@ export default function Reviews() {
                 <div className="p-3 rounded-xl bg-gold-subtle border border-[rgba(197,165,90,0.1)]">
                   <div className="flex items-center gap-1.5 mb-1">
                     <MessageSquare size={10} className="t-gold" />
-                    <span className="text-[9px] t-gold/70">{isAr ? "رد المنظم" : "Organizer Reply"}</span>
+                    <span className="text-[11px] t-gold/70">{isAr ? "رد المنظم" : "Organizer Reply"}</span>
                   </div>
                   <p className="text-[11px] t-tertiary">{review.response}</p>
                 </div>

@@ -95,7 +95,7 @@ export default function KYCPage() {
     <div>
       <label className="text-[11px] t-tertiary mb-1.5 block font-medium">
         {label}
-        {optional && <span className="text-[9px] t-muted mx-1">({isAr ? 'اختياري' : 'Optional'})</span>}
+        {optional && <span className="text-[11px] t-muted mx-1">({isAr ? 'اختياري' : 'Optional'})</span>}
       </label>
       <div className="relative">
         <Icon size={14} className={`absolute ${isRTL ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 t-muted`} />
@@ -108,8 +108,8 @@ export default function KYCPage() {
   return (
     <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto px-1">
       <div>
-        <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? 'التوثيق والتحقق' : 'KYC Verification'}</h2>
-        <p className="text-[10px] sm:text-xs t-gold/50 font-['Inter']">Know Your Customer — Required before booking</p>
+        <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? 'التوثيق والتحقق' : 'KYC Verification'}</h2>
+        <p className="text-[12px] sm:text-xs t-gold/50 font-['Inter']">Know Your Customer — Required before booking</p>
       </div>
 
       <div className="glass-card rounded-xl p-3 sm:p-4 border-[var(--gold-border)]/20 bg-gold-subtle">
@@ -119,8 +119,8 @@ export default function KYCPage() {
           </div>
           <div className="min-w-0">
             <p className="text-xs sm:text-sm font-bold t-gold">{isAr ? 'اسم الشركة' : 'Company Name'}</p>
-            <p className="text-[9px] sm:text-[10px] t-muted font-['Inter']">Maham Company for Services and Information Technology</p>
-            <p className="text-[9px] sm:text-[10px] t-tertiary mt-1">{isAr ? 'رقم السجل التجاري' : 'CR Number'}: 4030163376 | {isAr ? 'مسجلة في ضريبة القيمة المضافة' : 'VAT Registered'}</p>
+            <p className="text-[11px] sm:text-[12px] t-muted font-['Inter']">Maham Company for Services and Information Technology</p>
+            <p className="text-[11px] sm:text-[12px] t-tertiary mt-1">{isAr ? 'رقم السجل التجاري' : 'CR Number'}: 4030163376 | {isAr ? 'مسجلة في ضريبة القيمة المضافة' : 'VAT Registered'}</p>
           </div>
         </div>
       </div>
@@ -131,10 +131,10 @@ export default function KYCPage() {
             {steps.map((step, i) => (
               <div key={step.id} className="flex items-center flex-shrink-0">
                 <div className={`flex items-center gap-1 sm:gap-2 ${step.id === currentStep ? "t-gold" : step.completed ? "text-[var(--status-green)]" : "t-muted"}`}>
-                  <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold border ${step.id === currentStep ? "border-[#C5A55A] bg-gold-subtle" : step.completed ? "border-green-400/50 bg-[var(--status-green)]/10" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}`}>
+                  <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[12px] sm:text-xs font-bold border ${step.id === currentStep ? "border-[#C5A55A] bg-gold-subtle" : step.completed ? "border-green-400/50 bg-[var(--status-green)]/10" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}`}>
                     {step.completed ? <CheckCircle2 size={12} /> : i + 1}
                   </div>
-                  <span className="hidden lg:block text-[10px]">{step.label}</span>
+                  <span className="hidden lg:block text-[12px]">{step.label}</span>
                 </div>
                 {i < steps.length - 1 && (
                   <div className={`w-4 sm:w-8 lg:w-16 h-px mx-1 sm:mx-2 ${step.completed ? "bg-[var(--status-green)]/30" : "bg-[var(--glass-bg)]"}`} />
@@ -160,7 +160,7 @@ export default function KYCPage() {
               <div className="bg-[var(--status-blue)]/5 border border-[var(--status-blue)]/10 rounded-lg p-3 mb-4">
                 <div className="flex items-center gap-2">
                   <Info size={12} className="text-[var(--status-blue)] flex-shrink-0" />
-                  <p className="text-[10px] sm:text-xs t-tertiary">{isAr ? 'يجب أن تتطابق المعلومات مع بيانات أبشر' : 'Information must match Absher records'}</p>
+                  <p className="text-[12px] sm:text-xs t-tertiary">{isAr ? 'يجب أن تتطابق المعلومات مع بيانات أبشر' : 'Information must match Absher records'}</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -219,7 +219,7 @@ export default function KYCPage() {
               <div className="bg-gold-subtle border border-[var(--gold-border)]/10 rounded-lg p-3 mb-4">
                 <div className="flex items-center gap-2">
                   <Lock size={12} className="t-gold flex-shrink-0" />
-                  <p className="text-[10px] sm:text-xs t-gold/70">{isAr ? 'بياناتك البنكية مشفرة بأعلى معايير الأمان' : 'Your bank data is encrypted with the highest security standards'}</p>
+                  <p className="text-[12px] sm:text-xs t-gold/70">{isAr ? 'بياناتك البنكية مشفرة بأعلى معايير الأمان' : 'Your bank data is encrypted with the highest security standards'}</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -229,7 +229,7 @@ export default function KYCPage() {
                 <InputField label={isAr ? 'رقم الحساب' : 'Account Number'} placeholder="XXXXXXXXXXXX" icon={Hash} field="accountNumber" />
               </div>
               <div className="mt-4 bg-[var(--status-blue)]/5 border border-[var(--status-blue)]/10 rounded-lg p-3">
-                <p className="text-[10px] sm:text-xs t-tertiary">{isAr ? 'يجب أن يكون الحساب البنكي باسم الشركة أو صاحب السجل التجاري' : 'Bank account must be in the name of the company or CR holder'}</p>
+                <p className="text-[12px] sm:text-xs t-tertiary">{isAr ? 'يجب أن يكون الحساب البنكي باسم الشركة أو صاحب السجل التجاري' : 'Bank account must be in the name of the company or CR holder'}</p>
               </div>
             </div>
           )}
@@ -243,7 +243,7 @@ export default function KYCPage() {
               <div className="bg-[var(--status-red)]/5 border border-[var(--status-red)]/10 rounded-lg p-3 mb-4">
                 <div className="flex items-start gap-2">
                   <FileWarning size={12} className="text-[var(--status-red)] flex-shrink-0 mt-0.5" />
-                  <p className="text-[10px] sm:text-xs t-tertiary">{isAr ? 'يجب رفع جميع المستندات المطلوبة بصيغة PDF أو صورة واضحة' : 'All required documents must be uploaded as PDF or clear image'}</p>
+                  <p className="text-[12px] sm:text-xs t-tertiary">{isAr ? 'يجب رفع جميع المستندات المطلوبة بصيغة PDF أو صورة واضحة' : 'All required documents must be uploaded as PDF or clear image'}</p>
                 </div>
               </div>
               <div className="space-y-3">
@@ -266,16 +266,16 @@ export default function KYCPage() {
                       )}
                       <div className="min-w-0">
                         <p className="text-xs sm:text-sm t-secondary font-medium">{doc.label}</p>
-                        <p className="text-[9px] t-muted mt-0.5">{doc.desc}</p>
+                        <p className="text-[11px] t-muted mt-0.5">{doc.desc}</p>
                       </div>
                       {doc.required && !uploadedDocs[doc.id] && (
-                        <span className="text-[8px] sm:text-[9px] text-[var(--status-red)] bg-[var(--status-red)]/10 px-1.5 py-0.5 rounded flex-shrink-0">{isAr ? 'مطلوب' : 'Required'}</span>
+                        <span className="text-[11px] sm:text-[11px] text-[var(--status-red)] bg-[var(--status-red)]/10 px-1.5 py-0.5 rounded flex-shrink-0">{isAr ? 'مطلوب' : 'Required'}</span>
                       )}
                       {!doc.required && !uploadedDocs[doc.id] && (
-                        <span className="text-[8px] sm:text-[9px] t-muted bg-[var(--glass-bg)] px-1.5 py-0.5 rounded flex-shrink-0 border border-[var(--glass-border)]">{isAr ? 'اختياري' : 'Optional'}</span>
+                        <span className="text-[11px] sm:text-[11px] t-muted bg-[var(--glass-bg)] px-1.5 py-0.5 rounded flex-shrink-0 border border-[var(--glass-border)]">{isAr ? 'اختياري' : 'Optional'}</span>
                       )}
                     </div>
-                    <button onClick={() => handleUpload(doc.id)} className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] sm:text-xs transition-colors flex-shrink-0 self-end sm:self-auto ${uploadedDocs[doc.id] ? "bg-[var(--status-green)]/10 text-[var(--status-green)]" : "bg-gold-subtle t-gold hover:bg-[#C5A55A]/20"}`}>
+                    <button onClick={() => handleUpload(doc.id)} className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] sm:text-xs transition-colors flex-shrink-0 self-end sm:self-auto ${uploadedDocs[doc.id] ? "bg-[var(--status-green)]/10 text-[var(--status-green)]" : "bg-gold-subtle t-gold hover:bg-[#C5A55A]/20"}`}>
                       {uploadedDocs[doc.id] ? (<><CheckCircle2 size={12} /> {isAr ? 'تم الرفع' : 'Uploaded'}</>) : (<><Upload size={12} /> {isAr ? 'رفع الملف' : 'Upload File'}</>)}
                     </button>
                   </div>
@@ -371,7 +371,7 @@ export default function KYCPage() {
                   }} className="mt-0.5 accent-[#C5A55A] w-5 h-5 flex-shrink-0" />
                   <div>
                     <p className="text-sm sm:text-base t-gold font-bold mb-1">{isAr ? 'أوافق على جميع الشروط' : 'I Agree to All Terms'}</p>
-                    <p className="text-[10px] sm:text-xs t-tertiary leading-relaxed">
+                    <p className="text-[12px] sm:text-xs t-tertiary leading-relaxed">
                       {isRTL
                         ? "بالموافقة على هذا الإقرار، أؤكد اطلاعي الكامل على جميع الشروط والأحكام وسياسة الخصوصية وحقوق الملكية الفكرية وجدول المخالفات والجزاءات المنصوص عليها أعلاه، وأوافق على الالتزام بها جميعاً."
                         : "By agreeing, I confirm that I have fully read and understood all terms & conditions, privacy policy, intellectual property rights, and the violations & penalties schedule stated above, and I agree to comply with all of them."}
@@ -383,9 +383,9 @@ export default function KYCPage() {
               <div className="bg-[var(--glass-bg)] rounded-xl p-3 sm:p-4 border border-[var(--glass-border)]">
                 <div className="flex items-center gap-2 mb-2">
                   <Lock size={12} className="t-gold flex-shrink-0" />
-                  <p className="text-[10px] sm:text-xs t-tertiary font-medium">{isAr ? 'التوقيع الرقمي' : 'Digital Signature'}</p>
+                  <p className="text-[12px] sm:text-xs t-tertiary font-medium">{isAr ? 'التوقيع الرقمي' : 'Digital Signature'}</p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] sm:text-xs t-muted">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[12px] sm:text-xs t-muted">
                   <p>{isAr ? 'الاسم الكامل' : 'Full Name'}: <span className="t-secondary">{formData.fullName || "—"}</span></p>
                   <p>{isAr ? 'رقم الهوية' : 'ID Number'}: <span className="t-secondary">{formData.idNumber || "—"}</span></p>
                   <p>{isAr ? 'رقم الجوال' : 'Phone'}: <span className="t-secondary">{formData.phone || "—"}</span></p>
@@ -409,7 +409,7 @@ export default function KYCPage() {
                 <span className="text-sm t-gold font-bold">{isAr ? 'تاجر موثّق' : 'Verified Trader'}</span>
               </div>
               <div className="mt-4 p-3 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] max-w-sm mx-auto">
-                <p className="text-[10px] sm:text-xs t-muted">{isAr ? 'سيتم مراجعة مستنداتك خلال 24-48 ساعة عمل' : 'Your documents will be reviewed within 24-48 business hours'}</p>
+                <p className="text-[12px] sm:text-xs t-muted">{isAr ? 'سيتم مراجعة مستنداتك خلال 24-48 ساعة عمل' : 'Your documents will be reviewed within 24-48 business hours'}</p>
               </div>
               <button onClick={() => router.push("/dashboard/expos")} className="inline-block mt-6 btn-gold px-6 py-3 rounded-xl text-sm font-bold">
                 {isAr ? 'تصفح المعارض الآن' : 'Browse Expos Now'}

@@ -92,7 +92,7 @@ export default function TeamManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-gold-gradient flex items-center gap-2" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>
+          <h1 className="text-xl font-bold text-gold-gradient flex items-center gap-2" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>
             <Users size={22} className="t-gold" />
             {isAr ? "\u0625\u062F\u0627\u0631\u0629 \u0627\u0644\u0641\u0631\u064A\u0642" : "Team Management"}
           </h1>
@@ -120,7 +120,7 @@ export default function TeamManagement() {
           <div key={i} className="glass-card rounded-xl p-3">
             <div className="flex items-center gap-2 mb-1">
               <s.icon size={12} className="t-gold" />
-              <span className="text-[10px] t-tertiary">{s.label}</span>
+              <span className="text-[12px] t-tertiary">{s.label}</span>
             </div>
             <p className="text-lg font-bold t-primary font-['Inter']">{s.value}</p>
           </div>
@@ -141,7 +141,7 @@ export default function TeamManagement() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <div>
-              <label className="text-[10px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u0627\u0633\u0645 *" : "Name *"}</label>
+              <label className="text-[12px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u0627\u0633\u0645 *" : "Name *"}</label>
               <input
                 type="text"
                 value={newMember.name}
@@ -151,7 +151,7 @@ export default function TeamManagement() {
               />
             </div>
             <div>
-              <label className="text-[10px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u0628\u0631\u064A\u062F \u0627\u0644\u0625\u0644\u0643\u062A\u0631\u0648\u0646\u064A *" : "Email *"}</label>
+              <label className="text-[12px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u0628\u0631\u064A\u062F \u0627\u0644\u0625\u0644\u0643\u062A\u0631\u0648\u0646\u064A *" : "Email *"}</label>
               <input
                 type="email"
                 value={newMember.email}
@@ -161,7 +161,7 @@ export default function TeamManagement() {
               />
             </div>
             <div>
-              <label className="text-[10px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u0647\u0627\u062A\u0641" : "Phone"}</label>
+              <label className="text-[12px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u0647\u0627\u062A\u0641" : "Phone"}</label>
               <input
                 type="tel"
                 value={newMember.phone}
@@ -172,7 +172,7 @@ export default function TeamManagement() {
               />
             </div>
             <div>
-              <label className="text-[10px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u062F\u0648\u0631" : "Role"}</label>
+              <label className="text-[12px] t-tertiary mb-1 block">{isAr ? "\u0627\u0644\u062F\u0648\u0631" : "Role"}</label>
               <select
                 value={newMember.role}
                 onChange={(e) => setNewMember(prev => ({ ...prev, role: e.target.value as TeamMember["role"] }))}
@@ -230,18 +230,18 @@ export default function TeamManagement() {
                   <div>
                     <h4 className="text-sm font-bold t-primary">{member.name}</h4>
                     <div className="flex items-center gap-3 mt-1">
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-gold-subtle t-gold">{roleLabels[member.role]}</span>
-                      <span className={`text-[10px] flex items-center gap-1 ${statusInfo.color}`}>
+                      <span className="text-[12px] px-2 py-0.5 rounded-full bg-gold-subtle t-gold">{roleLabels[member.role]}</span>
+                      <span className={`text-[12px] flex items-center gap-1 ${statusInfo.color}`}>
                         <StatusIcon size={10} />
                         {statusInfo.label}
                       </span>
                     </div>
                     <div className="flex items-center gap-4 mt-2">
-                      <span className="text-[9px] t-tertiary flex items-center gap-1">
+                      <span className="text-[11px] t-tertiary flex items-center gap-1">
                         <Mail size={9} /> {member.email}
                       </span>
                       {member.phone && (
-                        <span className="text-[9px] t-tertiary flex items-center gap-1 font-['Inter']">
+                        <span className="text-[11px] t-tertiary flex items-center gap-1 font-['Inter']">
                           <Phone size={9} /> {member.phone}
                         </span>
                       )}
@@ -249,7 +249,7 @@ export default function TeamManagement() {
                     {member.assignedExpos.length > 0 && (
                       <div className="flex gap-1 mt-2 flex-wrap">
                         {member.assignedExpos.map((expo, j) => (
-                          <span key={j} className="text-[8px] px-1.5 py-0.5 rounded bg-[var(--glass-bg)] t-tertiary flex items-center gap-1">
+                          <span key={j} className="text-[11px] px-1.5 py-0.5 rounded bg-[var(--glass-bg)] t-tertiary flex items-center gap-1">
                             <Building2 size={8} /> {expo}
                           </span>
                         ))}

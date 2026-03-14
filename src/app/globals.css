@@ -923,102 +923,102 @@ input[type="radio"] {
 
 /* ============================================
    TRADER DASHBOARD — Luxury Glass Theme
+   Scoped to .dashboard-shell wrapper
    ============================================ */
 
-:root {
-  /* Glass & Surface */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-bg-hover: rgba(255, 255, 255, 0.06);
-  --modal-bg: #0C0C18;
-  --modal-inner-bg: #141422;
-  --glass-border: rgba(255, 255, 255, 0.06);
+/* ── Light-mode dashboard (default) ── */
+.dashboard-shell {
+  --dash-bg: #FAFAF7;
+  --dash-bg-subtle: #F5F1E8;
+  --glass-bg: #FFFFFF;
+  --glass-bg-hover: #FFFFFF;
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-hover: rgba(139, 105, 20, 0.35);
+  --glass-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  --glass-shadow-hover: 0 8px 30px rgba(139, 105, 20, 0.10), 0 2px 8px rgba(0,0,0,0.04);
+  --sidebar-bg: #FFFFFF;
+  --sidebar-border-color: rgba(0, 0, 0, 0.06);
+  --modal-bg: #FFFFFF;
+  --modal-inner-bg: #F8F5ED;
+  --modal-overlay: rgba(0, 0, 0, 0.40);
+  --text-primary: #1A1A2E;
+  --text-secondary: #2D2D44;
+  --text-tertiary: #5A5A72;
+  --text-muted: #8E8EA0;
+  --gold-accent: #8B6914;
+  --gold-light: #A07A18;
+  --gold-bg: rgba(139, 105, 20, 0.06);
+  --gold-border: rgba(139, 105, 20, 0.18);
+  --surface-dark: #F2EDE0;
+  --badge-bg: #8B6914;
+  --badge-text: #FFFFFF;
+  --status-green: #16A34A;
+  --status-yellow: #CA8A04;
+  --status-red: #DC2626;
+  --status-blue: #2563EB;
+  --table-row-hover: rgba(0, 0, 0, 0.02);
+  --input-bg: #FFFFFF;
+  --btn-gold-text: #FFFFFF;
+  --bg-primary: #FAFAF7;
+  --glow-gold: 0 4px 20px rgba(139, 105, 20, 0.08);
+  --glow-gold-intense: 0 4px 30px rgba(139, 105, 20, 0.15);
+}
+
+/* ── Dark-mode dashboard ── */
+.dark .dashboard-shell {
+  --dash-bg: #0C0C14;
+  --dash-bg-subtle: #12121E;
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-hover: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.07);
   --glass-border-hover: rgba(212, 175, 55, 0.3);
-  --glass-shadow-hover: rgba(212, 175, 55, 0.08);
-  --sidebar-bg: rgba(8, 8, 18, 0.78);
-  --sidebar-border-color: rgba(255, 255, 255, 0.05);
-  /* Text hierarchy */
+  --glass-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  --glass-shadow-hover: 0 0 40px rgba(212, 175, 55, 0.08);
+  --sidebar-bg: rgba(12, 12, 22, 0.92);
+  --sidebar-border-color: rgba(255, 255, 255, 0.06);
+  --modal-bg: #14141F;
+  --modal-inner-bg: #1A1A28;
+  --modal-overlay: rgba(0, 0, 0, 0.70);
   --text-primary: rgba(255, 255, 255, 0.95);
   --text-secondary: rgba(255, 255, 255, 0.72);
-  --text-tertiary: rgba(255, 255, 255, 0.48);
-  --text-muted: rgba(255, 255, 255, 0.28);
-  /* Gold */
+  --text-tertiary: rgba(255, 255, 255, 0.50);
+  --text-muted: rgba(255, 255, 255, 0.30);
   --gold-accent: #D4AF37;
   --gold-light: #F0D878;
   --gold-bg: rgba(212, 175, 55, 0.10);
   --gold-border: rgba(212, 175, 55, 0.22);
-  --surface-dark: #080812;
-  /* Scrollbar */
-  --scrollbar-track: rgba(255, 255, 255, 0.02);
-  --scrollbar-thumb: rgba(212, 175, 55, 0.25);
-  --scrollbar-thumb-hover: rgba(212, 175, 55, 0.45);
-  /* Badge */
+  --surface-dark: #0A0A14;
   --badge-bg: rgba(212, 175, 55, 1);
-  --badge-text: #080812;
-  /* Status */
+  --badge-text: #0A0A14;
   --status-green: #4ADE80;
   --status-yellow: #FBBF24;
   --status-red: #F87171;
   --status-blue: #60A5FA;
-  --modal-overlay: rgba(0, 0, 0, 0.65);
   --table-row-hover: rgba(255, 255, 255, 0.025);
-  --input-bg: transparent;
-  --btn-gold-text: #080812;
-  --glow-gold: 0 0 60px rgba(212, 175, 55, 0.12), 0 0 120px rgba(212, 175, 55, 0.05);
-  --glow-gold-intense: 0 0 40px rgba(212, 175, 55, 0.25), 0 0 80px rgba(212, 175, 55, 0.10);
-  --bg-primary: #0a0a0a;
-}
-
-/* Light mode overrides for trader dashboard vars */
-:root:not(.dark) {
-  --glass-bg: rgba(255, 255, 255, 0.96);
-  --glass-bg-hover: rgba(255, 255, 255, 1);
-  --modal-bg: #FFFFFF;
-  --modal-inner-bg: #F8F5ED;
-  --glass-border: rgba(0, 0, 0, 0.10);
-  --glass-border-hover: rgba(140, 105, 20, 0.40);
-  --glass-shadow-hover: rgba(140, 105, 20, 0.15);
-  --sidebar-bg: rgba(255, 255, 255, 0.88);
-  --sidebar-border-color: rgba(0, 0, 0, 0.08);
-  --text-primary: #080818;
-  --text-secondary: #1A1A2E;
-  --text-tertiary: #36364E;
-  --text-muted: #5A5A72;
-  --gold-accent: #8B6914;
-  --gold-light: #A07A18;
-  --gold-bg: rgba(139, 105, 20, 0.07);
-  --gold-border: rgba(139, 105, 20, 0.22);
-  --surface-dark: #F2EDE0;
-  --scrollbar-track: rgba(0, 0, 0, 0.03);
-  --scrollbar-thumb: rgba(139, 105, 20, 0.30);
-  --scrollbar-thumb-hover: rgba(139, 105, 20, 0.50);
-  --badge-bg: #8B6914;
-  --badge-text: #FFFFFF;
-  --status-green: #0B5E28;
-  --status-yellow: #7A4A06;
-  --status-red: #9A1212;
-  --status-blue: #1538A0;
-  --modal-overlay: rgba(0, 0, 0, 0.30);
-  --table-row-hover: rgba(0, 0, 0, 0.03);
-  --input-bg: rgba(255, 255, 255, 0.98);
-  --btn-gold-text: #FFFFFF;
-  --bg-primary: #FAF9F5;
-  --glow-gold: 0 4px 20px rgba(139, 105, 20, 0.08);
-  --glow-gold-intense: 0 4px 30px rgba(139, 105, 20, 0.15);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --btn-gold-text: #0A0A14;
+  --bg-primary: #0C0C14;
+  --glow-gold: 0 0 40px rgba(212, 175, 55, 0.08);
+  --glow-gold-intense: 0 0 40px rgba(212, 175, 55, 0.18), 0 0 80px rgba(212, 175, 55, 0.06);
 }
 
 /* ═══════ GLASSMORPHISM CARD ═══════ */
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(32px) saturate(1.3);
-  -webkit-backdrop-filter: blur(32px) saturate(1.3);
   border: 1px solid var(--glass-border);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--glass-shadow);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .glass-card:hover {
-  background: var(--glass-bg-hover);
   border-color: var(--glass-border-hover);
-  box-shadow: var(--glow-gold);
-  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow-hover);
+}
+.dark .glass-card {
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+}
+.dark .glass-card:hover {
+  background: var(--glass-bg-hover);
 }
 
 /* ═══════ GOLD BUTTON ═══════ */
@@ -1046,21 +1046,28 @@ input[type="radio"] {
   transform: translateY(-2px);
   background-position: right center;
 }
-:root:not(.dark) .btn-gold {
+/* Light mode btn-gold - richer contrast */
+.dashboard-shell .btn-gold {
   background: linear-gradient(135deg, #7A5A0A, #96720E, #B8941E, #96720E, #7A5A0A);
   background-size: 200% 200%;
-  box-shadow: 0 4px 16px rgba(122, 90, 10, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(122, 90, 10, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.dark .dashboard-shell .btn-gold {
+  background: linear-gradient(135deg, #B8941E, #D4AF37, #F0D878, #D4AF37, #B8941E);
+  background-size: 200% 200%;
+  color: #0A0A14;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 /* ═══════ GOLD TEXT GRADIENT ═══════ */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #D4AF37, #F0D878, #D4AF37);
+  background: linear-gradient(135deg, #7A5A0A, #A07A18, #7A5A0A);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-:root:not(.dark) .text-gold-gradient {
-  background: linear-gradient(135deg, #7A5A0A, #96720E, #7A5A0A);
+.dark .text-gold-gradient {
+  background: linear-gradient(135deg, #D4AF37, #F0D878, #D4AF37);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1069,15 +1076,21 @@ input[type="radio"] {
 /* ═══════ SIDEBAR GLASS ═══════ */
 .sidebar-glass {
   background: var(--sidebar-bg);
-  backdrop-filter: blur(80px) saturate(1.5);
-  -webkit-backdrop-filter: blur(80px) saturate(1.5);
   border-right: 1px solid var(--sidebar-border-color);
-  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 1px 0 8px rgba(0, 0, 0, 0.04);
+}
+.dark .sidebar-glass {
+  backdrop-filter: blur(40px) saturate(1.3);
+  -webkit-backdrop-filter: blur(40px) saturate(1.3);
+  box-shadow: 1px 0 20px rgba(0, 0, 0, 0.2);
 }
 [dir="rtl"] .sidebar-glass {
   border-right: none;
   border-left: 1px solid var(--sidebar-border-color);
-  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.12);
+  box-shadow: -1px 0 8px rgba(0, 0, 0, 0.04);
+}
+[dir="rtl"] .dark .sidebar-glass {
+  box-shadow: -1px 0 20px rgba(0, 0, 0, 0.2);
 }
 
 /* ═══════ THEME-AWARE TEXT ═══════ */
@@ -1091,25 +1104,6 @@ input[type="radio"] {
 .border-gold { border-color: var(--gold-border); }
 .bg-surface { background-color: var(--surface-dark); }
 
-/* ═══════ LIGHT MODE TEXT ═══════ */
-:root:not(.dark) .t-primary { color: #080818; font-weight: 600; }
-:root:not(.dark) .t-secondary { color: #1A1A2E; font-weight: 500; }
-:root:not(.dark) .t-tertiary { color: #36364E; font-weight: 450; }
-:root:not(.dark) .t-muted { color: #5A5A72; font-weight: 450; }
-:root:not(.dark) .t-gold { color: #6B4E08; font-weight: 700; }
-
-/* ═══════ LIGHT MODE CARD OVERRIDES ═══════ */
-:root:not(.dark) .glass-card {
-  background: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.06);
-}
-:root:not(.dark) .glass-card:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(139, 105, 20, 0.30);
-  box-shadow: 0 8px 30px rgba(139, 105, 20, 0.10), 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
 /* ═══════ STATUS ═══════ */
 .status-available { color: var(--status-green); }
 .status-reserved { color: var(--status-yellow); }
@@ -1120,16 +1114,15 @@ input[type="radio"] {
 .modal-solid {
   background: var(--modal-bg);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+}
+.dark .modal-solid {
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
 }
 .modal-inner { background: var(--modal-inner-bg); }
 .solid-modal {
   background: var(--modal-inner-bg);
   border: 1px solid var(--glass-border);
-}
-:root:not(.dark) .solid-modal {
-  background: #FAFAF7;
-  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* ═══════ GLOW ═══════ */
@@ -1139,14 +1132,18 @@ input[type="radio"] {
 /* ═══════ EFFECTS ═══════ */
 .luxury-bg-pattern {
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, rgba(139, 105, 20, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(139, 105, 20, 0.02) 0%, transparent 50%);
 }
-:root:not(.dark) .luxury-bg-pattern {
+.dashboard-shell .luxury-bg-pattern {
   background-image:
     radial-gradient(ellipse at 20% 50%, rgba(139, 105, 20, 0.03) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 20%, rgba(139, 105, 20, 0.02) 0%, transparent 50%);
+}
+.dark .dashboard-shell .luxury-bg-pattern {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(212, 175, 55, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -1155,10 +1152,41 @@ input[type="radio"] {
 .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
 ::selection {
-  background: rgba(212, 175, 55, 0.25);
-  color: var(--text-primary);
-}
-:root:not(.dark) ::selection {
   background: rgba(139, 105, 20, 0.20);
   color: #080818;
+}
+.dark ::selection {
+  background: rgba(212, 175, 55, 0.25);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* ═══════ DASHBOARD POLISHING ═══════ */
+.dashboard-shell input,
+.dashboard-shell textarea,
+.dashboard-shell select {
+  background: var(--input-bg);
+  color: var(--text-primary);
+}
+
+.dashboard-shell input::placeholder,
+.dashboard-shell textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* Smooth page transitions */
+.dashboard-shell .glass-card {
+  will-change: border-color, box-shadow;
+}
+
+/* Better focus rings for dashboard */
+.dashboard-shell input:focus,
+.dashboard-shell textarea:focus,
+.dashboard-shell select:focus {
+  border-color: var(--gold-border) !important;
+  box-shadow: 0 0 0 3px var(--gold-bg);
+}
+
+/* Dashboard link reset — prevent nav underline in sidebar */
+.dashboard-shell nav a::after {
+  display: none;
 }

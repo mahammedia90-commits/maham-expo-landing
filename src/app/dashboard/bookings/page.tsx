@@ -75,8 +75,8 @@ export default function Bookings() {
       {/* Header */}
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? "إدارة الحجوزات" : "Booking Management"}</h2>
-          <p className="text-[10px] t-gold/50 font-['Inter']">Booking Management</p>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient">{isAr ? "إدارة الحجوزات" : "Booking Management"}</h2>
+          <p className="text-[12px] t-gold/50 font-['Inter']">Booking Management</p>
         </div>
         {canBook ? (
           <Link href="/dashboard/expos">
@@ -99,10 +99,10 @@ export default function Bookings() {
           <CheckCircle size={14} className="text-[var(--status-green)] shrink-0" />
           <div className="flex-1">
             <p className="text-[11px] text-[var(--status-green)] font-semibold">{isAr ? "تمت الموافقة على طلبك! أكمل الدفع الآن" : "Your request was approved! Complete payment now"}</p>
-            <p className="text-[9px] t-muted">{isAr ? "يجب إتمام الدفع خلال فترة التثبيت المؤقت" : "Payment must be completed within the hold period"}</p>
+            <p className="text-[11px] t-muted">{isAr ? "يجب إتمام الدفع خلال فترة التثبيت المؤقت" : "Payment must be completed within the hold period"}</p>
           </div>
           <Link href={`/dashboard/expos/${bookings.find((b: any) => b.status === 'approved')?.expoId || ''}`}>
-            <button className="btn-gold px-3 py-1.5 rounded-lg text-[10px] flex items-center gap-1">
+            <button className="btn-gold px-3 py-1.5 rounded-lg text-[12px] flex items-center gap-1">
               <CreditCard size={11} /> {isAr ? "ادفع الآن" : "Pay Now"}
             </button>
           </Link>
@@ -115,7 +115,7 @@ export default function Bookings() {
           <Clock size={14} className="text-purple-400 shrink-0 animate-pulse" />
           <div className="flex-1">
             <p className="text-[11px] text-purple-400 font-semibold">{isAr ? "طلبك قيد المراجعة من المشرف" : "Your request is under supervisor review"}</p>
-            <p className="text-[9px] t-muted">{isAr ? "ستتلقى إشعاراً بالنتيجة خلال دقائق" : "You will receive a notification shortly"}</p>
+            <p className="text-[11px] t-muted">{isAr ? "ستتلقى إشعاراً بالنتيجة خلال دقائق" : "You will receive a notification shortly"}</p>
           </div>
         </div>
       )}
@@ -126,10 +126,10 @@ export default function Bookings() {
           <XCircle size={14} className="text-red-400 shrink-0" />
           <div className="flex-1">
             <p className="text-[11px] text-red-400 font-semibold">{isAr ? "تم رفض أحد طلباتك" : "One of your requests was rejected"}</p>
-            <p className="text-[9px] t-muted">{isAr ? "يمكنك التقدم بطلب جديد لوحدة أخرى" : "You can apply for a different unit"}</p>
+            <p className="text-[11px] t-muted">{isAr ? "يمكنك التقدم بطلب جديد لوحدة أخرى" : "You can apply for a different unit"}</p>
           </div>
           <Link href="/dashboard/expos">
-            <button className="glass-card px-3 py-1.5 rounded-lg text-[10px] t-secondary flex items-center gap-1">
+            <button className="glass-card px-3 py-1.5 rounded-lg text-[12px] t-secondary flex items-center gap-1">
               <Plus size={11} /> {isAr ? "طلب جديد" : "New Request"}
             </button>
           </Link>
@@ -140,9 +140,9 @@ export default function Bookings() {
       {bookings.some((b: any) => b.status === "pending_payment") && (
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ backgroundColor: "rgba(251, 191, 36, 0.06)", border: "1px solid rgba(251, 191, 36, 0.12)" }}>
           <Flame size={13} className="text-[var(--status-yellow)] shrink-0" />
-          <p className="text-[10px] t-secondary flex-1">{isAr ? "هذا الجناح محجوز لك لمدة 30 دقيقة" : "This booth is reserved for you for 30 minutes"}</p>
+          <p className="text-[12px] t-secondary flex-1">{isAr ? "هذا الجناح محجوز لك لمدة 30 دقيقة" : "This booth is reserved for you for 30 minutes"}</p>
           <Link href="/dashboard/payments">
-            <span className="text-[10px] t-gold underline cursor-pointer">{isAr ? "ادفع الآن" : "Pay Now"}</span>
+            <span className="text-[12px] t-gold underline cursor-pointer">{isAr ? "ادفع الآن" : "Pay Now"}</span>
           </Link>
         </div>
       )}
@@ -168,7 +168,7 @@ export default function Bookings() {
         ].map((s, i) => (
           <div key={i} className={`glass-card rounded-xl p-2 sm:p-3 text-center ${i >= 3 ? "hidden lg:block" : ""}`}>
             <p className="text-base sm:text-xl font-bold font-['Inter']" style={{ color: s.color }}>{s.display}</p>
-            <p className="text-[9px] sm:text-[10px] t-tertiary mt-0.5">{s.label}</p>
+            <p className="text-[11px] sm:text-[12px] t-tertiary mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
@@ -183,7 +183,7 @@ export default function Bookings() {
         <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
           {["all", "confirmed", "active", "pending_payment", "pending_review", "approved", "rejected", "cancelled"].map((s) => (
             <button key={s} onClick={() => setFilterStatus(s)}
-              className={`px-2.5 py-1.5 rounded-lg text-[10px] sm:text-[11px] transition-all whitespace-nowrap shrink-0 ${filterStatus === s ? "btn-gold" : "glass-card t-secondary"}`}>
+              className={`px-2.5 py-1.5 rounded-lg text-[12px] sm:text-[11px] transition-all whitespace-nowrap shrink-0 ${filterStatus === s ? "btn-gold" : "glass-card t-secondary"}`}>
               {s === "all" ? (isAr ? "الكل" : "All") : statusLabel(s)}
             </button>
           ))}
@@ -195,7 +195,7 @@ export default function Bookings() {
         <div className="glass-card rounded-xl sm:rounded-2xl p-8 text-center">
           <CalendarCheck size={36} className="mx-auto t-muted mb-3" />
           <p className="text-sm t-secondary mb-1">{isAr ? "لا توجد حجوزات" : "No bookings"}</p>
-          <p className="text-[10px] t-muted mb-3">{isAr ? "تصفح المعارض واحجز وحدتك التجارية" : "Browse exhibitions and book your commercial unit"}</p>
+          <p className="text-[12px] t-muted mb-3">{isAr ? "تصفح المعارض واحجز وحدتك التجارية" : "Browse exhibitions and book your commercial unit"}</p>
           <Link href="/dashboard/expos">
             <button className="btn-gold px-4 py-2 rounded-xl text-xs">{isAr ? "تصفح المعارض" : "Browse Expos"}</button>
           </Link>
@@ -214,9 +214,9 @@ export default function Bookings() {
               <div className="flex items-start justify-between mb-2">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold t-primary truncate">{unitLabel(b)}</p>
-                  <p className="text-[10px] t-muted font-['Inter']">{b.id} · Zone {b.zone}</p>
+                  <p className="text-[12px] t-muted font-['Inter']">{b.id} · Zone {b.zone}</p>
                 </div>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] shrink-0"
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] shrink-0"
                   style={{ backgroundColor: `${sc}15`, color: sc, border: `1px solid ${sc}25` }}>
                   <SIcon size={9} /> {statusLabel(b.status)}
                 </span>
@@ -225,16 +225,16 @@ export default function Bookings() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div>
-                    <p className="text-[9px] t-muted">{isAr ? "السعر" : "Price"}</p>
+                    <p className="text-[11px] t-muted">{isAr ? "السعر" : "Price"}</p>
                     <p className="text-xs font-semibold t-secondary font-['Inter']">{b.price.toLocaleString()}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] t-muted">{isAr ? "إجمالي المدفوع" : "Total Paid"}</p>
+                    <p className="text-[11px] t-muted">{isAr ? "إجمالي المدفوع" : "Total Paid"}</p>
                     <p className="text-xs font-semibold text-[var(--status-green)] font-['Inter']">{b.paidAmount.toLocaleString()}</p>
                   </div>
                   {b.remainingAmount > 0 && (
                     <div>
-                      <p className="text-[9px] t-muted">{isAr ? "إجمالي المتبقي" : "Total Remaining"}</p>
+                      <p className="text-[11px] t-muted">{isAr ? "إجمالي المتبقي" : "Total Remaining"}</p>
                       <p className="text-xs font-semibold text-[var(--status-yellow)] font-['Inter']">{b.remainingAmount.toLocaleString()}</p>
                     </div>
                   )}
@@ -282,7 +282,7 @@ export default function Bookings() {
                       <td className="px-4 py-3 text-xs t-gold font-['Inter'] font-medium">{b.id}</td>
                       <td className="px-4 py-3">
                         <p className="text-xs t-primary">{unitLabel(b)}</p>
-                        <p className="text-[9px] t-tertiary font-['Inter']">Zone {b.zone}</p>
+                        <p className="text-[11px] t-tertiary font-['Inter']">Zone {b.zone}</p>
                       </td>
                       <td className="px-4 py-3">
                         <p className="text-xs t-secondary line-clamp-1">{expoLabel(b)}</p>
@@ -295,18 +295,18 @@ export default function Bookings() {
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px]"
-                          style={{ backgroundColor: `${sc}12`, color: sc, border: `1px solid ${sc}25` }}>
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[12px]"
+                          style={{ backgroundColor: `${sc}15`, color: sc, border: `1px solid ${sc}25` }}>
                           <SIcon size={10} /> {statusLabel(b.status)}
                         </span>
                       </td>
                       <td className="px-4 py-3">
                         {contract ? (
                           <Link href="/dashboard/contracts">
-                            <span className="text-[10px] t-gold underline cursor-pointer">{contract.id}</span>
+                            <span className="text-[12px] t-gold underline cursor-pointer">{contract.id}</span>
                           </Link>
                         ) : (
-                          <span className="text-[10px] t-muted">{isAr ? "بعد الدفع" : "After Payment"}</span>
+                          <span className="text-[12px] t-muted">{isAr ? "بعد الدفع" : "After Payment"}</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
@@ -323,18 +323,18 @@ export default function Bookings() {
                           )}
                           {b.status === "approved" && (
                             <Link href={`/dashboard/expos/${b.expoId}`}>
-                              <button className="px-2.5 py-1.5 rounded-lg text-[10px] btn-gold flex items-center gap-1" title={isAr ? 'إكمال الدفع' : 'Complete Payment'}>
+                              <button className="px-2.5 py-1.5 rounded-lg text-[12px] btn-gold flex items-center gap-1" title={isAr ? 'إكمال الدفع' : 'Complete Payment'}>
                                 <CreditCard size={12} /> {isAr ? 'ادفع' : 'Pay'}
                               </button>
                             </Link>
                           )}
                           {b.status === "pending_review" && (
-                            <span className="px-2 py-1 rounded-lg text-[10px] text-purple-400 animate-pulse flex items-center gap-1">
+                            <span className="px-2 py-1 rounded-lg text-[12px] text-purple-400 animate-pulse flex items-center gap-1">
                               <Clock size={11} /> {isAr ? 'قيد المراجعة' : 'Reviewing'}
                             </span>
                           )}
                           {b.status === "rejected" && (
-                            <span className="px-2 py-1 rounded-lg text-[10px] text-red-400 flex items-center gap-1">
+                            <span className="px-2 py-1 rounded-lg text-[12px] text-red-400 flex items-center gap-1">
                               <XCircle size={11} /> {isAr ? 'مرفوض' : 'Rejected'}
                             </span>
                           )}
@@ -354,7 +354,7 @@ export default function Bookings() {
         {selectedBooking && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/70 z-50 backdrop-blur-sm" onClick={() => setSelectedBooking(null)} />
+              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ background: "var(--modal-overlay)" }} onClick={() => setSelectedBooking(null)} />
             <motion.div
               initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -369,7 +369,7 @@ export default function Bookings() {
                   style={{ background: "var(--modal-bg)", borderBottom: "1px solid var(--glass-border)" }}>
                   <div>
                     <h3 className="text-base font-bold t-primary">{isAr ? "تفاصيل الحجز" : "Booking Details"}</h3>
-                    <p className="text-[10px] t-gold font-['Inter']">{selectedBooking.id}</p>
+                    <p className="text-[12px] t-gold font-['Inter']">{selectedBooking.id}</p>
                   </div>
                   <button onClick={() => setSelectedBooking(null)} className="p-2 rounded-lg t-tertiary" style={{ background: "var(--glass-bg)" }}>
                     <X size={16} />
@@ -380,14 +380,14 @@ export default function Bookings() {
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="text-sm font-bold t-primary">{unitLabel(selectedBooking)}</p>
-                      <p className="text-[10px] t-muted font-['Inter']">Zone {selectedBooking.zone}</p>
+                      <p className="text-[12px] t-muted font-['Inter']">Zone {selectedBooking.zone}</p>
                       <p className="text-xs t-tertiary mt-1">{expoLabel(selectedBooking)}</p>
                     </div>
                     {(() => {
                       const sc = statusColor[selectedBooking.status] || "#FBBF24";
                       const SIcon = StatusIcon[selectedBooking.status] || Clock;
                       return (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] shrink-0"
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] shrink-0"
                           style={{ backgroundColor: `${sc}15`, color: sc, border: `1px solid ${sc}25` }}>
                           <SIcon size={10} /> {statusLabel(selectedBooking.status)}
                         </span>
@@ -403,7 +403,7 @@ export default function Bookings() {
                       { label: isAr ? "العقود والاتفاقيات" : "Contracts", value: getContract(selectedBooking.id)?.id || (isAr ? "بعد الدفع" : "After Payment") },
                     ].map((d, i) => (
                       <div key={i} className="p-2.5 rounded-xl" style={{ background: "var(--modal-inner-bg)", border: "1px solid var(--glass-border)" }}>
-                        <p className="text-[9px] t-muted mb-0.5">{d.label}</p>
+                        <p className="text-[11px] t-muted mb-0.5">{d.label}</p>
                         <p className="text-xs t-secondary font-medium">{d.value}</p>
                       </div>
                     ))}
@@ -440,7 +440,7 @@ export default function Bookings() {
                             <CheckCircle size={14} className="text-[var(--status-green)]" />
                             <div>
                               <p className="text-[11px] text-[var(--status-green)] font-semibold">{isAr ? "تم إصدار العقد بنجاح" : "Contract issued successfully"}</p>
-                              <p className="text-[9px] t-muted font-['Inter']">{contract.id}</p>
+                              <p className="text-[11px] t-muted font-['Inter']">{contract.id}</p>
                             </div>
                           </div>
                         </div>
@@ -461,10 +461,10 @@ export default function Bookings() {
 
                   {selectedBooking.services?.length > 0 && (
                     <div>
-                      <p className="text-[10px] t-tertiary mb-1.5">{isAr ? "الخدمات" : "Services"}</p>
+                      <p className="text-[12px] t-tertiary mb-1.5">{isAr ? "الخدمات" : "Services"}</p>
                       <div className="flex gap-1.5 flex-wrap">
                         {selectedBooking.services.map((s: string, i: number) => (
-                          <span key={i} className="px-2 py-1 rounded-lg text-[10px] t-secondary" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>{s}</span>
+                          <span key={i} className="px-2 py-1 rounded-lg text-[12px] t-secondary" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>{s}</span>
                         ))}
                       </div>
                     </div>

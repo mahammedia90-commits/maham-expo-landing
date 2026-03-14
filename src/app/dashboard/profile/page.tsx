@@ -52,8 +52,8 @@ export default function ProfilePage() {
     <div className="space-y-5 max-w-5xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? 'الملف الشخصي' : 'Profile'}</h2>
-          <p className="text-[10px] sm:text-xs t-gold/50 font-['Inter']">Trader Profile & Account Settings</p>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? 'الملف الشخصي' : 'Profile'}</h2>
+          <p className="text-[12px] sm:text-xs t-gold/50 font-['Inter']">Trader Profile & Account Settings</p>
         </div>
         <button onClick={() => setShowLogoutConfirm(true)}
           className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs transition-colors"
@@ -74,12 +74,12 @@ export default function ProfilePage() {
             <p className="text-xs t-gold/60 font-['Inter'] mt-0.5">{traderCompany}</p>
             <div className="flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full" style={{ background: `color-mix(in srgb, ${kycInfo.color} 10%, transparent)`, border: `1px solid color-mix(in srgb, ${kycInfo.color} 20%, transparent)` }}>
               <KYCIcon size={12} style={{ color: kycInfo.color }} />
-              <span className="text-[10px] font-medium" style={{ color: kycInfo.color }}>{kycInfo.label}</span>
+              <span className="text-[12px] font-medium" style={{ color: kycInfo.color }}>{kycInfo.label}</span>
             </div>
             {isVerified && (
               <div className="flex items-center gap-1 mt-2">
                 <Award size={12} className="t-gold" />
-                <span className="text-[10px] t-gold font-bold">{isAr ? 'تاجر موثّق' : 'Verified Trader'}</span>
+                <span className="text-[12px] t-gold font-bold">{isAr ? 'تاجر موثّق' : 'Verified Trader'}</span>
               </div>
             )}
           </div>
@@ -94,7 +94,7 @@ export default function ProfilePage() {
               <div key={i} className="flex items-center gap-3 py-2.5 border-b border-[var(--glass-border)]">
                 <item.icon size={14} className="t-gold/60 shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[9px] t-muted">{item.label}</p>
+                  <p className="text-[11px] t-muted">{item.label}</p>
                   <p className="text-xs t-secondary truncate">{item.value}</p>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function ProfilePage() {
                   <div className={`w-8 h-8 rounded-full mx-auto mb-2 flex items-center justify-center ${step.done ? "bg-[var(--status-green)]/15" : "bg-[var(--glass-bg)]"}`}>
                     {step.done ? <CheckCircle size={14} style={{ color: "var(--status-green)" }} /> : <span className="text-xs t-muted">{i + 1}</span>}
                   </div>
-                  <p className="text-[10px] font-medium" style={{ color: step.done ? "var(--status-green)" : "var(--text-tertiary)" }}>{step.label}</p>
+                  <p className="text-[12px] font-medium" style={{ color: step.done ? "var(--status-green)" : "var(--text-tertiary)" }}>{step.label}</p>
                 </div>
               ))}
             </div>
@@ -149,7 +149,7 @@ export default function ProfilePage() {
               <div className="mt-3 p-3 rounded-xl bg-[var(--status-yellow)]/5 border border-[var(--status-yellow)]/10">
                 <div className="flex items-center gap-2">
                   <AlertTriangle size={12} style={{ color: "var(--status-yellow)" }} />
-                  <p className="text-[10px] sm:text-xs" style={{ color: "var(--status-yellow)" }}>{isAr ? 'يجب إكمال التوثيق قبل الحجز' : 'KYC verification required before booking'}</p>
+                  <p className="text-[12px] sm:text-xs" style={{ color: "var(--status-yellow)" }}>{isAr ? 'يجب إكمال التوثيق قبل الحجز' : 'KYC verification required before booking'}</p>
                 </div>
               </div>
             )}
@@ -160,7 +160,7 @@ export default function ProfilePage() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-bold t-primary">{isAr ? 'تفاصيل العمل' : 'Business Details'}</h3>
               <Link href="/dashboard/kyc">
-                <button className="glass-card px-3 py-1.5 rounded-lg text-[10px] t-tertiary hover:t-gold flex items-center gap-1 transition-colors">
+                <button className="glass-card px-3 py-1.5 rounded-lg text-[12px] t-tertiary hover:t-gold flex items-center gap-1 transition-colors">
                   <Edit3 size={10} />
                   {isAr ? 'تعديل' : 'Edit'}
                 </button>
@@ -178,7 +178,7 @@ export default function ProfilePage() {
                 <div key={i} className="p-3 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)]">
                   <div className="flex items-center gap-1.5 mb-1">
                     <d.icon size={10} className="t-gold/50" />
-                    <p className="text-[9px] t-muted">{d.label}</p>
+                    <p className="text-[11px] t-muted">{d.label}</p>
                   </div>
                   <p className="text-sm t-secondary font-medium">{d.value}</p>
                 </div>

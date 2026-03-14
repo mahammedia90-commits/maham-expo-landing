@@ -9,12 +9,11 @@ import Link from 'next/link';
 import {
   CalendarCheck, FileText, CreditCard, TrendingUp, MapPin,
   Clock, ArrowLeft, ArrowRight, CheckCircle, AlertTriangle, XCircle,
-  Star, Users, Building2, Calendar,
+  Star, Users, Calendar,
   Sparkles, Rocket, Eye,
 } from 'lucide-react';
 import { useAuthStore } from '@/shared/store/useAuthStore';
 import { useLanguageStore } from '@/shared/store/useLanguageStore';
-import { useThemeStore } from '@/shared/store/useThemeStore';
 import { events2026, eventStats } from '@/features/merchant-dashboard/data/events2026';
 
 const statusIcon = (s: string) => {
@@ -40,9 +39,7 @@ const mockPayments: Array<{ status: string; amount: number }> = [];
 export default function DashboardPage() {
   const { user } = useAuthStore();
   const { language, isRtl } = useLanguageStore();
-  const { theme } = useThemeStore();
 
-  const isDark = theme === 'dark';
   const isAr = language === 'ar';
 
   const bookings = mockBookings;
@@ -132,7 +129,7 @@ export default function DashboardPage() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm sm:text-base font-bold t-primary">{isAr ? 'يجب التحقق من حسابك أولاً' : 'Account Verification Required'}</p>
-            <p className="text-[10px] sm:text-xs t-tertiary mt-0.5">{isAr ? 'أكمل التحقق من هويتك للوصول إلى جميع الميزات' : 'Complete identity verification to access all features'}</p>
+            <p className="text-[12px] sm:text-xs t-tertiary mt-0.5">{isAr ? 'أكمل التحقق من هويتك للوصول إلى جميع الميزات' : 'Complete identity verification to access all features'}</p>
           </div>
           <Link href="/dashboard/kyc">
             <button className="btn-gold px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs whitespace-nowrap shrink-0">
@@ -146,15 +143,14 @@ export default function DashboardPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
         {stats.map((s, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-            whileHover={{ y: -3, scale: 1.01 }}
-            className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5 cursor-default" style={{ boxShadow: isDark ? 'var(--glow-gold)' : '0 4px 15px rgba(0,0,0,0.04)' }}>
+            className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5 cursor-default">
             <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center" style={{ backgroundColor: `color-mix(in srgb, ${s.color} 15%, transparent)` }}>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center" style={{ backgroundColor: 'var(--gold-bg)' }}>
                 <s.icon size={15} style={{ color: s.color }} />
               </div>
             </div>
-            <p className="text-lg sm:text-2xl font-bold t-primary font-['Inter']" style={{ fontFamily: "'Playfair Display', 'Inter', serif" }}>{s.value}</p>
-            <p className="text-[10px] sm:text-xs t-secondary mt-0.5">{s.label}</p>
+            <p className="text-lg sm:text-2xl font-bold t-primary font-['Inter']">{s.value}</p>
+            <p className="text-[12px] sm:text-xs t-secondary mt-0.5">{s.label}</p>
           </motion.div>
         ))}
       </div>
@@ -180,12 +176,12 @@ export default function DashboardPage() {
                     {statusIcon(b.status)}
                     <div className="min-w-0">
                       <p className="text-xs sm:text-sm t-primary truncate">{isAr ? b.unitAr : b.unitEn} — {isAr ? b.expoNameAr : b.expoNameEn}</p>
-                      <p className="text-[9px] sm:text-[10px] t-muted font-['Inter'] truncate">{isAr ? b.unitEn : b.unitAr}</p>
+                      <p className="text-[11px] sm:text-[12px] t-muted font-['Inter'] truncate">{isAr ? b.unitEn : b.unitAr}</p>
                     </div>
                   </div>
                   <div className={`${isRtl ? 'text-left' : 'text-right'} shrink-0 ${isRtl ? 'mr-2' : 'ml-2'}`}>
-                    <p className="text-[10px] sm:text-[11px] t-secondary font-['Inter']">{b.id}</p>
-                    <p className="text-[9px] sm:text-[10px]" style={{ color: b.status === 'confirmed' ? 'var(--status-green)' : 'var(--status-yellow)' }}>{statusLabel(b.status)}</p>
+                    <p className="text-[12px] sm:text-[11px] t-secondary font-['Inter']">{b.id}</p>
+                    <p className="text-[11px] sm:text-[12px]" style={{ color: b.status === 'confirmed' ? 'var(--status-green)' : 'var(--status-yellow)' }}>{statusLabel(b.status)}</p>
                   </div>
                 </div>
               </Link>
@@ -194,7 +190,7 @@ export default function DashboardPage() {
                 <CalendarCheck size={28} className="mx-auto t-muted mb-2" style={{ opacity: 0.3 }} />
                 <p className="text-xs t-tertiary">{isAr ? 'لا توجد حجوزات حالياً' : 'No bookings yet'}</p>
                 <Link href="/dashboard/expos">
-                  <span className="text-[10px] t-gold cursor-pointer">{isAr ? 'تصفح المعارض وابدأ' : 'Browse expos to get started'}</span>
+                  <span className="text-[12px] t-gold cursor-pointer">{isAr ? 'تصفح المعارض وابدأ' : 'Browse expos to get started'}</span>
                 </Link>
               </div>
             )}
@@ -234,27 +230,27 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
           {upcomingEvents.map((e, i) => (
             <Link key={i} href="/dashboard/expos">
-              <div className="p-3 sm:p-4 rounded-xl cursor-pointer transition-all group hover:scale-[1.02]" style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)', boxShadow: isDark ? '0 2px 10px rgba(0,0,0,0.1)' : '0 2px 8px rgba(0,0,0,0.03)' }}>
+              <div className="p-3 sm:p-4 rounded-xl cursor-pointer transition-all group hover:scale-[1.02]" style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}>
                 <div className="flex items-start gap-3 mb-2">
                   <img src={e.image} alt={e.nameAr} className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
                   <div className="min-w-0">
                     <p className="text-xs sm:text-sm font-semibold t-primary truncate">{isAr ? e.nameAr : e.nameEn}</p>
-                    <p className="text-[9px] sm:text-[10px] t-gold font-['Inter'] truncate" style={{ opacity: 0.6 }}>{isAr ? e.nameEn : e.nameAr}</p>
+                    <p className="text-[11px] sm:text-[12px] t-tertiary font-['Inter'] truncate">{isAr ? e.nameEn : e.nameAr}</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-[10px] t-tertiary">
+                  <div className="flex items-center gap-1 text-[12px] t-tertiary">
                     <Calendar size={10} />
                     <span className="font-['Inter']">{e.dateStart}</span>
                   </div>
-                  <span className="text-[9px] sm:text-[10px]" style={{ color: 'var(--status-green)', opacity: 0.8 }}>
+                  <span className="text-[11px] sm:text-[12px]" style={{ color: 'var(--status-green)' }}>
                     {e.availableUnits} {isAr ? 'وحدة متاحة' : 'units available'}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 mt-1.5 text-[9px] t-muted">
-                  <span className="flex items-center gap-0.5"><MapPin size={9} />{isAr ? e.city : e.cityEn}</span>
-                  <span className="flex items-center gap-0.5"><Star size={9} style={{ color: 'var(--gold-accent)' }} />{e.rating}</span>
-                  <span className="flex items-center gap-0.5"><Users size={9} />{e.footfall.split(' ')[0]}</span>
+                <div className="flex items-center gap-2 mt-1.5 text-[11px] t-muted">
+                  <span className="flex items-center gap-0.5"><MapPin size={11} />{isAr ? e.city : e.cityEn}</span>
+                  <span className="flex items-center gap-0.5"><Star size={11} style={{ color: 'var(--gold-accent)' }} />{e.rating}</span>
+                  <span className="flex items-center gap-0.5"><Users size={11} />{e.footfall.split(' ')[0]}</span>
                 </div>
               </div>
             </Link>

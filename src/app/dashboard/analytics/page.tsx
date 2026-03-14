@@ -77,8 +77,8 @@ export default function AnalyticsPage() {
     <div className="space-y-4 sm:space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'Playfair Display', 'IBM Plex Sans Arabic', serif" }}>{isAr ? 'التحليلات' : 'Analytics'}</h2>
-          <p className="text-[10px] t-gold/50 font-['Inter']">AI-Powered Analytics & Reports</p>
+          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? 'التحليلات' : 'Analytics'}</h2>
+          <p className="text-[12px] t-gold/50 font-['Inter']">AI-Powered Analytics & Reports</p>
         </div>
         <button
           onClick={() => {
@@ -119,13 +119,13 @@ export default function AnalyticsPage() {
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center" style={{ backgroundColor: `${k.color}12` }}>
                 <k.icon size={14} style={{ color: k.color }} />
               </div>
-              <span className={`text-[10px] font-medium flex items-center gap-0.5 ${k.up ? "text-[var(--status-green)]" : "text-[var(--status-red)]"}`}>
+              <span className={`text-[12px] font-medium flex items-center gap-0.5 ${k.up ? "text-[var(--status-green)]" : "text-[var(--status-red)]"}`}>
                 {k.up ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
                 {k.change}
               </span>
             </div>
             <p className="text-lg sm:text-xl font-bold t-primary font-['Inter']">{k.value}</p>
-            <p className="text-[10px] sm:text-xs t-secondary mt-0.5">{k.label}</p>
+            <p className="text-[12px] sm:text-xs t-secondary mt-0.5">{k.label}</p>
           </motion.div>
         ))}
       </div>
@@ -140,9 +140,9 @@ export default function AnalyticsPage() {
             const heightPct = (item.value / maxVal) * 100;
             return (
               <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                <span className="text-[9px] t-gold font-['Inter']">{item.value || ''}</span>
+                <span className="text-[11px] t-gold font-['Inter']">{item.value || ''}</span>
                 <div className="w-full rounded-t-sm" style={{ height: `${Math.max(heightPct, 2)}%`, backgroundColor: "#C5A55A", minHeight: item.value > 0 ? 8 : 2 }} />
-                <span className="text-[8px] sm:text-[9px] t-muted truncate w-full text-center">{item.month}</span>
+                <span className="text-[11px] sm:text-[11px] t-muted truncate w-full text-center">{item.month}</span>
               </div>
             );
           })}
@@ -163,13 +163,13 @@ export default function AnalyticsPage() {
             <div key={i} className="p-3 rounded-xl" style={{ backgroundColor: "var(--glass-bg)" }}>
               <div className="flex items-center gap-1.5 mb-2">
                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: r.color }} />
-                <span className="text-[10px] t-tertiary">{r.label}</span>
+                <span className="text-[12px] t-tertiary">{r.label}</span>
               </div>
               <p className="text-base font-bold t-primary font-['Inter']">{r.value}</p>
               <div className="w-full h-1 rounded-full mt-2" style={{ backgroundColor: "var(--glass-bg)" }}>
                 <div className="h-full rounded-full" style={{ width: r.pct, backgroundColor: r.color }} />
               </div>
-              <p className="text-[9px] t-muted mt-1 font-['Inter']">{r.pct}</p>
+              <p className="text-[11px] t-muted mt-1 font-['Inter']">{r.pct}</p>
             </div>
           ))}
         </div>
@@ -208,8 +208,8 @@ export default function AnalyticsPage() {
             {categoryDist.map((z, i) => (
               <div key={i} className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: z.color }} />
-                <span className="text-[10px] t-secondary truncate">{z.name}</span>
-                <span className="text-[10px] t-muted font-['Inter']">{z.value}</span>
+                <span className="text-[12px] t-secondary truncate">{z.name}</span>
+                <span className="text-[12px] t-muted font-['Inter']">{z.value}</span>
               </div>
             ))}
           </div>
@@ -224,11 +224,11 @@ export default function AnalyticsPage() {
               const maxVal = Math.max(...cityDist.map(c => c.visitors), 1);
               return cityDist.map((city, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <span className="text-[10px] t-secondary w-16 sm:w-20 truncate text-end">{city.day}</span>
+                  <span className="text-[12px] t-secondary w-16 sm:w-20 truncate text-end">{city.day}</span>
                   <div className="flex-1 h-5 rounded-sm overflow-hidden" style={{ backgroundColor: "var(--glass-bg)" }}>
                     <div className="h-full rounded-sm" style={{ width: `${(city.visitors / maxVal) * 100}%`, background: "linear-gradient(90deg, #C5A55A33, #C5A55A)" }} />
                   </div>
-                  <span className="text-[9px] t-muted font-['Inter'] w-8 text-end">{city.visitors}</span>
+                  <span className="text-[11px] t-muted font-['Inter'] w-8 text-end">{city.visitors}</span>
                 </div>
               ));
             })()}

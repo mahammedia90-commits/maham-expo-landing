@@ -231,11 +231,11 @@ export default function AIAssistantPage() {
         </div>
         <div>
           <h2 className="text-lg font-bold t-primary">{isAr ? 'المساعد الذكي' : 'AI Assistant'}</h2>
-          <p className="text-[10px] t-gold/50 font-['Inter']">AI Smart Assistant — Powered by MAHAM AI</p>
+          <p className="text-[12px] t-gold/50 font-['Inter']">AI Smart Assistant — Powered by MAHAM AI</p>
         </div>
         <div className={`${isRTL ? "mr-auto" : "ml-auto"} flex items-center gap-1.5`}>
           <div className="w-2 h-2 rounded-full bg-[var(--status-green)] animate-pulse" />
-          <span className="text-[10px] text-[var(--status-green)]/70">{isAr ? 'متصل' : 'Online'}</span>
+          <span className="text-[12px] text-[var(--status-green)]/70">{isAr ? 'متصل' : 'Online'}</span>
         </div>
       </div>
 
@@ -247,7 +247,7 @@ export default function AIAssistantPage() {
           { id: "recommendation" as const, label: isAr ? 'توصيات' : 'Recommendations', icon: Target },
         ].map(mode => (
           <button key={mode.id} onClick={() => setAiMode(mode.id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] transition-all whitespace-nowrap ${aiMode === mode.id ? "btn-gold" : "glass-card t-tertiary"}`}>
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] transition-all whitespace-nowrap ${aiMode === mode.id ? "btn-gold" : "glass-card t-tertiary"}`}>
             <mode.icon size={12} />
             {mode.label}
           </button>
@@ -268,7 +268,7 @@ export default function AIAssistantPage() {
                 {m.role === "assistant" && (
                   <div className="flex items-center gap-1.5 mb-2">
                     <Sparkles size={12} className="t-gold" />
-                    <span className="text-[10px] t-gold/70 font-['Inter']">MAHAM AI</span>
+                    <span className="text-[12px] t-gold/70 font-['Inter']">MAHAM AI</span>
                   </div>
                 )}
                 <p className="text-sm t-primary whitespace-pre-line leading-relaxed">{m.content}</p>
@@ -278,7 +278,7 @@ export default function AIAssistantPage() {
                     {m.analysis.map((a, i) => (
                       <div key={i} className="p-2 rounded-lg text-center" style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
                         <p className="text-sm font-bold font-['Inter']" style={{ color: a.color }}>{a.value}</p>
-                        <p className="text-[8px] t-muted">{a.label}</p>
+                        <p className="text-[11px] t-muted">{a.label}</p>
                       </div>
                     ))}
                   </div>
@@ -288,14 +288,14 @@ export default function AIAssistantPage() {
                   <div className="flex gap-2 mt-3 flex-wrap">
                     {m.actions.map((a, i) => (
                       <button key={i} onClick={() => router.push(a.path)}
-                        className="px-3 py-1.5 rounded-lg text-[10px] bg-gold-subtle t-gold border border-[#C5A55A]/20 hover:bg-[#C5A55A]/20 transition-colors flex items-center gap-1">
+                        className="px-3 py-1.5 rounded-lg text-[12px] bg-gold-subtle t-gold border border-[#C5A55A]/20 hover:bg-[#C5A55A]/20 transition-colors flex items-center gap-1">
                         {isRTL ? <ArrowLeft size={10} /> : null}
                         {a.label}
                       </button>
                     ))}
                   </div>
                 )}
-                <p className="text-[9px] t-muted font-['Inter'] mt-2">{m.time}</p>
+                <p className="text-[11px] t-muted font-['Inter'] mt-2">{m.time}</p>
               </div>
             </motion.div>
           ))}
