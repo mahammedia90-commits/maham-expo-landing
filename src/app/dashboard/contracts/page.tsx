@@ -1,287 +1,281 @@
 'use client';
 
-/**
- * Contracts — Smart e-contracts management
- * CRITICAL RULE: Contracts appear ONLY after full payment is completed
- * Uses empty arrays for contracts/bookings since no full auth context
- */
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Download, PenLine, Shield, CheckCircle, Clock, AlertTriangle, X, Send, CreditCard, Lock } from "lucide-react";
-import { toast } from "sonner";
-import { useLanguageStore } from "@/shared/store/useLanguageStore";
-import { useThemeStore } from "@/shared/store/useThemeStore";
-import { useAuthStore } from "@/shared/store/useAuthStore";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  FileText, Download, Pen, CheckCircle, Clock, CircleAlert,
+  ChevronUp, ChevronDown, FileCheck, Printer, Stamp, X
+} from 'lucide-react';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
 
-interface ContractRecord {
+interface Contract {
   id: string;
-  bookingId: string;
-  expoName: string;
-  expoNameAr?: string;
-  boothNumber: string;
-  boothSize: string;
-  totalValue: number;
-  deposit: number;
-  remaining: number;
-  status: "signed" | "pending_signature" | "draft";
+  expoTitle: string;
+  expoTitleAr?: string;
+  unitDetails: string;
+  totalAmount: number;
+  status: 'draft' | 'signed' | 'active' | 'expired';
   createdAt: string;
-  expiresAt: string;
-  sentVia: string[];
+  terms: string[];
 }
 
 export default function Contracts() {
   const { language, isRtl } = useLanguageStore();
-  const { theme } = useThemeStore();
-  const isDark = theme === "dark";
-  const isAr = language === "ar";
+  const isAr = language === 'ar';
 
-  // Empty arrays since we don't have full auth context
-  const contracts: ContractRecord[] = [];
-  const bookings: any[] = [];
-  const kycData: any = null;
-  const trader: any = null;
+  // Mock empty data
+  const contracts: Contract[] = [];
 
-  const [selectedContract, setSelectedContract] = useState<ContractRecord | null>(null);
-  const [shareContract, setShareContract] = useState<ContractRecord | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [signModalId, setSignModalId] = useState<string | null>(null);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-  const statusLabel = (status: string) => {
-    if (status === "signed") return isAr ? "موقّع" : "Signed";
-    if (status === "pending_signature") return isAr ? "بانتظار التوقيع" : "Pending Signature";
-    if (status === "draft") return isAr ? "مسودة" : "Draft";
-    return status;
+  const statusConfig: Record<string, { icon: typeof CheckCircle; color: string; bg: string; label: string }> = {
+    draft: { icon: Clock, color: 'text-yellow-400', bg: 'bg-yellow-500/10', label: isAr ? 'مسودة - بانتظار التوقيع' : 'Draft - Awaiting Signature' },
+    signed: { icon: CheckCircle, color: 'text-green-400', bg: 'bg-green-500/10', label: isAr ? 'تم التوقيع' : 'Signed' },
+    active: { icon: FileText, color: 'text-blue-400', bg: 'bg-blue-500/10', label: isAr ? 'نشط' : 'Active' },
+    expired: { icon: CircleAlert, color: 'text-gray-400', bg: 'bg-gray-500/10', label: isAr ? 'منتهي' : 'Expired' },
   };
-  const statusColor: Record<string, string> = { signed: "#4ADE80", pending_signature: "#FBBF24", draft: "#60A5FA" };
-  const StatusIcon: Record<string, typeof CheckCircle> = { signed: CheckCircle, pending_signature: Clock, draft: AlertTriangle };
 
-  function getContractData(c: ContractRecord) {
-    const booking = bookings.find((b: any) => b.id === c.bookingId);
-    return {
-      contractId: c.id, bookingId: c.bookingId,
-      expoName: c.expoName || booking?.expoNameEn || "—",
-      boothNumber: c.boothNumber || "—",
-      boothSize: c.boothSize || booking?.boothSize || "—",
-      traderName: kycData?.fullName || trader?.name || "—",
-      traderCompany: kycData?.companyName || trader?.companyName || "—",
-      traderCR: kycData?.crNumber || "—",
-      traderPhone: kycData?.phone || trader?.phone || "—",
-      traderEmail: kycData?.email || "—",
-      traderVAT: kycData?.vatNumber || "—",
-      traderIBAN: kycData?.iban || "—",
-      traderBankName: kycData?.bankName || "—",
-      traderNationalAddress: kycData?.nationalAddress || kycData?.address || "—",
-      traderIdNumber: kycData?.idNumber || "—",
-      totalValue: c.totalValue, deposit: c.deposit, remaining: c.remaining,
-      startDate: c.createdAt, endDate: c.expiresAt, createdDate: c.createdAt, status: c.status,
-    };
-  }
+  const handleSign = (contractId: string) => {
+    setSignModalId(contractId);
+    setAgreedToTerms(false);
+  };
 
-  const channelLabel = (ch: string) => {
-    if (ch === "email") return "Email";
-    if (ch === "sms") return "SMS";
-    if (ch === "whatsapp") return "WhatsApp";
-    if (ch === "download") return "PDF";
-    return ch;
+  const confirmSign = () => {
+    // In real app, call API to sign contract
+    setSignModalId(null);
+    setAgreedToTerms(false);
   };
 
   return (
-    <div className="space-y-4 sm:space-y-5">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient">{isAr ? "العقود والاتفاقيات" : "Contracts & Agreements"}</h2>
-          <p className="text-[12px] t-gold/50 font-['Inter']">Smart E-Contracts</p>
-        </div>
-        <div className="flex items-center gap-1.5 text-[12px] t-tertiary">
-          <Shield size={12} className="t-gold" />
-          <span className="hidden sm:inline">Encrypted</span>
-        </div>
+    <div className="space-y-5 pb-20 lg:pb-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', 'Noto Sans Arabic', serif" }}>
+          {isAr ? 'العقود' : 'Contracts'}
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          {isAr ? `${contracts.length} عقد` : `${contracts.length} contracts`}
+        </p>
       </div>
 
-      {/* Notice */}
-      <div className="glass-card rounded-xl p-3 sm:p-4 border-[var(--gold-border)]">
-        <div className="flex items-start gap-2">
-          <Lock size={14} className="t-gold shrink-0 mt-0.5" />
-          <div>
-            <p className="text-[11px] t-gold font-semibold mb-1">{isAr ? "العقد يصدر تلقائياً بعد إكمال الدفع بالكامل" : "Contract is issued automatically after full payment completion"}</p>
-            <div className="text-[12px] t-tertiary leading-relaxed space-y-0.5">
-              <p>
-                {isAr ? "توثيق الحساب (KYC)" : "Account Verification (KYC)"} → {isAr ? "حجز وحدة في معرض" : "Book a unit in an exhibition"} → {isAr ? "إكمال الدفع بالكامل" : "Complete full payment"} → {isAr ? "إصدار العقد تلقائياً" : "Contract issued automatically"}
-              </p>
-            </div>
-          </div>
+      {/* Empty State */}
+      {contracts.length === 0 ? (
+        <div className="p-12 rounded-xl bg-card border border-border/50 text-center">
+          <FileText className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground font-medium">
+            {isAr ? 'لا توجد عقود' : 'No contracts yet'}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {isAr ? 'ستظهر العقود هنا بعد الموافقة على حجزك' : 'Contracts will appear here after your booking is approved'}
+          </p>
         </div>
-      </div>
+      ) : (
+        <div className="space-y-4">
+          {contracts.map((contract, i) => {
+            const config = statusConfig[contract.status] || statusConfig.draft;
+            const StatusIcon = config.icon;
+            const isExpanded = expandedId === contract.id;
 
-      {/* Contracts List */}
-      {contracts.length > 0 ? (
-        <div className="space-y-3">
-          {contracts.map((c, i) => {
-            const sc = statusColor[c.status] || "#FBBF24";
-            const SIcon = StatusIcon[c.status] || Clock;
-            const booking = bookings.find((b: any) => b.id === c.bookingId);
             return (
-              <motion.div key={c.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-                onClick={() => setSelectedContract(c)}
-                className={`glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5 cursor-pointer transition-all active:scale-[0.98] ${
-                  selectedContract?.id === c.id ? "border-[var(--gold-border)] shadow-[0_0_25px_rgba(197,165,90,0.06)]" : ""
-                }`}>
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-2.5 flex-1 min-w-0">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gold-subtle flex items-center justify-center shrink-0">
-                      <FileText size={16} className="t-gold" />
+              <motion.div
+                key={contract.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="rounded-xl bg-card border border-border/50 overflow-hidden"
+              >
+                {/* Card Header */}
+                <div
+                  className="p-5 cursor-pointer"
+                  onClick={() => setExpandedId(isExpanded ? null : contract.id)}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
+                        <StatusIcon className={`w-5 h-5 ${config.color}`} />
+                      </div>
+                      <div>
+                        <span className="font-mono text-xs text-muted-foreground block">{contract.id}</span>
+                        <h3 className="font-semibold t-primary">
+                          {isAr ? (contract.expoTitleAr || contract.expoTitle) : contract.expoTitle}
+                        </h3>
+                        <p className="text-xs text-muted-foreground">{contract.unitDetails}</p>
+                      </div>
                     </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xs sm:text-sm font-semibold t-primary truncate">
-                        {isAr ? "البوث" : "Booth"} {c.boothNumber} — {isRtl ? (c.expoNameAr || c.expoName) : c.expoName}
-                      </h4>
-                    </div>
-                  </div>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] sm:text-[12px] shrink-0"
-                    style={{ backgroundColor: `${sc}12`, color: sc, border: `1px solid ${sc}25` }}>
-                    <SIcon size={9} />
-                    {statusLabel(c.status)}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 sm:gap-6 text-[12px] sm:text-[11px] t-tertiary flex-wrap">
-                  <span>{isAr ? "رقم العقد" : "Contract ID"}: <span className="t-gold/70 font-['Inter']">{c.id}</span></span>
-                  <span>{isAr ? "قيمة العقد" : "Contract Value"}: <span className="t-secondary font-['Inter']">{c.totalValue.toLocaleString()} {isAr ? "ر.س" : "SAR"}</span></span>
-                  <span className="font-['Inter']">{c.createdAt}</span>
-                </div>
-                {c.sentVia.length > 0 && (
-                  <div className="flex items-center gap-1.5 mt-2">
-                    <span className="text-[11px] t-muted">{isAr ? "تم الإرسال عبر" : "Sent via"}:</span>
-                    {c.sentVia.map(ch => (
-                      <span key={ch} className="text-[11px] px-1.5 py-0.5 rounded bg-[var(--status-green)]/10 text-[var(--status-green)]">
-                        {channelLabel(ch)}
+                    <div className="flex items-center gap-2">
+                      <span className={`${config.bg} ${config.color} text-[10px] px-2 py-0.5 rounded-full border-0`}>
+                        {config.label}
                       </span>
-                    ))}
+                      {isExpanded ? (
+                        <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                      )}
+                    </div>
                   </div>
-                )}
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {contract.createdAt || '2026-03-15'}
+                      </span>
+                    </div>
+                    <p className="text-lg font-bold text-[#C5A55A]">
+                      {contract.totalAmount.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Expanded Content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-5 space-y-4 border-t border-border/30 pt-4">
+                        {/* Contract Terms */}
+                        <div className="p-4 rounded-lg bg-card/50 border border-border/30">
+                          <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                            <FileCheck className="w-4 h-4 text-[#C5A55A]" />
+                            {isAr ? 'بنود العقد' : 'Contract Terms'}
+                          </h4>
+                          <ul className="space-y-2">
+                            {contract.terms.map((term, idx) => (
+                              <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
+                                <span className="text-[#C5A55A] mt-0.5 shrink-0">&#8226;</span>
+                                <span>{term}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Amount Breakdown */}
+                        <div className="p-4 rounded-lg bg-card/50 border border-border/30">
+                          <h4 className="text-sm font-semibold mb-3">
+                            {isAr ? 'تفاصيل المبلغ' : 'Amount Breakdown'}
+                          </h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">{isAr ? 'سعر الجناح' : 'Booth Price'}</span>
+                              <span className="t-primary">{(contract.totalAmount * 0.87).toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">{isAr ? 'رسوم الخدمة' : 'Service Fee'}</span>
+                              <span className="t-primary">{(contract.totalAmount * 0.05).toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">{isAr ? 'ضريبة القيمة المضافة 15%' : 'VAT 15%'}</span>
+                              <span className="t-primary">{(contract.totalAmount * 0.08).toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                            <div className="flex justify-between pt-2 border-t border-border/30 font-bold">
+                              <span className="t-primary">{isAr ? 'الإجمالي' : 'Total'}</span>
+                              <span className="text-[#C5A55A]">{contract.totalAmount.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-wrap gap-2">
+                          {contract.status === 'draft' && (
+                            <button
+                              onClick={() => handleSign(contract.id)}
+                              className="bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90 font-semibold px-4 py-2 rounded-lg text-sm flex items-center gap-1.5"
+                            >
+                              <Pen className="w-4 h-4" />
+                              {isAr ? 'توقيع العقد' : 'Sign Contract'}
+                            </button>
+                          )}
+                          <button className="px-4 py-2 rounded-lg text-sm border border-border/50 t-secondary flex items-center gap-1.5 hover:border-[#C5A55A]/30 transition-colors">
+                            <Download className="w-4 h-4" />
+                            {isAr ? 'تحميل' : 'Download'}
+                          </button>
+                          <button className="px-4 py-2 rounded-lg text-sm border border-border/50 t-secondary flex items-center gap-1.5 hover:border-[#C5A55A]/30 transition-colors">
+                            <Printer className="w-4 h-4" />
+                            {isAr ? 'طباعة' : 'Print'}
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             );
           })}
         </div>
-      ) : (
-        <div className="glass-card rounded-xl sm:rounded-2xl p-8 text-center">
-          <FileText size={36} className="mx-auto t-muted mb-3" />
-          <p className="text-sm t-secondary mb-1">{isAr ? "لا توجد عقود صادرة" : "No issued contracts"}</p>
-          <p className="text-[12px] t-muted mb-3">{isAr ? "العقد يصدر تلقائياً بعد إكمال الدفع بالكامل" : "Contract is issued automatically after full payment completion"}</p>
-          <div className="flex items-center justify-center gap-2 text-[12px] t-gold">
-            <CreditCard size={12} />
-            <span>{isAr ? "إكمال الدفع بالكامل" : "Complete full payment"}</span>
-          </div>
-        </div>
       )}
 
-      {/* Contract Detail Modal */}
+      {/* Sign Contract Modal */}
       <AnimatePresence>
-        {selectedContract && (
+        {signModalId && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ background: "var(--modal-overlay)" }} onClick={() => setSelectedContract(null)} />
             <motion.div
-              initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 left-0 right-0 max-h-[92vh] lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:w-[520px] lg:max-h-[85vh] z-50 overflow-y-auto rounded-t-2xl lg:rounded-2xl"
-              style={{ background: "var(--modal-bg)", borderTop: "1px solid var(--glass-border)", paddingBottom: "env(safe-area-inset-bottom, 16px)" }}
-              dir={isRtl ? "rtl" : "ltr"}>
-              <div className="flex justify-center pt-3 pb-1 sm:hidden">
-                <div className="w-10 h-1 rounded-full" style={{ background: "var(--glass-border)" }} />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 z-50"
+              onClick={() => setSignModalId(null)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[95vw] max-w-md p-6 rounded-xl bg-card border border-border/50 shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                  <Stamp className="w-5 h-5 text-[#C5A55A]" />
+                  {isAr ? 'توقيع العقد' : 'Sign Contract'}
+                </h3>
+                <button onClick={() => setSignModalId(null)}>
+                  <X className="w-5 h-5 text-muted-foreground" />
+                </button>
               </div>
 
-              <div className="px-4 sm:px-6 py-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-base font-bold t-primary">{isAr ? "عرض التفاصيل" : "View Details"}</h3>
-                  <button onClick={() => setSelectedContract(null)} className="p-2 rounded-lg t-tertiary" style={{ background: "var(--glass-bg)" }}>
-                    <X size={16} />
-                  </button>
+              <div className="space-y-4">
+                <div className="p-4 rounded-lg bg-card/50 border border-border/30 text-center">
+                  <Stamp className="w-12 h-12 text-[#C5A55A] mx-auto mb-2" />
+                  <p className="text-sm font-medium t-primary">{isAr ? 'التوقيع الرقمي' : 'Digital Signature'}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {isAr
+                      ? 'بالنقر على "تأكيد التوقيع" فإنك توافق على جميع بنود العقد'
+                      : 'By clicking "Confirm Signature" you agree to all contract terms'}
+                  </p>
                 </div>
 
-                <div className="space-y-2.5">
-                  {[
-                    { label: isAr ? "رقم العقد" : "Contract ID", value: selectedContract.id },
-                    { label: isAr ? "رقم الحجز" : "Booking ID", value: selectedContract.bookingId },
-                    { label: isAr ? "اسم المعرض" : "Exhibition Name", value: isRtl ? (selectedContract.expoNameAr || selectedContract.expoName) : selectedContract.expoName },
-                    { label: isAr ? "البوث" : "Booth", value: `${selectedContract.boothNumber} — ${selectedContract.boothSize}` },
-                    { label: isAr ? "قيمة العقد" : "Contract Value", value: `${selectedContract.totalValue.toLocaleString()} ${isAr ? "ر.س" : "SAR"}` },
-                    { label: isAr ? "تاريخ الإصدار" : "Issue Date", value: selectedContract.createdAt },
-                    { label: isAr ? "تاريخ الانتهاء" : "Expiry Date", value: selectedContract.expiresAt },
-                  ].map((d, i) => (
-                    <div key={i} className="flex items-center justify-between py-2 border-b border-[var(--glass-border)]">
-                      <span className="text-[11px] t-tertiary">{d.label}</span>
-                      <span className="text-xs t-secondary font-medium max-w-[55%]">{d.value}</span>
-                    </div>
-                  ))}
+                <div className="p-4 rounded-lg border border-dashed border-[#C5A55A]/30 text-center">
+                  <p className="text-lg font-bold text-[#C5A55A]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    {isAr ? 'التاجر' : 'Trader'}
+                  </p>
                 </div>
 
-                {kycData && (
-                  <div className="mt-4 rounded-xl p-3" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
-                    <p className="text-[12px] t-gold font-semibold mb-2">{isAr ? "بيانات التاجر (من التوثيق)" : "Trader Data (from Verification)"}</p>
-                    <div className="grid grid-cols-2 gap-1.5 text-[12px]">
-                      <div><span className="t-muted">{isAr ? "الاسم" : "Name"}: </span><span className="t-secondary">{kycData.fullName}</span></div>
-                      <div><span className="t-muted">{isAr ? "الشركة" : "Company"}: </span><span className="t-secondary">{kycData.companyName}</span></div>
-                      <div><span className="t-muted">{isAr ? "السجل" : "CR"}: </span><span className="t-secondary font-['Inter']">{kycData.crNumber}</span></div>
-                      <div><span className="t-muted">{isAr ? "الجوال" : "Phone"}: </span><span className="t-secondary font-['Inter']">{kycData.phone}</span></div>
-                    </div>
-                  </div>
-                )}
+                <label className="flex items-start gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={agreedToTerms}
+                    onChange={(e) => setAgreedToTerms(e.target.checked)}
+                    className="mt-1 rounded border-border accent-[#C5A55A]"
+                  />
+                  <span className="text-xs text-muted-foreground">
+                    {isAr
+                      ? 'أقر بأنني قرأت وفهمت جميع بنود العقد وأوافق عليها'
+                      : 'I confirm that I have read, understood, and agree to all contract terms'}
+                  </span>
+                </label>
 
-                <div className="flex gap-2 mt-5 pb-2">
-                  {selectedContract.status === "pending_signature" && (
-                    <button onClick={() => { toast.success(isAr ? "تم بنجاح" : "Success"); setSelectedContract(null); }}
-                      className="flex-1 btn-gold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5">
-                      <PenLine size={14} />
-                      {isAr ? "توقيع العقد" : "Sign Contract"}
-                    </button>
-                  )}
-                  <button onClick={() => {
-                    toast.success(isAr ? "تم تحميل العقد بنجاح" : "Contract downloaded successfully");
-                  }}
-                    className="flex-1 glass-card py-2.5 rounded-xl text-xs t-secondary hover:t-gold flex items-center justify-center gap-1.5">
-                    <Download size={14} />
-                    {isAr ? "تحميل PDF" : "Download PDF"}
-                  </button>
-                  <button onClick={() => { setShareContract(selectedContract); setSelectedContract(null); }}
-                    className="flex-1 glass-card py-2.5 rounded-xl text-xs t-gold flex items-center justify-center gap-1.5" style={{ border: "1px solid var(--gold-border)" }}>
-                    <Send size={14} />
-                    {isAr ? "مشاركة" : "Share"}
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* Share Contract — simplified without ContractShare component */}
-      <AnimatePresence>
-        {shareContract && (
-          <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ background: "var(--modal-overlay)" }} onClick={() => setShareContract(null)} />
-            <motion.div
-              initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 left-0 right-0 max-h-[70vh] lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:w-[420px] z-50 overflow-y-auto rounded-t-2xl lg:rounded-2xl"
-              style={{ background: "var(--modal-bg)", borderTop: "1px solid var(--glass-border)", paddingBottom: "env(safe-area-inset-bottom, 16px)" }}
-              dir={isRtl ? "rtl" : "ltr"}>
-              <div className="px-4 sm:px-6 py-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-base font-bold t-primary">{isAr ? "مشاركة العقد" : "Share Contract"}</h3>
-                  <button onClick={() => setShareContract(null)} className="p-2 rounded-lg t-tertiary" style={{ background: "var(--glass-bg)" }}>
-                    <X size={16} />
-                  </button>
-                </div>
-                <p className="text-xs t-tertiary mb-4">{isAr ? "اختر طريقة المشاركة" : "Choose sharing method"}</p>
-                <div className="space-y-2">
-                  <button onClick={() => { toast.success(isAr ? "تم تحميل العقد بنجاح" : "Contract downloaded"); setShareContract(null); }}
-                    className="w-full glass-card p-3 rounded-xl text-xs t-secondary flex items-center gap-2">
-                    <Download size={14} className="t-gold" /> {isAr ? "تحميل نسخة PDF" : "Download PDF Copy"}
-                  </button>
-                  <button onClick={() => { toast.success(isAr ? "تم إرسال العقد" : "Contract sent"); setShareContract(null); }}
-                    className="w-full glass-card p-3 rounded-xl text-xs t-secondary flex items-center gap-2">
-                    <Send size={14} className="t-gold" /> {isAr ? "إرسال عبر البريد الإلكتروني" : "Send via Email"}
-                  </button>
-                </div>
+                <button
+                  onClick={confirmSign}
+                  disabled={!agreedToTerms}
+                  className="w-full bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90 font-semibold px-4 py-2.5 rounded-lg text-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
+                >
+                  <Pen className="w-4 h-4" />
+                  {isAr ? 'تأكيد التوقيع' : 'Confirm Signature'}
+                </button>
               </div>
             </motion.div>
           </>

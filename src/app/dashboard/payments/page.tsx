@@ -1,608 +1,367 @@
 'use client';
 
-/**
- * Payments — Financial management with mobile-first design
- * NEW FLOW: Payment completion -> Auto-generate contract -> Multi-channel delivery
- * Uses empty arrays for bookings/payments since no full auth context
- */
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  CreditCard, TrendingUp, AlertTriangle, Shield, Lock,
-  Sparkles, Receipt, X, Building2, Smartphone, CheckCircle,
-  FileText, Send, MessageSquare, Mail, Phone, Download, Loader2
-} from "lucide-react";
-import { toast } from "sonner";
-import { useLanguageStore } from "@/shared/store/useLanguageStore";
-import { useThemeStore } from "@/shared/store/useThemeStore";
-import { useAuthStore } from "@/shared/store/useAuthStore";
+  CreditCard, CheckCircle, Clock, Receipt, Download,
+  ChevronUp, ChevronDown, Landmark, Smartphone, Wallet, X, Banknote
+} from 'lucide-react';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
 
-interface BookingRecord {
-  id: string;
-  expoId: string;
-  expoNameAr: string;
-  expoNameEn: string;
-  unitAr: string;
-  unitEn: string;
-  zone: string;
-  boothType: string;
-  boothSize: string;
-  price: number;
-  deposit: number;
-  paidAmount: number;
-  remainingAmount: number;
-  status: string;
-  services: string[];
-  date: string;
-  createdAt?: string;
-}
-
-interface PaymentRecord {
+interface Invoice {
   id: string;
   bookingId: string;
-  amount: number;
-  method: string;
-  type: string;
-  descAr: string;
-  descEn: string;
-  status: string;
-  date: string;
+  orderId: string;
+  expoTitle: string;
+  boothId: string;
+  zone: string;
+  subtotal: number;
+  serviceFee: number;
+  vat: number;
+  total: number;
+  status: 'paid' | 'pending' | 'refunded';
+  dueDate: string;
+  createdAt: string;
 }
 
 export default function Payments() {
   const { language, isRtl } = useLanguageStore();
-  const { theme } = useThemeStore();
-  const isDark = theme === "dark";
-  const isAr = language === "ar";
+  const isAr = language === 'ar';
 
-  // Empty arrays since we don't have full auth context
-  const bookings: BookingRecord[] = [];
-  const payments: PaymentRecord[] = [];
-  const trader: any = null;
-  const kycData: any = null;
+  // Mock empty data
+  const invoices: Invoice[] = [];
 
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showPayModal, setShowPayModal] = useState(false);
-  const [selectedBooking, setSelectedBooking] = useState<BookingRecord | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState("mada");
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState('card');
   const [processing, setProcessing] = useState(false);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [generatedContractId, setGeneratedContractId] = useState<string | null>(null);
-  const [contractSending, setContractSending] = useState(false);
-  const [sentChannels, setSentChannels] = useState<string[]>([]);
-  const [currency, setCurrency] = useState<"SAR" | "USD">("SAR");
 
-  const currencyLabel = currency === "SAR" ? (isAr ? "ر.س" : "SAR") : "$";
-  const convertAmount = (amount: number) => {
-    const val = currency === "USD" ? Math.round(amount / 3.75) : amount;
-    return val.toLocaleString();
+  const filtered = useMemo(() =>
+    filterStatus === 'all' ? invoices : invoices.filter(inv => inv.status === filterStatus),
+    [invoices, filterStatus]
+  );
+
+  const totalPaid = invoices.filter(i => i.status === 'paid').reduce((a, b) => a + b.total, 0);
+  const totalPending = invoices.filter(i => i.status === 'pending').reduce((a, b) => a + b.total, 0);
+
+  const statusConfig: Record<string, { icon: typeof CheckCircle; color: string; bg: string; label: string }> = {
+    paid: { icon: CheckCircle, color: 'text-green-400', bg: 'bg-green-500/10', label: isAr ? 'مدفوع' : 'Paid' },
+    pending: { icon: Clock, color: 'text-yellow-400', bg: 'bg-yellow-500/10', label: isAr ? 'قيد الانتظار' : 'Pending' },
+    refunded: { icon: Banknote, color: 'text-blue-400', bg: 'bg-blue-500/10', label: isAr ? 'مسترد' : 'Refunded' },
   };
 
-  const totalPaid = payments.filter(p => p.status === "completed").reduce((a, p) => a + p.amount, 0);
-  const pendingBookings = bookings.filter(b => b.remainingAmount > 0 && b.status !== "cancelled");
-  const totalPending = pendingBookings.reduce((a, b) => a + b.remainingAmount, 0);
+  const summaryCards = [
+    { icon: Receipt, label: isAr ? 'إجمالي الفواتير' : 'Total Invoices', value: invoices.length, color: '#C5A55A' },
+    { icon: CheckCircle, label: isAr ? 'المدفوعة' : 'Paid', value: `${totalPaid.toLocaleString()} ${isAr ? 'ر.س' : 'SAR'}`, color: '#4ADE80' },
+    { icon: Clock, label: isAr ? 'قيد الانتظار' : 'Pending', value: `${totalPending.toLocaleString()} ${isAr ? 'ر.س' : 'SAR'}`, color: '#F59E0B' },
+    { icon: Wallet, label: isAr ? 'الرصيد المستحق' : 'Balance Due', value: `${totalPending.toLocaleString()} ${isAr ? 'ر.س' : 'SAR'}`, color: '#EF4444' },
+  ];
 
-  const statusLabel = (status: string) => {
-    if (status === "completed") return isAr ? "مكتمل" : "Completed";
-    if (status === "pending") return isAr ? "معلّق" : "Pending";
-    if (status === "refunded") return isAr ? "مسترد" : "Refunded";
-    return status;
-  };
-  const statusColor: Record<string, string> = { completed: "#4ADE80", pending: "#FBBF24", refunded: "#60A5FA" };
-
-  const handlePay = (booking: BookingRecord) => {
-    setSelectedBooking(booking);
-    setPaymentSuccess(false);
-    setGeneratedContractId(null);
-    setSentChannels([]);
+  const handlePay = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
     setShowPayModal(true);
   };
 
   const processPayment = () => {
-    if (!selectedBooking) return;
     setProcessing(true);
-
     setTimeout(() => {
-      const contractId = `CTR-${Date.now().toString(36).toUpperCase()}`;
-      setGeneratedContractId(contractId);
       setProcessing(false);
-      setPaymentSuccess(true);
-      toast.success(isAr ? "تم الدفع بنجاح! تم إصدار العقد تلقائياً" : "Payment successful! Contract issued automatically");
-    }, 2500);
+      setShowPayModal(false);
+      setSelectedInvoice(null);
+    }, 2000);
   };
-
-  const getContractDataForPDF = () => {
-    if (!selectedBooking) return null;
-    return {
-      contractId: generatedContractId || "—",
-      bookingId: selectedBooking.id,
-      expoName: selectedBooking.expoNameEn || selectedBooking.expoNameAr,
-      boothNumber: selectedBooking.unitEn?.match(/[A-Z]\d+/)?.[0] || selectedBooking.unitAr,
-      boothSize: selectedBooking.boothSize,
-      traderName: kycData?.fullName || trader?.name || "—",
-      traderCompany: kycData?.companyName || trader?.companyName || "—",
-      traderCR: kycData?.crNumber || "—",
-      traderPhone: kycData?.phone || trader?.phone || "—",
-      traderEmail: kycData?.email || "—",
-      traderVAT: kycData?.vatNumber || "—",
-      traderIBAN: kycData?.iban || "—",
-      traderBankName: kycData?.bankName || "—",
-      traderNationalAddress: kycData?.nationalAddress || kycData?.address || "—",
-      traderIdNumber: kycData?.idNumber || "—",
-      totalValue: selectedBooking.price,
-      deposit: selectedBooking.deposit,
-      remaining: 0,
-      startDate: selectedBooking.createdAt?.split("T")[0] || new Date().toISOString().split("T")[0],
-      endDate: (() => { const d = new Date(); d.setMonth(d.getMonth() + 6); return d.toISOString().split("T")[0]; })(),
-      createdDate: new Date().toISOString().split("T")[0],
-      status: "pending_signature",
-    };
-  };
-
-  const handleDownloadContract = async () => {
-    setContractSending(true);
-    try {
-      setSentChannels(prev => [...prev, "download"]);
-      toast.success(isAr ? "تم تحميل العقد بنجاح" : "Contract downloaded successfully");
-    } catch {
-      toast.error(isAr ? "حدث خطأ في تحميل العقد" : "Error downloading contract");
-    }
-    setContractSending(false);
-  };
-
-  const handleSendEmail = () => {
-    const email = kycData?.email || "";
-    if (!email) { toast.error(isAr ? "لا يوجد بريد إلكتروني مسجل" : "No registered email address"); return; }
-    setContractSending(true);
-    setTimeout(() => {
-      setSentChannels(prev => [...prev, "email"]);
-      toast.success(`${isAr ? "تم إرسال العقد إلى" : "Contract sent to"} ${email}`);
-      setContractSending(false);
-    }, 1500);
-  };
-
-  const handleSendSMS = () => {
-    const phone = kycData?.phone || trader?.phone || "";
-    if (!phone) { toast.error(isAr ? "لا يوجد رقم جوال مسجل" : "No registered mobile number"); return; }
-    setContractSending(true);
-    setTimeout(() => {
-      setSentChannels(prev => [...prev, "sms"]);
-      toast.success(`${isAr ? "تم إرسال رابط العقد عبر SMS إلى" : "Contract link sent via SMS to"} ${phone}`);
-      setContractSending(false);
-    }, 1200);
-  };
-
-  const handleSendWhatsApp = () => {
-    const phone = kycData?.phone || trader?.phone || "";
-    if (!phone) { toast.error(isAr ? "لا يوجد رقم جوال مسجل" : "No registered mobile number"); return; }
-    const cleanPhone = phone.replace(/[^0-9+]/g, "");
-    const intlPhone = cleanPhone.startsWith("+") ? cleanPhone.replace("+", "") : `966${cleanPhone.replace(/^0/, "")}`;
-    const data = getContractDataForPDF();
-    if (!data) return;
-    const message = encodeURIComponent(
-      isAr
-        ? `*عقد تشغيل — ${data.expoName}*\n\n` +
-          `رقم العقد: ${data.contractId}\nرقم الحجز: ${data.bookingId}\n` +
-          `الموقع: بوث ${data.boothNumber}\nالمساحة: ${data.boothSize}\n` +
-          `القيمة الإجمالية: ${data.totalValue.toLocaleString()} ريال\n` +
-          `الفترة: ${data.startDate} — ${data.endDate}\n\n` +
-          `— شركة مهام إكسبو لتنظيم المعارض والمؤتمرات\n0535555900 | info@maham.com.sa`
-        : `*Operations Contract — ${data.expoName}*\n\n` +
-          `Contract #: ${data.contractId}\nBooking #: ${data.bookingId}\n` +
-          `Location: Booth ${data.boothNumber}\nArea: ${data.boothSize}\n` +
-          `Total Value: ${data.totalValue.toLocaleString()} SAR\n` +
-          `Period: ${data.startDate} — ${data.endDate}\n\n` +
-          `— Maham Expo for Exhibitions & Conferences\n0535555900 | info@maham.com.sa`
-    );
-    window.open(`https://wa.me/${intlPhone}?text=${message}`, "_blank");
-    setSentChannels(prev => [...prev, "whatsapp"]);
-    toast.success(isAr ? "تم فتح واتساب لإرسال العقد" : "WhatsApp opened to send contract");
-  };
-
-  const bookingLabel = isRtl ? (b: BookingRecord) => `${b.unitAr} — ${b.expoNameAr}` : (b: BookingRecord) => `${b.unitEn} — ${b.expoNameEn}`;
 
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <div className="space-y-5 pb-20 lg:pb-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient">{isAr ? "المدفوعات والفواتير" : "Payments & Billing"}</h2>
-          <p className="text-[12px] t-gold/50 font-['Inter']">Payments & Billing</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button onClick={() => setCurrency(c => c === "SAR" ? "USD" : "SAR")}
-            className="glass-card px-2.5 py-1.5 rounded-lg text-[12px] t-secondary">
-            {currency === "SAR" ? "SAR → $" : "$ → SAR"}
-          </button>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', 'Noto Sans Arabic', serif" }}>
+          {isAr ? 'المدفوعات' : 'Payments'}
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          {isAr ? 'إدارة الفواتير والمدفوعات' : 'Manage invoices and payments'}
+        </p>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 gap-2 sm:gap-3">
-        <div className="glass-card rounded-xl p-3 sm:p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#4ADE8015" }}>
-              <CheckCircle size={14} style={{ color: "#4ADE80" }} />
-            </div>
-            <span className="text-[12px] t-tertiary">{isAr ? "إجمالي المدفوع" : "Total Paid"}</span>
-          </div>
-          <p className="text-lg sm:text-xl font-bold text-[var(--status-green)] font-['Inter']">{convertAmount(totalPaid)}</p>
-          <p className="text-[11px] t-muted">{currencyLabel}</p>
-        </div>
-        <div className="glass-card rounded-xl p-3 sm:p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#FBBF2415" }}>
-              <AlertTriangle size={14} style={{ color: "#FBBF24" }} />
-            </div>
-            <span className="text-[12px] t-tertiary">{isAr ? "إجمالي المتبقي" : "Total Remaining"}</span>
-          </div>
-          <p className="text-lg sm:text-xl font-bold text-[var(--status-yellow)] font-['Inter']">{convertAmount(totalPending)}</p>
-          <p className="text-[11px] t-muted">{currencyLabel}</p>
-        </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {summaryCards.map((card, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.05 }}
+            className="p-4 rounded-xl bg-card border border-border/50"
+          >
+            <card.icon className="w-5 h-5 mb-2" style={{ color: card.color }} />
+            <p className="text-lg font-bold t-primary">{card.value}</p>
+            <p className="text-[10px] text-muted-foreground">{card.label}</p>
+          </motion.div>
+        ))}
       </div>
 
-      {/* Pending Payments */}
-      {pendingBookings.length > 0 && (
-        <div className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5">
-          <div className="flex items-center gap-2 mb-3">
-            <AlertTriangle size={14} className="text-[var(--status-yellow)]" />
-            <h3 className="text-xs font-bold text-[var(--status-yellow)]/80">{isAr ? "مدفوعات مطلوبة — حجوزات بانتظار الدفع" : "Payments Required — Bookings Awaiting Payment"}</h3>
-          </div>
-          <div className="space-y-2">
-            {pendingBookings.map((bk) => (
-              <div key={bk.id} className="flex items-center justify-between p-3 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)]">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <div className="w-8 h-8 rounded-lg bg-yellow-400/10 flex items-center justify-center shrink-0">
-                    <CreditCard size={14} className="text-[var(--status-yellow)]" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-[11px] t-secondary truncate">{bookingLabel(bk)}</p>
-                    <p className="text-[11px] t-muted">
-                      {isAr ? "الحجز" : "Booking"}: <span className="font-['Inter']">{bk.id}</span>
-                      {bk.paidAmount > 0 && <span className="text-[var(--status-green)]"> ({isAr ? "مدفوع جزئياً" : "Partially Paid"})</span>}
-                    </p>
-                  </div>
-                </div>
-                <div className={`shrink-0 ${isRtl ? "mr-2 text-left" : "ml-2 text-right"}`}>
-                  <p className="text-sm font-bold t-gold font-['Inter']">{convertAmount(bk.remainingAmount)}</p>
-                  <button onClick={() => handlePay(bk)} className="btn-gold px-3 py-1 rounded-lg text-[12px] mt-1">
-                    {isAr ? "ادفع الآن" : "Pay Now"}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* No Pending */}
-      {pendingBookings.length === 0 && payments.length === 0 && (
-        <div className="glass-card rounded-xl sm:rounded-2xl p-6 text-center">
-          <CreditCard size={32} className="mx-auto t-muted mb-3" />
-          <p className="text-sm t-secondary mb-1">{isAr ? "لا توجد مدفوعات معلقة" : "No pending payments"}</p>
-          <p className="text-[12px] t-muted">{isAr ? "قم بحجز وحدة في أحد المعارض وسيظهر هنا رابط الدفع" : "Book a unit in an exhibition and the payment link will appear here"}</p>
-        </div>
-      )}
-
-      {/* Revenue Split */}
-      <div className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5">
-        <div className="flex items-center gap-2 mb-3">
-          <Sparkles size={14} className="t-gold" />
-          <h3 className="text-xs font-bold t-secondary">{isAr ? "شفافية توزيع الإيرادات" : "Revenue Transparency"}</h3>
-        </div>
-        <div className="grid grid-cols-3 gap-2 sm:gap-3">
-          {[
-            { name: isAr ? "المستثمر" : "Investor", pct: "70%", color: "var(--status-blue)" },
-            { name: isAr ? "مهام إكسبو" : "Maham Expo", pct: "20%", color: "var(--gold-accent)" },
-            { name: isAr ? "رسوم تشغيلية" : "Operational Fees", pct: "10%", color: "#A78BFA" },
-          ].map((r, i) => (
-            <div key={i} className="p-2.5 sm:p-4 rounded-xl text-center" style={{ background: i === 1 ? "var(--gold-bg)" : "var(--glass-bg)", border: i === 1 ? "1px solid var(--gold-border)" : "1px solid var(--glass-border)" }}>
-              <p className="text-[12px] t-tertiary mb-1">{r.name}</p>
-              <p className="text-lg font-bold font-['Inter']" style={{ color: r.color }}>{r.pct}</p>
-            </div>
-          ))}
-        </div>
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap gap-2">
+        {['all', 'pending', 'paid', 'refunded'].map((s) => (
+          <button
+            key={s}
+            onClick={() => setFilterStatus(s)}
+            className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${
+              filterStatus === s
+                ? 'bg-[#C5A55A]/10 text-[#C5A55A] border-[#C5A55A]/30 font-medium'
+                : 'bg-card/30 text-muted-foreground border-border/30'
+            }`}
+          >
+            {s === 'all' ? (isAr ? 'الكل' : 'All') : statusConfig[s]?.label || s}
+          </button>
+        ))}
       </div>
 
-      {/* Transactions History */}
-      {payments.length > 0 && (
-        <div className="glass-card rounded-xl sm:rounded-2xl overflow-hidden">
-          <div className="px-3 sm:px-5 py-3 sm:py-4 border-b border-[var(--glass-border)]">
-            <h3 className="text-sm font-bold t-primary">{isAr ? "سجل المعاملات" : "Transaction History"}</h3>
-          </div>
+      {/* Empty State */}
+      {filtered.length === 0 ? (
+        <div className="p-12 rounded-xl bg-card border border-border/50 text-center">
+          <Receipt className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground font-medium">
+            {isAr ? 'لا توجد فواتير' : 'No invoices'}
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filtered.map((invoice, i) => {
+            const config = statusConfig[invoice.status] || statusConfig.pending;
+            const StatusIcon = config.icon;
+            const isExpanded = expandedId === invoice.id;
 
-          {/* Mobile Cards */}
-          <div className="lg:hidden p-3 space-y-2">
-            {payments.map((p, i) => {
-              const sc = statusColor[p.status] || "#4ADE80";
-              return (
-                <motion.div key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}
-                  className="p-3 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)]">
-                  <div className="flex items-start justify-between mb-1.5">
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs t-secondary truncate">{isRtl ? p.descAr : p.descEn}</p>
-                      <p className="text-[11px] t-muted font-['Inter']">{p.id} · {p.date}</p>
+            return (
+              <motion.div
+                key={invoice.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04 }}
+                className="rounded-xl bg-card border border-border/50 overflow-hidden"
+              >
+                {/* Card Header */}
+                <div
+                  className="p-4 cursor-pointer"
+                  onClick={() => setExpandedId(isExpanded ? null : invoice.id)}
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
+                        <StatusIcon className={`w-5 h-5 ${config.color}`} />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="font-mono text-xs text-muted-foreground">{invoice.id}</span>
+                          <span className={`${config.bg} ${config.color} text-[10px] px-2 py-0.5 rounded-full border-0`}>
+                            {config.label}
+                          </span>
+                        </div>
+                        <h3 className="font-semibold text-sm t-primary">{invoice.expoTitle}</h3>
+                      </div>
                     </div>
-                    <span className="inline-block px-2 py-0.5 rounded-full text-[11px] shrink-0"
-                      style={{ backgroundColor: `${sc}15`, color: sc }}>
-                      {statusLabel(p.status)}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-bold text-[#C5A55A]">
+                        {invoice.total.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}
+                      </span>
+                      {isExpanded ? (
+                        <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[12px] t-tertiary">{p.method} · {p.bookingId}</span>
-                    <span className="text-sm font-bold text-[var(--status-green)] font-['Inter']">{convertAmount(p.amount)} {currencyLabel}</span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
 
-          {/* Desktop Table */}
-          <div className="hidden lg:block overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[var(--glass-border)]">
-                  {[
-                    isAr ? "رقم المعاملة" : "Transaction ID",
-                    isAr ? "الوصف" : "Description",
-                    `${isAr ? "المبلغ" : "Amount"} (${currencyLabel})`,
-                    isAr ? "طريقة الدفع" : "Method",
-                    isAr ? "الحجز" : "Booking",
-                    isAr ? "الحالة" : "Status",
-                    isAr ? "التاريخ" : "Date",
-                    ""
-                  ].map((h, i) => (
-                    <th key={i} className={`${isRtl ? "text-right" : "text-left"} px-4 py-3 text-[11px] t-tertiary font-medium`}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {payments.map((p, i) => {
-                  const sc = statusColor[p.status] || "#4ADE80";
-                  return (
-                    <motion.tr key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.05 }}
-                      className="border-b border-white/[0.03] hover:bg-[var(--glass-bg)]">
-                      <td className="px-4 py-3 text-xs t-gold/70 font-['Inter']">{p.id}</td>
-                      <td className="px-4 py-3">
-                        <p className="text-xs t-secondary">{isRtl ? p.descAr : p.descEn}</p>
-                      </td>
-                      <td className="px-4 py-3 text-sm font-semibold font-['Inter'] text-[var(--status-green)]">{convertAmount(p.amount)}</td>
-                      <td className="px-4 py-3 text-[11px] t-tertiary">{p.method}</td>
-                      <td className="px-4 py-3 text-[11px] t-gold/50 font-['Inter']">{p.bookingId}</td>
-                      <td className="px-4 py-3">
-                        <span className="inline-block px-2 py-0.5 rounded-full text-[12px]" style={{ backgroundColor: `${sc}12`, color: sc }}>{statusLabel(p.status)}</span>
-                      </td>
-                      <td className="px-4 py-3 text-[11px] t-tertiary font-['Inter']">{p.date}</td>
-                      <td className="px-4 py-3">
-                        <button onClick={() => {
-                          toast.info(isAr ? "جاري إنشاء الفاتورة..." : "Generating invoice...");
-                          toast.success(isAr ? "تم تحميل الفاتورة بنجاح!" : "Invoice downloaded successfully!");
-                        }} className="p-1.5 rounded-lg hover:bg-[var(--glass-bg)] t-muted hover:t-gold">
-                          <Receipt size={13} />
-                        </button>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span>{isAr ? 'جناح' : 'Booth'}: {invoice.boothId}</span>
+                    <span>{isAr ? 'تاريخ الاستحقاق' : 'Due'}: <span dir="ltr">{invoice.dueDate}</span></span>
+                  </div>
+                </div>
+
+                {/* Expanded Content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 pb-4 space-y-4 border-t border-border/30 pt-4">
+                        {/* Invoice Breakdown */}
+                        <div className="p-4 rounded-lg bg-card/50 border border-border/30">
+                          <h4 className="text-sm font-semibold mb-3">
+                            {isAr ? 'تفاصيل الفاتورة' : 'Invoice Breakdown'}
+                          </h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">{isAr ? 'سعر الجناح' : 'Booth Price'}</span>
+                              <span className="t-primary">{invoice.subtotal.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">{isAr ? 'رسوم الخدمة (5%)' : 'Service Fee (5%)'}</span>
+                              <span className="t-primary">{invoice.serviceFee.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">{isAr ? 'ضريبة القيمة المضافة (15%)' : 'VAT (15%)'}</span>
+                              <span className="t-primary">{invoice.vat.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                            <div className="flex justify-between pt-2 border-t border-border/30 font-bold">
+                              <span className="t-primary">{isAr ? 'الإجمالي' : 'Total'}</span>
+                              <span className="text-[#C5A55A]">{invoice.total.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-wrap gap-2">
+                          {invoice.status === 'pending' && (
+                            <button
+                              onClick={() => handlePay(invoice)}
+                              className="bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90 font-semibold text-sm px-4 py-2 rounded-lg flex items-center gap-1.5"
+                            >
+                              <CreditCard className="w-4 h-4" />
+                              {isAr ? 'ادفع الآن' : 'Pay Now'}
+                            </button>
+                          )}
+                          <button className="px-4 py-2 rounded-lg text-sm border border-border/50 t-secondary flex items-center gap-1.5 hover:border-[#C5A55A]/30 transition-colors">
+                            <Download className="w-4 h-4" />
+                            {isAr ? 'تحميل الفاتورة' : 'Download Invoice'}
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
       )}
-
-      {/* Payment Methods */}
-      <div className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-        <h3 className="text-xs font-bold t-primary mb-3">{isAr ? "طرق الدفع المعتمدة" : "Accepted Payment Methods"}</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-          {[
-            { name: isAr ? "مدى" : "Mada", icon: CreditCard },
-            { name: isAr ? "بطاقة ائتمان" : "Credit Card", icon: CreditCard },
-            { name: "Apple Pay", icon: Smartphone },
-            { name: isAr ? "تحويل بنكي" : "Bank Transfer", icon: Building2 },
-          ].map((m, i) => (
-            <div key={i} className="p-3 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] text-center">
-              <m.icon size={18} className="t-gold/50 mx-auto mb-1.5" />
-              <p className="text-[11px] t-secondary">{m.name}</p>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Payment Modal */}
       <AnimatePresence>
-        {showPayModal && selectedBooking && (
+        {showPayModal && selectedInvoice && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 backdrop-blur-sm"
-              style={{ background: "var(--modal-overlay)" }}
-              onClick={() => !processing && !paymentSuccess && setShowPayModal(false)} />
             <motion.div
-              initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 left-0 right-0 max-h-[95vh] lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:w-[520px] lg:max-h-[90vh] z-50 overflow-y-auto rounded-t-2xl lg:rounded-2xl"
-              style={{ background: "var(--modal-bg)", borderTop: "1px solid var(--glass-border)", paddingBottom: "env(safe-area-inset-bottom, 16px)" }}
-              dir={isRtl ? "rtl" : "ltr"}>
-              <div className="flex justify-center pt-3 pb-1 sm:hidden">
-                <div className="w-10 h-1 rounded-full" style={{ background: "var(--glass-border)" }} />
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 z-50"
+              onClick={() => !processing && setShowPayModal(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[95vw] max-w-md p-6 rounded-xl bg-card border border-border/50 shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                  <CreditCard className="w-5 h-5 text-[#C5A55A]" />
+                  {isAr ? 'بوابة الدفع' : 'Payment Gateway'}
+                </h3>
+                {!processing && (
+                  <button onClick={() => setShowPayModal(false)}>
+                    <X className="w-5 h-5 text-muted-foreground" />
+                  </button>
+                )}
               </div>
 
-              <div className="px-4 sm:px-6 py-4 sm:py-5">
-                {paymentSuccess ? (
-                  <div className="space-y-4">
-                    <div className="text-center py-3">
-                      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 200 }}>
-                        <CheckCircle size={48} className="mx-auto text-[var(--status-green)] mb-3" />
-                      </motion.div>
-                      <h3 className="text-base font-bold t-primary mb-1">{isAr ? "تم الدفع بنجاح!" : "Payment Successful!"}</h3>
-                      <p className="text-[11px] t-tertiary">{isAr ? "تم سداد المبلغ وإصدار العقد تلقائياً" : "Amount paid and contract issued automatically"}</p>
-                    </div>
+              <div className="space-y-4">
+                {/* Amount */}
+                <div className="p-4 rounded-lg bg-card/50 border border-border/30 text-center">
+                  <p className="text-xs text-muted-foreground mb-1">{isAr ? 'المبلغ المستحق' : 'Amount Due'}</p>
+                  <p className="text-3xl font-bold text-[#C5A55A]">
+                    {selectedInvoice.total.toLocaleString()} <span className="text-sm">{isAr ? 'ر.س' : 'SAR'}</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">{selectedInvoice.id}</p>
+                </div>
 
-                    <div className="rounded-xl p-3" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-[11px] t-tertiary">{isAr ? "المبلغ المدفوع" : "Amount Paid"}</span>
-                        <span className="text-sm font-bold text-[var(--status-green)] font-['Inter']">{convertAmount(selectedBooking.remainingAmount)} {currencyLabel}</span>
-                      </div>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-[11px] t-tertiary">{isAr ? "الحجز" : "Booking"}</span>
-                        <span className="text-[11px] t-secondary font-['Inter']">{selectedBooking.id}</span>
-                      </div>
-                      {generatedContractId && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-[11px] t-tertiary">{isAr ? "رقم العقد" : "Contract Number"}</span>
-                          <span className="text-[11px] t-gold font-bold font-['Inter']">{generatedContractId}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {generatedContractId && (
-                      <div>
-                        <div className="flex items-center gap-2 mb-3">
-                          <FileText size={14} className="t-gold" />
-                          <h4 className="text-xs font-bold t-secondary">{isAr ? "إرسال العقد الإلكتروني" : "Send Electronic Contract"}</h4>
-                        </div>
-                        <div className="space-y-2">
-                          <button onClick={handleDownloadContract} disabled={contractSending}
-                            className="w-full flex items-center gap-3 p-3 rounded-xl transition-all"
-                            style={{ background: sentChannels.includes("download") ? "rgba(34,197,94,0.08)" : "var(--glass-bg)", border: `1px solid ${sentChannels.includes("download") ? "rgba(34,197,94,0.3)" : "var(--glass-border)"}` }}>
-                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, var(--gold-accent), var(--gold-light))" }}>
-                              <Download size={16} style={{ color: "var(--btn-gold-text)" }} />
-                            </div>
-                            <div className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}>
-                              <p className="text-xs t-primary font-semibold">{isAr ? "تحميل نسخة PDF" : "Download PDF Copy"}</p>
-                            </div>
-                            {sentChannels.includes("download") && <CheckCircle size={16} style={{ color: "var(--status-green)" }} />}
-                          </button>
-
-                          <button onClick={handleSendEmail} disabled={contractSending}
-                            className="w-full flex items-center gap-3 p-3 rounded-xl transition-all"
-                            style={{ background: sentChannels.includes("email") ? "rgba(34,197,94,0.08)" : "var(--glass-bg)", border: `1px solid ${sentChannels.includes("email") ? "rgba(34,197,94,0.3)" : "var(--glass-border)"}` }}>
-                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: "rgba(59,130,246,0.15)" }}>
-                              {contractSending ? <Loader2 size={16} className="animate-spin" style={{ color: "var(--status-blue)" }} /> : <Mail size={16} style={{ color: "var(--status-blue)" }} />}
-                            </div>
-                            <div className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}>
-                              <p className="text-xs t-primary font-semibold">{isAr ? "إرسال عبر البريد الإلكتروني" : "Send via Email"}</p>
-                              <p className="text-[11px] t-muted font-['Inter']">{kycData?.email || "—"}</p>
-                            </div>
-                            {sentChannels.includes("email") && <CheckCircle size={16} style={{ color: "var(--status-green)" }} />}
-                          </button>
-
-                          <button onClick={handleSendSMS} disabled={contractSending}
-                            className="w-full flex items-center gap-3 p-3 rounded-xl transition-all"
-                            style={{ background: sentChannels.includes("sms") ? "rgba(34,197,94,0.08)" : "var(--glass-bg)", border: `1px solid ${sentChannels.includes("sms") ? "rgba(34,197,94,0.3)" : "var(--glass-border)"}` }}>
-                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: "rgba(168,85,247,0.15)" }}>
-                              <Phone size={16} style={{ color: "#a855f7" }} />
-                            </div>
-                            <div className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}>
-                              <p className="text-xs t-primary font-semibold">{isAr ? "إرسال رابط عبر SMS" : "Send Link via SMS"}</p>
-                              <p className="text-[11px] t-muted font-['Inter']">{kycData?.phone || trader?.phone || "—"}</p>
-                            </div>
-                            {sentChannels.includes("sms") && <CheckCircle size={16} style={{ color: "var(--status-green)" }} />}
-                          </button>
-
-                          <button onClick={handleSendWhatsApp}
-                            className="w-full flex items-center gap-3 p-3 rounded-xl transition-all"
-                            style={{ background: sentChannels.includes("whatsapp") ? "rgba(34,197,94,0.08)" : "var(--glass-bg)", border: `1px solid ${sentChannels.includes("whatsapp") ? "rgba(34,197,94,0.3)" : "var(--glass-border)"}` }}>
-                            <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: "rgba(37,211,102,0.15)" }}>
-                              <MessageSquare size={16} style={{ color: "#25d366" }} />
-                            </div>
-                            <div className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}>
-                              <p className="text-xs t-primary font-semibold">{isAr ? "إرسال عبر واتساب" : "Send via WhatsApp"}</p>
-                              <p className="text-[11px] t-muted font-['Inter']">WhatsApp</p>
-                            </div>
-                            {sentChannels.includes("whatsapp") && <CheckCircle size={16} style={{ color: "var(--status-green)" }} />}
-                          </button>
-                        </div>
-
-                        <button onClick={() => { setShowPayModal(false); setPaymentSuccess(false); }}
-                          className="w-full mt-4 glass-card py-2.5 rounded-xl text-xs t-secondary flex items-center justify-center gap-1.5">
-                          <X size={14} />
-                          {isAr ? "إغلاق" : "Close"}
-                        </button>
-                      </div>
-                    )}
+                {/* Payment Method */}
+                <div>
+                  <label className="text-sm font-medium block mb-2 t-primary">
+                    {isAr ? 'طريقة الدفع' : 'Payment Method'}
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { key: 'card', icon: CreditCard, label: isAr ? 'بطاقة' : 'Card' },
+                      { key: 'bank', icon: Landmark, label: isAr ? 'تحويل بنكي' : 'Bank' },
+                      { key: 'wallet', icon: Smartphone, label: 'Apple Pay' },
+                    ].map((m) => (
+                      <button
+                        key={m.key}
+                        onClick={() => setPaymentMethod(m.key)}
+                        className={`p-3 rounded-lg border text-center transition-all ${
+                          paymentMethod === m.key
+                            ? 'border-[#C5A55A] bg-[#C5A55A]/10'
+                            : 'border-border/50 hover:border-border'
+                        }`}
+                      >
+                        <m.icon className={`w-5 h-5 mx-auto mb-1 ${paymentMethod === m.key ? 'text-[#C5A55A]' : 'text-muted-foreground'}`} />
+                        <span className="text-xs t-primary">{m.label}</span>
+                      </button>
+                    ))}
                   </div>
-                ) : (
-                  <>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <Lock size={14} className="text-[var(--status-green)]" />
-                        <h3 className="text-sm font-bold t-primary">{isAr ? "بوابة الدفع الآمنة" : "Secure Payment Gateway"}</h3>
+                </div>
+
+                {/* Card Fields */}
+                {paymentMethod === 'card' && (
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-xs text-muted-foreground block mb-1">{isAr ? 'رقم البطاقة' : 'Card Number'}</label>
+                      <input type="text" placeholder="4242 4242 4242 4242" className="w-full h-9 px-3 rounded-lg border border-border/50 bg-card/50 text-sm t-primary placeholder:text-muted-foreground focus:outline-none focus:border-[#C5A55A]/50" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs text-muted-foreground block mb-1">{isAr ? 'تاريخ الانتهاء' : 'Expiry'}</label>
+                        <input type="text" placeholder="MM/YY" className="w-full h-9 px-3 rounded-lg border border-border/50 bg-card/50 text-sm t-primary placeholder:text-muted-foreground focus:outline-none focus:border-[#C5A55A]/50" />
                       </div>
-                      {!processing && (
-                        <button onClick={() => setShowPayModal(false)} className="p-2 rounded-lg t-tertiary" style={{ background: "var(--glass-bg)" }}>
-                          <X size={16} />
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="rounded-xl p-3 mb-4" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
-                      <p className="text-xs t-secondary">{bookingLabel(selectedBooking)}</p>
-                      <p className="text-2xl font-bold t-gold font-['Inter'] mt-2">
-                        {convertAmount(selectedBooking.remainingAmount)} <span className="text-sm t-tertiary">{currencyLabel}</span>
-                      </p>
-                      <p className="text-[11px] t-muted font-['Inter'] mt-1">Ref: {selectedBooking.id}</p>
-                    </div>
-
-                    {kycData && (
-                      <div className="rounded-xl p-3 mb-4" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>
-                        <p className="text-[12px] t-muted mb-2">{isAr ? "بيانات التاجر (من التوثيق)" : "Trader Data (from Verification)"}</p>
-                        <div className="grid grid-cols-2 gap-1.5 text-[12px]">
-                          <div><span className="t-muted">{isAr ? "الاسم" : "Name"}: </span><span className="t-secondary">{kycData.fullName}</span></div>
-                          <div><span className="t-muted">{isAr ? "الشركة" : "Company"}: </span><span className="t-secondary">{kycData.companyName}</span></div>
-                          <div><span className="t-muted">{isAr ? "السجل" : "CR"}: </span><span className="t-secondary font-['Inter']">{kycData.crNumber}</span></div>
-                          <div><span className="t-muted">{isAr ? "الجوال" : "Phone"}: </span><span className="t-secondary font-['Inter']">{kycData.phone}</span></div>
-                        </div>
+                      <div>
+                        <label className="text-xs text-muted-foreground block mb-1">CVV</label>
+                        <input type="text" placeholder="123" className="w-full h-9 px-3 rounded-lg border border-border/50 bg-card/50 text-sm t-primary placeholder:text-muted-foreground focus:outline-none focus:border-[#C5A55A]/50" />
                       </div>
-                    )}
-
-                    <div className="space-y-1.5 mb-4">
-                      <p className="text-[12px] t-tertiary mb-1">{isAr ? "اختر طريقة الدفع" : "Select Payment Method"}</p>
-                      {[
-                        { id: "mada", label: `${isAr ? "مدى" : "Mada"} | Mada` },
-                        { id: "credit", label: `${isAr ? "بطاقة ائتمان" : "Credit Card"} | Credit Card` },
-                        { id: "apple", label: "Apple Pay" },
-                        { id: "bank", label: `${isAr ? "تحويل بنكي" : "Bank Transfer"} | Bank Transfer` },
-                      ].map((m) => (
-                        <label key={m.id} className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
-                          paymentMethod === m.id ? "bg-gold-subtle border border-[var(--gold-border)]" : "bg-[var(--glass-bg)] border border-[var(--glass-border)]"
-                        }`}>
-                          <input type="radio" name="payMethod" value={m.id} checked={paymentMethod === m.id}
-                            onChange={(e) => setPaymentMethod(e.target.value)} className="accent-[#C5A55A]" />
-                          <span className="text-xs t-secondary">{m.label}</span>
-                        </label>
-                      ))}
                     </div>
-
-                    {(paymentMethod === "mada" || paymentMethod === "credit") && (
-                      <div className="space-y-2 mb-4">
-                        <input placeholder={isAr ? "رقم البطاقة" : "Card Number"} className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl px-3 py-2.5 text-xs t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)]" />
-                        <div className="grid grid-cols-2 gap-2">
-                          <input placeholder="MM/YY" className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl px-3 py-2.5 text-xs t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)]" />
-                          <input placeholder="CVV" className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl px-3 py-2.5 text-xs t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)]" />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-2 mb-4 p-2 rounded-lg bg-[var(--status-green)]/5">
-                      <Shield size={11} className="text-[var(--status-green)]/60 shrink-0" />
-                      <span className="text-[11px] text-[var(--status-green)]/60">{isAr ? "الدفع مشفر ومحمي بتقنية SSL — العقد يصدر تلقائياً بعد الدفع" : "Payment is encrypted and SSL-protected — Contract is issued automatically after payment"}</span>
-                    </div>
-
-                    <button onClick={processPayment} disabled={processing}
-                      className="w-full btn-gold py-3 rounded-xl text-sm flex items-center justify-center gap-2 disabled:opacity-50">
-                      {processing ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-[var(--surface-dark)] border-t-transparent rounded-full animate-spin" />
-                          {isAr ? "جاري المعالجة..." : "Processing..."}
-                        </>
-                      ) : (
-                        <>
-                          <Lock size={14} />
-                          {isAr ? "تأكيد الدفع" : "Confirm Payment"} — {convertAmount(selectedBooking.remainingAmount)} {currencyLabel}
-                        </>
-                      )}
-                    </button>
-                  </>
+                  </div>
                 )}
+
+                {/* Bank Transfer Details */}
+                {paymentMethod === 'bank' && (
+                  <div className="p-4 rounded-lg bg-card/50 border border-border/30 space-y-2 text-sm">
+                    <p className="font-medium t-primary">{isAr ? 'تفاصيل التحويل البنكي' : 'Bank Transfer Details'}</p>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">{isAr ? 'البنك' : 'Bank'}</span>
+                      <span className="t-primary">Al Rajhi Bank</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">IBAN</span>
+                      <span className="t-primary" dir="ltr">SA0380000000608010167519</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">{isAr ? 'المستفيد' : 'Beneficiary'}</span>
+                      <span className="t-primary">Maham Expo LLC</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Pay Button */}
+                <button
+                  onClick={processPayment}
+                  disabled={processing}
+                  className="w-full bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90 font-semibold px-4 py-2.5 rounded-lg text-sm disabled:opacity-50"
+                >
+                  {processing ? (
+                    <span className="animate-pulse">{isAr ? 'جاري المعالجة...' : 'Processing...'}</span>
+                  ) : (
+                    isAr ? `ادفع ${selectedInvoice.total.toLocaleString()} ر.س` : `Pay ${selectedInvoice.total.toLocaleString()} SAR`
+                  )}
+                </button>
+
+                <p className="text-[10px] text-muted-foreground text-center">
+                  {isAr ? 'جميع المعاملات مشفرة ومحمية بمعايير PCI DSS' : 'All transactions are encrypted and PCI DSS compliant'}
+                </p>
               </div>
             </motion.div>
           </>

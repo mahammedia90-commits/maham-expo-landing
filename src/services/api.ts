@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 
 // API Configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://expo-service-api.mahamexpo.sa/api/v1';
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -48,11 +48,8 @@ apiClient.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          // Unauthorized - clear token and redirect to appropriate login
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem('auth_token');
-            window.location.href = '/login';
-          }
+          // Unauthorized
+          console.warn('Unauthorized request');
           break;
         case 403:
           // Forbidden

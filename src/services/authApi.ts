@@ -1,9 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 
-// In development, use Next.js rewrite proxy to avoid CORS (server sends duplicate headers)
-// In production, set NEXT_PUBLIC_AUTH_API_URL to the direct URL if CORS is fixed
 const AUTH_API_BASE_URL =
-  process.env.NEXT_PUBLIC_AUTH_API_URL || '/auth-api';
+  process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://expo-service-api.mahamexpo.sa/api/v1';
 
 const authApiClient: AxiosInstance = axios.create({
   baseURL: AUTH_API_BASE_URL,

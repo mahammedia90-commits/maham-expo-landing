@@ -1242,3 +1242,23 @@ input[type="radio"] {
 .inner-card:hover {
   background: var(--glass-bg-hover);
 }
+
+/* ═══════ GOLD GRADIENT TEXT (Manus Design) ═══════ */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #C5A55A, #E8D5A3, #C5A55A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dark .gold-gradient-text {
+  background: linear-gradient(135deg, #D4AF37, #F0D878, #D4AF37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════ GOLD BORDER GLOW (hover) ═══════ */
+.gold-border-glow:hover {
+  border-color: rgba(197, 165, 90, 0.4);
+  box-shadow: 0 0 12px rgba(197, 165, 90, 0.08);
+}

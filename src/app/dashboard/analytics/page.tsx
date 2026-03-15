@@ -1,240 +1,269 @@
 'use client';
 
-/**
- * Analytics — AI-powered analytics dashboard with real data
- * Adapted from reference project for Next.js App Router
- */
-import { useMemo } from "react";
-import { motion } from "framer-motion";
-import { BarChart3, TrendingUp, DollarSign, ArrowUpRight, ArrowDownRight, Download, Brain, Sparkles, Target, Building2, Calendar } from "lucide-react";
-import { useAuthStore } from "@/shared/store/useAuthStore";
-import { useLanguageStore } from "@/shared/store/useLanguageStore";
-import { useThemeStore } from "@/shared/store/useThemeStore";
-import { events2026, eventStats } from "@/features/merchant-dashboard/data/events2026";
-
-// Use empty arrays since we don't have the full auth context for bookings/payments/contracts
-const bookings: any[] = [];
-const payments: any[] = [];
+import { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import {
+  TrendingUp, DollarSign, ArrowUpRight, ArrowDownRight,
+  BarChart3, Users, Eye, ShoppingBag, Calendar, Download, Zap, Award
+} from 'lucide-react';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
 
 export default function AnalyticsPage() {
   const { language, isRtl } = useLanguageStore();
-  const { theme } = useThemeStore();
-  const { user } = useAuthStore();
   const isAr = language === 'ar';
 
-  const totalPaid = payments.filter((p: any) => p.status === "completed").reduce((a: number, p: any) => a + p.amount, 0);
-  const totalBookingValue = bookings.reduce((a: number, b: any) => a + b.price, 0);
-  const confirmedBookings = bookings.filter((b: any) => b.status === "confirmed").length;
-  const occupancyRate = eventStats.totalUnits > 0 ? Math.round(((eventStats.totalUnits - eventStats.availableUnits) / eventStats.totalUnits) * 100) : 0;
-
-  const categoryDist = useMemo(() => {
-    const map = new Map<string, number>();
-    events2026.forEach(e => { map.set(e.category, (map.get(e.category) || 0) + 1); });
-    const colors = ["#C5A55A", "#E8D5A3", "#60A5FA", "#4ADE80", "#F472B6", "#A78BFA", "#FB923C"];
-    return Array.from(map.entries()).map(([name, value], i) => ({ name, value, color: colors[i % colors.length] }));
-  }, []);
-
-  const eventTimeline = useMemo(() => {
-    const monthKeysAr = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
-    const monthKeysEn = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const months = isAr ? monthKeysAr : monthKeysEn;
-    const counts = new Array(12).fill(0);
-    events2026.forEach(e => { const m = new Date(e.dateStart).getMonth(); if (!isNaN(m)) counts[m]++; });
-    return months.map((month, i) => ({ month, value: counts[i] }));
-  }, [isAr]);
-
-  const cityDist = useMemo(() => {
-    const map = new Map<string, number>();
-    events2026.forEach(e => { map.set(e.city, (map.get(e.city) || 0) + e.totalUnits); });
-    return Array.from(map.entries()).map(([day, visitors]) => ({ day, visitors }));
-  }, []);
-
-  const aiInsights = useMemo(() => {
-    const insights: { icon: any; text: string; type: "success" | "warning" | "info" }[] = [];
-    const closingSoon = events2026.filter(e => e.status === "closing_soon");
-    if (closingSoon.length > 0) {
-      insights.push({ icon: Target, text: `${closingSoon.length} ${isAr ? 'فعاليات ستُغلق قريبًا — بادر بالحجز' : 'events closing soon — book now'}`, type: "warning" });
-    }
-    const pendingPayments = bookings.filter((b: any) => b.paymentStatus !== "fully_paid");
-    if (pendingPayments.length > 0) {
-      insights.push({ icon: DollarSign, text: `${pendingPayments.length} ${isAr ? 'مدفوعات معلقة تحتاج إلى إكمال' : 'pending payments need completion'}`, type: "warning" });
-    }
-    const topEvent = events2026.reduce((a, b) => a.rating > b.rating ? a : b);
-    const eName = isAr ? topEvent.nameAr : topEvent.nameEn;
-    insights.push({ icon: Sparkles, text: `${isAr ? 'الأعلى تقييمًا' : 'Top Rated'}: ${eName} (${topEvent.rating}/5) — ${topEvent.availableUnits} ${isAr ? 'وحدة متاحة' : 'units available'}`, type: "info" });
-    insights.push({ icon: Building2, text: `${isAr ? 'الإجمالي' : 'Total'} ${eventStats.totalUnits.toLocaleString()} ${isAr ? 'وحدة عبر' : 'units across'} ${eventStats.totalEvents} ${isAr ? 'فعالية' : 'events'} — ${occupancyRate}% ${isAr ? 'إشغال' : 'occupancy'}`, type: "success" });
-    return insights;
-  }, [occupancyRate, isAr]);
-
   const kpis = [
-    { label: isAr ? "إجمالي المدفوعات" : "Total Paid", value: totalPaid > 0 ? `${(totalPaid / 1000).toFixed(0)}K` : "0", change: "+23%", up: true, icon: DollarSign, color: "#4ADE80" },
-    { label: isAr ? "عدد الحجوزات" : "Bookings Count", value: String(bookings.length), change: bookings.length > 0 ? "+100%" : "0%", up: bookings.length > 0, icon: BarChart3, color: "#C5A55A" },
-    { label: isAr ? "نسبة الإشغال" : "Occupancy Rate", value: `${occupancyRate}%`, change: "+5%", up: true, icon: TrendingUp, color: "#60A5FA" },
-    { label: isAr ? "فعاليات مفتوحة" : "Open Events", value: String(eventStats.openEvents), change: `${eventStats.totalEvents} ${isAr ? 'إجمالي' : 'total'}`, up: true, icon: Calendar, color: "#E8D5A3" },
+    { label: isAr ? 'إجمالي الإيرادات' : 'Total Revenue', value: '245,000', unit: isAr ? 'ر.س' : 'SAR', change: '+23%', up: true, icon: DollarSign, color: '#4ADE80' },
+    { label: isAr ? 'الحجوزات' : 'Bookings', value: '18', change: '+12%', up: true, icon: ShoppingBag, color: '#C5A55A' },
+    { label: isAr ? 'الزوار' : 'Visitors', value: '3,420', change: '+8%', up: true, icon: Users, color: '#60A5FA' },
+    { label: isAr ? 'معدل التحويل' : 'Conversion Rate', value: '4.2%', change: '-1.5%', up: false, icon: TrendingUp, color: '#F472B6' },
   ];
 
+  const monthlyRevenue = useMemo(() => {
+    const monthsAr = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+    const monthsEn = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const values = [12000, 19000, 28000, 35000, 22000, 41000, 38000, 45000, 32000, 50000, 0, 0];
+    return (isAr ? monthsAr : monthsEn).map((month, i) => ({ month, value: values[i] }));
+  }, [isAr]);
+
+  const bookingsOverTime = useMemo(() => {
+    const weeks = isAr
+      ? ['أسبوع 1', 'أسبوع 2', 'أسبوع 3', 'أسبوع 4', 'أسبوع 5', 'أسبوع 6', 'أسبوع 7', 'أسبوع 8']
+      : ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'];
+    const values = [2, 5, 3, 7, 4, 8, 6, 9];
+    return weeks.map((w, i) => ({ week: w, value: values[i] }));
+  }, [isAr]);
+
+  const visitorSources = [
+    { source: isAr ? 'بحث مباشر' : 'Direct Search', value: 42, color: '#C5A55A' },
+    { source: isAr ? 'وسائل التواصل' : 'Social Media', value: 28, color: '#60A5FA' },
+    { source: isAr ? 'إعلانات مدفوعة' : 'Paid Ads', value: 18, color: '#4ADE80' },
+    { source: isAr ? 'إحالات' : 'Referrals', value: 12, color: '#F472B6' },
+  ];
+
+  const topExpos = [
+    { name: isAr ? 'معرض الرياض للتقنية' : 'Riyadh Tech Expo', revenue: 85000, bookings: 6, rating: 4.9 },
+    { name: isAr ? 'معرض الغذاء والضيافة' : 'Food & Hospitality Expo', revenue: 62000, bookings: 4, rating: 4.7 },
+    { name: isAr ? 'معرض العقارات' : 'Real Estate Expo', revenue: 48000, bookings: 3, rating: 4.5 },
+    { name: isAr ? 'معرض السيارات' : 'Auto Expo', revenue: 50000, bookings: 5, rating: 4.8 },
+  ];
+
+  const maxRevenue = Math.max(...monthlyRevenue.map(m => m.value), 1);
+  const maxBooking = Math.max(...bookingsOverTime.map(b => b.value), 1);
+
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <div className="space-y-5 pb-20 lg:pb-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? 'التحليلات' : 'Analytics'}</h2>
-          <p className="text-[12px] t-gold/50 font-['Inter']">AI-Powered Analytics & Reports</p>
+          <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', 'Noto Sans Arabic', serif" }}>
+            {isAr ? 'التحليلات' : 'Analytics'}
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            {isAr ? 'لوحة التحليلات والتقارير' : 'Analytics & Reports Dashboard'}
+          </p>
         </div>
         <button
-          onClick={() => {
-            alert(isAr ? 'جاري إنشاء التقرير...' : 'Generating report...');
-          }}
-          className="glass-card px-3 py-2 rounded-xl text-[11px] t-gold flex items-center gap-1.5"
-          style={{ border: "1px solid var(--gold-border)" }}
+          onClick={() => alert(isAr ? 'جاري إنشاء التقرير...' : 'Generating report...')}
+          className="px-4 py-2 rounded-lg text-sm border border-border/50 bg-card hover:bg-accent/50 transition-all flex items-center gap-2"
         >
-          <Download size={13} />
-          <span className="hidden sm:inline">{isAr ? 'تصدير التقرير' : 'Export Report'}</span>
-          <span className="sm:hidden">PDF</span>
+          <Download className="w-4 h-4" />
+          {isAr ? 'تصدير' : 'Export'}
         </button>
       </div>
 
-      {/* AI Insights */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5" style={{ borderColor: "var(--gold-border)" }}>
-        <div className="flex items-center gap-2 mb-3">
-          <Brain size={16} className="t-gold" />
-          <h3 className="text-xs sm:text-sm font-bold t-primary">{isAr ? 'رؤى الذكاء الاصطناعي' : 'AI Insights'}</h3>
-        </div>
-        <div className="space-y-2">
-          {aiInsights.map((ins, i) => (
-            <div key={i} className="flex items-start gap-2 p-2 rounded-lg" style={{ backgroundColor: "var(--glass-bg)" }}>
-              <ins.icon size={13} className={ins.type === "success" ? "text-[var(--status-green)]" : ins.type === "warning" ? "text-[var(--status-yellow)]" : "t-gold"} style={{ flexShrink: 0, marginTop: 2 }} />
-              <p className="text-[11px] t-secondary">{ins.text}</p>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+      {/* KPI Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {kpis.map((k, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-            className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-5">
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl flex items-center justify-center" style={{ backgroundColor: `${k.color}12` }}>
-                <k.icon size={14} style={{ color: k.color }} />
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.08 }}
+            className="p-4 rounded-xl bg-card border border-border/50"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${k.color}15` }}>
+                <k.icon className="w-4 h-4" style={{ color: k.color }} />
               </div>
-              <span className={`text-[12px] font-medium flex items-center gap-0.5 ${k.up ? "text-[var(--status-green)]" : "text-[var(--status-red)]"}`}>
-                {k.up ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
+              <span className={`text-xs font-medium flex items-center gap-0.5 ${k.up ? 'text-green-400' : 'text-red-400'}`}>
+                {k.up ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                 {k.change}
               </span>
             </div>
-            <p className="text-lg sm:text-xl font-bold t-primary font-['Inter']">{k.value}</p>
-            <p className="text-[12px] sm:text-xs t-secondary mt-0.5">{k.label}</p>
+            <p className="text-xl font-bold">{k.value} {k.unit && <span className="text-sm font-normal text-muted-foreground">{k.unit}</span>}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{k.label}</p>
           </motion.div>
         ))}
       </div>
 
-      {/* Event Timeline Chart — CSS-based bars */}
-      <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-        className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-        <h3 className="text-xs sm:text-sm font-bold t-primary mb-1">{isAr ? 'التوزيع الشهري للفعاليات' : 'Monthly Event Distribution'}</h3>
-        <div className="mt-3 flex items-end gap-1 sm:gap-2" style={{ height: 220 }}>
-          {eventTimeline.map((item, i) => {
-            const maxVal = Math.max(...eventTimeline.map(e => e.value), 1);
-            const heightPct = (item.value / maxVal) * 100;
+      {/* Revenue Chart */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="p-5 rounded-xl bg-card border border-border/50"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-sm flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-[#C5A55A]" />
+            {isAr ? 'الإيرادات الشهرية' : 'Monthly Revenue'}
+          </h3>
+          <span className="text-xs text-muted-foreground">2026</span>
+        </div>
+        <div className="flex items-end gap-1 sm:gap-2" style={{ height: 200 }}>
+          {monthlyRevenue.map((item, i) => {
+            const heightPct = (item.value / maxRevenue) * 100;
             return (
               <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                <span className="text-[11px] t-gold font-['Inter']">{item.value || ''}</span>
-                <div className="w-full rounded-t-sm" style={{ height: `${Math.max(heightPct, 2)}%`, backgroundColor: "#C5A55A", minHeight: item.value > 0 ? 8 : 2 }} />
-                <span className="text-[11px] sm:text-[11px] t-muted truncate w-full text-center">{item.month}</span>
+                {item.value > 0 && (
+                  <span className="text-[10px] text-[#C5A55A] font-medium">{(item.value / 1000).toFixed(0)}K</span>
+                )}
+                <div
+                  className="w-full rounded-t-sm transition-all hover:opacity-80"
+                  style={{ height: `${Math.max(heightPct, 2)}%`, background: 'linear-gradient(to top, #C5A55A, #E8D5A3)', minHeight: item.value > 0 ? 8 : 2, opacity: item.value > 0 ? 1 : 0.2 }}
+                />
+                <span className="text-[10px] text-muted-foreground truncate w-full text-center">{item.month}</span>
               </div>
             );
           })}
         </div>
       </motion.div>
 
-      {/* Revenue Breakdown */}
-      <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
-        className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-        <h3 className="text-xs sm:text-sm font-bold t-primary mb-3">{isAr ? "تفاصيل الإيرادات" : "Revenue Breakdown"}</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { label: isAr ? "حجوزات الأجنحة" : "Booth Bookings", value: `${(totalBookingValue / 1000).toFixed(0)}K`, pct: "65%", color: "#C5A55A" },
-            { label: isAr ? "خدمات تشغيلية" : "Operations", value: "12K", pct: "18%", color: "#4ADE80" },
-            { label: isAr ? "رعايات" : "Sponsorships", value: "8K", pct: "12%", color: "#60A5FA" },
-            { label: isAr ? "خدمات إضافية" : "Add-ons", value: "3K", pct: "5%", color: "#F472B6" },
-          ].map((r, i) => (
-            <div key={i} className="p-3 rounded-xl" style={{ backgroundColor: "var(--glass-bg)" }}>
-              <div className="flex items-center gap-1.5 mb-2">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: r.color }} />
-                <span className="text-[12px] t-tertiary">{r.label}</span>
+      {/* Bookings Over Time */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        className="p-5 rounded-xl bg-card border border-border/50"
+      >
+        <h3 className="font-semibold text-sm flex items-center gap-2 mb-4">
+          <BarChart3 className="w-4 h-4 text-[#C5A55A]" />
+          {isAr ? 'الحجوزات عبر الزمن' : 'Bookings Over Time'}
+        </h3>
+        <div className="flex items-end gap-2 sm:gap-3" style={{ height: 160 }}>
+          {bookingsOverTime.map((item, i) => {
+            const heightPct = (item.value / maxBooking) * 100;
+            return (
+              <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                <span className="text-[10px] text-muted-foreground font-medium">{item.value}</span>
+                <div
+                  className="w-full rounded-t-sm"
+                  style={{ height: `${heightPct}%`, backgroundColor: '#60A5FA', minHeight: 4 }}
+                />
+                <span className="text-[9px] text-muted-foreground truncate w-full text-center">{item.week}</span>
               </div>
-              <p className="text-base font-bold t-primary font-['Inter']">{r.value}</p>
-              <div className="w-full h-1 rounded-full mt-2" style={{ backgroundColor: "var(--glass-bg)" }}>
-                <div className="h-full rounded-full" style={{ width: r.pct, backgroundColor: r.color }} />
-              </div>
-              <p className="text-[11px] t-muted mt-1 font-['Inter']">{r.pct}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </motion.div>
 
-      {/* Category + City */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
-        {/* Category Distribution — CSS donut */}
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-          className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-          <h3 className="text-xs sm:text-sm font-bold t-primary mb-3">{isAr ? 'حسب الفئة' : 'By Category'}</h3>
-          <div className="flex justify-center mb-4" style={{ height: 160 }}>
-            <div className="relative w-[130px] h-[130px] sm:w-[150px] sm:h-[150px]">
+      <div className="grid lg:grid-cols-2 gap-4">
+        {/* Visitor Sources */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="p-5 rounded-xl bg-card border border-border/50"
+        >
+          <h3 className="font-semibold text-sm flex items-center gap-2 mb-4">
+            <Eye className="w-4 h-4 text-[#C5A55A]" />
+            {isAr ? 'مصادر الزوار' : 'Visitor Sources'}
+          </h3>
+          <div className="flex justify-center mb-4">
+            <div className="relative w-[130px] h-[130px]">
               <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
                 {(() => {
-                  const total = categoryDist.reduce((a, c) => a + c.value, 0);
+                  const total = visitorSources.reduce((a, c) => a + c.value, 0);
                   let cumulative = 0;
-                  return categoryDist.map((cat, i) => {
-                    const pct = (cat.value / total) * 100;
+                  return visitorSources.map((src, i) => {
+                    const pct = (src.value / total) * 100;
                     const dashArray = `${pct * 2.51327} ${251.327}`;
                     const dashOffset = -(cumulative / 100) * 251.327;
                     cumulative += pct;
-                    return (
-                      <circle key={i} cx="50" cy="50" r="40" fill="none" stroke={cat.color} strokeWidth="15"
-                        strokeDasharray={dashArray} strokeDashoffset={dashOffset} />
-                    );
+                    return <circle key={i} cx="50" cy="50" r="40" fill="none" stroke={src.color} strokeWidth="15" strokeDasharray={dashArray} strokeDashoffset={dashOffset} />;
                   });
                 })()}
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs t-muted font-['Inter']">{categoryDist.reduce((a, c) => a + c.value, 0)}</span>
+                <span className="text-xs text-muted-foreground">{visitorSources.reduce((a, c) => a + c.value, 0)}%</span>
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-1.5 mt-2">
-            {categoryDist.map((z, i) => (
-              <div key={i} className="flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: z.color }} />
-                <span className="text-[12px] t-secondary truncate">{z.name}</span>
-                <span className="text-[12px] t-muted font-['Inter']">{z.value}</span>
+          <div className="space-y-2">
+            {visitorSources.map((src, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: src.color }} />
+                  <span className="text-xs">{src.source}</span>
+                </div>
+                <span className="text-xs font-bold">{src.value}%</span>
               </div>
             ))}
           </div>
         </motion.div>
 
-        {/* City Distribution — CSS horizontal bars */}
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
-          className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-          <h3 className="text-xs sm:text-sm font-bold t-primary mb-3">{isAr ? 'حسب المدينة' : 'By City'}</h3>
-          <div className="space-y-2" style={{ minHeight: 180 }}>
-            {(() => {
-              const maxVal = Math.max(...cityDist.map(c => c.visitors), 1);
-              return cityDist.map((city, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <span className="text-[12px] t-secondary w-16 sm:w-20 truncate text-end">{city.day}</span>
-                  <div className="flex-1 h-5 rounded-sm overflow-hidden" style={{ backgroundColor: "var(--glass-bg)" }}>
-                    <div className="h-full rounded-sm" style={{ width: `${(city.visitors / maxVal) * 100}%`, background: "linear-gradient(90deg, #C5A55A33, #C5A55A)" }} />
+        {/* Top Performing Expos */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45 }}
+          className="p-5 rounded-xl bg-card border border-border/50"
+        >
+          <h3 className="font-semibold text-sm flex items-center gap-2 mb-4">
+            <Award className="w-4 h-4 text-[#C5A55A]" />
+            {isAr ? 'أفضل المعارض أداءً' : 'Top Performing Expos'}
+          </h3>
+          <div className="space-y-3">
+            {topExpos.map((expo, i) => (
+              <div key={i} className="p-3 rounded-lg bg-accent/30 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="w-7 h-7 rounded-lg bg-[#C5A55A]/10 text-[#C5A55A] text-xs font-bold flex items-center justify-center">{i + 1}</span>
+                  <div>
+                    <p className="text-sm font-medium">{expo.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{expo.bookings} {isAr ? 'حجوزات' : 'bookings'} | {expo.rating} <Star className="w-2.5 h-2.5 inline text-yellow-400 fill-yellow-400" /></p>
                   </div>
-                  <span className="text-[11px] t-muted font-['Inter'] w-8 text-end">{city.visitors}</span>
                 </div>
-              ));
-            })()}
+                <span className="text-sm font-bold text-[#C5A55A]">{(expo.revenue / 1000).toFixed(0)}K</span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
+
+      {/* Performance Metrics */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="p-5 rounded-xl bg-card border border-border/50"
+      >
+        <h3 className="font-semibold text-sm flex items-center gap-2 mb-4">
+          <Zap className="w-4 h-4 text-[#C5A55A]" />
+          {isAr ? 'مؤشرات الأداء' : 'Performance Metrics'}
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {[
+            { label: isAr ? 'متوسط قيمة الحجز' : 'Avg Booking Value', value: '13,600', suffix: isAr ? 'ر.س' : 'SAR', color: '#C5A55A' },
+            { label: isAr ? 'رضا العملاء' : 'Customer Satisfaction', value: '4.7/5', suffix: '', color: '#4ADE80' },
+            { label: isAr ? 'معدل الإشغال' : 'Occupancy Rate', value: '78%', suffix: '', color: '#60A5FA' },
+            { label: isAr ? 'معدل التكرار' : 'Repeat Rate', value: '34%', suffix: '', color: '#A78BFA' },
+          ].map((m, i) => (
+            <div key={i} className="p-3 rounded-lg bg-accent/30 text-center">
+              <p className="text-lg font-bold" style={{ color: m.color }}>{m.value}</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5">{m.suffix && <span className="text-xs">{m.suffix} </span>}{m.label}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
+  );
+}
+
+function Star(props: React.SVGProps<SVGSVGElement> & { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
   );
 }

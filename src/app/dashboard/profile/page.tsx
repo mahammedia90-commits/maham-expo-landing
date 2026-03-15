@@ -1,253 +1,210 @@
 'use client';
 
-/**
- * Profile — Trader Profile & Account Settings
- * Adapted from reference project for Next.js App Router
- */
-import { useState } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { User, Shield, CheckCircle, Building2, Phone, Mail, Globe, MapPin, Lock, Eye, EyeOff, LogOut, Award, Calendar, Hash, Briefcase, ArrowRight, Edit3, ShieldCheck, AlertTriangle, ChevronLeft } from "lucide-react";
-import { useAuthStore } from "@/shared/store/useAuthStore";
-import { useLanguageStore } from "@/shared/store/useLanguageStore";
-import { useThemeStore } from "@/shared/store/useThemeStore";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import {
+  User, Building2, Mail, Phone, MapPin, Lock,
+  PenLine, Save, TrendingUp, Star, FileText, CreditCard,
+  Shield, Globe, Award, CheckCircle2, ArrowUpRight, Calendar
+} from 'lucide-react';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
+import { useAuthStore } from '@/shared/store/useAuthStore';
+import { toast } from 'sonner';
 
 export default function ProfilePage() {
-  const { language, isRtl } = useLanguageStore();
-  const { theme } = useThemeStore();
-  const { user, logout } = useAuthStore();
-  const router = useRouter();
+  const { language } = useLanguageStore();
   const isAr = language === 'ar';
-  const isRTL = isRtl;
+  const { user } = useAuthStore();
 
-  const [showSensitive, setShowSensitive] = useState(false);
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(user?.name || '');
+  const [company, setCompany] = useState('');
+  const [email, setEmail] = useState(user?.email || '');
 
-  const traderName = user?.name || "—";
-  const traderCompany = "—";
-  const traderPhone = user?.phone || "—";
-  const traderActivity = "—";
-  const traderRegion = "—";
-  const traderKYC: string = "none";
-  const traderRegistered = user?.createdAt ? new Date(user.createdAt).toLocaleDateString(isAr ? "ar-SA" : "en-US") : "—";
-  const isVerified = traderKYC === "verified";
-
-  const kycStatusMap: Record<string, { label: string; color: string; icon: any }> = {
-    none: { label: isAr ? "غير مكتمل" : "Not Started", color: "var(--status-red)", icon: AlertTriangle },
-    pending: { label: isAr ? "قيد المراجعة" : "Under Review", color: "var(--status-yellow)", icon: Shield },
-    verified: { label: isAr ? "موثّق" : "Verified", color: "var(--status-green)", icon: ShieldCheck },
-    rejected: { label: isAr ? "مرفوض" : "Rejected", color: "var(--status-red)", icon: AlertTriangle },
+  const stats = {
+    totalBookings: 5,
+    paidBookings: 3,
+    totalSpent: 67500,
+    totalContracts: 2,
+    signedContracts: 1,
   };
 
-  const kycInfo = kycStatusMap[traderKYC] || kycStatusMap.none;
-  const KYCIcon = kycInfo.icon;
-
-  const handleLogout = () => {
-    logout();
-    router.push("/");
+  const handleSave = () => {
+    setEditing(false);
+    toast.success(isAr ? 'تم حفظ التغييرات بنجاح' : 'Changes saved successfully');
   };
+
+  const fields = [
+    { icon: User, label: isAr ? 'الاسم الكامل' : 'Full Name', value: name, setter: setName, disabled: false },
+    { icon: Building2, label: isAr ? 'اسم الشركة / المؤسسة' : 'Company Name', value: company, setter: setCompany, disabled: false },
+    { icon: Mail, label: isAr ? 'البريد الإلكتروني' : 'Email Address', value: email, setter: setEmail, disabled: false },
+    { icon: Phone, label: isAr ? 'رقم الجوال' : 'Phone Number', value: user?.phone || '+966 5XX XXX XXX', setter: () => {}, disabled: true },
+    { icon: Globe, label: isAr ? 'نوع النشاط' : 'Activity Type', value: isAr ? 'تقنية' : 'Technology', setter: () => {}, disabled: true },
+    { icon: MapPin, label: isAr ? 'المنطقة' : 'Region', value: isAr ? 'الرياض' : 'Riyadh', setter: () => {}, disabled: true },
+  ];
 
   return (
-    <div className="space-y-5 max-w-5xl mx-auto">
+    <div className="space-y-6 pb-20 lg:pb-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? 'الملف الشخصي' : 'Profile'}</h2>
-          <p className="text-[12px] sm:text-xs t-gold/50 font-['Inter']">Trader Profile & Account Settings</p>
-        </div>
-        <button onClick={() => setShowLogoutConfirm(true)}
-          className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs transition-colors"
-          style={{ color: "var(--status-red)", background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.15)" }}>
-          <LogOut size={14} />
-          <span className="hidden sm:inline">{isAr ? 'تسجيل الخروج' : 'Logout'}</span>
+        <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', 'Noto Sans Arabic', serif" }}>
+          {isAr ? 'الملف الشخصي' : 'Profile'}
+        </h1>
+        <button
+          onClick={() => editing ? handleSave() : setEditing(true)}
+          className={`px-4 py-2 rounded-lg text-sm flex items-center gap-1 ${editing ? 'bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90' : 'border border-border/50 hover:bg-accent/50'}`}
+        >
+          {editing ? <><Save className="w-4 h-4" />{isAr ? 'حفظ' : 'Save'}</> : <><PenLine className="w-4 h-4" />{isAr ? 'تعديل' : 'Edit'}</>}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {/* Profile Card */}
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6">
-          <div className="flex flex-col items-center text-center mb-5">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[var(--gold-accent)] to-[var(--gold-light)] flex items-center justify-center mb-4">
-              <User size={32} style={{ color: "var(--btn-gold-text)" }} />
-            </div>
-            <h3 className="text-base font-bold t-primary">{traderName}</h3>
-            <p className="text-xs t-gold/60 font-['Inter'] mt-0.5">{traderCompany}</p>
-            <div className="flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full" style={{ background: `color-mix(in srgb, ${kycInfo.color} 10%, transparent)`, border: `1px solid color-mix(in srgb, ${kycInfo.color} 20%, transparent)` }}>
-              <KYCIcon size={12} style={{ color: kycInfo.color }} />
-              <span className="text-[12px] font-medium" style={{ color: kycInfo.color }}>{kycInfo.label}</span>
-            </div>
-            {isVerified && (
-              <div className="flex items-center gap-1 mt-2">
-                <Award size={12} className="t-gold" />
-                <span className="text-[12px] t-gold font-bold">{isAr ? 'تاجر موثّق' : 'Verified Trader'}</span>
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Left Column */}
+        <div className="lg:col-span-2 space-y-5">
+          {/* Avatar Card */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="p-6 rounded-2xl bg-card border border-border/50">
+            <div className="flex items-center gap-5">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#C5A55A] to-[#E8D5A3] flex items-center justify-center text-[#0A0A12] text-3xl font-bold shadow-lg shadow-[#C5A55A]/20">
+                {user?.name?.charAt(0) || 'M'}
               </div>
-            )}
-          </div>
-
-          <div className="space-y-2.5">
-            {[
-              { icon: Phone, label: isAr ? 'الجوال' : 'Phone', value: showSensitive ? traderPhone : "•••• •••• ••••" },
-              { icon: MapPin, label: isAr ? 'المنطقة' : 'Region', value: traderRegion },
-              { icon: Briefcase, label: isAr ? 'النشاط' : 'Activity', value: traderActivity },
-              { icon: Calendar, label: isAr ? 'تاريخ التسجيل' : 'Registered At', value: traderRegistered },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 py-2.5 border-b border-[var(--glass-border)]">
-                <item.icon size={14} className="t-gold/60 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-[11px] t-muted">{item.label}</p>
-                  <p className="text-xs t-secondary truncate">{item.value}</p>
+              <div className="flex-1">
+                <h2 className="text-xl font-bold">{user?.name || (isAr ? 'مستخدم' : 'User')}</h2>
+                <p className="text-sm text-muted-foreground mt-0.5">{company || (isAr ? 'شركة' : 'Company')}</p>
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  <span className={`text-[10px] border-0 px-2 py-0.5 rounded-full flex items-center gap-0.5 ${(user as any)?.email_verified ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400'}`}>
+                    <Shield className="w-3 h-3" />
+                    {(user as any)?.email_verified ? (isAr ? 'موثق' : 'Verified') : (isAr ? 'قيد المراجعة' : 'Pending')}
+                  </span>
+                  <span className="bg-[#C5A55A]/10 text-[#C5A55A] text-[10px] border-0 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                    <Globe className="w-3 h-3" />{isAr ? 'تاجر' : 'Trader'}
+                  </span>
+                  <span className="bg-blue-500/10 text-blue-400 text-[10px] border-0 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                    <Award className="w-3 h-3" />{isAr ? 'عضو نشط' : 'Active Member'}
+                  </span>
                 </div>
               </div>
+            </div>
+          </motion.div>
+
+          {/* Form Fields */}
+          <div className="space-y-3">
+            {fields.map((field, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                className="p-4 rounded-xl bg-card border border-border/50 hover:border-border/80 transition-colors"
+              >
+                <label className="text-xs text-muted-foreground flex items-center gap-1.5 mb-2">
+                  <field.icon className="w-3.5 h-3.5" />
+                  {field.label}
+                  {field.disabled && (
+                    <span className="text-[10px] text-muted-foreground/50 ms-auto flex items-center gap-0.5">
+                      <Lock className="w-2.5 h-2.5" />{isAr ? 'غير قابل للتعديل' : 'Read only'}
+                    </span>
+                  )}
+                </label>
+                {editing && !field.disabled ? (
+                  <input
+                    value={field.value}
+                    onChange={e => field.setter(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg bg-accent/50 border border-border/50 text-sm focus:outline-none focus:border-[#C5A55A]/50"
+                  />
+                ) : (
+                  <p className="font-medium text-sm">{field.value || '-'}</p>
+                )}
+              </motion.div>
             ))}
           </div>
 
-          <button onClick={() => setShowSensitive(!showSensitive)}
-            className="w-full mt-4 glass-card py-2.5 rounded-xl text-xs t-secondary hover:t-gold flex items-center justify-center gap-2 transition-colors">
-            {showSensitive ? <EyeOff size={14} /> : <Eye size={14} />}
-            {showSensitive ? (isAr ? 'إخفاء البيانات الحساسة' : 'Hide Sensitive Data') : (isAr ? 'إظهار البيانات الحساسة' : 'Show Sensitive Data')}
-          </button>
-        </motion.div>
-
-        <div className="lg:col-span-2 space-y-5">
-          {/* KYC Status */}
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold t-primary">{isAr ? 'حالة التوثيق' : 'KYC Status'}</h3>
-              {!isVerified && (
-                <Link href="/dashboard/kyc">
-                  <button className="btn-gold px-4 py-2 rounded-xl text-[11px] flex items-center gap-1.5">
-                    <Shield size={12} />
-                    {isAr ? 'إكمال التوثيق' : 'Complete KYC'}
-                  </button>
-                </Link>
-              )}
+          {/* Account Date */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="p-4 rounded-xl bg-accent/30 border border-border/30">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <Calendar className="w-3.5 h-3.5" />
+              <span>{isAr ? 'تاريخ إنشاء الحساب:' : 'Account created:'}</span>
+              <span className="font-medium text-foreground">
+                {new Date().toLocaleDateString(isAr ? 'ar-SA' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
             </div>
+          </motion.div>
+        </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+        {/* Right Column */}
+        <div className="space-y-5">
+          {/* Stats */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="p-5 rounded-xl bg-card border border-border/50">
+            <h3 className="font-semibold mb-4 flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-[#C5A55A]" />
+              {isAr ? 'إحصائياتي' : 'My Stats'}
+            </h3>
+            <div className="space-y-3">
               {[
-                { label: isAr ? 'التسجيل' : 'Registration', done: true },
-                { label: isAr ? 'المستندات' : 'Documents', done: false },
-                { label: isAr ? 'التوثيق' : 'KYC', done: isVerified },
-                { label: isAr ? 'التفعيل' : 'Verified', done: false },
-              ].map((step, i) => (
-                <div key={i} className="p-3 rounded-xl text-center" style={{ background: step.done ? "color-mix(in srgb, var(--status-green) 8%, transparent)" : "var(--glass-bg)", border: `1px solid ${step.done ? "color-mix(in srgb, var(--status-green) 20%, transparent)" : "var(--glass-border)"}` }}>
-                  <div className={`w-8 h-8 rounded-full mx-auto mb-2 flex items-center justify-center ${step.done ? "bg-[var(--status-green)]/15" : "bg-[var(--glass-bg)]"}`}>
-                    {step.done ? <CheckCircle size={14} style={{ color: "var(--status-green)" }} /> : <span className="text-xs t-muted">{i + 1}</span>}
+                { icon: Building2, label: isAr ? 'إجمالي الحجوزات' : 'Total Bookings', value: stats.totalBookings, color: '#C5A55A' },
+                { icon: CheckCircle2, label: isAr ? 'حجوزات مكتملة' : 'Completed Bookings', value: stats.paidBookings, color: '#4ADE80' },
+                { icon: FileText, label: isAr ? 'العقود الموقعة' : 'Signed Contracts', value: `${stats.signedContracts}/${stats.totalContracts}`, color: '#38BDF8' },
+                { icon: CreditCard, label: isAr ? 'إجمالي الإنفاق' : 'Total Spent', value: `${stats.totalSpent.toLocaleString()} ${isAr ? 'ر.س' : 'SAR'}`, color: '#A78BFA' },
+              ].map((stat, i) => (
+                <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-accent/30">
+                  <div className="flex items-center gap-2">
+                    <stat.icon className="w-4 h-4" style={{ color: stat.color }} />
+                    <span className="text-xs text-muted-foreground">{stat.label}</span>
                   </div>
-                  <p className="text-[12px] font-medium" style={{ color: step.done ? "var(--status-green)" : "var(--text-tertiary)" }}>{step.label}</p>
+                  <span className="text-sm font-bold">{stat.value}</span>
                 </div>
               ))}
             </div>
-
-            <div className="h-2 rounded-full bg-[var(--glass-bg)] overflow-hidden">
-              <motion.div initial={{ width: 0 }} animate={{ width: `${isVerified ? 100 : 25}%` }}
-                transition={{ duration: 1, ease: "easeOut" }} className="h-full rounded-full"
-                style={{ background: isVerified ? "var(--status-green)" : "linear-gradient(90deg, var(--gold-accent), var(--gold-light))" }} />
-            </div>
-
-            {!isVerified && (
-              <div className="mt-3 p-3 rounded-xl bg-[var(--status-yellow)]/5 border border-[var(--status-yellow)]/10">
-                <div className="flex items-center gap-2">
-                  <AlertTriangle size={12} style={{ color: "var(--status-yellow)" }} />
-                  <p className="text-[12px] sm:text-xs" style={{ color: "var(--status-yellow)" }}>{isAr ? 'يجب إكمال التوثيق قبل الحجز' : 'KYC verification required before booking'}</p>
-                </div>
-              </div>
-            )}
           </motion.div>
 
-          {/* Business Details */}
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card rounded-xl sm:rounded-2xl p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold t-primary">{isAr ? 'تفاصيل العمل' : 'Business Details'}</h3>
+          {/* Quick Links */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="p-5 rounded-xl bg-card border border-border/50">
+            <h3 className="font-semibold mb-3">{isAr ? 'روابط سريعة' : 'Quick Links'}</h3>
+            <div className="space-y-2">
+              {[
+                { icon: Shield, label: isAr ? 'التحقق من الهوية (KYC)' : 'Identity Verification (KYC)', href: '/dashboard/kyc', color: '#F59E0B' },
+                { icon: Building2, label: isAr ? 'حجوزاتي' : 'My Bookings', href: '/dashboard/bookings', color: '#C5A55A' },
+                { icon: FileText, label: isAr ? 'عقودي' : 'My Contracts', href: '/dashboard/contracts', color: '#38BDF8' },
+                { icon: Star, label: isAr ? 'تقييماتي' : 'My Reviews', href: '/dashboard/reviews', color: '#A78BFA' },
+              ].map((link, i) => (
+                <Link key={i} href={link.href}>
+                  <div className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-accent/30 transition-colors cursor-pointer">
+                    <link.icon className="w-4 h-4" style={{ color: link.color }} />
+                    <span className="text-sm flex-1">{link.label}</span>
+                    <ArrowUpRight className="w-3 h-3 text-muted-foreground" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Verification Status */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className={`p-4 rounded-xl border ${(user as any)?.email_verified ? 'bg-green-500/5 border-green-500/20' : 'bg-yellow-500/5 border-yellow-500/20'}`}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Shield className={`w-5 h-5 ${(user as any)?.email_verified ? 'text-green-400' : 'text-yellow-400'}`} />
+              <span className="font-semibold text-sm">{isAr ? 'حالة التحقق' : 'Verification Status'}</span>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              {(user as any)?.email_verified
+                ? (isAr ? 'تم التحقق من هويتك بنجاح. يمكنك الآن حجز الأجنحة وتوقيع العقود.' : 'Your identity has been verified. You can now book booths and sign contracts.')
+                : (isAr ? 'يرجى إكمال التحقق من الهوية لتتمكن من حجز الأجنحة.' : 'Please complete identity verification to book booths.')
+              }
+            </p>
+            {!(user as any)?.email_verified && (
               <Link href="/dashboard/kyc">
-                <button className="glass-card px-3 py-1.5 rounded-lg text-[12px] t-tertiary hover:t-gold flex items-center gap-1 transition-colors">
-                  <Edit3 size={10} />
-                  {isAr ? 'تعديل' : 'Edit'}
+                <button className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] text-xs font-semibold">
+                  {isAr ? 'أكمل التحقق' : 'Complete Verification'}
                 </button>
               </Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                { label: isAr ? 'اسم التاجر' : 'Trader Name', value: traderName, icon: User },
-                { label: isAr ? 'اسم الشركة' : 'Company Name', value: traderCompany, icon: Building2 },
-                { label: isAr ? 'النشاط' : 'Activity', value: traderActivity, icon: Briefcase },
-                { label: isAr ? 'المنطقة' : 'Region', value: traderRegion, icon: MapPin },
-                { label: isAr ? 'الجوال' : 'Phone', value: showSensitive ? traderPhone : "•••• •••• ••••", icon: Phone },
-                { label: isAr ? 'تاريخ التسجيل' : 'Registered At', value: traderRegistered, icon: Calendar },
-              ].map((d, i) => (
-                <div key={i} className="p-3 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)]">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <d.icon size={10} className="t-gold/50" />
-                    <p className="text-[11px] t-muted">{d.label}</p>
-                  </div>
-                  <p className="text-sm t-secondary font-medium">{d.value}</p>
-                </div>
-              ))}
-            </div>
+            )}
           </motion.div>
-
-          {/* Quick Actions */}
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { label: isAr ? 'تصفح المعارض' : 'Browse Expos', icon: Building2, path: "/dashboard/expos", color: "var(--gold-accent)" },
-              { label: isAr ? 'الحجوزات' : 'Bookings', icon: Calendar, path: "/dashboard/bookings", color: "var(--status-blue)" },
-              { label: isAr ? 'المساعدة' : 'Help', icon: Globe, path: "/dashboard/help", color: "var(--status-green)" },
-              { label: isAr ? 'التوثيق' : 'KYC', icon: Shield, path: "/dashboard/kyc", color: "var(--status-yellow)" },
-            ].map((action, i) => (
-              <Link key={i} href={action.path}>
-                <div className="glass-card rounded-xl p-3 sm:p-4 text-center cursor-pointer hover:border-[var(--gold-border)] transition-all">
-                  <div className="w-10 h-10 rounded-xl mx-auto mb-2 flex items-center justify-center" style={{ background: `color-mix(in srgb, ${action.color} 10%, transparent)` }}>
-                    <action.icon size={18} style={{ color: action.color }} />
-                  </div>
-                  <p className="text-[11px] t-secondary font-medium">{action.label}</p>
-                </div>
-              </Link>
-            ))}
-          </motion.div>
-
-          {/* Security Notice */}
-          <div className="glass-card rounded-2xl p-4 sm:p-5 border-[var(--gold-border)]/20">
-            <div className="flex items-center gap-2 mb-2">
-              <Lock size={14} className="t-gold" />
-              <h4 className="text-xs font-bold t-gold">{isAr ? 'حماية البيانات' : 'Data Protection'}</h4>
-            </div>
-            <p className="text-[11px] t-tertiary leading-relaxed">{isAr ? 'بياناتك محمية بأعلى معايير الأمان والتشفير. لن يتم مشاركة معلوماتك مع أي طرف ثالث دون موافقتك.' : 'Your data is protected with the highest security and encryption standards. Your information will not be shared with any third party without your consent.'}</p>
-          </div>
         </div>
       </div>
-
-      {/* Logout Modal */}
-      {showLogoutConfirm && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center" style={{ backgroundColor: "var(--modal-overlay)" }}>
-          <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}
-            className="w-full sm:max-w-sm rounded-t-2xl sm:rounded-2xl p-5 sm:p-6 shadow-2xl"
-            style={{ background: "var(--modal-bg)", border: "1px solid var(--glass-border)", paddingBottom: "max(env(safe-area-inset-bottom, 0px), 20px)" }}>
-            <div className="flex justify-center pb-2 sm:hidden">
-              <div className="w-10 h-1 rounded-full" style={{ background: "var(--glass-border)" }} />
-            </div>
-            <div className="text-center mb-5">
-              <div className="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ background: "rgba(248,113,113,0.1)" }}>
-                <LogOut size={24} style={{ color: "var(--status-red)" }} />
-              </div>
-              <h3 className="text-base font-bold t-primary mb-1">{isAr ? 'تسجيل الخروج' : 'Logout'}</h3>
-              <p className="text-xs t-tertiary">{isAr ? 'هل أنت متأكد من تسجيل الخروج؟' : 'Are you sure you want to logout?'}</p>
-            </div>
-            <div className="flex gap-3">
-              <button onClick={() => setShowLogoutConfirm(false)}
-                className="flex-1 py-3 rounded-xl text-sm font-medium transition-all"
-                style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)", color: "var(--text-secondary)" }}>
-                {isAr ? 'إلغاء' : 'Cancel'}
-              </button>
-              <button onClick={handleLogout}
-                className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2"
-                style={{ background: "var(--status-red)", color: "#fff" }}>
-                <LogOut size={14} />
-                {isAr ? 'تسجيل الخروج' : 'Logout'}
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 }

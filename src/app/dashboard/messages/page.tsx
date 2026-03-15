@@ -1,194 +1,243 @@
 'use client';
 
-/**
- * Messages — Internal Messaging System
- */
-import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Send, Search, Shield, Lock, Paperclip, Check, CheckCheck, ArrowRight, ArrowLeft, XCircle } from "lucide-react";
-import { toast } from "sonner";
-import { useLanguageStore } from "@/shared/store/useLanguageStore";
+import { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Search, Send, ArrowRight, User, CheckCheck, MessageCircle } from 'lucide-react';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
 
-interface Conversation { id: string; name: string; role: "investor" | "supervisor" | "support"; roleLabel: string; avatar: string; lastMessage: string; lastTime: string; unread: number; online: boolean; expoName: string; masked: boolean; }
-interface Message { id: string; sender: "me" | "other" | "system"; text: string; time: string; status: "sent" | "delivered" | "read"; blocked?: boolean; }
+interface ChatMessage {
+  id: number;
+  text: string;
+  sender: 'user' | 'other';
+  time: string;
+  read: boolean;
+}
 
-export default function Messages() {
-  const { language, isRtl } = useLanguageStore();
+interface Conversation {
+  id: number;
+  name: string;
+  role: string;
+  lastMsg: string;
+  time: string;
+  unread: number;
+  online: boolean;
+  messages: ChatMessage[];
+}
+
+export default function MessagesPage() {
+  const { language } = useLanguageStore();
   const isAr = language === 'ar';
-  const [activeConv, setActiveConv] = useState<string>("conv-1");
-  const [newMessage, setNewMessage] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showChat, setShowChat] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const conversations: Conversation[] = [
-    { id: "conv-1", name: (isAr ? "المشرف" : "Supervisor") + " — " + (isAr ? "معرض التقنية" : "Tech Expo"), role: "supervisor", roleLabel: isAr ? "مشرف المعرض" : "Expo Supervisor", avatar: "M", lastMessage: isAr ? "تم تأكيد حجزك بنجاح" : "Your booking has been confirmed", lastTime: "10:30", unread: 2, online: true, expoName: isAr ? "معرض التقنية والابتكار" : "Technology & Innovation Expo", masked: false },
-    { id: "conv-2", name: (isAr ? "مستثمر" : "Investor") + " #4782", role: "investor", roleLabel: isAr ? "مستثمر (هوية مخفية)" : "Investor (Hidden Identity)", avatar: "?", lastMessage: isAr ? "أرغب بمعرفة تفاصيل المنتجات" : "I'd like to know product details", lastTime: isAr ? "أمس" : "Yesterday", unread: 0, online: false, expoName: isAr ? "معرض الغذاء" : "Food Expo", masked: true },
-    { id: "conv-3", name: isAr ? "الدعم الفني" : "Tech Support", role: "support", roleLabel: isAr ? "الدعم" : "Support", avatar: "S", lastMessage: isAr ? "تم حل مشكلتك بنجاح" : "Your issue has been resolved", lastTime: isAr ? "الأحد" : "Sunday", unread: 0, online: true, expoName: isAr ? "عام" : "General", masked: false },
-    { id: "conv-4", name: (isAr ? "مستثمر" : "Investor") + " #9201", role: "investor", roleLabel: isAr ? "مستثمر (هوية مخفية)" : "Investor (Hidden Identity)", avatar: "?", lastMessage: isAr ? "هل يمكن ترتيب اجتماع؟" : "Can we arrange a meeting?", lastTime: isAr ? "الخميس" : "Thursday", unread: 1, online: false, expoName: "Boulevard World", masked: true },
-  ];
+  const [selectedChat, setSelectedChat] = useState<number | null>(null);
+  const [newMessage, setNewMessage] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-  const [messages, setMessages] = useState<Message[]>([
-    { id: "m1", sender: "system", text: isAr ? "بدأت المحادثة" : "Chat started", time: "10:00", status: "read" },
-    { id: "m2", sender: "other", text: isAr ? "تم تأكيد حجزك في المعرض" : "Your exhibition booking has been confirmed", time: "10:15", status: "read" },
-    { id: "m3", sender: "me", text: isAr ? "هل تتوفر خدمات إضافية؟" : "Are additional services available?", time: "10:20", status: "read" },
-    { id: "m4", sender: "other", text: isAr ? "نعم، يمكنك طلب خدمات التصميم والكهرباء" : "Yes, you can request design and electrical services", time: "10:25", status: "read" },
-    { id: "m5", sender: "me", text: isAr ? "أريد التواصل مع المستثمر" : "I want to contact the investor", time: "10:28", status: "delivered" },
-    { id: "m6", sender: "system", text: isAr ? "تنبيه أمني: لا يمكن مشاركة معلومات الاتصال" : "Security alert: Contact information cannot be shared", time: "10:28", status: "read", blocked: true },
-    { id: "m7", sender: "other", text: isAr ? "يرجى سداد العربون لتأكيد الحجز" : "Please pay the deposit to confirm booking", time: "10:30", status: "read" },
+  const [conversations, setConversations] = useState<Conversation[]>([
+    {
+      id: 1,
+      name: isAr ? 'دعم مهام إكسبو' : 'Maham Expo Support',
+      role: isAr ? 'فريق الدعم' : 'Support Team',
+      lastMsg: isAr ? 'مرحبا، كيف يمكننا مساعدتك؟' : 'Hello, how can we help?',
+      time: '10:30', unread: 2, online: true,
+      messages: [
+        { id: 1, text: isAr ? 'مرحبا بك في مهام إكسبو!' : 'Welcome to Maham Expo!', sender: 'other', time: '10:25', read: true },
+        { id: 2, text: isAr ? 'كيف يمكننا مساعدتك اليوم؟ نحن هنا لخدمتك.' : 'How can we help you today? We are here to serve you.', sender: 'other', time: '10:30', read: false },
+      ],
+    },
+    {
+      id: 2,
+      name: isAr ? 'إدارة المعارض' : 'Expo Management',
+      role: isAr ? 'مدير المعارض' : 'Expo Manager',
+      lastMsg: isAr ? 'تم تأكيد حجزك للجناح A12' : 'Your booking for booth A12 is confirmed',
+      time: '09:15', unread: 0, online: true,
+      messages: [
+        { id: 1, text: isAr ? 'السلام عليكم، أود الاستفسار عن حجز الجناح A12' : 'Hello, I would like to inquire about booth A12 booking', sender: 'user', time: '09:00', read: true },
+        { id: 2, text: isAr ? 'وعليكم السلام! نعم، الجناح A12 متاح حاليا. مساحته 12م وسعره 13,500 ر.س' : 'Hello! Yes, booth A12 is currently available. Area: 12m, Price: 13,500 SAR', sender: 'other', time: '09:05', read: true },
+        { id: 3, text: isAr ? 'ممتاز، أريد حجزه من فضلكم' : 'Excellent, I would like to book it please', sender: 'user', time: '09:10', read: true },
+        { id: 4, text: isAr ? 'تم تأكيد حجزك للجناح A12. يرجى مراجعة صفحة الحجوزات لإكمال الإجراءات.' : 'Your booking for booth A12 is confirmed. Please check the bookings page to complete the process.', sender: 'other', time: '09:15', read: true },
+      ],
+    },
+    {
+      id: 3,
+      name: isAr ? 'قسم المدفوعات' : 'Payments Department',
+      role: isAr ? 'محاسبة' : 'Accounting',
+      lastMsg: isAr ? 'تم استلام الدفعة بنجاح. الإيصال في المرفقات.' : 'Payment received successfully. Receipt attached.',
+      time: isAr ? 'أمس' : 'Yesterday', unread: 1, online: false,
+      messages: [
+        { id: 1, text: isAr ? 'تم استلام الدفعة بنجاح. الإيصال في المرفقات.' : 'Payment received successfully. Receipt attached.', sender: 'other', time: '14:30', read: false },
+      ],
+    },
+    {
+      id: 4,
+      name: isAr ? 'خدمات العارضين' : 'Exhibitor Services',
+      role: isAr ? 'منسق خدمات' : 'Services Coordinator',
+      lastMsg: isAr ? 'تم تأكيد طلب خدمة تصميم البوث' : 'Booth design service request confirmed',
+      time: isAr ? 'أمس' : 'Yesterday', unread: 0, online: false,
+      messages: [
+        { id: 1, text: isAr ? 'مرحبا، أريد طلب خدمة تصميم بوث احترافي' : 'Hello, I want to request professional booth design service', sender: 'user', time: '11:00', read: true },
+        { id: 2, text: isAr ? 'بالتأكيد! سنرسل لك عرض سعر خلال 24 ساعة. هل لديك تصور معين للتصميم؟' : 'Of course! We will send you a quote within 24 hours. Do you have a specific design concept?', sender: 'other', time: '11:15', read: true },
+        { id: 3, text: isAr ? 'نعم، أريد تصميم عصري بألوان الشركة (أزرق وذهبي)' : 'Yes, I want a modern design with company colors (blue and gold)', sender: 'user', time: '11:20', read: true },
+        { id: 4, text: isAr ? 'تم تأكيد طلب خدمة تصميم البوث. سيتواصل معك المصمم قريبا.' : 'Booth design service request confirmed. The designer will contact you soon.', sender: 'other', time: '11:30', read: true },
+      ],
+    },
   ]);
 
-  const blockedPatterns = ["رقم هاتف", "رقم جوال", "واتساب", "whatsapp", "phone", "email", "بريد إلكتروني", "تلقرام", "telegram", "@", "05", "+966"];
+  const activeChat = conversations.find(c => c.id === selectedChat);
+  const filteredChats = conversations.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
-  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [selectedChat, conversations]);
 
-  const activeConversation = conversations.find(c => c.id === activeConv);
-
-  const handleSend = () => {
-    if (!newMessage.trim()) return;
-    const isBlocked = blockedPatterns.some(p => newMessage.toLowerCase().includes(p.toLowerCase()));
-    if (isBlocked) {
-      const blockedMsg: Message = { id: `m-${Date.now()}`, sender: "me", text: newMessage, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }), status: "sent", blocked: true };
-      const systemMsg: Message = { id: `m-${Date.now() + 1}`, sender: "system", text: isAr ? "تم حظر الرسالة تلقائياً — لا يسمح بمشاركة معلومات الاتصال" : "Message blocked automatically — sharing contact info is not allowed", time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }), status: "read", blocked: true };
-      setMessages(prev => [...prev, blockedMsg, systemMsg]);
-      toast.error(isAr ? "تم حظر الرسالة — لا يسمح بمشاركة معلومات الاتصال" : "Message blocked — contact info sharing not allowed");
-    } else {
-      const msg: Message = { id: `m-${Date.now()}`, sender: "me", text: newMessage, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }), status: "sent" };
-      setMessages(prev => [...prev, msg]);
-    }
-    setNewMessage("");
+  const sendMessage = () => {
+    if (!newMessage.trim() || !selectedChat) return;
+    const msg: ChatMessage = {
+      id: Date.now(),
+      text: newMessage.trim(),
+      sender: 'user',
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+      read: false,
+    };
+    setConversations(prev => prev.map(c => c.id === selectedChat ? { ...c, messages: [...c.messages, msg], lastMsg: newMessage.trim(), time: msg.time } : c));
+    setNewMessage('');
+    setTimeout(() => {
+      const reply: ChatMessage = {
+        id: Date.now() + 1,
+        text: isAr ? 'شكرا لرسالتك! سنرد عليك في أقرب وقت ممكن.' : 'Thanks for your message! We will reply as soon as possible.',
+        sender: 'other',
+        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+        read: false,
+      };
+      setConversations(prev => prev.map(c => c.id === selectedChat ? { ...c, messages: [...c.messages, reply], lastMsg: reply.text, time: reply.time } : c));
+    }, 2000);
   };
 
-  const filteredConversations = conversations.filter(c => searchQuery === "" || c.name.toLowerCase().includes(searchQuery.toLowerCase()));
-
   return (
-    <div className="flex flex-col" style={{ height: "calc(100vh - 130px)", minHeight: "400px", maxHeight: "calc(100vh - 130px)" }}>
-      <div className="flex flex-1 rounded-xl sm:rounded-2xl overflow-hidden glass-card" style={{ minHeight: 0 }}>
-        {/* Conversations List */}
-        <div className={`${showChat ? "hidden lg:flex" : "flex"} flex-col w-full lg:w-72 xl:w-80 shrink-0`} style={{ borderInlineEnd: "1px solid var(--glass-border)" }}>
-          <div className="p-3 sm:p-4" style={{ borderBottom: "1px solid var(--glass-border)" }}>
+    <div className="pb-20 lg:pb-0">
+      <h1 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', 'Noto Sans Arabic', serif" }}>
+        {isAr ? 'الرسائل' : 'Messages'}
+      </h1>
+
+      <div className="grid lg:grid-cols-3 gap-4" style={{ height: 'calc(100vh - 180px)' }}>
+        {/* Chat List */}
+        <div className={`lg:col-span-1 rounded-xl bg-card border border-border/50 overflow-hidden flex flex-col ${selectedChat ? 'hidden lg:flex' : 'flex'}`}>
+          <div className="p-3 border-b border-border/50">
             <div className="relative">
-              <Search size={13} className={`absolute ${isRtl ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 t-muted`} />
-              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder={isAr ? "ابحث في المحادثات..." : "Search conversations..."}
-                className={`w-full rounded-lg ${isRtl ? "pr-8 pl-3" : "pl-8 pr-3"} py-2 text-xs t-primary`}
-                style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--glass-border)" }} />
+              <Search className="absolute top-1/2 -translate-y-1/2 start-3 w-4 h-4 text-muted-foreground" />
+              <input
+                placeholder={isAr ? 'بحث في الرسائل...' : 'Search messages...'}
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                className="w-full ps-10 pe-4 py-2 rounded-lg bg-accent/30 border border-border/50 text-sm focus:outline-none focus:border-[#C5A55A]/50"
+              />
             </div>
           </div>
-          <div className="mx-3 mt-2 p-2 rounded-lg bg-gold-subtle" style={{ border: "1px solid var(--gold-border)" }}>
-            <div className="flex items-center gap-1.5">
-              <Shield size={9} className="t-gold shrink-0" />
-              <span className="text-[11px] t-gold" style={{ opacity: 0.8 }}>{isAr ? "جميع المحادثات مشفرة ومراقبة" : "All conversations are encrypted and monitored"}</span>
-            </div>
-          </div>
-          <div className="flex-1 overflow-y-auto py-1" style={{ minHeight: 0 }}>
-            {filteredConversations.map((conv) => (
-              <button key={conv.id} onClick={() => { setActiveConv(conv.id); setShowChat(true); }}
-                className="w-full flex items-center gap-2.5 px-3 py-2.5 transition-colors"
-                style={{ backgroundColor: activeConv === conv.id ? "var(--glass-bg-hover)" : "transparent" }}>
+          <div className="flex-1 overflow-y-auto">
+            {filteredChats.map(chat => (
+              <button
+                key={chat.id}
+                onClick={() => { setSelectedChat(chat.id); setConversations(prev => prev.map(c => c.id === chat.id ? { ...c, unread: 0 } : c)); }}
+                className={`w-full p-3 flex items-center gap-3 hover:bg-accent/50 transition-colors text-start border-b border-border/20 ${selectedChat === chat.id ? 'bg-accent/50' : ''}`}
+              >
                 <div className="relative shrink-0">
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold"
-                    style={{ backgroundColor: conv.role === "supervisor" ? "var(--gold-bg)" : conv.role === "support" ? "color-mix(in srgb, var(--status-blue) 15%, transparent)" : "var(--glass-bg)", color: conv.role === "supervisor" ? "var(--gold-accent)" : conv.role === "support" ? "var(--status-blue)" : "var(--text-muted)" }}>
-                    {conv.masked ? <Lock size={12} /> : conv.avatar}
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#C5A55A] to-[#E8D5A3] flex items-center justify-center text-[#0A0A12] font-bold text-sm">
+                    {chat.name.charAt(0)}
                   </div>
-                  {conv.online && <div className="absolute bottom-0 left-0 w-2 h-2 rounded-full" style={{ backgroundColor: "var(--status-green)", border: "2px solid var(--surface-dark)" }} />}
+                  {chat.online && <span className="absolute bottom-0 end-0 w-3 h-3 rounded-full bg-green-400 border-2 border-card" />}
                 </div>
-                <div className="flex-1 overflow-hidden text-start">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-medium t-secondary truncate">{conv.name}</span>
-                    <span className="text-[11px] t-muted shrink-0">{conv.lastTime}</span>
+                    <p className="text-sm font-medium truncate">{chat.name}</p>
+                    <span className="text-[10px] text-muted-foreground shrink-0">{chat.time}</span>
                   </div>
-                  <p className="text-[12px] t-tertiary truncate">{conv.lastMessage}</p>
-                  <div className="flex items-center justify-between mt-0.5">
-                    <p className="text-[11px] t-muted truncate">{conv.expoName}</p>
-                    {conv.unread > 0 && <span className="shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[11px] font-bold" style={{ backgroundColor: "var(--badge-bg)", color: "var(--badge-text)" }}>{conv.unread}</span>}
-                  </div>
+                  <p className="text-xs text-muted-foreground truncate">{chat.lastMsg}</p>
                 </div>
+                {chat.unread > 0 && (
+                  <span className="w-5 h-5 rounded-full bg-[#C5A55A] text-[#0A0A12] text-[10px] font-bold flex items-center justify-center shrink-0">
+                    {chat.unread}
+                  </span>
+                )}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Chat Area */}
-        <div className={`${!showChat ? "hidden lg:flex" : "flex"} flex-col flex-1`} style={{ minHeight: 0 }}>
-          {activeConversation && (
-            <div className="flex items-center justify-between px-3 sm:px-5 py-2.5" style={{ borderBottom: "1px solid var(--glass-border)" }}>
-              <div className="flex items-center gap-2.5">
-                <button onClick={() => setShowChat(false)} className="lg:hidden p-1.5 rounded-lg t-tertiary" style={{ background: "var(--glass-bg)" }}>
-                  {isRtl ? <ArrowRight size={16} /> : <ArrowLeft size={16} />}
+        {/* Message Thread */}
+        <div className={`lg:col-span-2 rounded-xl bg-card border border-border/50 flex flex-col ${selectedChat ? 'flex' : 'hidden lg:flex'}`}>
+          {activeChat ? (
+            <>
+              {/* Chat Header */}
+              <div className="p-3 border-b border-border/50 flex items-center gap-3">
+                <button onClick={() => setSelectedChat(null)} className="lg:hidden">
+                  <ArrowRight className="w-5 h-5 rotate-180" />
                 </button>
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-                  style={{ backgroundColor: activeConversation.role === "supervisor" ? "var(--gold-bg)" : activeConversation.role === "support" ? "color-mix(in srgb, var(--status-blue) 15%, transparent)" : "var(--glass-bg)", color: activeConversation.role === "supervisor" ? "var(--gold-accent)" : activeConversation.role === "support" ? "var(--status-blue)" : "var(--text-muted)" }}>
-                  {activeConversation.masked ? <Lock size={12} /> : activeConversation.avatar}
+                <div className="relative">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#C5A55A] to-[#E8D5A3] flex items-center justify-center text-[#0A0A12] font-bold text-xs">
+                    {activeChat.name.charAt(0)}
+                  </div>
+                  {activeChat.online && <span className="absolute bottom-0 end-0 w-2.5 h-2.5 rounded-full bg-green-400 border-2 border-card" />}
                 </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-medium t-primary truncate">{activeConversation.name}</p>
-                  <p className="text-[11px] t-muted truncate">{activeConversation.roleLabel}</p>
+                <div>
+                  <p className="font-medium text-sm">{activeChat.name}</p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {activeChat.role} {activeChat.online ? (isAr ? '- متصل' : '- Online') : ''}
+                  </p>
                 </div>
               </div>
-              {activeConversation.masked && (
-                <div className="flex items-center gap-1 px-2 py-1 rounded-lg shrink-0" style={{ backgroundColor: "color-mix(in srgb, var(--status-red) 10%, transparent)" }}>
-                  <Lock size={9} style={{ color: "var(--status-red)", opacity: 0.6 }} />
-                  <span className="text-[11px] hidden sm:inline" style={{ color: "var(--status-red)", opacity: 0.6 }}>{isAr ? "هوية مخفية" : "Hidden Identity"}</span>
-                </div>
-              )}
+
+              {/* Messages */}
+              <div className="flex-1 p-4 overflow-y-auto space-y-3">
+                {activeChat.messages.map(msg => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`flex gap-2 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}
+                  >
+                    {msg.sender === 'other' && (
+                      <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center shrink-0">
+                        <User className="w-3.5 h-3.5 text-muted-foreground" />
+                      </div>
+                    )}
+                    <div className={`max-w-[75%] p-3 rounded-xl text-sm ${msg.sender === 'user' ? 'bg-[#C5A55A]/10 text-foreground' : 'bg-accent'}`}>
+                      {msg.text}
+                      <div className={`flex items-center gap-1 mt-1 ${msg.sender === 'user' ? 'justify-end' : ''}`}>
+                        <span className="text-[10px] text-muted-foreground">{msg.time}</span>
+                        {msg.sender === 'user' && <CheckCheck className={`w-3 h-3 ${msg.read ? 'text-blue-400' : 'text-muted-foreground'}`} />}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+                <div ref={bottomRef} />
+              </div>
+
+              {/* Input */}
+              <div className="p-3 border-t border-border/50 flex gap-2">
+                <input
+                  value={newMessage}
+                  onChange={e => setNewMessage(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && sendMessage()}
+                  placeholder={isAr ? 'اكتب رسالتك...' : 'Type a message...'}
+                  className="flex-1 px-4 py-2.5 rounded-lg bg-accent/30 border border-border/50 text-sm focus:outline-none focus:border-[#C5A55A]/50"
+                />
+                <button
+                  onClick={sendMessage}
+                  disabled={!newMessage.trim()}
+                  className="px-4 py-2.5 rounded-lg bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90 disabled:opacity-50"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center">
+                <MessageCircle className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+                <p className="text-muted-foreground text-sm">{isAr ? 'اختر محادثة للبدء' : 'Select a chat to start'}</p>
+              </div>
             </div>
           )}
-
-          <div className="flex-1 overflow-y-auto p-3 sm:p-5 space-y-2.5" style={{ minHeight: 0 }}>
-            {messages.map((msg) => (
-              <motion.div key={msg.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }}
-                className={`flex ${msg.sender === "me" ? (isRtl ? "justify-start" : "justify-end") : msg.sender === "system" ? "justify-center" : (isRtl ? "justify-end" : "justify-start")}`}>
-                {msg.sender === "system" ? (
-                  <div className="max-w-[90%] sm:max-w-md px-3 py-2 rounded-xl text-center"
-                    style={{ backgroundColor: msg.blocked ? "color-mix(in srgb, var(--status-red) 10%, transparent)" : "var(--glass-bg)", border: msg.blocked ? "1px solid color-mix(in srgb, var(--status-red) 20%, transparent)" : "1px solid var(--glass-border)" }}>
-                    <p className="text-[11px] sm:text-[12px] leading-relaxed" style={{ color: msg.blocked ? "var(--status-red)" : "var(--text-muted)", opacity: msg.blocked ? 0.8 : 0.6 }}>{msg.text}</p>
-                  </div>
-                ) : (
-                  <div className={`max-w-[80%] sm:max-w-[70%] ${msg.blocked ? "opacity-50" : ""}`}>
-                    <div className="px-3 py-2 rounded-2xl" style={{ backgroundColor: msg.sender === "me" ? (msg.blocked ? "color-mix(in srgb, var(--status-red) 10%, transparent)" : "var(--gold-bg)") : "var(--glass-bg)", border: msg.sender === "me" ? (msg.blocked ? "1px solid color-mix(in srgb, var(--status-red) 20%, transparent)" : "1px solid var(--gold-border)") : "1px solid var(--glass-border)" }}>
-                      {msg.blocked && (
-                        <div className="flex items-center gap-1 mb-1">
-                          <XCircle size={9} style={{ color: "var(--status-red)" }} />
-                          <span className="text-[11px]" style={{ color: "var(--status-red)" }}>{isAr ? "محظور" : "Blocked"}</span>
-                        </div>
-                      )}
-                      <p className={`text-[11px] sm:text-xs leading-relaxed ${msg.blocked ? "line-through t-muted" : "t-secondary"}`}>{msg.text}</p>
-                    </div>
-                    <div className={`flex items-center gap-1 mt-0.5 ${msg.sender === "me" ? "" : (isRtl ? "justify-start" : "justify-end")}`}>
-                      <span className="text-[11px] t-muted">{msg.time}</span>
-                      {msg.sender === "me" && !msg.blocked && (
-                        msg.status === "read" ? <CheckCheck size={9} className="t-gold" style={{ opacity: 0.6 }} /> :
-                        msg.status === "delivered" ? <CheckCheck size={9} className="t-muted" /> :
-                        <Check size={9} className="t-muted" />
-                      )}
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-
-          <div className="p-2.5 sm:p-4" style={{ borderTop: "1px solid var(--glass-border)" }}>
-            <div className="flex items-center gap-2">
-              <button className="t-muted shrink-0 p-1.5" onClick={() => toast.info(isAr ? "المرفقات قريباً" : "Attachments coming soon")}>
-                <Paperclip size={16} />
-              </button>
-              <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder={isAr ? "اكتب رسالتك..." : "Type your message..."}
-                className="flex-1 rounded-xl px-3 py-2 text-xs t-primary"
-                style={{ backgroundColor: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}
-                dir={isRtl ? "rtl" : "ltr"} />
-              <button onClick={handleSend} disabled={!newMessage.trim()}
-                className="w-9 h-9 rounded-xl bg-gold-subtle flex items-center justify-center t-gold shrink-0 disabled:opacity-30">
-                <Send size={14} className={isRtl ? "rotate-180" : ""} />
-              </button>
-            </div>
-            <div className="flex items-center gap-1 mt-1.5">
-              <Shield size={8} className="t-gold" style={{ opacity: 0.3 }} />
-              <span className="text-[11px] sm:text-[11px] t-muted">{isAr ? "محادثاتك مشفرة ومحمية — لا يمكن مشاركة معلومات الاتصال" : "Your chats are encrypted and protected — contact info sharing is blocked"}</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

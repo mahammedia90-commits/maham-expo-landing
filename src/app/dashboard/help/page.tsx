@@ -1,156 +1,132 @@
 'use client';
 
-/**
- * HelpCenter — Support & FAQ
- */
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { HelpCircle, Search, ChevronDown, MessageSquare, Phone, Mail, FileText, Book, Video, Shield, CreditCard, Calendar, Map, Send, CheckCircle2, Clock, ExternalLink } from "lucide-react";
-import { toast } from "sonner";
-import { useLanguageStore } from "@/shared/store/useLanguageStore";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  MessageCircle, Phone, Mail, Search, ChevronUp, ChevronDown, FileText
+} from 'lucide-react';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
+import { toast } from 'sonner';
 
-export default function HelpCenter() {
-  const { language, isRtl } = useLanguageStore();
+export default function HelpPage() {
+  const { language } = useLanguageStore();
   const isAr = language === 'ar';
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
-  const [ticketSubject, setTicketSubject] = useState("");
-  const [ticketMessage, setTicketMessage] = useState("");
-  const [ticketSubmitted, setTicketSubmitted] = useState(false);
 
-  const categories = [
-    { id: "all", label: isAr ? "الكل" : "All" },
-    { id: "booking", label: isAr ? "الحجوزات" : "Bookings" },
-    { id: "payment", label: isAr ? "المدفوعات" : "Payments" },
-    { id: "security", label: isAr ? "الأمان" : "Security" },
-    { id: "contracts", label: isAr ? "العقود" : "Contracts" },
-    { id: "kyc", label: isAr ? "التحقق" : "KYC" },
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const contactCards = [
+    { icon: MessageCircle, title: isAr ? 'محادثة مباشرة' : 'Live Chat', desc: isAr ? 'تحدث مع فريق الدعم' : 'Chat with support team', color: '#C5A55A' },
+    { icon: Phone, title: isAr ? 'اتصل بنا' : 'Call Us', desc: '0535555900', color: '#4ADE80' },
+    { icon: Mail, title: isAr ? 'البريد' : 'Email', desc: 'info@mahamexpo.sa', color: '#38BDF8' },
   ];
 
   const faqs = [
-    { id: "f1", category: "booking", question: isAr ? "كيف أحجز وحدة في المعرض؟" : "How do I book a booth at an expo?", answer: isAr ? "يمكنك تصفح المعارض المتاحة واختيار الوحدة المناسبة، ثم الضغط على 'احجز الآن' وإتمام عملية الدفع." : "Browse available expos, select a suitable booth, click 'Book Now' and complete payment." },
-    { id: "f2", category: "payment", question: isAr ? "ما هي طرق الدفع المتاحة؟" : "What payment methods are available?", answer: isAr ? "نقبل الدفع عبر بطاقات الائتمان (فيزا/ماستركارد)، التحويل البنكي، و Apple Pay. يمكنك أيضاً الدفع على أقساط." : "We accept credit cards (Visa/Mastercard), bank transfer, and Apple Pay. Installment plans are also available." },
-    { id: "f3", category: "security", question: isAr ? "هل معلوماتي الشخصية آمنة؟" : "Is my personal information secure?", answer: isAr ? "نعم، نستخدم تشفير SSL 256-bit وجميع البيانات مخزنة في خوادم آمنة. نلتزم بمعايير PCI DSS للمدفوعات." : "Yes, we use 256-bit SSL encryption and all data is stored on secure servers. We comply with PCI DSS standards." },
-    { id: "f4", category: "contracts", question: isAr ? "متى أوقع العقد؟" : "When do I sign the contract?", answer: isAr ? "بعد تأكيد الحجز ودفع العربون، سيتم إنشاء العقد الإلكتروني تلقائياً ويمكنك توقيعه رقمياً من حسابك." : "After booking confirmation and deposit payment, a digital contract is generated and can be signed electronically from your account." },
-    { id: "f5", category: "booking", question: isAr ? "هل يمكنني تغيير الوحدة بعد الحجز؟" : "Can I change my booth after booking?", answer: isAr ? "نعم، يمكنك طلب تغيير الوحدة خلال 48 ساعة من الحجز، حسب التوفر. قد تطبق رسوم إضافية." : "Yes, you can request a booth change within 48 hours of booking, subject to availability. Additional fees may apply." },
-    { id: "f6", category: "kyc", question: isAr ? "ما المستندات المطلوبة للتحقق؟" : "What documents are needed for KYC?", answer: isAr ? "تحتاج إلى: السجل التجاري، الهوية الوطنية/الإقامة، شهادة الزكاة والدخل، وعنوان النشاط التجاري." : "You need: Commercial Registration, National ID/Iqama, ZATCA Certificate, and business address." },
-  ];
-
-  const filteredFaqs = faqs.filter(f => {
-    const matchSearch = searchQuery === "" || f.question.includes(searchQuery) || f.answer.includes(searchQuery);
-    const matchCategory = activeCategory === "all" || f.category === activeCategory;
-    return matchSearch && matchCategory;
-  });
-
-  const handleSubmitTicket = () => {
-    if (!ticketSubject.trim() || !ticketMessage.trim()) {
-      toast.error(isAr ? "يرجى ملء جميع الحقول" : "Please fill all fields");
-      return;
-    }
-    setTicketSubmitted(true);
-    toast.success(isAr ? "تم إرسال التذكرة بنجاح" : "Ticket submitted successfully");
-  };
+    {
+      q: isAr ? 'كيف أحجز جناح في المعرض؟' : 'How to book a booth?',
+      a: isAr ? 'يمكنك حجز جناح من خلال تصفح المعارض المتاحة، اختيار المعرض، فتح الخريطة التفاعلية، واختيار الجناح المناسب. بعد إرسال الطلب، سيتم مراجعته من المشرف.' : 'Browse available expos, select one, open the interactive map, and choose your booth. After submitting, it will be reviewed by the supervisor.',
+    },
+    {
+      q: isAr ? 'ما هي طرق الدفع المتاحة؟' : 'What payment methods are available?',
+      a: isAr ? 'نقبل بطاقات الائتمان، التحويل البنكي، Apple Pay، ومدى.' : 'We accept credit cards, bank transfers, Apple Pay, and Mada.',
+    },
+    {
+      q: isAr ? 'كيف أوقع العقد إلكترونيا؟' : 'How to sign contracts digitally?',
+      a: isAr ? 'بعد الموافقة على حجزك، سيظهر العقد في صفحة العقود. يمكنك مراجعة الشروط والتوقيع بضغطة زر.' : 'After booking approval, the contract appears in Contracts page. Review terms and sign with one click.',
+    },
+    {
+      q: isAr ? 'ما هي خدمات العارضين المتاحة؟' : 'What exhibitor services are available?',
+      a: isAr ? 'نوفر أكثر من 36 خدمة تشمل: تصميم البوث، الكهرباء، اللوجستيات، التسويق، الضيافة، التصوير، والمزيد.' : 'We offer 36+ services including booth design, electricity, logistics, marketing, hospitality, photography, and more.',
+    },
+    {
+      q: isAr ? 'كيف أتواصل مع الدعم الفني؟' : 'How to contact support?',
+      a: isAr ? 'يمكنك التواصل عبر الرسائل في المنصة، أو الاتصال على 0535555900، أو إرسال بريد إلكتروني إلى info@mahamexpo.sa' : 'Contact us via platform messages, call +966535555900, or email info@mahamexpo.sa',
+    },
+  ].filter(faq => faq.q.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
-    <div className="space-y-4 sm:space-y-5">
-      <div>
-        <h2 className="text-lg sm:text-xl font-bold text-gold-gradient" style={{ fontFamily: "'IBM Plex Sans Arabic', serif" }}>{isAr ? "مركز المساعدة" : "Help Center"}</h2>
-        <p className="text-[12px] t-gold/50 font-['Inter']">Help Center & Support</p>
-      </div>
+    <div className="space-y-6 pb-20 lg:pb-6">
+      <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', 'Noto Sans Arabic', serif" }}>
+        {isAr ? 'مركز المساعدة' : 'Help Center'}
+      </h1>
 
       {/* Contact Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-        {[
-          { icon: Phone, label: isAr ? "الهاتف" : "Phone", value: "+966 53 555 5900" },
-          { icon: Mail, label: isAr ? "البريد" : "Email", value: "info@mahamexpo.sa" },
-          { icon: MessageSquare, label: isAr ? "الدردشة" : "Live Chat", value: isAr ? "متاح 24/7" : "Available 24/7" },
-          { icon: Clock, label: isAr ? "ساعات العمل" : "Work Hours", value: isAr ? "أحد-خميس 9ص-6م" : "Sun-Thu 9AM-6PM" },
-        ].map((c, i) => (
-          <div key={i} className="glass-card rounded-xl p-3 text-center">
-            <c.icon size={16} className="t-gold mx-auto mb-2" />
-            <p className="text-[11px] t-secondary font-medium">{c.label}</p>
-            <p className="text-[11px] t-muted mt-0.5">{c.value}</p>
-          </div>
+      <div className="grid lg:grid-cols-3 gap-4 mb-6">
+        {contactCards.map((card, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            whileHover={{ y: -2 }}
+            className="p-4 rounded-xl bg-card border border-border/50 hover:border-[#C5A55A]/30 transition-all cursor-pointer"
+            onClick={() => toast.info(isAr ? 'قريبا' : 'Coming soon')}
+          >
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ backgroundColor: `${card.color}15` }}>
+              <card.icon className="w-5 h-5" style={{ color: card.color }} />
+            </div>
+            <h3 className="font-semibold text-sm">{card.title}</h3>
+            <p className="text-xs text-muted-foreground mt-1">{card.desc}</p>
+          </motion.div>
         ))}
       </div>
 
-      {/* Search */}
-      <div className="relative">
-        <Search size={16} className={`absolute ${isRtl ? "right-4" : "left-4"} top-1/2 -translate-y-1/2 t-muted`} />
-        <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={isAr ? "ابحث في الأسئلة الشائعة..." : "Search FAQs..."}
-          className={`w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl ${isRtl ? "pr-11 pl-4" : "pl-11 pr-4"} py-3 text-sm t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)]`} />
-      </div>
+      {/* FAQ Section */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">{isAr ? 'الأسئلة الشائعة' : 'FAQ'}</h2>
 
-      {/* Category Tabs */}
-      <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-        {categories.map((cat) => (
-          <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
-            className={`px-3 py-1.5 rounded-lg text-[11px] whitespace-nowrap transition-all ${activeCategory === cat.id ? "bg-gold-subtle border border-[var(--gold-border)] t-gold-light" : "glass-card t-tertiary hover:t-secondary"}`}>
-            {cat.label}
-          </button>
-        ))}
-      </div>
-
-      {/* FAQ List */}
-      <div className="space-y-3">
-        {filteredFaqs.map((faq) => (
-          <div key={faq.id} className="glass-card rounded-xl overflow-hidden">
-            <button onClick={() => setExpandedFaq(expandedFaq === faq.id ? null : faq.id)}
-              className="w-full flex items-center justify-between p-4">
-              <div className="flex items-center gap-3">
-                <HelpCircle size={16} className="t-gold/50 shrink-0" />
-                <p className="text-xs t-secondary text-start">{faq.question}</p>
-              </div>
-              <ChevronDown size={14} className={`t-tertiary transition-transform shrink-0 ${expandedFaq === faq.id ? "rotate-180" : ""}`} />
-            </button>
-            <AnimatePresence>
-              {expandedFaq === faq.id && (
-                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                  <div className={`px-4 pb-4 ${isRtl ? "pr-12" : "pl-12"}`}>
-                    <p className="text-xs t-tertiary leading-relaxed">{faq.answer}</p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
-      </div>
-
-      {/* Submit Ticket */}
-      <div className="glass-card rounded-xl sm:rounded-2xl p-3 sm:p-6">
-        <div className="flex items-center gap-2 mb-5">
-          <Send size={16} className="t-gold" />
-          <h3 className="text-sm font-bold t-primary">{isAr ? "إرسال تذكرة دعم" : "Submit Support Ticket"}</h3>
+        <div className="relative mb-4">
+          <Search className="absolute top-1/2 -translate-y-1/2 start-3 w-4 h-4 text-muted-foreground" />
+          <input
+            placeholder={isAr ? 'ابحث في الأسئلة...' : 'Search FAQ...'}
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="w-full ps-10 pe-4 py-2.5 rounded-lg bg-card border border-border/50 text-sm focus:outline-none focus:border-[#C5A55A]/50"
+          />
         </div>
-        {!ticketSubmitted ? (
-          <div className="space-y-4">
-            <div>
-              <label className="text-[12px] t-tertiary mb-1.5 block">{isAr ? "الموضوع" : "Subject"}</label>
-              <input type="text" value={ticketSubject} onChange={(e) => setTicketSubject(e.target.value)}
-                placeholder={isAr ? "موضوع التذكرة" : "Ticket subject"}
-                className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl px-4 py-2.5 text-xs t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)]" />
-            </div>
-            <div>
-              <label className="text-[12px] t-tertiary mb-1.5 block">{isAr ? "الرسالة" : "Message"}</label>
-              <textarea value={ticketMessage} onChange={(e) => setTicketMessage(e.target.value)}
-                placeholder={isAr ? "اكتب رسالتك هنا..." : "Type your message here..."} rows={4}
-                className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-xl px-4 py-3 text-xs t-secondary placeholder:t-muted focus:outline-none focus:border-[var(--gold-border)] resize-none" />
-            </div>
-            <button onClick={handleSubmitTicket} className="btn-gold px-6 py-2.5 rounded-xl text-xs flex items-center gap-2">
-              <Send size={14} />
-              {isAr ? "إرسال" : "Send"}
-            </button>
-          </div>
-        ) : (
-          <div className="text-center py-6">
-            <CheckCircle2 size={40} className="mx-auto text-[var(--status-green)] mb-3" />
-            <p className="text-sm t-secondary">{isAr ? "تم إرسال التذكرة بنجاح" : "Ticket submitted successfully"}</p>
-            <p className="text-xs t-tertiary">{isAr ? "رقم التذكرة" : "Ticket Number"}: #TK-2026-0847</p>
-            <p className="text-[12px] t-muted font-['Inter'] mt-1">{isAr ? "سيتم الرد خلال 24 ساعة" : "Response within 24 hours"}</p>
-          </div>
-        )}
+
+        <div className="space-y-2">
+          {faqs.map((faq, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className="rounded-xl bg-card border border-border/50 overflow-hidden"
+            >
+              <button
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                className="w-full p-4 flex items-center justify-between text-start"
+              >
+                <span className="font-medium text-sm">{faq.q}</span>
+                {openFaq === i
+                  ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
+                  : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />
+                }
+              </button>
+              {openFaq === i && (
+                <div className="px-4 pb-4">
+                  <p className="text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Create Ticket */}
+      <div className="p-6 rounded-xl bg-card border border-[#C5A55A]/20 text-center">
+        <FileText className="w-10 h-10 text-[#C5A55A] mx-auto mb-3" />
+        <h3 className="font-semibold mb-2">{isAr ? 'إنشاء تذكرة دعم' : 'Create Support Ticket'}</h3>
+        <p className="text-sm text-muted-foreground mb-4">
+          {isAr ? 'لم تجد إجابة؟ أنشئ تذكرة دعم وسنرد عليك خلال 24 ساعة' : "Didn't find an answer? Create a support ticket and we'll respond within 24 hours"}
+        </p>
+        <button
+          onClick={() => toast.info(isAr ? 'قريبا' : 'Coming soon')}
+          className="px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90 font-semibold"
+        >
+          {isAr ? 'إنشاء تذكرة دعم' : 'Create Support Ticket'}
+        </button>
       </div>
     </div>
   );

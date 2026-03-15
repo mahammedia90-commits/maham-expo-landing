@@ -1,503 +1,338 @@
 'use client';
 
-/**
- * Bookings — Enhanced Booking Management with Full Flow
- * Uses empty arrays for bookings/payments/contracts since no full auth context
- */
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import {
-  CalendarCheck, Search, Eye, Download, Plus, CheckCircle,
-  AlertTriangle, XCircle, Clock, CreditCard, FileText, MapPin,
-  Shield, ChevronDown, X, Building2, Zap, Lock, Flame, Tag
-} from "lucide-react";
-import { toast } from "sonner";
-import { useLanguageStore } from "@/shared/store/useLanguageStore";
-import { useThemeStore } from "@/shared/store/useThemeStore";
-import { useAuthStore } from "@/shared/store/useAuthStore";
+  CalendarCheck, Search, CheckCircle, XCircle, Clock, CreditCard,
+  FileText, Plus, ChevronUp, ChevronDown, Download
+} from 'lucide-react';
+import { useLanguageStore } from '@/shared/store/useLanguageStore';
+import { useTraderStore } from '@/features/merchant-dashboard/store/useTraderStore';
+
+interface Booking {
+  id: string;
+  orderId: string;
+  expoTitle: string;
+  boothId: string;
+  zone: string;
+  area: number;
+  boothType: string;
+  price: number;
+  status: 'pending_review' | 'approved' | 'pending_payment' | 'paid' | 'rejected' | 'cancelled';
+  createdAt: string;
+  reviewerNote?: string;
+  contractId?: string;
+}
 
 export default function Bookings() {
   const { language, isRtl } = useLanguageStore();
-  const { theme } = useThemeStore();
-  const isDark = theme === "dark";
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [search, setSearch] = useState("");
-  const [selectedBooking, setSelectedBooking] = useState<any>(null);
-  const [showGuard, setShowGuard] = useState(false);
+  const isAr = language === 'ar';
 
-  const isAr = language === "ar";
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [search, setSearch] = useState('');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // Empty arrays since we don't have full auth context
-  const bookings: any[] = [];
-  const contracts: any[] = [];
-  const canBook = true;
+  // Read bookings from persistent trader store
+  const storeBookings = useTraderStore((s) => s.bookings);
+
+  // Map store bookings to page format
+  const bookings: Booking[] = storeBookings.map((b) => ({
+    id: b.id,
+    orderId: b.id,
+    expoTitle: isAr ? b.expoNameAr : b.expoNameEn,
+    boothId: b.unitAr || b.unitEn,
+    zone: b.zone,
+    area: parseInt(b.boothSize) || 0,
+    boothType: b.boothType,
+    price: b.price,
+    status: b.status === 'confirmed' || b.status === 'active' ? 'paid' : b.status as Booking['status'],
+    createdAt: b.createdAt,
+    contractId: b.contractId ?? undefined,
+  }));
+
+  const filtered = useMemo(() =>
+    bookings.filter(b => {
+      const matchStatus = filterStatus === 'all' || b.status === filterStatus;
+      const matchSearch = !search || b.orderId.includes(search) || b.expoTitle.includes(search) || b.boothId.includes(search);
+      return matchStatus && matchSearch;
+    }),
+    [bookings, filterStatus, search]
+  );
+
+  const statusConfig: Record<string, { icon: typeof CheckCircle; color: string; bg: string }> = {
+    pending_review: { icon: Clock, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+    approved: { icon: CheckCircle, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+    pending_payment: { icon: CreditCard, color: 'text-orange-400', bg: 'bg-orange-500/10' },
+    paid: { icon: CheckCircle, color: 'text-green-400', bg: 'bg-green-500/10' },
+    rejected: { icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10' },
+    cancelled: { icon: XCircle, color: 'text-gray-400', bg: 'bg-gray-500/10' },
+  };
 
   const statusLabel = (status: string) => {
     const map: Record<string, string> = {
-      confirmed: isAr ? "مؤكد" : "Confirmed",
-      active: isAr ? "نشط" : "Active",
-      pending_payment: isAr ? "بانتظار الدفع" : "Pending Payment",
-      pending_review: isAr ? "بانتظار موافقة المشرف" : "Awaiting Supervisor Approval",
-      approved: isAr ? "مقبول — بانتظار الدفع" : "Approved — Awaiting Payment",
-      rejected: isAr ? "مرفوض" : "Rejected",
-      cancelled: isAr ? "ملغي" : "Cancelled",
+      pending_review: isAr ? 'قيد المراجعة' : 'Under Review',
+      approved: isAr ? 'تمت الموافقة' : 'Approved',
+      pending_payment: isAr ? 'بانتظار الدفع' : 'Pending Payment',
+      paid: isAr ? 'مدفوع' : 'Paid',
+      rejected: isAr ? 'مرفوض' : 'Rejected',
+      cancelled: isAr ? 'ملغي' : 'Cancelled',
     };
     return map[status] || status;
   };
-  const statusColor: Record<string, string> = {
-    confirmed: "#4ADE80", active: "#60A5FA", pending_payment: "#FBBF24",
-    pending_review: "#A78BFA", approved: "#34D399", rejected: "#F87171",
-    cancelled: "#F87171",
+
+  const counts = useMemo(() => ({
+    all: bookings.length,
+    pending_review: bookings.filter(b => b.status === 'pending_review').length,
+    approved: bookings.filter(b => b.status === 'approved').length,
+    paid: bookings.filter(b => b.status === 'paid').length,
+    rejected: bookings.filter(b => b.status === 'rejected').length,
+    cancelled: bookings.filter(b => b.status === 'cancelled').length,
+  }), [bookings]);
+
+  const getProgressSteps = (status: string) => {
+    const steps = [
+      { key: 'submitted', label: isAr ? 'تم الإرسال' : 'Submitted' },
+      { key: 'review', label: isAr ? 'قيد المراجعة' : 'Under Review' },
+      { key: 'approved', label: isAr ? 'تمت الموافقة' : 'Approved' },
+      { key: 'payment', label: isAr ? 'الدفع' : 'Payment' },
+      { key: 'confirmed', label: isAr ? 'مؤكد' : 'Confirmed' },
+    ];
+    const currentStep: Record<string, number> = {
+      pending_review: 1, approved: 2, pending_payment: 3, paid: 4, rejected: -1, cancelled: -1,
+    };
+    return { steps, current: currentStep[status] ?? 0 };
   };
-  const StatusIcon: Record<string, any> = {
-    confirmed: CheckCircle, active: Zap, pending_payment: Clock,
-    pending_review: Clock, approved: CheckCircle, rejected: XCircle,
-    cancelled: XCircle,
-  };
-
-  const filtered = bookings.filter(b => {
-    if (filterStatus !== "all" && b.status !== filterStatus) return false;
-    if (search && !b.unitAr.includes(search) && !b.unitEn?.toLowerCase().includes(search.toLowerCase()) && !b.id.includes(search) && !b.expoNameAr.includes(search)) return false;
-    return true;
-  });
-
-  const totalValue = bookings.filter(b => b.status !== "cancelled").reduce((a: number, b: any) => a + b.price, 0);
-  const totalPaid = bookings.reduce((a: number, b: any) => a + b.paidAmount, 0);
-  const totalRemaining = bookings.reduce((a: number, b: any) => a + b.remainingAmount, 0);
-  const getContract = (bookingId: string) => contracts.find((c: any) => c.bookingId === bookingId);
-
-  const unitLabel = (b: any) => isRtl ? b.unitAr : (b.unitEn || b.unitAr);
-  const expoLabel = (b: any) => isRtl ? b.expoNameAr : (b.expoNameEn || b.expoNameAr);
 
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <div className="space-y-5 pb-20 lg:pb-6">
       {/* Header */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gold-gradient">{isAr ? "إدارة الحجوزات" : "Booking Management"}</h2>
-          <p className="text-[12px] t-gold/50 font-['Inter']">Booking Management</p>
+          <h1 className="text-2xl font-bold" style={{ fontFamily: "'Playfair Display', 'Noto Sans Arabic', serif" }}>
+            {isAr ? 'الحجوزات' : 'Bookings'}
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            {isAr ? `${bookings.length} حجز` : `${bookings.length} bookings`}
+          </p>
         </div>
-        {canBook ? (
-          <Link href="/dashboard/expos">
-            <button className="btn-gold px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5">
-              <Plus size={14} />
-              <span>{isAr ? "حجز جديد" : "New Booking"}</span>
-            </button>
-          </Link>
-        ) : (
-          <button onClick={() => setShowGuard(true)} className="btn-gold px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5">
-            <Plus size={14} />
-            <span>{isAr ? "حجز جديد" : "New Booking"}</span>
+        <Link href="/dashboard/expos">
+          <button className="bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] hover:opacity-90 font-semibold text-sm px-4 py-2 rounded-lg flex items-center gap-1.5">
+            <Plus className="w-4 h-4" />
+            {isAr ? 'حجز الآن' : 'Book Now'}
           </button>
-        )}
+        </Link>
       </div>
 
-      {/* Approved Bookings Banner — Pay Now */}
-      {bookings.some((b: any) => b.status === "approved") && (
-        <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl" style={{ backgroundColor: "rgba(74, 222, 128, 0.08)", border: "1px solid rgba(74, 222, 128, 0.15)" }}>
-          <CheckCircle size={14} className="text-[var(--status-green)] shrink-0" />
-          <div className="flex-1">
-            <p className="text-[11px] text-[var(--status-green)] font-semibold">{isAr ? "تمت الموافقة على طلبك! أكمل الدفع الآن" : "Your request was approved! Complete payment now"}</p>
-            <p className="text-[11px] t-muted">{isAr ? "يجب إتمام الدفع خلال فترة التثبيت المؤقت" : "Payment must be completed within the hold period"}</p>
-          </div>
-          <Link href={`/dashboard/expos/${bookings.find((b: any) => b.status === 'approved')?.expoId || ''}`}>
-            <button className="btn-gold px-3 py-1.5 rounded-lg text-[12px] flex items-center gap-1">
-              <CreditCard size={11} /> {isAr ? "ادفع الآن" : "Pay Now"}
-            </button>
-          </Link>
-        </div>
-      )}
-
-      {/* Pending Review Banner */}
-      {bookings.some((b: any) => b.status === "pending_review") && (
-        <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl" style={{ backgroundColor: "rgba(167, 139, 250, 0.08)", border: "1px solid rgba(167, 139, 250, 0.15)" }}>
-          <Clock size={14} className="text-purple-400 shrink-0 animate-pulse" />
-          <div className="flex-1">
-            <p className="text-[11px] text-purple-400 font-semibold">{isAr ? "طلبك قيد المراجعة من المشرف" : "Your request is under supervisor review"}</p>
-            <p className="text-[11px] t-muted">{isAr ? "ستتلقى إشعاراً بالنتيجة خلال دقائق" : "You will receive a notification shortly"}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Rejected Booking Banner */}
-      {bookings.some((b: any) => b.status === "rejected") && (
-        <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl" style={{ backgroundColor: "rgba(248, 113, 113, 0.08)", border: "1px solid rgba(248, 113, 113, 0.15)" }}>
-          <XCircle size={14} className="text-red-400 shrink-0" />
-          <div className="flex-1">
-            <p className="text-[11px] text-red-400 font-semibold">{isAr ? "تم رفض أحد طلباتك" : "One of your requests was rejected"}</p>
-            <p className="text-[11px] t-muted">{isAr ? "يمكنك التقدم بطلب جديد لوحدة أخرى" : "You can apply for a different unit"}</p>
-          </div>
-          <Link href="/dashboard/expos">
-            <button className="glass-card px-3 py-1.5 rounded-lg text-[12px] t-secondary flex items-center gap-1">
-              <Plus size={11} /> {isAr ? "طلب جديد" : "New Request"}
-            </button>
-          </Link>
-        </div>
-      )}
-
-      {/* Price Alert / Incentive Banner */}
-      {bookings.some((b: any) => b.status === "pending_payment") && (
-        <div className="flex items-center gap-2 px-3 py-2 rounded-xl" style={{ backgroundColor: "rgba(251, 191, 36, 0.06)", border: "1px solid rgba(251, 191, 36, 0.12)" }}>
-          <Flame size={13} className="text-[var(--status-yellow)] shrink-0" />
-          <p className="text-[12px] t-secondary flex-1">{isAr ? "هذا الجناح محجوز لك لمدة 30 دقيقة" : "This booth is reserved for you for 30 minutes"}</p>
-          <Link href="/dashboard/payments">
-            <span className="text-[12px] t-gold underline cursor-pointer">{isAr ? "ادفع الآن" : "Pay Now"}</span>
-          </Link>
-        </div>
-      )}
-
-      {/* KYC Notice */}
-      {!canBook && (
-        <div className="glass-card rounded-xl p-3 border-[var(--status-yellow)]/20">
-          <div className="flex items-center gap-2">
-            <Lock size={14} className="text-[var(--status-yellow)] shrink-0" />
-            <p className="text-[11px] text-[var(--status-yellow)]">{isAr ? "يجب توثيق حسابك (KYC) قبل إنشاء حجوزات جديدة" : "You must verify your account (KYC) before creating new bookings"}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
-        {[
-          { label: isAr ? "إدارة الحجوزات" : "Bookings", display: bookings.length.toString(), color: "#C5A55A" },
-          { label: isAr ? "نشط" : "Active", display: bookings.filter((b: any) => ["confirmed", "active"].includes(b.status)).length.toString(), color: "#4ADE80" },
-          { label: isAr ? "قيمة العقد" : "Contract Value", display: totalValue > 0 ? `${(totalValue / 1000).toFixed(0)}K` : "0", color: "#C5A55A" },
-          { label: isAr ? "إجمالي المدفوع" : "Total Paid", display: totalPaid > 0 ? `${(totalPaid / 1000).toFixed(0)}K` : "0", color: "#4ADE80" },
-          { label: isAr ? "إجمالي المتبقي" : "Total Remaining", display: totalRemaining > 0 ? `${(totalRemaining / 1000).toFixed(0)}K` : "0", color: "#FBBF24" },
-        ].map((s, i) => (
-          <div key={i} className={`glass-card rounded-xl p-2 sm:p-3 text-center ${i >= 3 ? "hidden lg:block" : ""}`}>
-            <p className="text-base sm:text-xl font-bold font-['Inter']" style={{ color: s.color }}>{s.display}</p>
-            <p className="text-[11px] sm:text-[12px] t-tertiary mt-0.5">{s.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Search + Filter */}
-      <div className="space-y-2 sm:space-y-0 sm:flex sm:gap-3">
-        <div className="flex-1 relative">
-          <Search size={14} className={`absolute ${isRtl ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 t-tertiary`} />
-          <input type="text" placeholder={`${isAr ? "بحث" : "Search"}...`} value={search} onChange={(e) => setSearch(e.target.value)}
-            className={`w-full glass-card rounded-xl ${isRtl ? "pr-9 pl-3" : "pl-9 pr-3"} py-2.5 text-xs t-primary placeholder:t-muted gold-focus bg-transparent`} />
-        </div>
-        <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-          {["all", "confirmed", "active", "pending_payment", "pending_review", "approved", "rejected", "cancelled"].map((s) => (
-            <button key={s} onClick={() => setFilterStatus(s)}
-              className={`px-2.5 py-1.5 rounded-lg text-[12px] sm:text-[11px] transition-all whitespace-nowrap shrink-0 ${filterStatus === s ? "btn-gold" : "glass-card t-secondary"}`}>
-              {s === "all" ? (isAr ? "الكل" : "All") : statusLabel(s)}
-            </button>
-          ))}
+      {/* Search */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute top-1/2 -translate-y-1/2 start-3 w-4 h-4 text-muted-foreground" />
+          <input
+            placeholder={isAr ? 'ابحث برقم الطلب أو المعرض...' : 'Search by order ID or expo...'}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full ps-10 pe-3 py-2.5 rounded-lg text-sm bg-card border border-border/50 t-primary placeholder:text-muted-foreground focus:outline-none focus:border-[#C5A55A]/50"
+          />
         </div>
       </div>
 
-      {/* Empty State */}
-      {bookings.length === 0 && (
-        <div className="glass-card rounded-xl sm:rounded-2xl p-8 text-center">
-          <CalendarCheck size={36} className="mx-auto t-muted mb-3" />
-          <p className="text-sm t-secondary mb-1">{isAr ? "لا توجد حجوزات" : "No bookings"}</p>
-          <p className="text-[12px] t-muted mb-3">{isAr ? "تصفح المعارض واحجز وحدتك التجارية" : "Browse exhibitions and book your commercial unit"}</p>
-          <Link href="/dashboard/expos">
-            <button className="btn-gold px-4 py-2 rounded-xl text-xs">{isAr ? "تصفح المعارض" : "Browse Expos"}</button>
-          </Link>
-        </div>
-      )}
-
-      {/* Mobile: Cards View */}
-      <div className="lg:hidden space-y-3">
-        {filtered.map((b: any, i: number) => {
-          const sc = statusColor[b.status] || "#FBBF24";
-          const SIcon = StatusIcon[b.status] || Clock;
-          const contract = getContract(b.id);
+      {/* Filter Tabs */}
+      <div className="flex flex-wrap gap-2">
+        {['all', 'pending_review', 'approved', 'paid', 'rejected', 'cancelled'].map((s) => {
+          const config = statusConfig[s];
+          const IconComp = config?.icon;
           return (
-            <motion.div key={b.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
-              onClick={() => setSelectedBooking(b)} className="glass-card rounded-xl p-3 active:scale-[0.98] transition-transform cursor-pointer">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold t-primary truncate">{unitLabel(b)}</p>
-                  <p className="text-[12px] t-muted font-['Inter']">{b.id} · Zone {b.zone}</p>
-                </div>
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] shrink-0"
-                  style={{ backgroundColor: `${sc}15`, color: sc, border: `1px solid ${sc}25` }}>
-                  <SIcon size={9} /> {statusLabel(b.status)}
+            <button
+              key={s}
+              onClick={() => setFilterStatus(s)}
+              className={`px-3 py-1.5 rounded-lg text-xs border transition-all flex items-center gap-1.5 ${
+                filterStatus === s
+                  ? 'bg-[#C5A55A]/10 text-[#C5A55A] border-[#C5A55A]/30 font-medium'
+                  : 'bg-card/30 text-muted-foreground border-border/30 hover:text-foreground'
+              }`}
+            >
+              {s !== 'all' && IconComp && <IconComp className={`w-3 h-3 ${config.color}`} />}
+              {s === 'all' ? (isAr ? 'الكل' : 'All') : statusLabel(s)}
+              {(counts as any)[s] > 0 && (
+                <span className="bg-card/50 text-[10px] h-4 min-w-4 px-1 rounded-full flex items-center justify-center">
+                  {(counts as any)[s]}
                 </span>
-              </div>
-              <p className="text-[11px] t-tertiary truncate mb-2">{expoLabel(b)}</p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div>
-                    <p className="text-[11px] t-muted">{isAr ? "السعر" : "Price"}</p>
-                    <p className="text-xs font-semibold t-secondary font-['Inter']">{b.price.toLocaleString()}</p>
-                  </div>
-                  <div>
-                    <p className="text-[11px] t-muted">{isAr ? "إجمالي المدفوع" : "Total Paid"}</p>
-                    <p className="text-xs font-semibold text-[var(--status-green)] font-['Inter']">{b.paidAmount.toLocaleString()}</p>
-                  </div>
-                  {b.remainingAmount > 0 && (
-                    <div>
-                      <p className="text-[11px] t-muted">{isAr ? "إجمالي المتبقي" : "Total Remaining"}</p>
-                      <p className="text-xs font-semibold text-[var(--status-yellow)] font-['Inter']">{b.remainingAmount.toLocaleString()}</p>
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-center gap-1">
-                  {contract && <FileText size={12} className="t-gold" />}
-                  <Eye size={14} className="t-tertiary" />
-                </div>
-              </div>
-            </motion.div>
+              )}
+            </button>
           );
         })}
       </div>
 
-      {/* Desktop: Table View */}
-      {filtered.length > 0 && (
-        <div className="hidden lg:block glass-card rounded-2xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[var(--glass-border)]">
-                  {[
-                    isAr ? "رقم الحجز" : "Booking ID",
-                    isAr ? "الوحدة" : "Unit",
-                    isAr ? "المعرض" : "Exhibition",
-                    isAr ? "السعر" : "Price",
-                    isAr ? "إجمالي المدفوع" : "Total Paid",
-                    isAr ? "إجمالي المتبقي" : "Total Remaining",
-                    isAr ? "الحالة" : "Status",
-                    isAr ? "العقود والاتفاقيات" : "Contracts",
-                    isAr ? "الإجراءات" : "Actions"
-                  ].map((h, i) => (
-                    <th key={i} className={`${isRtl ? "text-right" : "text-left"} px-4 py-3 text-[11px] t-tertiary font-medium`}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((b: any, i: number) => {
-                  const sc = statusColor[b.status] || "#FBBF24";
-                  const SIcon = StatusIcon[b.status] || Clock;
-                  const contract = getContract(b.id);
-                  return (
-                    <motion.tr key={b.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.05 }}
-                      className="border-b border-white/[0.03] hover:bg-[var(--glass-bg)] transition-colors">
-                      <td className="px-4 py-3 text-xs t-gold font-['Inter'] font-medium">{b.id}</td>
-                      <td className="px-4 py-3">
-                        <p className="text-xs t-primary">{unitLabel(b)}</p>
-                        <p className="text-[11px] t-tertiary font-['Inter']">Zone {b.zone}</p>
-                      </td>
-                      <td className="px-4 py-3">
-                        <p className="text-xs t-secondary line-clamp-1">{expoLabel(b)}</p>
-                      </td>
-                      <td className="px-4 py-3 text-xs t-secondary font-['Inter']">{b.price.toLocaleString()}</td>
-                      <td className="px-4 py-3 text-xs text-[var(--status-green)] font-['Inter']">{b.paidAmount.toLocaleString()}</td>
-                      <td className="px-4 py-3 text-xs font-['Inter']">
-                        <span className={b.remainingAmount > 0 ? "text-[var(--status-yellow)]" : "text-[var(--status-green)]"}>
-                          {b.remainingAmount.toLocaleString()}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[12px]"
-                          style={{ backgroundColor: `${sc}15`, color: sc, border: `1px solid ${sc}25` }}>
-                          <SIcon size={10} /> {statusLabel(b.status)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        {contract ? (
-                          <Link href="/dashboard/contracts">
-                            <span className="text-[12px] t-gold underline cursor-pointer">{contract.id}</span>
-                          </Link>
-                        ) : (
-                          <span className="text-[12px] t-muted">{isAr ? "بعد الدفع" : "After Payment"}</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-1">
-                          <button onClick={() => setSelectedBooking(b)} className="p-2 rounded-lg hover:bg-[var(--glass-bg)] t-tertiary hover:t-gold transition-colors">
-                            <Eye size={14} />
-                          </button>
-                          {b.status === "pending_payment" && (
-                            <Link href="/dashboard/payments">
-                              <button className="p-2 rounded-lg hover:bg-[var(--glass-bg)] text-[var(--status-yellow)] transition-colors">
-                                <CreditCard size={14} />
-                              </button>
-                            </Link>
-                          )}
-                          {b.status === "approved" && (
-                            <Link href={`/dashboard/expos/${b.expoId}`}>
-                              <button className="px-2.5 py-1.5 rounded-lg text-[12px] btn-gold flex items-center gap-1" title={isAr ? 'إكمال الدفع' : 'Complete Payment'}>
-                                <CreditCard size={12} /> {isAr ? 'ادفع' : 'Pay'}
-                              </button>
-                            </Link>
-                          )}
-                          {b.status === "pending_review" && (
-                            <span className="px-2 py-1 rounded-lg text-[12px] text-purple-400 animate-pulse flex items-center gap-1">
-                              <Clock size={11} /> {isAr ? 'قيد المراجعة' : 'Reviewing'}
-                            </span>
-                          )}
-                          {b.status === "rejected" && (
-                            <span className="px-2 py-1 rounded-lg text-[12px] text-red-400 flex items-center gap-1">
-                              <XCircle size={11} /> {isAr ? 'مرفوض' : 'Rejected'}
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                    </motion.tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+      {/* Empty State */}
+      {filtered.length === 0 ? (
+        <div className="p-12 rounded-xl bg-card border border-border/50 text-center">
+          <CalendarCheck className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground font-medium">
+            {isAr ? 'لا توجد حجوزات' : 'No bookings found'}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {isAr ? 'ابدأ بتصفح المعارض وحجز جناحك' : 'Start browsing expos and book your booth'}
+          </p>
+          <Link href="/dashboard/expos">
+            <button className="mt-4 px-4 py-2 rounded-lg text-sm border border-border/50 t-secondary hover:border-[#C5A55A]/30 transition-colors">
+              {isAr ? 'حجز الآن' : 'Book Now'}
+            </button>
+          </Link>
         </div>
-      )}
+      ) : (
+        <div className="space-y-3">
+          {filtered.map((booking, i) => {
+            const config = statusConfig[booking.status] || statusConfig.pending_review;
+            const StatusIcon = config.icon;
+            const isExpanded = expandedId === booking.id;
+            const { steps, current } = getProgressSteps(booking.status);
 
-      {/* Booking Detail Modal */}
-      <AnimatePresence>
-        {selectedBooking && (
-          <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 backdrop-blur-sm" style={{ background: "var(--modal-overlay)" }} onClick={() => setSelectedBooking(null)} />
-            <motion.div
-              initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 left-0 right-0 max-h-[92vh] lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:w-[560px] lg:max-h-[85vh] z-50 overflow-y-auto rounded-t-2xl lg:rounded-2xl"
-              style={{ background: "var(--modal-bg)", borderTop: "1px solid var(--glass-border)", paddingBottom: "env(safe-area-inset-bottom, 16px)" }}
-              dir={isRtl ? "rtl" : "ltr"}>
-              <div style={{ background: "var(--modal-bg)" }}>
-                <div className="flex justify-center pt-3 pb-1 sm:hidden">
-                  <div className="w-10 h-1 rounded-full" style={{ background: "var(--glass-border)" }} />
-                </div>
-                <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-10"
-                  style={{ background: "var(--modal-bg)", borderBottom: "1px solid var(--glass-border)" }}>
-                  <div>
-                    <h3 className="text-base font-bold t-primary">{isAr ? "تفاصيل الحجز" : "Booking Details"}</h3>
-                    <p className="text-[12px] t-gold font-['Inter']">{selectedBooking.id}</p>
-                  </div>
-                  <button onClick={() => setSelectedBooking(null)} className="p-2 rounded-lg t-tertiary" style={{ background: "var(--glass-bg)" }}>
-                    <X size={16} />
-                  </button>
-                </div>
-
-                <div className="px-4 sm:px-6 py-4 space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="text-sm font-bold t-primary">{unitLabel(selectedBooking)}</p>
-                      <p className="text-[12px] t-muted font-['Inter']">Zone {selectedBooking.zone}</p>
-                      <p className="text-xs t-tertiary mt-1">{expoLabel(selectedBooking)}</p>
-                    </div>
-                    {(() => {
-                      const sc = statusColor[selectedBooking.status] || "#FBBF24";
-                      const SIcon = StatusIcon[selectedBooking.status] || Clock;
-                      return (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[12px] shrink-0"
-                          style={{ backgroundColor: `${sc}15`, color: sc, border: `1px solid ${sc}25` }}>
-                          <SIcon size={10} /> {statusLabel(selectedBooking.status)}
-                        </span>
-                      );
-                    })()}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    {[
-                      { label: isAr ? "النوع" : "Type", value: selectedBooking.boothType },
-                      { label: isAr ? "المساحة" : "Size", value: selectedBooking.boothSize },
-                      { label: isAr ? "التاريخ" : "Date", value: selectedBooking.date },
-                      { label: isAr ? "العقود والاتفاقيات" : "Contracts", value: getContract(selectedBooking.id)?.id || (isAr ? "بعد الدفع" : "After Payment") },
-                    ].map((d, i) => (
-                      <div key={i} className="p-2.5 rounded-xl" style={{ background: "var(--modal-inner-bg)", border: "1px solid var(--glass-border)" }}>
-                        <p className="text-[11px] t-muted mb-0.5">{d.label}</p>
-                        <p className="text-xs t-secondary font-medium">{d.value}</p>
+            return (
+              <motion.div
+                key={booking.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04 }}
+                className="rounded-xl bg-card border border-border/50 hover:border-[#C5A55A]/20 transition-all overflow-hidden"
+              >
+                {/* Card Header */}
+                <div
+                  className="p-4 cursor-pointer"
+                  onClick={() => setExpandedId(isExpanded ? null : booking.id)}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
+                        <StatusIcon className={`w-5 h-5 ${config.color}`} />
                       </div>
-                    ))}
-                  </div>
-
-                  <div className="rounded-xl p-3" style={{ background: "var(--modal-inner-bg)", border: "1px solid var(--glass-border)" }}>
-                    <h4 className="text-[11px] font-bold t-secondary mb-2">{isAr ? "الملخص المالي" : "Financial Summary"}</h4>
-                    <div className="space-y-1.5">
-                      {[
-                        { label: isAr ? "السعر الإجمالي" : "Total Price", value: `${selectedBooking.price.toLocaleString()} ${isAr ? "ر.س" : "SAR"}`, color: "var(--text-secondary)" },
-                        { label: isAr ? "العربون (5%)" : "Deposit (5%)", value: `${selectedBooking.deposit.toLocaleString()} ${isAr ? "ر.س" : "SAR"}`, color: "var(--text-secondary)" },
-                        { label: isAr ? "إجمالي المدفوع" : "Total Paid", value: `${selectedBooking.paidAmount.toLocaleString()} ${isAr ? "ر.س" : "SAR"}`, color: "var(--status-green)" },
-                      ].map((f, i) => (
-                        <div key={i} className="flex justify-between text-xs">
-                          <span className="t-tertiary">{f.label}</span>
-                          <span className="font-['Inter']" style={{ color: f.color }}>{f.value}</span>
+                      <div>
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span className="font-mono text-xs text-muted-foreground">{booking.orderId}</span>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${config.bg} ${config.color}`}>
+                            {statusLabel(booking.status)}
+                          </span>
                         </div>
-                      ))}
-                      <div className="flex justify-between text-xs pt-1.5 mt-1.5" style={{ borderTop: "1px solid var(--glass-border)" }}>
-                        <span className="t-secondary font-bold">{isAr ? "إجمالي المتبقي" : "Total Remaining"}</span>
-                        <span className={`font-bold font-['Inter'] ${selectedBooking.remainingAmount > 0 ? "text-[var(--status-yellow)]" : "text-[var(--status-green)]"}`}>
-                          {selectedBooking.remainingAmount.toLocaleString()} {isAr ? "ر.س" : "SAR"}
-                        </span>
+                        <h3 className="font-semibold text-sm t-primary">{booking.expoTitle}</h3>
                       </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-[#C5A55A]">
+                        {booking.price.toLocaleString()} {isAr ? 'ر.س' : 'SAR'}
+                      </span>
+                      {isExpanded ? (
+                        <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                      )}
                     </div>
                   </div>
 
-                  {(() => {
-                    const contract = getContract(selectedBooking.id);
-                    if (contract) {
-                      return (
-                        <div className="rounded-xl p-3 bg-[var(--status-green)]/5 border border-[var(--status-green)]/10">
-                          <div className="flex items-center gap-2">
-                            <CheckCircle size={14} className="text-[var(--status-green)]" />
-                            <div>
-                              <p className="text-[11px] text-[var(--status-green)] font-semibold">{isAr ? "تم إصدار العقد بنجاح" : "Contract issued successfully"}</p>
-                              <p className="text-[11px] t-muted font-['Inter']">{contract.id}</p>
+                  {/* Info Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                    <div>
+                      <span className="text-muted-foreground block">{isAr ? 'الجناح' : 'Booth'}</span>
+                      <span className="font-medium t-primary">{booking.boothId}</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground block">{isAr ? 'المنطقة' : 'Zone'}</span>
+                      <span className="font-medium t-primary">{booking.zone}</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground block">{isAr ? 'المساحة' : 'Area'}</span>
+                      <span className="font-medium t-primary">{booking.area} m&sup2;</span>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground block">{isAr ? 'التاريخ' : 'Date'}</span>
+                      <span className="font-medium t-primary" dir="ltr">{booking.createdAt}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expanded Content */}
+                <AnimatePresence>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 pb-4 space-y-4 border-t border-border/30 pt-4">
+                        {/* Status Tracking */}
+                        {current >= 0 && (
+                          <div>
+                            <h4 className="text-xs font-semibold text-muted-foreground mb-3">
+                              {isAr ? 'تتبع الحالة' : 'Status Tracking'}
+                            </h4>
+                            <div className="flex items-center justify-between relative">
+                              <div className="absolute top-3 start-0 end-0 h-0.5 bg-border/50" />
+                              {steps.map((step, idx) => (
+                                <div key={step.key} className="relative flex flex-col items-center z-10">
+                                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                                    idx < current
+                                      ? 'bg-green-500 text-white'
+                                      : idx === current
+                                      ? 'bg-[#C5A55A] text-[#0A0A12]'
+                                      : 'bg-card text-muted-foreground border border-border/50'
+                                  }`}>
+                                    {idx < current ? <CheckCircle className="w-3.5 h-3.5" /> : idx + 1}
+                                  </div>
+                                  <span className={`text-[9px] mt-1 whitespace-nowrap ${
+                                    idx <= current ? 'text-foreground font-medium' : 'text-muted-foreground'
+                                  }`}>
+                                    {step.label}
+                                  </span>
+                                </div>
+                              ))}
                             </div>
                           </div>
-                        </div>
-                      );
-                    }
-                    if (selectedBooking.status === "pending_payment") {
-                      return (
-                        <div className="rounded-xl p-3 bg-[var(--status-yellow)]/5 border border-[var(--status-yellow)]/10">
-                          <div className="flex items-center gap-2">
-                            <Lock size={14} className="text-[var(--status-yellow)]" />
-                            <p className="text-[11px] text-[var(--status-yellow)]">{isAr ? "العقد يصدر تلقائياً بعد إتمام الدفع" : "Contract is issued automatically after payment completion"}</p>
+                        )}
+
+                        {/* Reviewer Note */}
+                        {booking.reviewerNote && (
+                          <div className="p-3 rounded-lg bg-card/50 border border-border/30">
+                            <span className="text-xs text-muted-foreground block mb-1">
+                              {isAr ? 'ملاحظة المشرف' : 'Reviewer Note'}
+                            </span>
+                            <p className="text-sm t-primary">{booking.reviewerNote}</p>
                           </div>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-wrap gap-2">
+                          {booking.status === 'approved' && booking.contractId && (
+                            <>
+                              <Link href="/dashboard/contracts">
+                                <button className="px-3 py-1.5 rounded-lg text-xs border border-border/50 t-secondary flex items-center gap-1 hover:border-[#C5A55A]/30 transition-colors">
+                                  <FileText className="w-3 h-3" />
+                                  {isAr ? 'عرض العقد' : 'View Contract'}
+                                </button>
+                              </Link>
+                              <Link href="/dashboard/payments">
+                                <button className="px-3 py-1.5 rounded-lg text-xs bg-gradient-to-r from-[#C5A55A] to-[#E8D5A3] text-[#0A0A12] font-semibold flex items-center gap-1">
+                                  <CreditCard className="w-3 h-3" />
+                                  {isAr ? 'ادفع الآن' : 'Pay Now'}
+                                </button>
+                              </Link>
+                            </>
+                          )}
+                          {booking.status === 'paid' && (
+                            <button className="px-3 py-1.5 rounded-lg text-xs border border-border/50 t-secondary flex items-center gap-1 hover:border-[#C5A55A]/30 transition-colors">
+                              <Download className="w-3 h-3" />
+                              {isAr ? 'تحميل الإيصال' : 'Download Receipt'}
+                            </button>
+                          )}
                         </div>
-                      );
-                    }
-                    return null;
-                  })()}
-
-                  {selectedBooking.services?.length > 0 && (
-                    <div>
-                      <p className="text-[12px] t-tertiary mb-1.5">{isAr ? "الخدمات" : "Services"}</p>
-                      <div className="flex gap-1.5 flex-wrap">
-                        {selectedBooking.services.map((s: string, i: number) => (
-                          <span key={i} className="px-2 py-1 rounded-lg text-[12px] t-secondary" style={{ background: "var(--glass-bg)", border: "1px solid var(--glass-border)" }}>{s}</span>
-                        ))}
                       </div>
-                    </div>
+                    </motion.div>
                   )}
-
-                  <div className="flex gap-2 pt-2 pb-2">
-                    {selectedBooking.remainingAmount > 0 && (
-                      <Link href="/dashboard/payments" className="flex-1">
-                        <button className="w-full btn-gold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5">
-                          <CreditCard size={14} /> {isAr ? "ادفع الآن" : "Pay Now"}
-                        </button>
-                      </Link>
-                    )}
-                    {getContract(selectedBooking.id) && (
-                      <Link href="/dashboard/contracts">
-                        <button className="glass-card px-3 py-2.5 rounded-xl text-xs t-secondary flex items-center gap-1.5">
-                          <FileText size={13} /> {isAr ? "العقود والاتفاقيات" : "Contracts & Agreements"}
-                        </button>
-                      </Link>
-                    )}
-                    <button onClick={() => {
-                      toast.info(isAr ? "جاري التحميل..." : "Loading...");
-                      toast.success(isAr ? "تم بنجاح" : "Success");
-                    }} className="glass-card px-3 py-2.5 rounded-xl text-xs t-secondary flex items-center gap-1.5">
-                      <Download size={13} /> {isAr ? "تحميل" : "Download"}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
